@@ -4,11 +4,13 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule, Routes } from "@angular/router";
 import { MaterialModule } from "src/app/material/material.module";
 import { CreateRoomComponent } from "./create-room/create-room.component";
+import { BloodBankComponent} from "./bloodbank/bloodbank.component";
 import { RoomDetailComponent } from "./room-detail/room-detail.component";
 import { RoomsComponent } from "./rooms/rooms.component";
 import { UpdateRoomComponent } from "./update-room/update-room.component";
 
 const routes: Routes = [
+  { path: 'bloodBank', component: BloodBankComponent},
   { path: 'rooms', component: RoomsComponent },
   { path: 'rooms/add', component: CreateRoomComponent },
   { path: 'rooms/:id', component: RoomDetailComponent },  
@@ -17,6 +19,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
+    BloodBankComponent,
     RoomsComponent,
     RoomDetailComponent,
     CreateRoomComponent,
