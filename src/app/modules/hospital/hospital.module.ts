@@ -7,12 +7,14 @@ import { CreateRoomComponent } from "./create-room/create-room.component";
 import { RoomDetailComponent } from "./room-detail/room-detail.component";
 import { RoomsComponent } from "./rooms/rooms.component";
 import { UpdateRoomComponent } from "./update-room/update-room.component";
+import { BloodbankRegistrationComponent } from './bloodbank-registration/bloodbank-registration.component';
 
 const routes: Routes = [
   { path: 'rooms', component: RoomsComponent },
   { path: 'rooms/add', component: CreateRoomComponent },
   { path: 'rooms/:id', component: RoomDetailComponent },  
   { path: 'rooms/:id/update', component: UpdateRoomComponent },
+  { path: 'bloodBank/add', component: BloodbankRegistrationComponent}
 ];
 
 @NgModule({
@@ -20,7 +22,8 @@ const routes: Routes = [
     RoomsComponent,
     RoomDetailComponent,
     CreateRoomComponent,
-    UpdateRoomComponent
+    UpdateRoomComponent,
+    BloodbankRegistrationComponent
   ],
   imports: [
     CommonModule,

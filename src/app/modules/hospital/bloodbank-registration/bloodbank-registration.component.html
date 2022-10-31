@@ -1,0 +1,20 @@
+<div class="container">
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput [(ngModel)]="bloodBank.name" required>
+        </mat-form-field><br>
+        <mat-form-field appearance="fill">
+            <mat-label>Server address</mat-label>
+            <input matInput [(ngModel)]="bloodBank.serverAddress" required>
+        </mat-form-field><br>
+        <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input type="email" name="email" matInput [(ngModel)]="bloodBank.email" required>
+        </mat-form-field><br>
+        <button mat-stroked-button (click)="createBloodBank()" required>
+            Submit
+        </button>
+    </div>
+</div>
+  
