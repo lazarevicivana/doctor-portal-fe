@@ -1,0 +1,29 @@
+.button-row{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-right: 10px;
+  text-align: center;
+  background-color: #9CB4CC;
+  width: 85%;
+  border-radius: 10px;
+  color: white;
+  border: none;
+  font-weight: bold;
+}
+.div-style{
+  border-radius: 20px;
+  border-color: #748DA6;
+  background-color: #748DA6;
+  color: white;
+}
+.padding-style{
+  padding-left: 10px;
+  padding-top: 10px;
+  font-size: xx-large;
+  font-weight: bold;
+}
+.items{
+  padding-left: 8px;
+  font-size: 13px;
+  color: white;
+}
