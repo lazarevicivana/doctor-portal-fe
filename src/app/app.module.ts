@@ -7,11 +7,20 @@ import { MaterialModule } from "./material/material.module";
 import { HospitalModule } from "./modules/hospital/hospital.module";
 import { PagesModule } from "./modules/pages/pages.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {DoctorClient} from "./api/api-reference";
+import {AppointmentClient, DoctorClient} from "./api/api-reference";
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { BodyComponent } from './components/body/body.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { AppointmentPreviewComponent } from './components/dashboard/appointment-preview/appointment-preview.component';
+import {RecurrenceEditorModule, ScheduleModule,DayService,WeekService, MonthService,WorkWeekService,MonthAgendaService} from '@syncfusion/ej2-angular-schedule';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DashboardComponent,
+    BodyComponent,
+    SidenavComponent,
+    AppointmentPreviewComponent
   ],
   imports: [
     BrowserModule,
@@ -20,10 +29,18 @@ import {DoctorClient} from "./api/api-reference";
     HttpClientModule,
     MaterialModule,
     PagesModule,
-    HospitalModule
+    HospitalModule,
+    ScheduleModule,
+    RecurrenceEditorModule
   ],
   providers: [
-    DoctorClient
+    DoctorClient,
+    AppointmentClient,
+    DayService,
+    WeekService,
+    WorkWeekService,
+    MonthAgendaService,
+    MonthService
   ],
   bootstrap: [AppComponent]
 })
