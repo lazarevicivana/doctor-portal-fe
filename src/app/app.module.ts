@@ -8,6 +8,7 @@ import { HospitalModule } from "./modules/hospital/hospital.module";
 import { PagesModule } from "./modules/pages/pages.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {DoctorClient} from "./api/api-reference";
+import { ErrorHandlerService } from "./modules/hospital/services/error-handler.service";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {DoctorClient} from "./api/api-reference";
     HospitalModule
   ],
   providers: [
-    DoctorClient
+    DoctorClient,
+    ErrorHandlerService
   ],
   bootstrap: [AppComponent]
 })

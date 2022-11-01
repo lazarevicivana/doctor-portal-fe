@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ErrorHandlerService } from './error-handler.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class BloodbankService {
 
   constructor(private http: HttpClient) { }
 
-  method(): Observable<boolean> {
+  method(): Observable<boolean> { 
+    ErrorHandlerService.checkConnection(this.http.get<number>(this.apiHost + 'api/bloodbank/checkConnection' , { headers: this.headers } ));
     return this.http.get<boolean>(this.apiHost + 'api/bloodbank/bloodSupply', { headers: this.headers });
   }
 }
