@@ -19,3 +19,10 @@
   border: none;
   font-weight: bold;
 }
+mat-grid-tile {
+  border-radius: 20px;
+  border-color: #748DA6;
+  background-color: #748DA6;
+  color: white;
+}
+
