@@ -1,24 +1,24 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Room } from '../model/room.model';
+import { Feedback } from '../model/feedback.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RoomService {
+export class FeedbackService {
 
   apiHost: string = 'http://localhost:5000/';
   headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(private http: HttpClient) { }
 
-  getRooms(): Observable<Room[]> {
-    return this.http.get<Room[]>(this.apiHost + 'api/rooms', {headers: this.headers});
+  getFeedback(): Observable<Feedback[]> {
+    return this.http.get<Feedback[]>(this.apiHost + 'api/v1/feedback', {headers: this.headers});
   }
 
-  getRoom(id: number): Observable<Room> {
-    return this.http.get<Room>(this.apiHost + 'api/rooms/' + id, {headers: this.headers});
+  /*getRoom(id: number): Observable<Feedback> {
+    return this.http.get<Feedback>(this.apiHost + 'api/rooms/' + id, {headers: this.headers});
   }
 
   deleteRoom(id: any): Observable<any> {
@@ -31,5 +31,5 @@ export class RoomService {
 
   updateRoom(room: any): Observable<any> {
     return this.http.put<any>(this.apiHost + 'api/rooms/' + room.id, room, {headers: this.headers});
-  }
+  }*/
 }

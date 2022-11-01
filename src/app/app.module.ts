@@ -11,10 +11,8 @@ import {AppointmentClient, DoctorClient} from "./api/api-reference";
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import {MatGridListModule} from '@angular/material/grid-list';
 import { AppointmentPreviewComponent } from './components/dashboard/appointment-preview/appointment-preview.component';
-import {MatTabsModule} from "@angular/material/tabs";
-import {ScheduleModule} from "./modules/schedule/schedule.module";
-import {LoginModule} from "./login/login/login.module";
 
 @NgModule({
   declarations: [
@@ -32,9 +30,7 @@ import {LoginModule} from "./login/login/login.module";
     MaterialModule,
     PagesModule,
     HospitalModule,
-    MatTabsModule,
-    ScheduleModule,
-    LoginModule
+    MatGridListModule
   ],
   providers: [
     DoctorClient,
