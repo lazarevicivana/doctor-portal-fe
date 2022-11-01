@@ -12,7 +12,9 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { AppointmentPreviewComponent } from './components/dashboard/appointment-preview/appointment-preview.component';
-import {RecurrenceEditorModule, ScheduleModule,DayService,WeekService, MonthService,WorkWeekService,MonthAgendaService} from '@syncfusion/ej2-angular-schedule';
+import {MatTabsModule} from "@angular/material/tabs";
+import {ScheduleModule} from "./modules/schedule/schedule.module";
+import {LoginModule} from "./login/login/login.module";
 
 @NgModule({
   declarations: [
@@ -30,17 +32,13 @@ import {RecurrenceEditorModule, ScheduleModule,DayService,WeekService, MonthServ
     MaterialModule,
     PagesModule,
     HospitalModule,
+    MatTabsModule,
     ScheduleModule,
-    RecurrenceEditorModule
+    LoginModule
   ],
   providers: [
     DoctorClient,
-    AppointmentClient,
-    DayService,
-    WeekService,
-    WorkWeekService,
-    MonthAgendaService,
-    MonthService
+    AppointmentClient
   ],
   bootstrap: [AppComponent]
 })

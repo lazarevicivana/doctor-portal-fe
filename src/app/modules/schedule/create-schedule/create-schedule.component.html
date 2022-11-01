@@ -1,0 +1,11 @@
+<div class="container">
+  <form [formGroup]="myForm">
+    Value : {{myForm.value! | json}}
+    <mat-form-field>
+      <input matInput placeholder="name" formControlName="name">
+      <input matInput placeholder="name" formControlName="name">
+      <input matInput placeholder="name" formControlName="name">
+      <input matInput placeholder="name" formControlName="name">
+    </mat-form-field>
+  </form>
+</div>
