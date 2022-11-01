@@ -13,6 +13,8 @@ import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { AppointmentPreviewComponent } from './components/dashboard/appointment-preview/appointment-preview.component';
+import {ScheduleModule} from "./modules/schedule/schedule.module";
+import {LoginModule} from "./login/login/login.module";
 
 @NgModule({
   declarations: [
@@ -30,11 +32,15 @@ import { AppointmentPreviewComponent } from './components/dashboard/appointment-
     MaterialModule,
     PagesModule,
     HospitalModule,
-    MatGridListModule
+    MatGridListModule,
+    ScheduleModule,
+    LoginModule
   ],
   providers: [
     DoctorClient,
     AppointmentClient
+  ],
+  exports: [
   ],
   bootstrap: [AppComponent]
 })
