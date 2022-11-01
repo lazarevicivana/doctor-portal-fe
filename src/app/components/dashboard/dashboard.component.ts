@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {AppointmentClient, AppointmentResponse} from "../../api/api-reference";
 
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  
+
   appointments: AppointmentResponse[]=[];
  
   constructor(private readonly client: AppointmentClient) { }

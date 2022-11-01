@@ -11,6 +11,7 @@ import {AppointmentClient, DoctorClient} from "./api/api-reference";
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import {MatGridListModule} from '@angular/material/grid-list';
 import { AppointmentPreviewComponent } from './components/dashboard/appointment-preview/appointment-preview.component';
 
 @NgModule({
@@ -28,7 +29,8 @@ import { AppointmentPreviewComponent } from './components/dashboard/appointment-
     HttpClientModule,
     MaterialModule,
     PagesModule,
-    HospitalModule
+    HospitalModule,
+    MatGridListModule
   ],
   providers: [
     DoctorClient,
