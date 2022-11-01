@@ -8,19 +8,15 @@ import { HospitalModule } from "./modules/hospital/hospital.module";
 import { PagesModule } from "./modules/pages/pages.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {AppointmentClient, DoctorClient} from "./api/api-reference";
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
-import {MatGridListModule} from '@angular/material/grid-list';
-import { AppointmentPreviewComponent } from './components/dashboard/appointment-preview/appointment-preview.component';
+import {DashboardModule} from "./components/dashboard/dashboard.module";
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
     BodyComponent,
-    SidenavComponent,
-    AppointmentPreviewComponent
+    SidenavComponent
   ],
   imports: [
     BrowserModule,
@@ -30,11 +26,13 @@ import { AppointmentPreviewComponent } from './components/dashboard/appointment-
     MaterialModule,
     PagesModule,
     HospitalModule,
-    MatGridListModule
+    DashboardModule
   ],
   providers: [
     DoctorClient,
     AppointmentClient
+  ],
+  exports: [
   ],
   bootstrap: [AppComponent]
 })
