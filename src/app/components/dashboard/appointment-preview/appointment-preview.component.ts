@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {AppointmentResponse} from "../../../api/api-reference";
 import * as moment from "moment";
 
@@ -9,7 +9,8 @@ import * as moment from "moment";
 })
 export class AppointmentPreviewComponent implements OnInit {
 @Input() appointments :AppointmentResponse[]=[];
-  displayedColumns: string[] = ['date','start time','finish time','Patient'];
+  displayedColumns: string[] = ['Date','start time','finish time','Patient'];
+
   constructor() { }
 
   ngOnInit(): void {

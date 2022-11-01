@@ -5,6 +5,8 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatTableModule} from '@angular/material/table';
 import {AppointmentPreviewComponent} from "./appointment-preview/appointment-preview.component";
+import {MatSortModule} from '@angular/material/sort';
+
 
 @NgModule({
   declarations: [
@@ -15,7 +17,8 @@ import {AppointmentPreviewComponent} from "./appointment-preview/appointment-pre
     CommonModule,
     MatGridListModule,
     MatTabsModule,
-    MatTableModule
+    MatTableModule,
+    MatSortModule
   ]
 })
 export class DashboardModule { }
