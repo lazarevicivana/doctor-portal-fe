@@ -23,7 +23,7 @@
               "src/assets"
             ],
             "allowedCommonJsDependencies":
-              ["moment","@angular/material-moment-adapter"]
+              ["moment","@angular/material-moment-adapter","luxon"]
             ,
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",

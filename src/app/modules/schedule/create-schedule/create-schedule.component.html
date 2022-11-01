@@ -24,17 +24,18 @@
                    readonly
                    formControlName="startTime"
                     />
+            <ngx-material-timepicker #pickerTime></ngx-material-timepicker>
           </mat-form-field>
           <mat-form-field  appearance="fill" class="input-schedule">
             <mat-label>Choose finish time</mat-label>
             <input type="text"
                    matInput
-                   [ngxTimepicker]="pickerTime"
+                   [ngxTimepicker]="pickerTime1"
                    readonly
-                   formControlName="startTime"
+                   formControlName="finishTime"
             />
+            <ngx-material-timepicker #pickerTime1></ngx-material-timepicker>
           </mat-form-field>
-          <ngx-material-timepicker #pickerTime></ngx-material-timepicker>
         </div>
         <app-all-patients></app-all-patients>
       </form>
