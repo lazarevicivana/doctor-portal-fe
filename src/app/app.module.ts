@@ -8,21 +8,18 @@ import { HospitalModule } from "./modules/hospital/hospital.module";
 import { PagesModule } from "./modules/pages/pages.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {AppointmentClient, DoctorClient} from "./api/api-reference";
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
-import {MatGridListModule} from '@angular/material/grid-list';
 import { AppointmentPreviewComponent } from './components/dashboard/appointment-preview/appointment-preview.component';
 import {ScheduleModule} from "./modules/schedule/schedule.module";
 import {LoginModule} from "./login/login/login.module";
+import {DashboardModule} from "./components/dashboard/dashboard.module";
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
     BodyComponent,
-    SidenavComponent,
-    AppointmentPreviewComponent
+    SidenavComponent
   ],
   imports: [
     BrowserModule,
@@ -32,9 +29,9 @@ import {LoginModule} from "./login/login/login.module";
     MaterialModule,
     PagesModule,
     HospitalModule,
-    MatGridListModule,
     ScheduleModule,
     LoginModule
+    DashboardModule
   ],
   providers: [
     DoctorClient,
