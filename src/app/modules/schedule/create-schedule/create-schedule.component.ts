@@ -1,6 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {AppointmentRequest, PatientResponse, ScheduleClient} from "../../../api/api-reference";
+import {AppointmentRequest} from "../../../api/api-reference";
 
 @Component({
   selector: 'app-create-schedule',
@@ -10,6 +10,7 @@ import {AppointmentRequest, PatientResponse, ScheduleClient} from "../../../api/
 export class CreateScheduleComponent implements OnInit {
   myForm: FormGroup;
   newAppointment: AppointmentRequest;
+  AppointmentId : string = "";
   constructor(private  fb: FormBuilder) {
     this.newAppointment = new AppointmentRequest();
     this.myForm = this.fb.group({
@@ -23,4 +24,8 @@ export class CreateScheduleComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onSelecting(value: string) {
+    this.AppointmentId  = value
+    console.log(this.AppointmentId)
+  }
 }

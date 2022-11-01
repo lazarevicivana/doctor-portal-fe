@@ -37,7 +37,7 @@
             <ngx-material-timepicker #pickerTime1></ngx-material-timepicker>
           </mat-form-field>
         </div>
-        <app-all-patients></app-all-patients>
+        <app-all-patients (onSelectedPatient)="onSelecting($event)"></app-all-patients>
       </form>
     </div>
   </div>

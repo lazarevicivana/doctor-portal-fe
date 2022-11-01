@@ -13,13 +13,15 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import {ScheduleModule} from "./modules/schedule/schedule.module";
 import {LoginModule} from "./login/login/login.module";
 import {DashboardModule} from "./components/dashboard/dashboard.module";
+import { DatePickerComponent } from './components/date-picker/date-picker.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     BodyComponent,
-    SidenavComponent
+    SidenavComponent,
+    DatePickerComponent
   ],
   imports: [
     BrowserModule,

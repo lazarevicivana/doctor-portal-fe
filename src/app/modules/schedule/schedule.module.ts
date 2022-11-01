@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CreateScheduleComponent } from './create-schedule/create-schedule.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
@@ -12,11 +12,13 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 import {AllPatientsComponent} from "../../components/all-patients/all-patients.component";
+import { DatePickerComponent } from './create-schedule/date-picker/date-picker.component';
 
 @NgModule({
   declarations: [
     CreateScheduleComponent,
-    AllPatientsComponent
+    AllPatientsComponent,
+    DatePickerComponent
   ],
   exports: [
     CreateScheduleComponent,
@@ -32,7 +34,8 @@ import {AllPatientsComponent} from "../../components/all-patients/all-patients.c
     MatCheckboxModule,
     MatChipsModule,
     MatDatepickerModule,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
+    FormsModule
   ],
   providers: [
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }

@@ -38,3 +38,10 @@ body {
   margin: 40px 0;
   text-align: center;
 }
+.input-schedule {
+  margin-top: 20px;
+  width: 60%;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
