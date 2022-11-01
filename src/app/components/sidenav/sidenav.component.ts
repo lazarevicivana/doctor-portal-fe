@@ -29,12 +29,21 @@ export class SidenavComponent implements OnInit {
     console.log(this.screenWidth);
   }
   closeSidenav():void{
+    console.log(this.collapsed)
     this.collapsed = false;
+    console.log(this.collapsed)
     this.onToggleSideNav.emit({collapsed: this.collapsed, screenWidth: this.screenWidth});
   }
   toggleCollapse():void{
     this.collapsed = !this.collapsed;
     this.onToggleSideNav.emit({collapsed: this.collapsed, screenWidth: this.screenWidth});
+  }
+  openSidenav():void{
+    if(this.collapsed == false){
+      this.collapsed = true;
+      this.onToggleSideNav.emit({collapsed: this.collapsed, screenWidth: this.screenWidth});
+
+    }
   }
 
 
