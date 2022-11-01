@@ -23,7 +23,7 @@ const routes: Routes = [
     RoomsComponent,
     RoomDetailComponent,
     CreateRoomComponent,
-    UpdateRoomComponent
+    UpdateRoomComponent,
   ],
   imports: [
     CommonModule,

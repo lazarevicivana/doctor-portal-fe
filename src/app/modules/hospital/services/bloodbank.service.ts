@@ -12,7 +12,7 @@ export class BloodbankService {
 
   constructor(private http: HttpClient) { }
 
-  method(): Observable<boolean> {
-    return this.http.get<boolean>(this.apiHost + 'api/bloodbank/bloodSupply', { headers: this.headers });
+  checkBloodSupply(bloodType:string, bloodAmount:string): Observable<boolean> {
+    return this.http.get<boolean>(this.apiHost + 'api/bloodbank/bloodSupply/'+ bloodType + '/'+ bloodAmount, { headers: this.headers });
   }
 }
