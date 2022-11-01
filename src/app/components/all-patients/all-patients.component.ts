@@ -20,7 +20,7 @@ export class AllPatientsComponent implements OnInit {
       {
         next: response => {
           this.patients = response
-          console.log(this.patients)
+          //console.log(this.patients)
         }
       }
     )

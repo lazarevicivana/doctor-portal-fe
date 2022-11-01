@@ -10,6 +10,7 @@ import {MatTabChangeEvent} from "@angular/material/tabs";
 export class DashboardComponent implements OnInit {
   appointments: AppointmentResponse[]=[];
   currentTabIndex = new Date().getDay() - 1;
+  doctorId : string[] = ['4a5f7b19-f0d1-4461-b7f7-d5c0f74a0b0b','317eb3a7-f6af-4c0b-851a-728bedde9062']
 
   constructor(private readonly client: AppointmentClient) { }
   ngOnInit(): void {
@@ -18,10 +19,11 @@ export class DashboardComponent implements OnInit {
 
   }
   private readonly getDoctorAppointments=()=> {
-  this.client.getDoctorAppointments('4a5f7b19-f0d1-4461-b7f7-d5c0f74a0b0b').subscribe(
+  this.client.getDoctorAppointments(this.doctorId[1]).subscribe(
     {
       next: response => {
         this.appointments = response;
+        console.log(this.appointments)
       }
     }
   )

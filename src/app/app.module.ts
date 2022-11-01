@@ -7,7 +7,7 @@ import { MaterialModule } from "./material/material.module";
 import { HospitalModule } from "./modules/hospital/hospital.module";
 import { PagesModule } from "./modules/pages/pages.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {AppointmentClient, DoctorClient, PatientClient} from "./api/api-reference";
+import {AppointmentClient, DoctorClient, PatientClient, ScheduleClient} from "./api/api-reference";
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import {ScheduleModule} from "./modules/schedule/schedule.module";
@@ -38,7 +38,8 @@ import { DatePickerComponent } from './components/date-picker/date-picker.compon
   providers: [
     DoctorClient,
     AppointmentClient,
-    PatientClient
+    PatientClient,
+    ScheduleClient
   ],
   exports: [
   ],
