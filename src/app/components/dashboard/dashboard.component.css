@@ -1,0 +1,28 @@
+.item-row{
+  padding-top: 15px;
+}
+.button-new{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  text-align: center;
+  background-color: #92a8d1;
+}
+.button-row{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-right: 10px;
+  text-align: center;
+  background-color: #9CB4CC;
+  width: 10%;
+  border-radius: 10px;
+  color: white;
+  border: none;
+  font-weight: bold;
+}
+mat-grid-tile {
+  border-radius: 20px;
+  border-color: #748DA6;
+  background-color: #748DA6;
+  color: white;
+}
+
