@@ -10,6 +10,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {AppointmentClient, DoctorClient} from "./api/api-reference";
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { AppointmentPreviewComponent } from './components/dashboard/appointment-preview/appointment-preview.component';
+import {ScheduleModule} from "./modules/schedule/schedule.module";
+import {LoginModule} from "./login/login/login.module";
 import {DashboardModule} from "./components/dashboard/dashboard.module";
 
 @NgModule({
@@ -26,6 +29,8 @@ import {DashboardModule} from "./components/dashboard/dashboard.module";
     MaterialModule,
     PagesModule,
     HospitalModule,
+    ScheduleModule,
+    LoginModule
     DashboardModule
   ],
   providers: [

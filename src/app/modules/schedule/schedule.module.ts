@@ -8,15 +8,19 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatSelectModule} from "@angular/material/select";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatChipsModule} from "@angular/material/chips";
-
-
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
+import {AllPatientsComponent} from "../../components/all-patients/all-patients.component";
 
 @NgModule({
   declarations: [
-    CreateScheduleComponent
+    CreateScheduleComponent,
+    AllPatientsComponent
   ],
   exports: [
-    CreateScheduleComponent
+    CreateScheduleComponent,
+    MatMomentDateModule
   ],
   imports: [
     CommonModule,
@@ -26,7 +30,12 @@ import {MatChipsModule} from "@angular/material/chips";
     MatButtonModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatChipsModule
+    MatChipsModule,
+    MatDatepickerModule,
+    NgxMaterialTimepickerModule
+  ],
+  providers: [
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
   ]
 })
 export class ScheduleModule { }
