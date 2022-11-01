@@ -12,15 +12,37 @@ import { BloodbankService } from '../services/bloodbank.service';
 })
 export class BloodBankComponent implements OnInit {
 
-  public responseStatus= false;
+  public responseStatus= "Enter your requirements!";
+  public bloodType = "";
+  public bloodAmount = "0";
 
   constructor(private bloodbankService: BloodbankService, private router: Router) { }
 
   ngOnInit(): void {
   }
-  public method() {
-    this.bloodbankService.method().subscribe(res => {
-      this.responseStatus = res;
+  public checkBloodSupply() {
+    if (this.isValidInput() != true) {
+      return;
+    }
+    this.bloodbankService.checkBloodSupply(this.bloodType, this.bloodAmount).subscribe(res => {
+      this.responseStatus = this.generateMessage(res);
     })
+  }
+
+  private isValidInput(): boolean {
+    var re = new RegExp("^[0-9][0-9]?$|^100$");
+    if (re.test(this.bloodAmount) && this.bloodType != ''){
+        return true;
+    }else{
+      return false;
+    }
+  }
+
+  private generateMessage(status: boolean){
+    if (status == true){
+      return "Required amount of blood is available";
+    }else{
+      return "Required amount of blood is NOT available";
+    }
   }
 }

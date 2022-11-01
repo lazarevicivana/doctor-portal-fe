@@ -6,7 +6,22 @@
     <title>blabla</title>
 </head>
 <body>
-  <button (click)="method()">Posalji API</button><br>
-  <label >Odgovor: {{responseStatus}}</label>
+  <div class="container">
+
+    <mat-label>Check blood supply: </mat-label><br>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Blood type</mat-label>
+      <input  matInput [(ngModel)]="bloodType">
+    </mat-form-field><br>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Requred amount (in liters)</mat-label>
+      <input  matInput [(ngModel)]="bloodAmount">
+    </mat-form-field><br>
+
+    <button mat-stroked-button (click)="checkBloodSupply()">Submit</button><br>
+    <mat-label>Response from blood bank: {{responseStatus}}</mat-label><br>
+  </div>>
 </body>
 </html>

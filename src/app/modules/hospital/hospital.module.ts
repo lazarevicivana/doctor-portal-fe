@@ -31,6 +31,7 @@ const routes: Routes = [
     UpdateRoomComponent,
     FeedbackComponent,
     BloodbankRegistrationComponent
+
   ],
   imports: [
     CommonModule,
