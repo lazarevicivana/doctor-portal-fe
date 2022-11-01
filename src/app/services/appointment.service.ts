@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {Observable} from 'rxjs';
 import {HttpClient,HttpHeaders} from '@angular/common/http'
 
 @Injectable({
@@ -9,8 +10,12 @@ export class AppointmentService {
 
   constructor(private http:HttpClient) { }
 
-  getAppointmentById(){
-    return {
+  getAppointmentById(): Observable<any>{
+    const apId = "6198f8f2-75ab-456c-ac3e-3f95e3da45bd"
+    const url = `${this.aplUrl}/${apId}`
+    return this.http.get(url)
+    
+    /* {
       id: "6198f8f2-75ab-456c-ac3e-3f95e3da45bd",
     emergent: false,
     duration: {
@@ -23,6 +28,6 @@ export class AppointmentService {
     appointmentType: 0,
     doctor: null,
     appointmentState: 0
-    }
+    } */
   }
 }

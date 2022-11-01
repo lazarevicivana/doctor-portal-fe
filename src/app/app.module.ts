@@ -13,9 +13,13 @@ import {AppointmentClient, DoctorClient} from "./api/api-reference";
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import {MatGridListModule} from '@angular/material/grid-list';
 import { AppointmentPreviewComponent } from './components/dashboard/appointment-preview/appointment-preview.component';
+
 import {RecurrenceEditorModule, ScheduleModule,DayService,WeekService, MonthService,WorkWeekService,MonthAgendaService} from '@syncfusion/ej2-angular-schedule';
 import { RescheduleAppointmentComponent } from './components/reschedule-appointment/reschedule-appointment.component';
+
+
 
 @NgModule({
   declarations: [
@@ -36,16 +40,13 @@ import { RescheduleAppointmentComponent } from './components/reschedule-appointm
     HospitalModule,
     ScheduleModule,
     RecurrenceEditorModule,
-    HttpClientModule
+    HttpClientModule,
+    MatGridListModule
+
   ],
   providers: [
     DoctorClient,
-    AppointmentClient,
-    DayService,
-    WeekService,
-    WorkWeekService,
-    MonthAgendaService,
-    MonthService
+    AppointmentClient
   ],
   bootstrap: [AppComponent]
 })

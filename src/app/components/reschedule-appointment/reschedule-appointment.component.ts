@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppointmentService } from '../../services/appointment.service';
+import {Observable, of} from 'rxjs'
 
 @Component({
   selector: 'app-reschedule-appointment',
@@ -7,7 +8,8 @@ import { AppointmentService } from '../../services/appointment.service';
   styleUrls: ['./reschedule-appointment.component.css']
 })
 export class RescheduleAppointmentComponent implements OnInit {
-  appointment={
+  appointment=
+   {
     id: "",
     emergent: false,
     duration: {
@@ -20,11 +22,12 @@ export class RescheduleAppointmentComponent implements OnInit {
     appointmentType: 0,
     doctor: null,
     appointmentState: 0
-  };
+  }; 
   constructor(private appointmentService : AppointmentService) { }
 
   ngOnInit(): void {
-    this.appointment = this.appointmentService.getAppointmentById()
+    this.appointmentService.getAppointmentById().subscribe((appointment) => 
+    this.appointment = appointment)
   }
 
 }
