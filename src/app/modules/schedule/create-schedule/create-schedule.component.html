@@ -1,11 +1,44 @@
 <div class="container">
-  <form [formGroup]="myForm">
-    Value : {{myForm.value! | json}}
-    <mat-form-field>
-      <input matInput placeholder="name" formControlName="name">
-      <input matInput placeholder="name" formControlName="name">
-      <input matInput placeholder="name" formControlName="name">
-      <input matInput placeholder="name" formControlName="name">
-    </mat-form-field>
-  </form>
+  <div class="container-f">
+    <div>
+      <form [formGroup]="myForm">
+        Value : {{myForm.value! | json}}
+        <div class="title-container">
+          <h1 class="title">Schedule Appointment</h1>
+        </div>
+        <div>
+          <mat-form-field appearance="fill" class="input-schedule">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="date">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field  appearance="fill" class="input-schedule">
+            <mat-label>Choose start time</mat-label>
+            <input type="text"
+                   matInput
+                   [ngxTimepicker]="pickerTime"
+                   readonly
+                   formControlName="startTime"
+                    />
+            <ngx-material-timepicker #pickerTime></ngx-material-timepicker>
+          </mat-form-field>
+          <mat-form-field  appearance="fill" class="input-schedule">
+            <mat-label>Choose finish time</mat-label>
+            <input type="text"
+                   matInput
+                   [ngxTimepicker]="pickerTime1"
+                   readonly
+                   formControlName="finishTime"
+            />
+            <ngx-material-timepicker #pickerTime1></ngx-material-timepicker>
+          </mat-form-field>
+        </div>
+        <app-all-patients (onSelectedPatient)="onSelecting($event)"></app-all-patients>
+      </form>
+    </div>
+  </div>
 </div>
