@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AppointmentResponse} from "../../../api/api-reference";
-import {MatGridList} from "@angular/material/grid-list";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-appointment-preview',
@@ -8,10 +8,18 @@ import {MatGridList} from "@angular/material/grid-list";
   styleUrls: ['./appointment-preview.component.css']
 })
 export class AppointmentPreviewComponent implements OnInit {
-@Input() appointment  = new AppointmentResponse();
+@Input() appointments :AppointmentResponse[]=[];
+  displayedColumns: string[] = ['date','start time','finish time','Patient'];
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  getDateFormat(date: Date) {
+    return moment(date).format("MMMM Do, YYYY");
+  }
+  getHourFormat(date: Date) {
+    return moment(date).format("h:mma");
   }
 
 }
