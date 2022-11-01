@@ -16,7 +16,6 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { AppointmentPreviewComponent } from './components/dashboard/appointment-preview/appointment-preview.component';
 
-import {RecurrenceEditorModule, ScheduleModule,DayService,WeekService, MonthService,WorkWeekService,MonthAgendaService} from '@syncfusion/ej2-angular-schedule';
 import { RescheduleAppointmentComponent } from './components/reschedule-appointment/reschedule-appointment.component';
 
 
@@ -38,8 +37,6 @@ import { RescheduleAppointmentComponent } from './components/reschedule-appointm
     MaterialModule,
     PagesModule,
     HospitalModule,
-    ScheduleModule,
-    RecurrenceEditorModule,
     HttpClientModule,
     MatGridListModule
 
