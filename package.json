@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "nswag": "nswag run nswag.json"
   },
   "private": true,
   "dependencies": {
@@ -17,9 +18,12 @@
     "@angular/core": "^14.1.0",
     "@angular/forms": "^14.1.0",
     "@angular/material": "^14.2.3",
+    "@angular/material-moment-adapter": "^14.2.6",
     "@angular/platform-browser": "^14.1.0",
     "@angular/platform-browser-dynamic": "^14.1.0",
     "@angular/router": "^14.1.0",
+    "moment": "^2.29.4",
+    "ngx-material-timepicker": "^5.5.3",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
