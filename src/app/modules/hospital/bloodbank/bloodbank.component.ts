@@ -30,7 +30,7 @@ export class BloodBankComponent implements OnInit {
   }
 
   private isValidInput(): boolean {
-    var re = new RegExp("^[1-9][0-9]?$|^100$");
+    var re = new RegExp("^[0-9][0-9]?$|^100$");
     if (re.test(this.bloodAmount) && this.bloodType != ''){
         return true;
     }else{
