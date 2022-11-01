@@ -34,3 +34,7 @@ body {
     width: 1170px;
   }
 }
+.title-container {
+  margin: 40px 0;
+  text-align: center;
+}
