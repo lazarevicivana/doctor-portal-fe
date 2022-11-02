@@ -13,15 +13,14 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import {ScheduleModule} from "./modules/schedule/schedule.module";
 import {LoginModule} from "./login/login/login.module";
 import {DashboardModule} from "./components/dashboard/dashboard.module";
-import { DatePickerComponent } from './components/date-picker/date-picker.component';
+import {DateAndTimeModule} from "./components/date-and-time/date-and-time.module";
 
 
 @NgModule({
   declarations: [
     AppComponent,
     BodyComponent,
-    SidenavComponent,
-    DatePickerComponent
+    SidenavComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +32,8 @@ import { DatePickerComponent } from './components/date-picker/date-picker.compon
     HospitalModule,
     ScheduleModule,
     LoginModule,
-    DashboardModule
+    DashboardModule,
+    DateAndTimeModule
   ],
   providers: [
     DoctorClient,

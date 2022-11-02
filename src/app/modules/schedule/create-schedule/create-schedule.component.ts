@@ -41,17 +41,17 @@ export class CreateScheduleComponent implements OnInit {
     let toDateTime: moment.Moment = this.getMomentFromTimeString(this.myForm.controls['finishTime'].value)
     let hours:number = fromDateTime.toDate().getHours()
     let mins:number = fromDateTime.toDate().getMinutes()
-    let fromDate: Date  = new Date(this.myForm.controls['date'].value.toDate().setHours(hours+1, mins, 0, 0))
+    let fromDate: Date  = new Date(this.myForm.controls['date'].value.setHours(hours+1, mins, 0, 0))
     hours = toDateTime.toDate().getHours()
     mins = toDateTime.toDate().getMinutes()
-    let toDate: Date = new Date(this.myForm.controls['date'].value.toDate().setHours(hours+1, mins, 0, 0))
+    let toDate: Date = new Date(this.myForm.controls['date'].value.setHours(hours+1, mins, 0, 0))
     console.log(fromDate)
     console.log(toDate)
     let app:AppointmentRequest = new AppointmentRequest(
       {
         appointmentState: AppointmentState.Pending,
         appointmentType:AppointmentType.Examination,
-        doctorId: this.doctorId[0],
+        doctorId: this.doctorId[1],
         patientId: this.patientId,
         duration : new DateRange(
           {
@@ -68,7 +68,12 @@ export class CreateScheduleComponent implements OnInit {
         next : response =>{
           app = response
           console.log(response)
+        },
+        error : message =>{
+          console.log(message.Error)
+          alert(message.Error)
         }
+
       }
     )
   }
