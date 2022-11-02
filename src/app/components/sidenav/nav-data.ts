@@ -8,6 +8,11 @@ export const navbarData=[
     routeLink: 'create-schedule',
     icon: 'fal fa-calendar-plus',
     label: 'Schedule'
+  },
+  {
+    routeLink: 'feedback',
+    icon: 'fal fa-comments',
+    label: 'Feedback'
   }
 
 ];

@@ -57,16 +57,16 @@ export class FeedbackComponent implements OnInit {
 
   }
 
-  public disableAcceptButton(status: Number){
-    if(status != 1){
+  public disableAcceptButton(status: Number, isPublic: Boolean){
+    if(status != 1 && isPublic){
       return false;
     }
     else{
       return true;
     }
   }
-  public disableRejectButton(status: Number){
-    if(status != 0){
+  public disableRejectButton(status: Number, isPublic: Boolean){
+    if(status != 0 && isPublic){
       return false;
     }
     else{
