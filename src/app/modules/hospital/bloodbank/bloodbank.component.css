@@ -1,0 +1,20 @@
+﻿.mat-stroked-button {
+    color: #382110;
+}
+
+div {
+    width: 40%;
+    margin: auto;
+}
+
+mat-form-field {
+    width: 100%;
+    margin: auto;
+}
+
+mat-label{
+    margin-top: 20px;
+    margin-top: 20px;
+    padding-left: 0px;
+    font-size: 17px;
+}
