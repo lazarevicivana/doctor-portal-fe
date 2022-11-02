@@ -23,6 +23,9 @@ import { DatePickerComponent } from './components/date-picker/date-picker.compon
 
 
 import { RescheduleAppointmentComponent } from './components/reschedule-appointment/reschedule-appointment.component';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
+import {MatGridListModule} from "@angular/material/grid-list";
 
 
 
@@ -49,10 +52,12 @@ import { RescheduleAppointmentComponent } from './components/reschedule-appointm
     HttpClientModule,
 
 
-
     ScheduleModule,
     LoginModule,
-    DashboardModule
+    DashboardModule,
+    MatDatepickerModule,
+    NgxMaterialTimepickerModule,
+    MatGridListModule
 
   ],
   providers: [
