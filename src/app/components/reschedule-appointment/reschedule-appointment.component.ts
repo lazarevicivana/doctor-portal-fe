@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AppointmentService} from '../../services/appointment.service';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import * as moment from "moment";
-import {ActivatedRoute, ParamMap} from "@angular/router";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {AppointmentClient, AppointmentResponse, DateRange, ScheduleClient} from "../../api/api-reference";
 
 
@@ -21,7 +21,8 @@ export class RescheduleAppointmentComponent implements OnInit {
     startTime:new FormControl<string >(""),
     finishTime:new FormControl<string >("")
   });
-  constructor(private appointmentService : AppointmentService,private  fb: FormBuilder, private readonly route:ActivatedRoute,private client: AppointmentClient) {
+  constructor(private appointmentService : AppointmentService,private  fb: FormBuilder,
+              private readonly route:ActivatedRoute,private client: AppointmentClient,private readonly router1:Router) {
 
   }
 
@@ -54,6 +55,7 @@ export class RescheduleAppointmentComponent implements OnInit {
     this.client.rescheduleAppointement(this.appointment).subscribe()
     console.log("kurcolada")
     console.log(this.appointment)
+    this.router1.navigateByUrl('/dashboard');
   }
   ubdateAppointmentsTime() {
     let startTime: moment.Moment = this.convertStringToTime(this.formGroup.controls.startTime.value!)
