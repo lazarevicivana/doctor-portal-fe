@@ -6,14 +6,9 @@ import { MaterialModule } from "./material/material.module";
 import { HospitalModule } from "./modules/hospital/hospital.module";
 import { PagesModule } from "./modules/pages/pages.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-
-
-
+import { ErrorHandlerService } from "./modules/hospital/services/error-handler.service";
 import { AppComponent } from "./app.component";
-
 import {AppointmentClient, DoctorClient, PatientClient, ScheduleClient} from "./api/api-reference";
-
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import {ScheduleModule} from "./modules/schedule/schedule.module";
@@ -64,6 +59,7 @@ import {ReactiveFormsModule} from "@angular/forms";
     ],
   providers: [
     DoctorClient,
+    ErrorHandlerService,
     AppointmentClient,
     PatientClient,
     ScheduleClient
