@@ -3,6 +3,7 @@ export class BloodBank {
     name: string = '';
     serverAddress: string = '';
     email: string = '';
+    password: string = '';
 
     public constructor(obj?: any) {
         if (obj) {
@@ -10,6 +11,7 @@ export class BloodBank {
             this.name = obj.name;
             this.serverAddress = obj.serverAddress;
             this.email = obj.email;
+            this.password = obj.password;
         }
     }
 }
