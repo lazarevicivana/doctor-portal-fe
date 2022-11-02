@@ -9,6 +9,7 @@ import { RoomsComponent } from "./rooms/rooms.component";
 import { UpdateRoomComponent } from "./update-room/update-room.component";
 import { FeedbackComponent } from './feedback/feedback.component';
 import { BloodbankRegistrationComponent } from './bloodbank-registration/bloodbank-registration.component';
+import { BloodBankChangePasswordComponent } from './blood-bank-change-password/blood-bank-change-password.component';
 
 
 const routes: Routes = [
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: 'rooms/:id', component: RoomDetailComponent },  
   { path: 'rooms/:id/update', component: UpdateRoomComponent },
   { path: 'feedback', component: FeedbackComponent },
-  { path: 'bloodBank/add', component: BloodbankRegistrationComponent}
+  { path: 'bloodBank/add', component: BloodbankRegistrationComponent},
+  { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent}
 ];
 
 @NgModule({
@@ -27,7 +29,8 @@ const routes: Routes = [
     CreateRoomComponent,
     UpdateRoomComponent,
     FeedbackComponent,
-    BloodbankRegistrationComponent
+    BloodbankRegistrationComponent,
+    BloodBankChangePasswordComponent
   ],
   imports: [
     CommonModule,
