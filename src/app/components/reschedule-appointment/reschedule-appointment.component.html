@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="container-f">
+    <div>
+      <form [formGroup]="formGroup " (ngSubmit)="rescheduleAppointment()"  >
+
+        <div class="title-container">
+          <h1 class="title">Reschedule Appointment</h1>
+        </div>
+        <div>
+          <mat-form-field appearance="fill" class="input-schedule">
+            <mat-label>Reschedule date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="date">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field  appearance="fill" class="input-schedule">
+            <mat-label>Reschedule start time</mat-label>
+            <input type="text"
+                   matInput
+                   [ngxTimepicker]="pickerTime"
+                   readonly
+                   formControlName="startTime"
+            />
+            <ngx-material-timepicker #pickerTime></ngx-material-timepicker>
+          </mat-form-field>
+          <mat-form-field  appearance="fill" class="input-schedule">
+            <mat-label>Reschedule finish time</mat-label>
+            <input type="text"
+                   matInput
+                   [ngxTimepicker]="pickerTime1"
+                   readonly
+                   formControlName="finishTime"
+            />
+            <ngx-material-timepicker #pickerTime1></ngx-material-timepicker>
+          </mat-form-field>
+        </div>
+
+        <button mat-flat-button color="primary" class="input-schedule">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
