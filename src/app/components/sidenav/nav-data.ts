@@ -9,4 +9,5 @@ export const navbarData=[
     icon: 'fal fa-calendar-plus',
     label: 'Schedule'
   }
+
 ];
