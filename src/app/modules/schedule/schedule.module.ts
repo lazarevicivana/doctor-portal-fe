@@ -12,13 +12,11 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 import {AllPatientsComponent} from "../../components/all-patients/all-patients.component";
-import { DatePickerComponent } from './create-schedule/date-picker/date-picker.component';
 
 @NgModule({
   declarations: [
     CreateScheduleComponent,
-    AllPatientsComponent,
-    DatePickerComponent
+    AllPatientsComponent
   ],
   exports: [
     CreateScheduleComponent,

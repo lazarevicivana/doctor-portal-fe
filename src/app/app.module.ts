@@ -9,10 +9,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
+
 import { AppComponent } from "./app.component";
 
-
-import {AppointmentClient, DoctorClient, PatientClient} from "./api/api-reference";
+import {AppointmentClient, DoctorClient, PatientClient, ScheduleClient} from "./api/api-reference";
 
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
@@ -63,7 +63,8 @@ import {MatGridListModule} from "@angular/material/grid-list";
   providers: [
     DoctorClient,
     AppointmentClient,
-    PatientClient
+    PatientClient,
+    ScheduleClient
   ],
   exports: [
   ],

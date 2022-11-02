@@ -1,7 +1,7 @@
 <div class="container">
   <div class="container-f">
     <div>
-      <form [formGroup]="myForm">
+      <form [formGroup]="myForm" (ngSubmit)="scheduleAppointment()" >
         Value : {{myForm.value! | json}}
         <div class="title-container">
           <h1 class="title">Schedule Appointment</h1>
@@ -38,6 +38,7 @@
           </mat-form-field>
         </div>
         <app-all-patients (onSelectedPatient)="onSelecting($event)"></app-all-patients>
+        <button mat-flat-button color="primary" class="input-schedule">Submit</button>
       </form>
     </div>
   </div>
