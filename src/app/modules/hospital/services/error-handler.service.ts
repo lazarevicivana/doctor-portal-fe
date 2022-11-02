@@ -7,23 +7,19 @@ import { Observable, Subscription } from 'rxjs';
   providedIn: 'root'
 })
 export class ErrorHandlerService {
+  
 
-  static statusCodeSub: Subscription;
-  static statusCode : Number;
+
 
   constructor() { }
-  static checkConnection(statusCodeO: Observable<number>) {
-    this.statusCodeSub = statusCodeO.subscribe(
-      (statusCodeNum: number) => {
-          this.statusCode=statusCodeNum;
-      }
-     );
-    if (this.statusCode===200 || this.statusCode===201 || this.statusCode===204)
-      alert ("Konekcija sa bankom krvi JE uspostavljena!");
-    if (this.statusCode===401 || this.statusCode===403)
-      alert ("Konekcija sa bankom krvi NIJE uspostavljena! Autentifikacija nije uspela.");
-    if (this.statusCode===500)
-      alert ("Konekcija sa bankom krvi NIJE uspostavljena! Problem sa serverom.");
+static checkConnection(statusCode: number) {
+
+    if (statusCode===200 || statusCode===201 || statusCode===204)
+      alert ("The connection with the blood bank has been established!");
+    if (statusCode===401 || statusCode===403)
+      alert ("The connection to the blood bank has not been established! Authentication failed.");
+    if (statusCode===500)
+      alert ("The connection to the blood bank has not been established! A problem with the server.");
     
   }
 }
