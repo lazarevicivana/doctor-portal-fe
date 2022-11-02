@@ -1,29 +1,75 @@
-.button-row{
-  margin-top: 15px;
-  margin-bottom: 15px;
-  margin-right: 10px;
+/* Structure */
+.example-container {
+  position: relative;
+}
+
+.example-table-container {
+  position: relative;
+  min-height: 200px;
+  max-height: 400px;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+
+.example-loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.example-rate-limit-reached {
+  max-width: 360px;
   text-align: center;
-  background-color: #9CB4CC;
-  width: 85%;
-  border-radius: 10px;
-  color: white;
-  border: none;
-  font-weight: bold;
 }
-.div-style{
-  border-radius: 20px;
-  border-color: #748DA6;
-  background-color: #748DA6;
-  color: white;
+
+/* Column Widths */
+.mat-column-number,
+.mat-column-state {
+  max-width: 64px;
 }
-.padding-style{
-  padding-left: 10px;
-  padding-top: 10px;
-  font-size: xx-large;
-  font-weight: bold;
+
+.mat-column-created {
+  max-width: 124px;
 }
-.items{
-  padding-left: 8px;
-  font-size: 13px;
-  color: white;
+
+section {
+  display: table;
+}
+
+.example-label {
+  display: table-cell;
+  font-size: 14px;
+  margin-left: 8px;
+  min-width: 120px;
+}
+
+.example-button-row {
+  display: table-cell;
+  width: 490px;
+}
+
+.example-button-row .mat-button-base {
+  margin: 8px 8px 8px 0;
+}
+
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: center;
+  width: 120px;
 }

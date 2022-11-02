@@ -1,6 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {AppointmentResponse} from "../../../api/api-reference";
-import {MatGridList} from "@angular/material/grid-list";
+import * as moment from "moment";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-appointment-preview',
@@ -8,10 +9,23 @@ import {MatGridList} from "@angular/material/grid-list";
   styleUrls: ['./appointment-preview.component.css']
 })
 export class AppointmentPreviewComponent implements OnInit {
-@Input() appointment  = new AppointmentResponse();
-  constructor() { }
+@Input() appointments :AppointmentResponse[]=[];
+  displayedColumns: string[] = ['Date','start time','finish time','Patient','Reschedule'];
+
+  constructor(private readonly router:Router) { }
 
   ngOnInit(): void {
   }
 
+  getDateFormat(date: Date) {
+    return moment(date).format("MMMM Do, YYYY");
+  }
+  getHourFormat(date: Date) {
+    return moment(date).format("h:mma");
+  }
+
+  onReschedule(id: string) {
+    this.router.navigateByUrl('/reschedule-appointment/'+ id);
+    //this.router.navigate(['to-do-list', toDo.id]);
+  }
 }

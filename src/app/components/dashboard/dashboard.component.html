@@ -1,14 +1,26 @@
-<h1>Appointments</h1>
 <div class="container">
-    <div class="row">
-      <mat-grid-list cols="3" rowHeight="2:1">
-        <div ></div>
-        <mat-grid-tile class="item-row" *ngFor="let app of appointments" >{{app.patientId}}</mat-grid-tile>
-        <mat-grid-tile class="item-row">2</mat-grid-tile>
-        <mat-grid-tile class="item-row">3</mat-grid-tile>
-      </mat-grid-list>
-<!--      <div class="col-4 item-row" *ngFor="let app of appointments ">-->
-<!--        <app-appointment-preview [appointment]="app"></app-appointment-preview>-->
-<!--      </div>-->
-  </div>
+  <h1 style="margin-bottom:20px ">Appointments</h1>
+  <mat-tab-group [selectedIndex]="getSelectedIndex()" (selectedTabChange)="onTabChange($event)"> mat-align-tabs="start">
+    <mat-tab label="Monday">
+     <app-appointment-preview [appointments]="filterAppointmentByMonday()"></app-appointment-preview>
+    </mat-tab>
+    <mat-tab label="Tuesday">
+      <app-appointment-preview [appointments]="filterAppointmentByTuesday()"></app-appointment-preview>
+    </mat-tab>
+    <mat-tab label="Wednesday">
+      <app-appointment-preview [appointments]="filterAppointmentByWednesday()"></app-appointment-preview>
+    </mat-tab>
+    <mat-tab label="Thursday">
+      <app-appointment-preview [appointments]="filterAppointmentByThursday()"></app-appointment-preview>
+    </mat-tab>
+    <mat-tab label="Friday">
+      <app-appointment-preview [appointments]="filterAppointmentByFriday()"></app-appointment-preview>
+    </mat-tab>
+    <mat-tab label="Saturday">
+      <app-appointment-preview [appointments]="filterAppointmentBySaturday()"></app-appointment-preview>
+    </mat-tab>
+    <mat-tab label="Sunday">
+      <app-appointment-preview [appointments]="filterAppointmentBySunday()"></app-appointment-preview>
+    </mat-tab>
+  </mat-tab-group>
 </div>
