@@ -6,7 +6,7 @@ import {CreateScheduleComponent} from "./modules/schedule/create-schedule/create
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'reschedule-component', component: RescheduleAppointmentComponent },
+  { path: 'reschedule-appointment/:id', component: RescheduleAppointmentComponent },
   { path: 'create-schedule', component: CreateScheduleComponent }
 ];
 

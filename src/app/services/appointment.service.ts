@@ -1,6 +1,14 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient,HttpHeaders} from '@angular/common/http'
+import {AppointmentResponse} from "../api/api-reference";
+
+const httpOptions ={
+  headers: new HttpHeaders({
+    'Content-Type':'aplication/json'
+  })
+
+}
 
 @Injectable({
   providedIn: 'root'
@@ -10,24 +18,17 @@ export class AppointmentService {
 
   constructor(private http:HttpClient) { }
 
-  getAppointmentById(): Observable<any>{
-    const apId = "6198f8f2-75ab-456c-ac3e-3f95e3da45bd"
-    const url = `${this.aplUrl}/${apId}`
+  getAppointmentById(id:string): Observable<any>{
+
+    const url = `${this.aplUrl}/${id}`
     return this.http.get(url)
-    
-    /* {
-      id: "6198f8f2-75ab-456c-ac3e-3f95e3da45bd",
-    emergent: false,
-    duration: {
-      from: "2022-10-27T15:00:00",
-      to: "2022-10-27T15:15:00"
-    },
-    patient: null,
-    patientId: "667fe377-2e71-4ea7-90b8-4fb710542d61",
-    doctorId: "bd25c7e7-d61d-4a9f-b90b-1083fa375fca",
-    appointmentType: 0,
-    doctor: null,
-    appointmentState: 0
-    } */
+
+  }
+
+  updateAppointment(appointment:AppointmentResponse){
+    console.log("kurcolada")
+    console.log(appointment)
+    const url = `${this.aplUrl}`
+    this.http.put<AppointmentResponse>(url,appointment)
   }
 }

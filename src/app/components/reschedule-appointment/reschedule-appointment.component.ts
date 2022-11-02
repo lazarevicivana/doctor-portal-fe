@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { AppointmentService } from '../../services/appointment.service';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {AppointmentService} from '../../services/appointment.service';
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import * as moment from "moment";
+import {ActivatedRoute, ParamMap} from "@angular/router";
+import {AppointmentClient, AppointmentResponse, DateRange, ScheduleClient} from "../../api/api-reference";
 
-import {Observable, of} from 'rxjs'
-import {unitOfTime} from "moment";
+
 
 @Component({
   selector: 'app-reschedule-appointment',
@@ -13,41 +15,64 @@ import {unitOfTime} from "moment";
 export class RescheduleAppointmentComponent implements OnInit {
 
 
-  appointment=
-   {
-    id: "",
-    emergent: false,
-    duration: {
-      from: "",
-      to: ""
-    },
-    patient: null,
-    patientId: "",
-    doctorId: "",
-    appointmentType: 0,
-    doctor: null,
-    appointmentState: 0
-  };
-  timex:string =this.appointment.duration.from.toString()
-  myForm: FormGroup=this.fb.group({
-    date: new Date(),
-    startTime : "",
-    finishTime : ""
-  })
-  constructor(private appointmentService : AppointmentService,private  fb: FormBuilder) {
-    this.myForm = this.fb.group({
+  appointment= new AppointmentResponse();
+  formGroup = new FormGroup({
+    date: new FormControl<Date | undefined>(undefined),
+    startTime:new FormControl<string >(""),
+    finishTime:new FormControl<string >("")
+  });
+  constructor(private appointmentService : AppointmentService,private  fb: FormBuilder, private readonly route:ActivatedRoute,private client: AppointmentClient) {
 
-      }
-    )
   }
 
   ngOnInit(): void {
-    this.appointmentService.getAppointmentById().subscribe((appointment) =>
-      (this.appointment = appointment,
-      this.timex = appointment.duration.from.toString()
-      )
-      )
+
+    this.route.paramMap.subscribe((p: ParamMap) => {
+      var id = p.get('id');
+      this.appointmentService.getAppointmentById(id!).subscribe((appointment) =>
+      {
+        this.appointment = appointment;
+        this.patchForm();
+      })
+    })
+  }
+
+  private patchForm() {
+    let startDateTimeString = this.appointment.duration?.from!
+    let endDateTimeString = this.appointment.duration?.to!
+    var startTime = moment(startDateTimeString).format("HH:mm A")
+    var endTime = moment(endDateTimeString).format("HH:mm A")
+
+    this.formGroup.controls.date.patchValue(this.appointment.duration?.from)
+    this.formGroup.controls.startTime.patchValue(startTime)
+    this.formGroup.controls.finishTime.patchValue(endTime)
 
   }
 
+  rescheduleAppointment() {
+    this.ubdateAppointmentsTime();
+    this.client.rescheduleAppointement(this.appointment).subscribe()
+    console.log("kurcolada")
+    console.log(this.appointment)
+  }
+  ubdateAppointmentsTime() {
+    let startTime: moment.Moment = this.convertStringToTime(this.formGroup.controls.startTime.value!)
+    let endTime: moment.Moment = this.convertStringToTime(this.formGroup.controls['finishTime'].value!)
+    let startHours:number = startTime.toDate().getHours()
+    let startMins:number = startTime.toDate().getMinutes()
+    let endHours:number = endTime.toDate().getHours()
+    let endMins:number = endTime.toDate().getMinutes()
+
+    let fromDate: Date  = new Date(new Date(this.formGroup.controls.date.value!).getFullYear(),new Date(this.formGroup.controls.date.value!).getMonth()!,new Date(this.formGroup.controls.date.value!).getDay()!,startHours,startMins)
+    let endDate: Date  = new Date(new Date(this.formGroup.controls.date.value!).getFullYear(),new Date(this.formGroup.controls.date.value!).getMonth()!,new Date(this.formGroup.controls.date.value!).getDay()!,endHours,endMins)
+
+    this.appointment.duration = new DateRange({
+      from: fromDate,
+      to: endDate
+    })
+  }
+  convertStringToTime(str: string ){
+    const t = moment(str, 'HH:mm A');
+    return t
+  }
 }

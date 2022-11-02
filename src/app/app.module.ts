@@ -26,6 +26,7 @@ import { RescheduleAppointmentComponent } from './components/reschedule-appointm
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 import {MatGridListModule} from "@angular/material/grid-list";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 
@@ -40,26 +41,27 @@ import {MatGridListModule} from "@angular/material/grid-list";
     DatePickerComponent
 
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    MaterialModule,
-    PagesModule,
-    HospitalModule,
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        MaterialModule,
+        PagesModule,
+        HospitalModule,
 
-    HttpClientModule,
+        HttpClientModule,
 
 
-    ScheduleModule,
-    LoginModule,
-    DashboardModule,
-    MatDatepickerModule,
-    NgxMaterialTimepickerModule,
-    MatGridListModule
+        ScheduleModule,
+        LoginModule,
+        DashboardModule,
+        MatDatepickerModule,
+        NgxMaterialTimepickerModule,
+        MatGridListModule,
+        ReactiveFormsModule
 
-  ],
+    ],
   providers: [
     DoctorClient,
     AppointmentClient,
