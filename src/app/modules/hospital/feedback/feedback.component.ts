@@ -3,6 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Feedback } from 'src/app/modules/hospital/model/feedback.model';
 import { FeedbackService } from 'src/app/modules/hospital/services/feedback.service';
+import {FeedbackClient, FeedbackResponse, FeedbackStatusResponse, Patient, Status} from "../../../api/api-reference";
 
 @Component({
   selector: 'app-feedback',
@@ -15,8 +16,10 @@ export class FeedbackComponent implements OnInit {
   public displayedColumns = ['patientName', 'feedbackText', 'publish', 'archive', 'feedbackStatus'];
   public feedbacks: Feedback[] = [];
   public patientNameSurname: string = "";
+  public updatedFeedback: Feedback = new Feedback();
 
-  constructor(private feedbackService: FeedbackService, private router: Router) { }
+
+  constructor(private feedbackService: FeedbackService, private router: Router, private client: FeedbackClient) { }
 
   ngOnInit(): void {
     this.feedbackService.getFeedback().subscribe(res => {
@@ -25,6 +28,52 @@ export class FeedbackComponent implements OnInit {
       console.log(this.dataSource.data);
     })
   }
+
+  public updateFeedback(fb: string, status: Status, patient: Patient) {
+    console.log(fb);
+    this.client.getById(fb).subscribe({
+      next: response => {
+        var data = response;
+        var feedback = new FeedbackStatusResponse({
+          id: fb,
+          patientId: patient.id,
+          text: data.text,
+          date: data.date,
+          status: status,
+          isAnonymous: data.isAnonymous,
+          isPublic: data.isPublic
+        })
+        this.client.updateFeedbackStatus(feedback).subscribe({
+          next: _ => {
+            this.feedbackService.getFeedback().subscribe(res => {
+              this.feedbacks = res;
+              this.dataSource.data = this.feedbacks;
+              console.log(this.dataSource.data);
+            })
+        }
+        });
+      }
+    })
+
+  }
+
+  public disableAcceptButton(status: Number, isPublic: Boolean){
+    if(status != 1 && isPublic){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+  public disableRejectButton(status: Number, isPublic: Boolean){
+    if(status != 0 && isPublic){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+
 
   /*public updateRoom(id: number) {
     this.router.navigate(['/rooms/' + id + '/update']);

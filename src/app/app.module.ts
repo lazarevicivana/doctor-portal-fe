@@ -6,8 +6,14 @@ import { MaterialModule } from "./material/material.module";
 import { HospitalModule } from "./modules/hospital/hospital.module";
 import { PagesModule } from "./modules/pages/pages.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import {NgToastModule} from "ng-angular-popup";
+
+
+
+
 import { AppComponent } from "./app.component";
-import {AppointmentClient, DoctorClient, PatientClient, ScheduleClient} from "./api/api-reference";
+import {AppointmentClient, DoctorClient, FeedbackClient, PatientClient, ScheduleClient} from "./api/api-reference";
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import {ScheduleModule} from "./modules/schedule/schedule.module";
@@ -23,8 +29,11 @@ import {ReactiveFormsModule} from "@angular/forms";
     AppComponent,
     BodyComponent,
     SidenavComponent,
+    RescheduleAppointmentComponent,
     RescheduleAppointmentComponent
+
   ],
+
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -33,6 +42,10 @@ import {ReactiveFormsModule} from "@angular/forms";
         MaterialModule,
         PagesModule,
         HospitalModule,
+
+        NgToastModule,
+
+
         HttpClientModule,
         ScheduleModule,
         LoginModule,
@@ -47,7 +60,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     DoctorClient,
     AppointmentClient,
     PatientClient,
-    ScheduleClient
+    ScheduleClient,
+    FeedbackClient
   ],
   exports: [
   ],
