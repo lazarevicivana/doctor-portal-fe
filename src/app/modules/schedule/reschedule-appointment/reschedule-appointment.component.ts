@@ -63,6 +63,9 @@ export class RescheduleAppointmentComponent implements OnInit {
         {
           next : res => {
             console.log(res)
+            console.log(this.appointment)
+            this.ngToast.success({detail: 'Success!',summary:"Successfully rescheduled apointment!",duration:5000})
+            this.router1.navigateByUrl('/dashboard');
            },
           error: message =>{
             console.log(message.Error)
@@ -71,9 +74,7 @@ export class RescheduleAppointmentComponent implements OnInit {
 
         }
       )
-      console.log(this.appointment)
-      this.ngToast.success({detail: 'Success!',summary:"Successfully rescheduled apointment!",duration:5000})
-      this.router1.navigateByUrl('/dashboard');
+
     }
 
 
@@ -85,6 +86,8 @@ export class RescheduleAppointmentComponent implements OnInit {
     let startMins:number = startTime.toDate().getMinutes()
     let endHours:number = endTime.toDate().getHours()
     let endMins:number = endTime.toDate().getMinutes()
+
+    // if(this.formGroup.controls.date < Date.)
 
     if(!this.checkTime(startHours,endHours,startMins,endMins)){
 
