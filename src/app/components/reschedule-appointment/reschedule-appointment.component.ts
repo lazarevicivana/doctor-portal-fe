@@ -53,10 +53,21 @@ export class RescheduleAppointmentComponent implements OnInit {
 
   rescheduleAppointment() {
     if(this.ubdateAppointmentsTime()){
-      this.client.rescheduleAppointement(this.appointment).subscribe()
+      this.client.rescheduleAppointement(this.appointment).subscribe(
+        {
+          next : res => {
+            console.log(res)
+           },
+          error: message =>{
+            console.log(message.Error)
+            this.ngToast.error({detail: 'Error!',summary:message.Error,duration:5000})
+          }
+
+        }
+      )
       console.log("kurcolada")
       console.log(this.appointment)
-      this.router1.navigateByUrl('/dashboard');
+      //this.router1.navigateByUrl('/dashboard');
     }
 
 
