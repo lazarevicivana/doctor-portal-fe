@@ -13,6 +13,11 @@ export const navbarData=[
     routeLink: 'feedback',
     icon: 'fal fa-comments',
     label: 'Feedback'
+  },
+
+  {
+    routeLink: 'rooms',
+    label: 'Rooms'
   }
 
 ];
