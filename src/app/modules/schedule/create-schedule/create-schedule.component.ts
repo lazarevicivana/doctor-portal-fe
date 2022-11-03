@@ -19,7 +19,7 @@ export class CreateScheduleComponent implements OnInit {
   myForm: FormGroup;
   patientId : string = "";
   doctorId : string[] = ['4a5f7b19-f0d1-4461-b7f7-d5c0f74a0b0b',
-    '317eb3a7-f6af-4c0b-851a-728bedde9062']
+    '317eb3a7-f6af-4c0b-851a-728bedde9062','f6b8e95e-9a4a-46d6-8c38-a895d79ec8e8']
   constructor(private  fb: FormBuilder,private client: ScheduleClient, private alert: NgToastService) {
     this.myForm = this.fb.group({
       date: new Date(),
@@ -52,7 +52,7 @@ export class CreateScheduleComponent implements OnInit {
       {
         appointmentState: AppointmentState.Pending,
         appointmentType:AppointmentType.Examination,
-        doctorId: this.doctorId[1],
+        doctorId: this.doctorId[2],
         patientId: this.patientId,
         duration : new DateRange(
           {
