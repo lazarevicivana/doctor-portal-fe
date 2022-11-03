@@ -13,7 +13,7 @@ import {FeedbackClient, FeedbackResponse, FeedbackStatusResponse, Patient, Statu
 export class FeedbackComponent implements OnInit {
 
   public dataSource = new MatTableDataSource<Feedback>();
-  public displayedColumns = ['patientName', 'feedbackText', 'publish', 'archive', 'feedbackStatus'];
+  public displayedColumns = ['patientName', 'feedbackText', "feedbackPublic", 'feedbackStatus', 'publish', 'archive'];
   public feedbacks: Feedback[] = [];
   public patientNameSurname: string = "";
   public updatedFeedback: Feedback = new Feedback();
