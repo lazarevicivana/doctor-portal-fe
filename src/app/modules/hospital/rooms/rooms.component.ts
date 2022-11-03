@@ -16,7 +16,7 @@ export class RoomsComponent implements OnInit {
 
   selectedBuilding: Building = new Building();
   selectedFloor: string = '';
-
+  loadedRooms: Room[]=[];
   //CONSTS
   floorLenght = 24;
   floorWidth = 20;
@@ -43,8 +43,8 @@ export class RoomsComponent implements OnInit {
     this.roomService.getRooms().subscribe(res => {
       this.rooms = res;
       this.dataSource.data = this.rooms;
-      this.loadRooms(this.rooms);
       this.loadBuildings(this.rooms);
+      this.loadRooms(this.rooms);
     })
   }
 
@@ -142,8 +142,18 @@ export class RoomsComponent implements OnInit {
     })
   }
 
-  private loadRooms(roomsForLoad:Room[]):void
+  private  loadRooms(roomsForLoad:Room[]):void
   {
+    this.loadedRooms = roomsForLoad;
+  }
+
+  public clearRooms(resetFloor=false):void
+  {
+
+    if(resetFloor)
+    {
+      this.selectedFloor = "";
+    }
     //Delete old rooms
     this.allRooms.forEach(group =>
     {
@@ -154,48 +164,55 @@ export class RoomsComponent implements OnInit {
 
       this.canvas.remove(group);
     });
-
     this.allRooms=[];
+  }
 
+  public reloadRooms():void
+  {
+    this.clearRooms();
     //Load newRooms
-    roomsForLoad.forEach(room => {
-      //SQUARE
-      let square = new fabric.Rect({
-        left: room.positionX * this.squareSize,
-        top: room.positionY * this.squareSize,
-        fill: 'red',
-        width: this.squareSize * room.width,
-        height: this.squareSize * room.lenght,
-        strokeWidth: 5,
-        stroke: "black",
-      });
+    this.loadedRooms.forEach(room => {
 
-      this.canvas.add(square);
+      console.log("RELOADUJEM");
+      if(room.floorName == this.selectedFloor && room.buildingName == this.selectedBuilding.buildingName) {
 
-      //TEXT
-      let text = new fabric.Text(room.number,{
-        left: room.positionX * this.squareSize + (this.squareSize * room.width)/4,
-        top: room.positionY * this.squareSize + (this.squareSize * room.lenght)/4,
-        textAlign:'center'
-      });
-      this.canvas.add(text);
+        //SQUARE
+        let square = new fabric.Rect({
+          left: room.positionX * this.squareSize,
+          top: room.positionY * this.squareSize,
+          fill: 'red',
+          width: this.squareSize * room.width,
+          height: this.squareSize * room.lenght,
+          strokeWidth: 5,
+          stroke: "black",
+        });
 
-      //GROUP
-      let group = new fabric.Group([ square, text ],{});
+        this.canvas.add(square);
 
-      group.hoverCursor = "alias";
-      group.hasControls = false;
-      group.hasBorders = false;
-      group.lockMovementX = true;
-      group.lockMovementY = true;
+        //TEXT
+        let text = new fabric.Text(room.number, {
+          left: room.positionX * this.squareSize + (this.squareSize * room.width) / 4,
+          top: room.positionY * this.squareSize + (this.squareSize * room.lenght) / 4,
+          textAlign: 'center'
+        });
+        this.canvas.add(text);
 
-      group.on('mousedblclick',function()
-      {
-        console.log("Clicked on room: " + room.number);
-      });
+        //GROUP
+        let group = new fabric.Group([square, text], {});
 
-      this.canvas.add(group);
-      this.allRooms.push(group);
+        group.hoverCursor = "alias";
+        group.hasControls = false;
+        group.hasBorders = false;
+        group.lockMovementX = true;
+        group.lockMovementY = true;
+
+        group.on('mousedblclick', function () {
+          console.log("Clicked on room: " + room.number);
+        });
+
+        this.canvas.add(group);
+        this.allRooms.push(group);
+      }
     });
 
     this.canvas.renderAll();
