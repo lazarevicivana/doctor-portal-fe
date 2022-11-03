@@ -20,7 +20,7 @@ export interface IAppointmentClient {
   createAppointment(appointmentRequest: AppointmentRequest): Observable<FileResponse>;
   rescheduleAppointement(appointmentRequest: AppointmentResponse): Observable<void>;
   getById(id: string): Observable<AppointmentResponse>;
-  cancleAppointment(id: string): Observable<void>;
+  cancelAppointment(id: string): Observable<void>;
   getDoctorAppointments(id: string): Observable<AppointmentResponse[]>;
 }
 
@@ -266,26 +266,26 @@ export class AppointmentClient implements IAppointmentClient {
     return _observableOf(null as any);
   }
 
-  cancleAppointment(id: string): Observable<void> {
+  cancelAppointment(id: string): Observable<void> {
     let url_ = this.baseUrl + "/api/v1/Appointment/{id}";
     if (id === undefined || id === null)
       throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace("{id}", encodeURIComponent("" + id));
     url_ = url_.replace(/[?&]$/, "");
-
     let options_ : any = {
       observe: "response",
       responseType: "blob",
       headers: new HttpHeaders({
+
       })
     };
 
     return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-      return this.processCancleAppointment(response_);
+      return this.processCancelAppointment(response_);
     })).pipe(_observableCatch((response_: any) => {
       if (response_ instanceof HttpResponseBase) {
         try {
-          return this.processCancleAppointment(response_ as any);
+          return this.processCancelAppointment(response_ as any);
         } catch (e) {
           return _observableThrow(e) as any as Observable<void>;
         }
@@ -294,7 +294,8 @@ export class AppointmentClient implements IAppointmentClient {
     }));
   }
 
-  protected processCancleAppointment(response: HttpResponseBase): Observable<void> {
+  protected processCancelAppointment(response: HttpResponseBase): Observable<void> {
+    console.log('process')
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse ? response.body :

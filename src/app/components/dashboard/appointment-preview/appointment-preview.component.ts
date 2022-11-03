@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {AppointmentResponse} from "../../../api/api-reference";
+import {AppointmentClient,AppointmentResponse} from "../../../api/api-reference";
 import * as moment from "moment";
 import {Router} from "@angular/router";
 
@@ -10,9 +10,13 @@ import {Router} from "@angular/router";
 })
 export class AppointmentPreviewComponent implements OnInit {
 @Input() appointments :AppointmentResponse[]=[];
-  displayedColumns: string[] = ['Date','start time','finish time','Patient','Reschedule'];
+  displayedColumns: string[] = ['Date','start time','finish time','Patient','Reschedule','Cancel'];
+  tomorrow= new Date();
 
-  constructor(private readonly router:Router) { }
+
+  constructor(private readonly router:Router, private readonly client: AppointmentClient) {
+    this.tomorrow.setDate(this.tomorrow.getDate() + 1);
+  }
 
   ngOnInit(): void {
   }
@@ -28,4 +32,15 @@ export class AppointmentPreviewComponent implements OnInit {
     this.router.navigateByUrl('/reschedule-appointment/'+ id);
     //this.router.navigate(['to-do-list', toDo.id]);
   }
+
+  onCancel(id: string) {
+    this.client.cancelAppointment(id);
+  }
+
+  canCancel(date:Date)
+  {
+     return this.tomorrow < date;
+  }
+
+
 }
