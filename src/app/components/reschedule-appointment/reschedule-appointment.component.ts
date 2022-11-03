@@ -22,7 +22,7 @@ export class RescheduleAppointmentComponent implements OnInit {
     finishTime:new FormControl<string >("")
   });
   constructor(private appointmentService : AppointmentService,private  fb: FormBuilder,
-              private readonly route:ActivatedRoute,private client: AppointmentClient,private readonly router1:Router,
+              private readonly route:ActivatedRoute,private client: ScheduleClient,private readonly router1:Router,
               private readonly  ngToast:NgToastService) {
 
   }
@@ -53,7 +53,7 @@ export class RescheduleAppointmentComponent implements OnInit {
 
   rescheduleAppointment() {
     if(this.ubdateAppointmentsTime()){
-      this.client.rescheduleAppointement(this.appointment).subscribe(
+      this.client.rescheduleAppointment(this.appointment).subscribe(
         {
           next : res => {
             console.log(res)
@@ -65,7 +65,6 @@ export class RescheduleAppointmentComponent implements OnInit {
 
         }
       )
-      console.log("kurcolada")
       console.log(this.appointment)
       //this.router1.navigateByUrl('/dashboard');
     }
