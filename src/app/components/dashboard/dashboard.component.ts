@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {AppointmentClient, AppointmentResponse} from "../../api/api-reference";
 import {MatTabChangeEvent} from "@angular/material/tabs";
+import {MatTable} from "@angular/material/table";
 
 @Component({
   selector: 'app-dashboard',
@@ -14,7 +15,6 @@ export class DashboardComponent implements OnInit {
                           '317eb3a7-f6af-4c0b-851a-728bedde9062',
                           'bd25c7e7-d61d-4a9f-b90b-1083fa375fca',
                           'f6b8e95e-9a4a-46d6-8c38-a895d79ec8e8']
-
   constructor(private readonly client: AppointmentClient) { }
   ngOnInit(): void {
     this.getDoctorAppointments();
@@ -57,6 +57,9 @@ export class DashboardComponent implements OnInit {
   }
   onTabChange(event: MatTabChangeEvent) {
     this.currentTabIndex = event.index;
+  }
+  onDelete(){
+    this.getDoctorAppointments();
   }
 
 }

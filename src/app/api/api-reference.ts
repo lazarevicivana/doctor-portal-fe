@@ -279,8 +279,8 @@ export class AppointmentClient implements IAppointmentClient {
 
       })
     };
-
     return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+      console.log(response_)
       return this.processCancelAppointment(response_);
     })).pipe(_observableCatch((response_: any) => {
       if (response_ instanceof HttpResponseBase) {
@@ -295,7 +295,6 @@ export class AppointmentClient implements IAppointmentClient {
   }
 
   protected processCancelAppointment(response: HttpResponseBase): Observable<void> {
-    console.log('process')
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse ? response.body :
