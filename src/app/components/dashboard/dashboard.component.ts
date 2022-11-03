@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
 
   }
   private readonly getDoctorAppointments=()=> {
-  this.client.getDoctorAppointments(this.doctorId[3]).subscribe(
+  this.client.getDoctorAppointments(this.doctorId[1]).subscribe(
     {
       next: response => {
         this.appointments = response;

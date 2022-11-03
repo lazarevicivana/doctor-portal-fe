@@ -52,7 +52,7 @@ export class CreateScheduleComponent implements OnInit {
       {
         appointmentState: AppointmentState.Pending,
         appointmentType:AppointmentType.Examination,
-        doctorId: this.doctorId[2],
+        doctorId: this.doctorId[1],
         patientId: this.patientId,
         duration : new DateRange(
           {
