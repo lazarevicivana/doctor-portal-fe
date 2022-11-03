@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, Subscription } from 'rxjs';
+import { BloodBank } from '../model/bloodBank.model';
 import { BloodSupply } from '../model/bloodSupplay.model';
 import { ErrorHandlerService } from './error-handler.service';
 
@@ -17,14 +18,7 @@ export class BloodbankService {
 
   constructor(private http: HttpClient) { }
 
-   checkBloodSupply(bloodType:string, bloodAmount:string): Observable <boolean> {
-    this.bloodSupplySub =this.http.get<BloodSupply>(this.apiHost + 'api/bloodbank/bloodSupply/'+ bloodType + '/'+ bloodAmount, { headers: this.headers }).subscribe(
-      (bloodSupplyS:BloodSupply) => {
-        this.bloodSupply=bloodSupplyS;
-      }
-    ); 
-    ErrorHandlerService.checkConnection(this.bloodSupply.statusCode);
-    return of(this.bloodSupply.response);
-
+   checkBloodSupply(bloodType:string, bloodAmount:string): Observable <BloodSupply> {
+    return this.http.get<BloodSupply>(this.apiHost + 'api/bloodbank/bloodSupply/'+ bloodType + '/'+ bloodAmount, { headers: this.headers }); 
   }
 }

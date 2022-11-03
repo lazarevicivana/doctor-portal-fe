@@ -1,4 +1,4 @@
-<div class="container">
+<!--<div class="container">
     <div class="table-header">
         <p class="table-title">Rooms</p>
         <button class="add-button" mat-mini-fab matTooltip="New room" matTooltipPosition="right" (click)="addRoom()">
@@ -33,4 +33,28 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+</div>-->
+<div class="row">
+  <mat-form-field appearance="fill">
+  <mat-label>Building</mat-label>
+  <mat-select [(ngModel)]="selectedBuilding" name="building" (selectionChange)="clearRooms(true)">
+    <mat-option *ngFor="let building of buildings" [value]="building">
+      {{building.buildingName}}
+    </mat-option>
+  </mat-select>
+  </mat-form-field>
+</div>
+
+<div class="row">
+  <mat-form-field appearance="fill">
+    <mat-label>Floor</mat-label>
+    <mat-select [(ngModel)]="selectedFloor" name="floor" (selectionChange)="reloadRooms()">
+      <mat-option *ngFor="let floorName of selectedBuilding.floorNames" [value]="floorName">
+        {{ floorName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div>
+  <canvas id="c" ></canvas>
 </div>
