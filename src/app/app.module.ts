@@ -14,7 +14,6 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import {ScheduleModule} from "./modules/schedule/schedule.module";
 import {LoginModule} from "./login/login/login.module";
 import {DashboardModule} from "./components/dashboard/dashboard.module";
-import { RescheduleAppointmentComponent } from './components/reschedule-appointment/reschedule-appointment.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 import {MatGridListModule} from "@angular/material/grid-list";
@@ -23,9 +22,7 @@ import {ReactiveFormsModule} from "@angular/forms";
   declarations: [
     AppComponent,
     BodyComponent,
-    SidenavComponent,
-    RescheduleAppointmentComponent,
-    RescheduleAppointmentComponent
+    SidenavComponent
   ],
   imports: [
       BrowserModule,

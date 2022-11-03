@@ -1,8 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AppointmentClient,AppointmentResponse} from "../../../api/api-reference";
 import * as moment from "moment";
 import {Router} from "@angular/router";
-import {MatTable} from "@angular/material/table";
 
 @Component({
   selector: 'app-appointment-preview',
@@ -38,7 +37,7 @@ export class AppointmentPreviewComponent implements OnInit {
   }
 
   onCancel(id: string) {
-    console.log(id)
+    console.log("Cancel",id)
     this.client.cancelAppointment(id).subscribe({
       next : _ =>{
         console.log(this.appointments)

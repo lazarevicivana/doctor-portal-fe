@@ -13,11 +13,13 @@ import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/m
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 import {AllPatientsComponent} from "../../components/all-patients/all-patients.component";
 import {NgToastModule} from "ng-angular-popup";
+import {RescheduleAppointmentComponent} from "./reschedule-appointment/reschedule-appointment.component";
 
 @NgModule({
   declarations: [
     CreateScheduleComponent,
-    AllPatientsComponent
+    AllPatientsComponent,
+    RescheduleAppointmentComponent
   ],
   exports: [
     CreateScheduleComponent,

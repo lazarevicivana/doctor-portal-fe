@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {AppointmentService} from '../../services/appointment.service';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import * as moment from "moment";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {AppointmentClient, AppointmentResponse, DateRange, ScheduleClient} from "../../api/api-reference";
+import {AppointmentClient, AppointmentResponse, DateRange, ScheduleClient} from "../../../api/api-reference";
 import {NgToastService} from "ng-angular-popup";
+import {UserService} from "../../../services/user.service";
 
 
 @Component({
@@ -14,36 +14,42 @@ import {NgToastService} from "ng-angular-popup";
 })
 export class RescheduleAppointmentComponent implements OnInit {
 
-
+  doctorId: string = ""
   appointment= new AppointmentResponse();
   formGroup = new FormGroup({
-    date: new FormControl<Date | undefined>(undefined),
+    date: new FormControl<Date | undefined>(new Date()),
     startTime:new FormControl<string >(""),
     finishTime:new FormControl<string >("")
   });
-  constructor(private appointmentService : AppointmentService,private  fb: FormBuilder,
+  constructor(private appointmentClient : AppointmentClient,private  fb: FormBuilder,
               private readonly route:ActivatedRoute,private client: ScheduleClient,private readonly router1:Router,
-              private readonly  ngToast:NgToastService) {
+              private readonly  ngToast:NgToastService,private userService: UserService) {
 
   }
 
   ngOnInit(): void {
 
     this.route.paramMap.subscribe((p: ParamMap) => {
-      var id = p.get('id');
-      this.appointmentService.getAppointmentById(id!).subscribe((appointment) =>
+      const id = p.get('id');
+      this.appointmentClient.getById(id!).subscribe((appointment) =>
       {
         this.appointment = appointment;
         this.patchForm();
       })
     })
+    this.userService.userId.subscribe(
+      id =>{
+        this.doctorId = id
+        console.log(this.doctorId)
+      }
+    )
   }
 
   private patchForm() {
     let startDateTimeString = this.appointment.duration?.from!
     let endDateTimeString = this.appointment.duration?.to!
-    var startTime = moment(startDateTimeString).format("HH:mm A")
-    var endTime = moment(endDateTimeString).format("HH:mm A")
+    const startTime = moment(startDateTimeString).format("HH:mm A");
+    const endTime = moment(endDateTimeString).format("HH:mm A");
 
     this.formGroup.controls.date.patchValue(this.appointment.duration?.from)
     this.formGroup.controls.startTime.patchValue(startTime)
@@ -112,7 +118,6 @@ export class RescheduleAppointmentComponent implements OnInit {
 
 
   convertStringToTime(str: string ){
-    const t = moment(str, 'HH:mm A');
-    return t
+    return moment(str, 'HH:mm A');
   }
 }
