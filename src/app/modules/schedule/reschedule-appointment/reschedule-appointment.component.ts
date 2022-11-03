@@ -87,7 +87,10 @@ export class RescheduleAppointmentComponent implements OnInit {
     let endHours:number = endTime.toDate().getHours()
     let endMins:number = endTime.toDate().getMinutes()
 
-    // if(this.formGroup.controls.date < Date.)
+    if(new Date(new Date(this.formGroup.controls.date.value!).setHours(startHours+1,startMins,0,0)) < new Date()){
+      this.ngToast.error({detail: 'Error!',summary:"Date must be in future!",duration:5000})
+      return false
+    }
 
     if(!this.checkTime(startHours,endHours,startMins,endMins)){
 
