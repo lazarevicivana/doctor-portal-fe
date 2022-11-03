@@ -6,8 +6,7 @@ import { MaterialModule } from "./material/material.module";
 import { HospitalModule } from "./modules/hospital/hospital.module";
 import { PagesModule } from "./modules/pages/pages.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-
+import {NgToastModule} from "ng-angular-popup";
 
 
 import { AppComponent } from "./app.component";
@@ -35,12 +34,10 @@ import {ReactiveFormsModule} from "@angular/forms";
     AppComponent,
     BodyComponent,
     SidenavComponent,
-
     RescheduleAppointmentComponent,
-
     DatePickerComponent
-
   ],
+
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -49,10 +46,8 @@ import {ReactiveFormsModule} from "@angular/forms";
         MaterialModule,
         PagesModule,
         HospitalModule,
-
+        NgToastModule,
         HttpClientModule,
-
-
         ScheduleModule,
         LoginModule,
         DashboardModule,
