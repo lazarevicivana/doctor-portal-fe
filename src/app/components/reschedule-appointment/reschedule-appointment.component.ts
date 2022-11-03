@@ -3,8 +3,9 @@ import {AppointmentService} from '../../services/appointment.service';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import * as moment from "moment";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {AppointmentClient, AppointmentResponse, DateRange, ScheduleClient} from "../../api/api-reference";
+import {AppointmentResponse, DateRange, ScheduleClient} from "../../api/api-reference";
 import {NgToastService} from "ng-angular-popup";
+import {UserService} from "../../services/user.service";
 
 
 @Component({
@@ -14,7 +15,7 @@ import {NgToastService} from "ng-angular-popup";
 })
 export class RescheduleAppointmentComponent implements OnInit {
 
-
+  doctorId: string = ""
   appointment= new AppointmentResponse();
   formGroup = new FormGroup({
     date: new FormControl<Date | undefined>(undefined),
@@ -23,7 +24,7 @@ export class RescheduleAppointmentComponent implements OnInit {
   });
   constructor(private appointmentService : AppointmentService,private  fb: FormBuilder,
               private readonly route:ActivatedRoute,private client: ScheduleClient,private readonly router1:Router,
-              private readonly  ngToast:NgToastService) {
+              private readonly  ngToast:NgToastService,private userService: UserService) {
 
   }
 
@@ -37,6 +38,12 @@ export class RescheduleAppointmentComponent implements OnInit {
         this.patchForm();
       })
     })
+    this.userService.userId.subscribe(
+      id =>{
+        this.doctorId = id
+        console.log(this.doctorId)
+      }
+    )
   }
 
   private patchForm() {
@@ -112,7 +119,6 @@ export class RescheduleAppointmentComponent implements OnInit {
 
 
   convertStringToTime(str: string ){
-    const t = moment(str, 'HH:mm A');
-    return t
+    return moment(str, 'HH:mm A');
   }
 }
