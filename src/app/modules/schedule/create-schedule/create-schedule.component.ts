@@ -7,6 +7,7 @@ import {
   DateRange,
   ScheduleClient
 } from "../../../api/api-reference";
+import {NgToastService} from "ng-angular-popup";
 import * as moment from "moment/moment";
 
 @Component({
@@ -18,8 +19,8 @@ export class CreateScheduleComponent implements OnInit {
   myForm: FormGroup;
   patientId : string = "";
   doctorId : string[] = ['4a5f7b19-f0d1-4461-b7f7-d5c0f74a0b0b',
-    '317eb3a7-f6af-4c0b-851a-728bedde9062']
-  constructor(private  fb: FormBuilder,private client: ScheduleClient) {
+    '317eb3a7-f6af-4c0b-851a-728bedde9062','f6b8e95e-9a4a-46d6-8c38-a895d79ec8e8']
+  constructor(private  fb: FormBuilder,private client: ScheduleClient, private alert: NgToastService) {
     this.myForm = this.fb.group({
       date: new Date(),
       startTime : "",
@@ -71,7 +72,7 @@ export class CreateScheduleComponent implements OnInit {
         },
         error : message =>{
           console.log(message.Error)
-          alert(message.Error)
+          this.alert.error({detail: 'Error!',summary:message.Error,duration:5000})
         }
 
       }

@@ -272,14 +272,13 @@ export class AppointmentClient implements IAppointmentClient {
       throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace("{id}", encodeURIComponent("" + id));
     url_ = url_.replace(/[?&]$/, "");
-
     let options_ : any = {
       observe: "response",
       responseType: "blob",
       headers: new HttpHeaders({
+
       })
     };
-
     return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
       return this.processCancelAppointment(response_);
     })).pipe(_observableCatch((response_: any) => {

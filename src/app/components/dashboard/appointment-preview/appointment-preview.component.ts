@@ -1,7 +1,8 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {AppointmentResponse} from "../../../api/api-reference";
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {AppointmentClient,AppointmentResponse} from "../../../api/api-reference";
 import * as moment from "moment";
 import {Router} from "@angular/router";
+import {MatTable} from "@angular/material/table";
 
 @Component({
   selector: 'app-appointment-preview',
@@ -10,9 +11,16 @@ import {Router} from "@angular/router";
 })
 export class AppointmentPreviewComponent implements OnInit {
 @Input() appointments :AppointmentResponse[]=[];
-  displayedColumns: string[] = ['Date','start time','finish time','Patient','Reschedule'];
+ // @ViewChild('myTable') myTable:  MatTable<any> = new MatTable<any>();
 
-  constructor(private readonly router:Router) { }
+  displayedColumns: string[] = ['Date','start time','finish time','Patient','Reschedule','Cancel'];
+  tomorrow= new Date();
+  @Output() onDelete: EventEmitter<AppointmentResponse[]> = new EventEmitter();
+
+
+  constructor(private readonly router:Router, private  client: AppointmentClient) {
+    this.tomorrow.setDate(this.tomorrow.getDate() + 1);
+  }
 
   ngOnInit(): void {
   }
@@ -28,4 +36,24 @@ export class AppointmentPreviewComponent implements OnInit {
     this.router.navigateByUrl('/reschedule-appointment/'+ id);
     //this.router.navigate(['to-do-list', toDo.id]);
   }
+
+  onCancel(id: string) {
+    console.log(id)
+    this.client.cancelAppointment(id).subscribe({
+      next : _ =>{
+        console.log(this.appointments)
+       this.appointments = this.appointments.filter((a) => a.id != id);
+       console.log(this.appointments)
+        this.onDelete.emit()
+      }
+    }
+    )
+  }
+
+  canCancel(date:Date)
+  {
+     return this.tomorrow < date;
+  }
+
+
 }
