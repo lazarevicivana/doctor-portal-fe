@@ -63,6 +63,9 @@ export class RescheduleAppointmentComponent implements OnInit {
         {
           next : res => {
             console.log(res)
+            console.log(this.appointment)
+            this.ngToast.success({detail: 'Success!',summary:"Successfully rescheduled apointment!",duration:5000})
+            this.router1.navigateByUrl('/dashboard');
            },
           error: message =>{
             console.log(message.Error)
@@ -71,8 +74,7 @@ export class RescheduleAppointmentComponent implements OnInit {
 
         }
       )
-      console.log(this.appointment)
-      //this.router1.navigateByUrl('/dashboard');
+
     }
 
 
@@ -85,17 +87,21 @@ export class RescheduleAppointmentComponent implements OnInit {
     let endHours:number = endTime.toDate().getHours()
     let endMins:number = endTime.toDate().getMinutes()
 
+    // if(this.formGroup.controls.date < Date.)
+
     if(!this.checkTime(startHours,endHours,startMins,endMins)){
 
       return false
     }
-    let fromDate: Date  = new Date(new Date(this.formGroup.controls.date.value!).getFullYear(),new Date(this.formGroup.controls.date.value!).getMonth()!,new Date(this.formGroup.controls.date.value!).getDay()!,startHours,startMins)
-    let endDate: Date  = new Date(new Date(this.formGroup.controls.date.value!).getFullYear(),new Date(this.formGroup.controls.date.value!).getMonth()!,new Date(this.formGroup.controls.date.value!).getDay()!,endHours,endMins)
+    console.log(this.formGroup.controls.date.value)
+    let fromDate: Date  = new Date(new Date(this.formGroup.controls.date.value!).setHours(startHours+1,startMins,0,0))
+    let endDate: Date  = new Date(new Date(this.formGroup.controls.date.value!).setHours(endHours+1,endMins,0,0))
 
     this.appointment.duration = new DateRange({
       from: fromDate,
       to: endDate
     })
+    console.log(this.appointment.duration)
     return true
   }
 
