@@ -6,6 +6,7 @@ import { Room } from 'src/app/modules/hospital/model/room.model';
 import { RoomService } from 'src/app/modules/hospital/services/room.service';
 import { BloodbankService } from '../services/bloodbank.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ErrorHandlerService } from '../services/error-handler.service';
 
 @Component({
   selector: 'app-bloodbank',
@@ -33,7 +34,8 @@ export class BloodBankComponent implements OnInit {
       return;
     }
     this.bloodbankService.checkBloodSupply(this.bloodType, this.bloodAmount.toString()).subscribe(res => {
-      this.responseStatus = this.generateMessage(res);
+      this.responseStatus = this.generateMessage(res.response);
+      ErrorHandlerService.checkConnection(res.statusCode);
     })
   }
 
