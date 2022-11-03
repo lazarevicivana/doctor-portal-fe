@@ -18,8 +18,8 @@ export class RoomsComponent implements OnInit {
   selectedFloor: string = '';
   loadedRooms: Room[]=[];
   //CONSTS
-  floorLenght = 24;
-  floorWidth = 20;
+  floorLenght = 20;
+  floorWidth = 15;
   squareSize= 30;
   //
   public buildings: Building[] = [];
