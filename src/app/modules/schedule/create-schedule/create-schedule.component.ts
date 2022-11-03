@@ -81,6 +81,7 @@ export class CreateScheduleComponent implements OnInit {
       {
         next: response => {
           app = response
+          this.alert.success({detail: 'Success!', summary: "You are successfully schedule appointment!", duration: 5000})
           console.log(response)
         },
         error: message => {
