@@ -1,5 +1,10 @@
 export const navbarData=[
   {
+    routeLink: '',
+    icon: 'fal fa-sign-in',
+    label: 'Login'
+  },
+  {
     routeLink: 'dashboard',
     icon: 'fal fa-home',
     label: 'Dashboard'
@@ -14,5 +19,6 @@ export const navbarData=[
     icon: 'fal fa-comments',
     label: 'Feedback'
   }
+
 
 ];
