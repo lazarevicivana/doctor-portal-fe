@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AppointmentClient, AppointmentResponse} from "../../api/api-reference";
 import {MatTabChangeEvent} from "@angular/material/tabs";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -10,18 +11,21 @@ import {MatTabChangeEvent} from "@angular/material/tabs";
 export class DashboardComponent implements OnInit {
   appointments: AppointmentResponse[]=[];
   currentTabIndex = new Date().getDay() - 1;
-  doctorId : string[] = ['4a5f7b19-f0d1-4461-b7f7-d5c0f74a0b0b',
-                          '317eb3a7-f6af-4c0b-851a-728bedde9062',
-                          'bd25c7e7-d61d-4a9f-b90b-1083fa375fca']
-
-  constructor(private readonly client: AppointmentClient) { }
+  doctorId : string = ""
+  constructor(private readonly client: AppointmentClient,private userService: UserService) { }
   ngOnInit(): void {
+    this.userService.userId.subscribe(
+      id =>{
+        this.doctorId = id
+        console.log(this.doctorId)
+      }
+    )
     this.getDoctorAppointments();
     console.log(this.currentTabIndex);
 
   }
   private readonly getDoctorAppointments=()=> {
-  this.client.getDoctorAppointments(this.doctorId[2]).subscribe(
+  this.client.getDoctorAppointments(this.doctorId).subscribe(
     {
       next: response => {
         this.appointments = response;
@@ -56,6 +60,9 @@ export class DashboardComponent implements OnInit {
   }
   onTabChange(event: MatTabChangeEvent) {
     this.currentTabIndex = event.index;
+  }
+  onDelete(){
+    this.getDoctorAppointments();
   }
 
 }

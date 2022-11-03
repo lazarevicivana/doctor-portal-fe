@@ -17,6 +17,11 @@ export class FeedbackService {
     return this.http.get<Feedback[]>(this.apiHost + 'api/v1/feedback', {headers: this.headers});
   }
 
+  updateFeedback(feedback: any): Observable<any> {
+    console.log(feedback);
+    return this.http.put<any>(this.apiHost + 'api/v1/feedback', feedback, {headers: this.headers});
+  }
+
   /*getRoom(id: number): Observable<Feedback> {
     return this.http.get<Feedback>(this.apiHost + 'api/rooms/' + id, {headers: this.headers});
   }

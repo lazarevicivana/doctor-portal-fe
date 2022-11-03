@@ -11,6 +11,7 @@ import { UpdateRoomComponent } from "./update-room/update-room.component";
 import { FeedbackComponent } from './feedback/feedback.component';
 import { BloodbankRegistrationComponent } from './bloodbank-registration/bloodbank-registration.component';
 import { BloodBankChangePasswordComponent } from './blood-bank-change-password/blood-bank-change-password.component';
+import { MatSelectModule} from '@angular/material/select';
 
 
 const routes: Routes = [
@@ -40,6 +41,7 @@ const routes: Routes = [
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    MatSelectModule,
     RouterModule.forChild(routes)
   ],
   exports: [ RouterModule ]

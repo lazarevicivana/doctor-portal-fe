@@ -10,18 +10,24 @@
 
     <mat-label>Check blood supply: </mat-label><br>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Blood type</mat-label>
-      <input  matInput [(ngModel)]="bloodType">
-    </mat-form-field><br>
+    <form [formGroup]="bloodSupplyForm" (ngSubmit)="checkBloodSupply()">
+      <mat-form-field appearance="fill">
+        <mat-label>BloodType</mat-label>
+        <mat-select [(ngModel)]="bloodType" formControlName="bloodType">
+          <mat-option>None</mat-option>
+          <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Requred amount (in liters)</mat-label>
-      <input  matInput [(ngModel)]="bloodAmount">
-    </mat-form-field><br>
+      <mat-form-field appearance="fill">
+        <mat-label>Requred amount (in liters)</mat-label>
+        <input  matInput [(ngModel)]="bloodAmount" formControlName="bloodAmount" min="0" type="number">
+        <mat-error>Input positive number!</mat-error>
+      </mat-form-field><br>
 
-    <button mat-stroked-button (click)="checkBloodSupply()">Submit</button><br>
-    <mat-label>Response from blood bank: {{responseStatus}}</mat-label><br>
+      <button mat-stroked-button [disabled]="bloodSupplyForm.invalid">Submit</button><br>
+      <mat-label>Response from blood bank: {{responseStatus}}</mat-label><br>
+    </form>
   </div>>
 </body>
 </html>
