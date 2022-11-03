@@ -2,8 +2,8 @@
     <div class="table-header">
         <p class="table-title">Feedback</p>
     </div>
-    <table mat-table [dataSource]="dataSource">
-        <ng-container matColumnDef="patientName">
+    <table mat-table [dataSource]="dataSource" class="custom-table">
+        <ng-container matColumnDef="patientName" >
             <th mat-header-cell *matHeaderCellDef class="cell-center"> Name </th>
             <td mat-cell *matCellDef="let feedback" class="clickable cell-center">
                 <div *ngIf="feedback.isAnonymous ; else elseBlock">Anonymous</div>
@@ -13,6 +13,31 @@
         <ng-container matColumnDef="feedbackText">
             <th mat-header-cell *matHeaderCellDef class="cell-center"> Text </th>
             <td mat-cell *matCellDef="let feedback" class="cell-center">{{feedback.text}}</td>
+        </ng-container>
+        <ng-container matColumnDef="feedbackPublic">
+          <th mat-header-cell *matHeaderCellDef class="cell-center"> Visibility </th>
+          <td mat-cell *matCellDef="let feedback" class="cell-center">
+            <div *ngIf="feedback.isPublic">
+              Public
+            </div>
+            <div *ngIf="!feedback.isPublic">
+              Private
+            </div>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="feedbackStatus">
+          <th mat-header-cell *matHeaderCellDef class="cell-center"> Status </th>
+          <td mat-cell *matCellDef="let feedback" class="cell-center">
+            <div *ngIf="feedback.status == 0">
+              Accepted
+            </div>
+            <div *ngIf="feedback.status == 1">
+              Rejected
+            </div>
+            <div *ngIf="feedback.status == 2">
+              Pending
+            </div>
+          </td>
         </ng-container>
         <ng-container matColumnDef="publish">
             <th mat-header-cell *matHeaderCellDef class="cell-center"></th>
@@ -30,20 +55,7 @@
                 </button>
             </td>
         </ng-container>
-        <ng-container matColumnDef="feedbackStatus">
-            <th mat-header-cell *matHeaderCellDef class="cell-center"> Status </th>
-            <td mat-cell *matCellDef="let feedback" class="cell-center">
-                <div *ngIf="feedback.status == 0">
-                    Accepted
-                </div>
-                <div *ngIf="feedback.status == 1">
-                    Rejected
-                </div>
-                <div *ngIf="feedback.status == 2">
-                    Pending
-                </div>
-            </td>
-        </ng-container>
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
