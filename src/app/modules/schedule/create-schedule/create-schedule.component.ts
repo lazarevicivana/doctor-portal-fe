@@ -38,45 +38,68 @@ export class CreateScheduleComponent implements OnInit {
   }
 
   scheduleAppointment() {
+    if(!this.validateFields()){
+      return;
+    }
     let fromDateTime: moment.Moment = this.getMomentFromTimeString(this.myForm.controls['startTime'].value)
     let toDateTime: moment.Moment = this.getMomentFromTimeString(this.myForm.controls['finishTime'].value)
-    let hours:number = fromDateTime.toDate().getHours()
-    let mins:number = fromDateTime.toDate().getMinutes()
-    let fromDate: Date  = new Date(this.myForm.controls['date'].value.setHours(hours+1, mins, 0, 0))
-    hours = toDateTime.toDate().getHours()
-    mins = toDateTime.toDate().getMinutes()
-    let toDate: Date = new Date(this.myForm.controls['date'].value.setHours(hours+1, mins, 0, 0))
-    console.log(fromDate)
-    console.log(toDate)
-    let app:AppointmentRequest = new AppointmentRequest(
+    let hoursTo:number = fromDateTime.toDate().getHours()
+    let minsTo:number = fromDateTime.toDate().getMinutes()
+    let fromDate: Date  = new Date(new Date(this.myForm.controls['date'].value).setHours(hoursTo+1, minsTo, 0, 0))
+    let hoursFrom:number = toDateTime.toDate().getHours()
+    let minsFrom :number= toDateTime.toDate().getMinutes()
+    let toDate: Date = new Date(new Date(this.myForm.controls['date'].value).setHours(hoursFrom+1, minsFrom, 0, 0))
+    if(!this.checkTime(hoursTo,hoursFrom,minsTo,minsFrom)){
+      return;
+    }
+    this.postAppointment(fromDate, toDate);
+  }
+
+  private postAppointment(fromDate: Date, toDate: Date) {
+    let app: AppointmentRequest = new AppointmentRequest(
       {
         appointmentState: AppointmentState.Pending,
-        appointmentType:AppointmentType.Examination,
+        appointmentType: AppointmentType.Examination,
         doctorId: this.doctorId[1],
         patientId: this.patientId,
-        duration : new DateRange(
+        duration: new DateRange(
           {
-                from: fromDate,
-                to:toDate
+            from: fromDate,
+            to: toDate
           }
         ),
-        emergent : false
+        emergent: false
       }
     );
-    console.log(app)
     this.client.scheduleAppointment(app).subscribe(
       {
-        next : response =>{
+        next: response => {
           app = response
           console.log(response)
         },
-        error : message =>{
+        error: message => {
           console.log(message.Error)
-          this.alert.error({detail: 'Error!',summary:message.Error,duration:5000})
+          this.alert.error({detail: 'Error!', summary: message.Error, duration: 5000})
         }
 
       }
     )
+  }
+
+  private validateFields():boolean{
+    if(this.patientId === ""){
+      this.alert.error({detail: 'Error!',summary:"Please select a patient",duration:5000})
+      return false
+    }
+    if(this.myForm.controls['startTime'].value === ""){
+      this.alert.error({detail: 'Error!',summary:"Please select startTime",duration:5000})
+      return false
+    }
+    if(this.myForm.controls['startTime'].value === ""){
+      this.alert.error({detail: 'Error!',summary:"Please finishTime",duration:5000})
+      return false
+    }
+    return true
   }
   private getMomentFromTimeString(str: string) {
     const t = moment(str, 'HH:mm A');
@@ -87,4 +110,21 @@ export class CreateScheduleComponent implements OnInit {
 
     return t;
   }
+  private checkTime(startHours:number,endHours:number,startMins:number,endMins:number):boolean{
+    if (startHours > endHours){
+      this.alert.error({detail: 'Error!',summary:"Invalid duration!",duration:5000})
+      return false
+    }
+    else if (startHours + 2 < endHours) {
+      this.alert.error({detail: 'Error!',summary:"Duration too long!",duration:5000})
+      return false
+    }
+    else if (startHours == endHours) {
+      if(startMins+15>endMins){
+        this.alert.error({detail: 'Error!',summary:"Duration too short!",duration:5000})
+        return false
+      }
+    }
+    return true
+    }
 }

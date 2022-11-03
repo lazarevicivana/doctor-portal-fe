@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AppointmentResponse} from "../api/api-reference";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -8,11 +9,16 @@ import {AppointmentResponse} from "../api/api-reference";
 })
 export class LoginComponent implements OnInit {
   rightActive:boolean = false
+  userId:string = ""
 
-  constructor() { }
+  constructor(public router: Router) { }
   ngOnInit(): void {
   }
   activatePanel():void {
     this.rightActive = ! this.rightActive
+  }
+
+  signIn() {
+
   }
 }

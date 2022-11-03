@@ -65,7 +65,6 @@ export class RescheduleAppointmentComponent implements OnInit {
 
         }
       )
-      console.log("kurcolada")
       console.log(this.appointment)
       //this.router1.navigateByUrl('/dashboard');
     }
