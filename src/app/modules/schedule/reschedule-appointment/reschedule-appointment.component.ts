@@ -71,13 +71,9 @@ export class RescheduleAppointmentComponent implements OnInit {
             console.log(message.Error)
             this.ngToast.error({detail: 'Error!',summary:message.Error,duration:5000})
           }
-
         }
       )
-
     }
-
-
   }
   ubdateAppointmentsTime():boolean {
     let startTime: moment.Moment = this.convertStringToTime(this.formGroup.controls.startTime.value!)
@@ -124,8 +120,6 @@ export class RescheduleAppointmentComponent implements OnInit {
 
     return true
     }
-
-
   convertStringToTime(str: string ){
     return moment(str, 'HH:mm A');
   }
