@@ -23,39 +23,44 @@ import { RescheduleAppointmentComponent } from './components/reschedule-appointm
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 import {MatGridListModule} from "@angular/material/grid-list";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { CreateBloodRequestComponent } from './modules/hospital/create-blood-request/create-blood-request.component';
+import {MatSelectModule} from "@angular/material/select";
 @NgModule({
   declarations: [
     AppComponent,
     BodyComponent,
     SidenavComponent,
     RescheduleAppointmentComponent,
-    RescheduleAppointmentComponent
+    RescheduleAppointmentComponent,
+    CreateBloodRequestComponent
 
   ],
 
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        MaterialModule,
-        PagesModule,
-        HospitalModule,
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    MaterialModule,
+    PagesModule,
+    HospitalModule,
 
-        NgToastModule,
+    NgToastModule,
 
 
-        HttpClientModule,
-        ScheduleModule,
-        LoginModule,
-        DashboardModule,
-        MatDatepickerModule,
-        NgxMaterialTimepickerModule,
-        MatGridListModule,
-        ReactiveFormsModule
+    HttpClientModule,
+    ScheduleModule,
+    LoginModule,
+    DashboardModule,
+    MatDatepickerModule,
+    NgxMaterialTimepickerModule,
+    MatGridListModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    FormsModule
 
-    ],
+  ],
   providers: [
     DoctorClient,
     AppointmentClient,
