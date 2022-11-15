@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Room } from 'src/app/modules/hospital/model/room.model';
-import { RoomService } from 'src/app/modules/hospital/services/room.service';
+import { RoomService } from '../services/HospitalMapServices/room.service';
 
 @Component({
   selector: 'app-create-room',
@@ -22,6 +22,6 @@ export class CreateRoomComponent {
   }
 
   private isValidInput(): boolean {
-    return this.room?.number != '' && this.room?.floor.toString() != '';
+    return this.room?.name != '' ;
   }
 }

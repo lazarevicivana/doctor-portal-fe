@@ -37,8 +37,8 @@
 <div class="row">
   <mat-form-field appearance="fill">
   <mat-label>Building</mat-label>
-  <mat-select [(ngModel)]="selectedBuilding" name="building" (selectionChange)="clearRooms(true)">
-    <mat-option *ngFor="let building of buildings" [value]="building">
+  <mat-select [(ngModel)]="this.selectedBuilding" name="selectedBuilding" (selectionChange)="clearRooms(true)">
+    <mat-option *ngFor="let building of this.allBuildings" [value]="building">
       {{building.buildingName}}
     </mat-option>
   </mat-select>
@@ -48,9 +48,9 @@
 <div class="row">
   <mat-form-field appearance="fill">
     <mat-label>Floor</mat-label>
-    <mat-select [(ngModel)]="selectedFloor" name="floor" (selectionChange)="reloadRooms()">
-      <mat-option *ngFor="let floorName of selectedBuilding.floorNames" [value]="floorName">
-        {{ floorName }}
+    <mat-select [(ngModel)]="this.selectedFloor" name="floor" (selectionChange)="reloadRooms()">
+      <mat-option *ngFor="let floor of this.selectedBuilding.floors" [value]="floor">
+        {{ floor.Name }}
       </mat-option>
     </mat-select>
   </mat-form-field>
