@@ -17,7 +17,9 @@ import {DashboardModule} from "./components/dashboard/dashboard.module";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 import {MatGridListModule} from "@angular/material/grid-list";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { CreateBloodRequestComponent } from './modules/hospital/create-blood-request/create-blood-request.component';
+import {MatSelectModule} from "@angular/material/select";
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,22 +27,22 @@ import {ReactiveFormsModule} from "@angular/forms";
     SidenavComponent
   ],
   imports: [
-      BrowserModule,
-      AppRoutingModule,
-      BrowserAnimationsModule,
-      HttpClientModule,
-      MaterialModule,
-      PagesModule,
-      HospitalModule,
-      NgToastModule,
-      HttpClientModule,
-      ScheduleModule,
-      LoginModule,
-      DashboardModule,
-      MatDatepickerModule,
-      NgxMaterialTimepickerModule,
-      MatGridListModule,
-      ReactiveFormsModule
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    MaterialModule,
+    PagesModule,
+    HospitalModule,
+    NgToastModule,
+    HttpClientModule,
+    ScheduleModule,
+    LoginModule,
+    DashboardModule,
+    MatDatepickerModule,
+    NgxMaterialTimepickerModule,
+    MatGridListModule,
+    ReactiveFormsModule
   ],
   providers: [
     DoctorClient,
