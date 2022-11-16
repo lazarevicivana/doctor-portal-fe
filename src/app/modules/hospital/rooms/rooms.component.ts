@@ -57,14 +57,14 @@ export class RoomsComponent implements OnInit {
 
     this.buildingService.getBuildings().subscribe(res =>{
       this.allBuildings = res;
-      console.log("Buildings: " + this.allBuildings[0].buildingName);
+      console.log("Buildings: " + this.allBuildings[0].name);
       this.buildingsLoaded = true;
       this.checkIfAllLoaded();
     })
 
     this.floorService.getFloors().subscribe(res =>{
       this.allFloors = res;
-      console.log("Floors: " + res[0].Name);
+      console.log("Floors: " + res[0].name);
       this.floorsLoaded = true;
       this.checkIfAllLoaded();
     })
@@ -205,7 +205,7 @@ export class RoomsComponent implements OnInit {
 
   public clearRooms(resetFloor=false):void
   {
-    console.log("rooms: " + this.selectedRoom.name + " buildings: " + this.selectedBuilding.buildingName + " floor: " + this.selectedFloor.Name);
+    console.log("rooms: " + this.selectedRoom.name + " buildings: " + this.selectedBuilding.name + " floor: " + this.selectedFloor.name);
     this.selectedRoom = new Room();
 
     if(resetFloor)

@@ -39,7 +39,7 @@
   <mat-label>Building</mat-label>
   <mat-select [(ngModel)]="this.selectedBuilding" name="selectedBuilding" (selectionChange)="clearRooms(true)">
     <mat-option *ngFor="let building of this.allBuildings" [value]="building">
-      {{building.buildingName}}
+      {{building.name}}
     </mat-option>
   </mat-select>
   </mat-form-field>
@@ -50,7 +50,7 @@
     <mat-label>Floor</mat-label>
     <mat-select [(ngModel)]="this.selectedFloor" name="floor" (selectionChange)="reloadRooms()">
       <mat-option *ngFor="let floor of this.selectedBuilding.floors" [value]="floor">
-        {{ floor.Name }}
+        {{ floor.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>
