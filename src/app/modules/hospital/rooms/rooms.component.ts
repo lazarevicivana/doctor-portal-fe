@@ -81,10 +81,10 @@ export class RoomsComponent implements OnInit {
 
     this.clearRooms();
 
-    this.buildingsLoaded = false;
-    this.floorsLoaded = false;
-    this.roomsLoaded = false;
-    this.groomsLoaded = false;
+    this.buildingsLoaded = true;
+    this.floorsLoaded = true;
+    this.roomsLoaded = true;
+    this.groomsLoaded = true;
 
     forkJoin([this.buildingService.getBuildings(), this.floorService.getFloors(), this.roomService.getRooms(), this.groomService.getGRooms()])
     .subscribe((result => {
@@ -92,6 +92,7 @@ export class RoomsComponent implements OnInit {
       this.allFloors = result[1];
       this.allRooms = result[2];
       this.allGRooms = result[3];
+      this.checkIfAllLoadedAndProccesIt();
     }))
 /*
     this.buildingService.getBuildings().subscribe(res =>{
