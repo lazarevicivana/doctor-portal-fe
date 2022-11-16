@@ -38,6 +38,7 @@ export class RoomsComponent implements OnInit {
   //FOR VISUALISATION, FABRIC.JS
   public allRoomsGroups: Group[] = [];
   public allSquares: Rect[] = [];
+  public allGreenSquares: Rect[]  =[];
   canvas: any;
 
   //NZM STA JE OVO NI DA LI TREBA
@@ -214,6 +215,11 @@ export class RoomsComponent implements OnInit {
     }
 
     //Delete old rooms
+    this.deleteOldRooms();
+  }
+
+  public deleteOldRooms():void
+  {
     this.allRoomsGroups.forEach(group =>
     {
       group.forEachObject(obj=>
@@ -225,8 +231,8 @@ export class RoomsComponent implements OnInit {
     });
 
     this.allRoomsGroups=[];
-  }
 
+  }
   public reloadRooms():void
   {
     this.clearRooms();
@@ -269,11 +275,12 @@ export class RoomsComponent implements OnInit {
       group.hasBorders = false;
       group.lockMovementX = true;
       group.lockMovementY = true;
-
-      group.on('mousedblclick', function () 
+      group.name = room.id;
+      group.on('mousedblclick', () => 
       {
-        console.log("Clicked on room: " + room.name);
-      });
+          this.selectRoom(room);
+          console.log("Clicked on room: " + room.name);
+        });
 
       this.canvas.add(group);
       this.allRoomsGroups.push(group);
@@ -282,4 +289,38 @@ export class RoomsComponent implements OnInit {
     this.canvas.renderAll();
   }
 
+  
+  public selectRoom(roomToSelect: Room):void
+  {
+    
+    let allRoomsGroupsTemp: fabric.Group[] = [];
+    
+    //Load newRooms
+    this.allRoomsGroups.forEach(group => 
+    {
+      let groupTemp = group;
+
+      if(groupTemp.name == roomToSelect.id)
+      {
+        groupTemp.item(0).set('fill','green');
+      }
+      else
+      {
+        groupTemp.item(0).set('fill','red');
+      }
+
+      allRoomsGroupsTemp.push(groupTemp);
+    });
+    
+      this.clearRooms();
+
+      this.allRoomsGroups = allRoomsGroupsTemp;
+      
+      this.allRoomsGroups.forEach(element => {
+        this.canvas.add(element);
+      });
+
+    this.canvas.renderAll();
+  }
+  
 }
