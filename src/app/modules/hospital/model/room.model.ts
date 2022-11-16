@@ -1,25 +1,22 @@
+import { GRoom } from "./groom.model";
+
 export class Room {
     id: string = '';
-    number: string = '';
-    floor: number = 0;
-    positionX: number = 0;
-    positionY: number = 0;
-    width: number = 0;
-    lenght: number = 0;
-    buildingName: string = '';
-    floorName: string = '';
+    name: string = '';
+    floorId: string = '';
+    buildingId: string = '';
+    groomId: string = '';
+    groom: GRoom = new GRoom();
 
+    
     public constructor(obj?: any) {
-        if (obj) {
+        if (obj) 
+        {
             this.id = obj.id;
-            this.number = obj.number;
-            this.floor = obj.floor;
-            this.positionX = obj.positionX;
-            this.positionY = obj.positionY;
-            this.width = obj.width;
-            this.lenght = obj.lenght;
-            this.buildingName = obj.buildingName;
-            this.floorName = obj.floorName;
+            this.name = obj.name;
+            this.floorId = obj.floorId;
+            this.buildingId = obj.buildingId;
+            this.groomId = obj.groomId;
         }
     }
 }

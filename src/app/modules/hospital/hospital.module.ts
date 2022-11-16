@@ -12,6 +12,9 @@ import { FeedbackComponent } from './feedback/feedback.component';
 import { BloodbankRegistrationComponent } from './bloodbank-registration/bloodbank-registration.component';
 import { BloodBankChangePasswordComponent } from './blood-bank-change-password/blood-bank-change-password.component';
 import {MatSelectModule} from "@angular/material/select";
+import {CreateBloodRequestComponent} from "./create-blood-request/create-blood-request.component";
+import {NgToastModule} from "ng-angular-popup";
+import {MatDatepickerModule} from "@angular/material/datepicker";
 
 
 const routes: Routes = [
@@ -34,7 +37,8 @@ const routes: Routes = [
     UpdateRoomComponent,
     FeedbackComponent,
     BloodbankRegistrationComponent,
-    BloodBankChangePasswordComponent
+    BloodBankChangePasswordComponent,
+    CreateBloodRequestComponent
   ],
     imports: [
         CommonModule,
@@ -42,7 +46,9 @@ const routes: Routes = [
         FormsModule,
         ReactiveFormsModule,
         RouterModule.forChild(routes),
-        MatSelectModule
+        MatSelectModule,
+        NgToastModule,
+        MatDatepickerModule
     ],
   exports: [ RouterModule ]
 })
