@@ -19,7 +19,7 @@ export class FloorService {
   getFloor(id: number): Observable<Floor> {
     return this.http.get<Floor>(this.apiHost + 'api/v1/Floor/' + id, {headers: this.headers});
   }
-  updateFloor(room: any): Observable<any> {
-    return this.http.put<Floor>(this.apiHost + 'api/v1/Floor' + room.id, room, {headers: this.headers});
+  updateFloor(floor: any): Observable<any> {
+    return this.http.put<Floor>(this.apiHost + 'api/v1/Floor', floor, {headers: this.headers});
   }
 }
