@@ -1,13 +1,15 @@
+import { Floor } from "./floor.model";
+
 export class Building {
   id: string = '';
-  buildingName: string = '';
-  floorNames: string[] = [];
+  name: string = '';
+  floors?: Floor[] = [];
 
   public constructor(obj?: any) {
     if (obj) {
       this.id = obj.id;
-      this.buildingName = obj.buildingName;
-      this.floorNames = obj.floorNames;
+      this.name = obj.name;
+      this.floors = obj.floors;
     }
   }
 }

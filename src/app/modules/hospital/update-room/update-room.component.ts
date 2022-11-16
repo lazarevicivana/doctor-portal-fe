@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router, Params } from "@angular/router";
 import { Room } from "../model/room.model";
-import { RoomService } from "../services/room.service";
+import { RoomService } from "../services/HospitalMapServices/room.service";
 
 @Component({
   selector: 'de-update-room',
@@ -26,12 +26,12 @@ export class UpdateRoomComponent implements OnInit {
 
   public updateRoom(): void {
     if (!this.isValidInput()) return;
-    this.roomService.updateRoom(this.room).subscribe(res => {
+    this.roomService.updateRoom(this.room!).subscribe(res => {
       this.router.navigate(['/rooms']);
     });
   }
 
   private isValidInput(): boolean {
-    return this.room?.number != '' && this.room?.floor.toString() != '';
+    return this.room?.name != '' ; //DODAJ PROVERU ZA SVE
   }
 }
