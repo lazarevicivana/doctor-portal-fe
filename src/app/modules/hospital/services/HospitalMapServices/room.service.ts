@@ -14,26 +14,26 @@ export class RoomService {
   constructor(private http: HttpClient) { }
 
   getRooms(): Observable<Room[]> {
-    return this.http.get<Room[]>(this.apiHost + 'api/rooms', {headers: this.headers});
+    return this.http.get<Room[]>(this.apiHost + 'api/Rooms', {headers: this.headers});
   }
 
   getRoom(id: number): Observable<Room> {
-    return this.http.get<Room>(this.apiHost + 'api/rooms/' + id, {headers: this.headers});
+    return this.http.get<Room>(this.apiHost + 'api/Rooms/' + id, {headers: this.headers});
   }
 
   getRoomByBuildingIdAndFloorId(buildingId: number, floorId: number): Observable<Room> {
-    return this.http.get<Room>(this.apiHost + 'api/rooms/' + buildingId + "/" + floorId, {headers: this.headers});
+    return this.http.get<Room>(this.apiHost + 'api/Rooms/' + buildingId + "/" + floorId, {headers: this.headers});
   }
 
   deleteRoom(id: any): Observable<any> {
-    return this.http.delete<any>(this.apiHost + 'api/rooms/' + id, {headers: this.headers});
+    return this.http.delete<any>(this.apiHost + 'api/Rooms/' + id, {headers: this.headers});
   }
 
   createRoom(room: any): Observable<any> {
-    return this.http.post<any>(this.apiHost + 'api/rooms', room, {headers: this.headers});
+    return this.http.post<any>(this.apiHost + 'api/Rooms', room, {headers: this.headers});
   }
 
-  updateRoom(room: any): Observable<any> {
-    return this.http.put<any>(this.apiHost + 'api/rooms/' + room.id, room, {headers: this.headers});
+  updateRoom(room: Room): Observable<Room> {
+    return this.http.put<Room>(this.apiHost + 'api/Rooms', room, {headers: this.headers});
   }
 }

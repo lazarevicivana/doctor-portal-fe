@@ -214,7 +214,6 @@ export class RoomsComponent implements OnInit {
       this.selectedFloor = new Floor();
     }
 
-    //Delete old rooms
     this.deleteOldRooms();
   }
 
@@ -233,6 +232,7 @@ export class RoomsComponent implements OnInit {
     this.allRoomsGroups=[];
 
   }
+
   public reloadRooms():void
   {
     this.clearRooms();
@@ -280,7 +280,7 @@ export class RoomsComponent implements OnInit {
       {
           this.selectRoom(room);
           console.log("Clicked on room: " + room.name);
-        });
+      });
 
       this.canvas.add(group);
       this.allRoomsGroups.push(group);

@@ -17,6 +17,6 @@ export class GroomService {
   }
 
   getGRoom(id: number): Observable<GRoom> {
-    return this.http.get<GRoom>(this.apiHost + 'api/v1/GRooms/' + id, {headers: this.headers});
+    return this.http.get<GRoom>(this.apiHost + 'api/v1/GRooms' + id, {headers: this.headers});
   }
 }

@@ -21,7 +21,7 @@ export class BuildingService {
   getBuilding(id: number): Observable<Building> {
     return this.http.get<Building>(this.apiHost + 'api/v1/Building/' + id, {headers: this.headers});
   }
-  updateBuilding(room: any): Observable<any> {
-    return this.http.put<any>(this.apiHost + 'api/v1/Building/' + room.id, room, {headers: this.headers});
+  updateBuilding(building: Building): Observable<any> {
+    return this.http.put<Building>(this.apiHost + 'api/v1/Building', building, {headers: this.headers});
   }
 }

@@ -26,7 +26,7 @@ export class UpdateRoomComponent implements OnInit {
 
   public updateRoom(): void {
     if (!this.isValidInput()) return;
-    this.roomService.updateRoom(this.room).subscribe(res => {
+    this.roomService.updateRoom(this.room!).subscribe(res => {
       this.router.navigate(['/rooms']);
     });
   }
