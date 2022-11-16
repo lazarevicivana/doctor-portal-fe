@@ -12,6 +12,7 @@ import { BuildingService } from '../services/HospitalMapServices/building.servic
 import { FloorService } from '../services/HospitalMapServices/floor.service';
 import { GroomService } from '../services/HospitalMapServices/groom.service';
 import { GRoom } from '../model/groom.model';
+import { forkJoin, switchMap } from 'rxjs';
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
@@ -23,6 +24,11 @@ export class RoomsComponent implements OnInit {
   public selectedBuilding: Building = new Building();
   public selectedFloor: Floor = new Floor();
   public selectedRoom: Room = new Room();
+  
+  //ROOM EDIT
+  public editBuildingName: string = '';
+  public editFloorName: string = '';
+  public editRoomName: string = '';
 
   //CONSTS
   floorLenght = 20;
@@ -44,67 +50,186 @@ export class RoomsComponent implements OnInit {
   //NZM STA JE OVO NI DA LI TREBA
   public dataSource = new MatTableDataSource<Room>(); 
   public displayedColumns = ['number', 'floor', 'update', 'delete'];
-
+  shownRoom = false;  ///DA PRIKAZE SOBU KAD SE KLIKNE NA OBJEKAT SOBE
+  
   //LOADING
   buildingsLoaded:boolean = false;
   floorsLoaded:boolean = false;
   roomsLoaded:boolean = false;
   groomsLoaded:boolean = false;
 
+  //UPDATING
+  buildingUpdating:boolean = false;
+  floorUpdating:boolean = false;
+  roomUpdating:boolean = false;
+
   constructor(private roomService: RoomService, private buildingService: BuildingService, private groomService: GroomService, private floorService: FloorService,  private router: Router) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void 
+  {
     this.setInitialSquares();
+    this.reloadAllInfo();
+  }
 
+  private reloadAllInfo()
+  {
+    
+    this.allBuildings = [];
+    this.allFloors = [];
+    this.allRooms = [];
+    this.allGRooms = [];
+
+    this.clearRooms();
+
+    this.buildingsLoaded = true;
+    this.floorsLoaded = true;
+    this.roomsLoaded = true;
+    this.groomsLoaded = true;
+
+    forkJoin([this.buildingService.getBuildings(), this.floorService.getFloors(), this.roomService.getRooms(), this.groomService.getGRooms()])
+    .subscribe((result => {
+      this.allBuildings = result[0];
+      this.allFloors = result[1];
+      this.allRooms = result[2];
+      this.allGRooms = result[3];
+      this.checkIfAllLoadedAndProccesIt();
+    }))
+/*
     this.buildingService.getBuildings().subscribe(res =>{
       this.allBuildings = res;
-      console.log("Buildings: " + this.allBuildings[0].name);
       this.buildingsLoaded = true;
-      this.checkIfAllLoaded();
+      this.checkIfAllLoadedAndProccesIt();
     })
 
     this.floorService.getFloors().subscribe(res =>{
       this.allFloors = res;
-      console.log("Floors: " + res[0].name);
       this.floorsLoaded = true;
-      this.checkIfAllLoaded();
+      this.checkIfAllLoadedAndProccesIt();
     })
 
     this.groomService.getGRooms().subscribe(res =>{
       this.allGRooms = res;
-      console.log("Grooms: " + res);
       this.groomsLoaded = true;
-      this.checkIfAllLoaded();
+      this.checkIfAllLoadedAndProccesIt();
     })
 
     this.roomService.getRooms().subscribe(res => {
       this.allRooms = res;
-      console.log("Rooms: " + this.allRooms);
       this.dataSource.data = this.allRooms; //NZM STA JE OVO
       this.roomsLoaded = true;
-      this.checkIfAllLoaded();
-    })
-    
+      this.checkIfAllLoadedAndProccesIt();
+    })*///////
   }
 
-  private checkIfAllLoaded(): void
+  checkIfAnythingNeedsUpdate()
   {
-    if (this.roomsLoaded && this.groomsLoaded && this.buildingsLoaded && this.floorsLoaded)
+    if(!(this.editBuildingName === this.selectedBuilding.name))
     {
-      this.loadEverything();
+      this.selectedBuilding.name = this.editBuildingName;
+      this.updateBuilding(this.selectedBuilding);
+    }
+
+    if(!(this.editFloorName === this.selectedFloor.name))
+    {
+      this.selectedFloor.name = this.editFloorName;
+      this.updateFloor(this.selectedFloor);
+    }
+
+    if(!(this.editRoomName === this.selectedRoom.name))
+    {
+      this.selectedRoom.name = this.editRoomName;
+      this.updateRoom(this.selectedRoom);
     }
   }
 
-  private loadEverything()
+  private checkIfAllLoadedAndProccesIt()
+  {
+    if(this.checkIfAllLoaded())
+    {
+      this.loadEverythingIntoEverything();
+    }
+  }
+
+  private checkIfAllLoaded(): boolean
+  {
+    return (this.roomsLoaded && this.groomsLoaded && this.buildingsLoaded && this.floorsLoaded);
+  }
+
+  private isStillUpdating(): boolean
+  {
+    return (this.buildingUpdating && this.floorUpdating && this.roomUpdating);
+  }
+
+  private loadEverythingIntoEverything()
   {
     this.loadGroomsToRooms(this.allGRooms);
     this.loadRoomsToFloors(this.allRooms);
     this.loadFloorsToBuildings(this.allFloors);
+
+    this.allBuildings.forEach(building => 
+    {
+      if(this.selectedBuilding.id == building.id)
+      {
+        building.floors!.forEach(floor => 
+        {
+          if(floor.id == this.selectedFloor.id)
+          {
+            floor.Rooms.forEach(room => {
+                if(room.id == this.selectedRoom.id)
+                {
+                  this.selectedRoom = room;
+                }
+            });
+            this.selectedFloor = floor;
+          }
+        });
+        this.selectedBuilding = building;
+      }
+      
+    });
+    this.reloadRooms();
+  }
+
+  private reloadIfEverythingUpdated()
+  {
+    if(!this.isStillUpdating())
+    {
+      this.reloadAllInfo();
+    }
+  }
+
+  public updateBuilding(building: Building)
+  {
+    this.buildingUpdating = true;
+    this.buildingService.updateBuilding(building).subscribe(res =>
+    {
+      this.buildingUpdating = false;
+      this.reloadIfEverythingUpdated();
+    });
+  }
+
+  public updateFloor(floor: Floor)
+  {
+    this.floorUpdating = true;
+    this.floorService.updateFloor(floor).subscribe(res =>
+    {
+      this.floorUpdating = false;
+      this.reloadIfEverythingUpdated();
+
+    });
   }
 
   public updateRoom(room: Room) {
-    this.roomService.updateRoom(room);
+    this.clearRooms();
+    this.roomUpdating = true;
+    this.roomService.updateRoom(room).subscribe(res =>
+    {
+      this.roomUpdating = false;
+      this.reloadIfEverythingUpdated();
+
+    });
   }
+
 
   private setInitialSquares(): void
   {
@@ -164,10 +289,17 @@ export class RoomsComponent implements OnInit {
           {
             floor.Rooms = [];
           }
-            floor.Rooms.push(room);
-          
+
+          if(floor.id == room.floorId)
+          {
+            if(!floor.Rooms.includes(room))
+            {
+              floor.Rooms.push(room);
+            }
+          }
         }
       })
+
     })
   }
 
@@ -177,14 +309,21 @@ export class RoomsComponent implements OnInit {
     {
       this.allBuildings.forEach(building => 
       {
+
         if(building.floors == null)
         {
           building.floors = [];
         }
+
         if(building.id == floor.buildingId)
         {
-          building.floors?.push(floor);
+          if(!building.floors.includes(floor))
+          {
+            console.log("UBACUJEM: " + floor.name + " u zgradu: " +building.name );
+            building.floors.push(floor);
+          }
         }
+
       })
     })
   }
@@ -199,22 +338,24 @@ export class RoomsComponent implements OnInit {
         {
           room.groom = groom;
         }
+
       })
     })
   }
 
-
   public clearRooms(resetFloor=false):void
   {
     console.log("rooms: " + this.selectedRoom.name + " buildings: " + this.selectedBuilding.name + " floor: " + this.selectedFloor.name);
-    this.selectedRoom = new Room();
+    
 
     if(resetFloor)
     {
+      this.shownRoom = false;
       this.selectedFloor = new Floor();
     }
 
     this.deleteOldRooms();
+    this.canvas.renderAll();
   }
 
   public deleteOldRooms():void
@@ -231,10 +372,12 @@ export class RoomsComponent implements OnInit {
 
     this.allRoomsGroups=[];
 
+    this.canvas.renderAll();
   }
 
   public reloadRooms():void
   {
+    this.shownRoom = false;
     this.clearRooms();
 
     //Load newRooms
@@ -278,6 +421,13 @@ export class RoomsComponent implements OnInit {
       group.name = room.id;
       group.on('mousedblclick', () => 
       {
+        this.selectedRoom = room; /// OVO OVDE DODATO
+          this.editBuildingName = this.selectedBuilding.name;
+          this.editFloorName = this.selectedFloor.name;
+          this.editRoomName = this.selectedRoom.name;
+          
+          this.shownRoom = true; //PRIKAZE SPECIFIKACIJE SOBE
+
           this.selectRoom(room);
           console.log("Clicked on room: " + room.name);
       });
