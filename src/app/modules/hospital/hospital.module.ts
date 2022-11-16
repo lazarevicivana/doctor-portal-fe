@@ -12,6 +12,7 @@ import { FeedbackComponent } from './feedback/feedback.component';
 import { BloodbankRegistrationComponent } from './bloodbank-registration/bloodbank-registration.component';
 import { BloodBankChangePasswordComponent } from './blood-bank-change-password/blood-bank-change-password.component';
 import {MatSelectModule} from "@angular/material/select";
+import { NewsFromBloodBankComponent } from './news-from-blood-bank/news-from-blood-bank.component';
 
 
 const routes: Routes = [
@@ -22,7 +23,8 @@ const routes: Routes = [
   { path: 'rooms/:id/update', component: UpdateRoomComponent },
   { path: 'feedback', component: FeedbackComponent },
   { path: 'bloodBank/add', component: BloodbankRegistrationComponent},
-  { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent}
+  { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent},
+  { path: 'news/publish', component: NewsFromBloodBankComponent}
 ];
 
 @NgModule({
@@ -34,7 +36,8 @@ const routes: Routes = [
     UpdateRoomComponent,
     FeedbackComponent,
     BloodbankRegistrationComponent,
-    BloodBankChangePasswordComponent
+    BloodBankChangePasswordComponent,
+    NewsFromBloodBankComponent
   ],
     imports: [
         CommonModule,
