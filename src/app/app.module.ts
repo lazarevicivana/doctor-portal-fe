@@ -8,7 +8,14 @@ import { PagesModule } from "./modules/pages/pages.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {NgToastModule} from "ng-angular-popup";
 import { AppComponent } from "./app.component";
-import {AppointmentClient, DoctorClient, FeedbackClient, PatientClient, ScheduleClient} from "./api/api-reference";
+import {
+  ApplicationUserClient,
+  AppointmentClient,
+  DoctorClient,
+  FeedbackClient,
+  PatientClient,
+  ScheduleClient
+} from "./api/api-reference";
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import {ScheduleModule} from "./modules/schedule/schedule.module";
@@ -18,6 +25,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {ReactiveFormsModule} from "@angular/forms";
+import {authInterceptorProviders} from "./helpers/auth.interceptor";
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +55,9 @@ import {ReactiveFormsModule} from "@angular/forms";
     AppointmentClient,
     PatientClient,
     ScheduleClient,
-    FeedbackClient
+    FeedbackClient,
+    ApplicationUserClient,
+    authInterceptorProviders
   ],
   exports: [
   ],
