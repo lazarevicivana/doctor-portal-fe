@@ -5,11 +5,12 @@ import {
   AppointmentState,
   AppointmentType,
   DateRange,
-  ScheduleClient
+  ScheduleClient, UserToken
 } from "../../../api/api-reference";
 import {NgToastService} from "ng-angular-popup";
 import * as moment from "moment/moment";
 import {UserService} from "../../../services/user.service";
+import {TokenStorageService} from "../../../services/token-storage.service";
 
 @Component({
   selector: 'app-create-schedule',
@@ -20,7 +21,10 @@ export class CreateScheduleComponent implements OnInit {
   myForm: FormGroup;
   patientId : string = "";
   doctorId : string="";
-  constructor(private  fb: FormBuilder,private client: ScheduleClient, private alert: NgToastService,private userService: UserService) {
+  userToken: UserToken;
+  constructor(private  fb: FormBuilder,private client: ScheduleClient, private alert: NgToastService,private userService: UserService,private tokenStorageService:TokenStorageService) {
+    console.log(this.tokenStorageService.getUser())
+    this.userToken = this.tokenStorageService.getUser();
     this.myForm = this.fb.group({
       date: new Date(),
       startTime : "",
@@ -30,12 +34,7 @@ export class CreateScheduleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.userId.subscribe(
-      id =>{
-        this.doctorId = id
-        console.log(this.doctorId)
-      }
-    )
+
   }
 
   onSelecting(value: string) {
@@ -66,7 +65,7 @@ export class CreateScheduleComponent implements OnInit {
       {
         appointmentState: AppointmentState.Pending,
         appointmentType: AppointmentType.Examination,
-        doctorId: this.doctorId,
+        doctorId: this.userToken.id,
         patientId: this.patientId,
         duration: new DateRange(
           {

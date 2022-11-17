@@ -486,6 +486,7 @@ export interface IDoctorClient {
   getAllDoctors(): Observable<DoctorResponse[]>;
   createDoctor(doctorRequest: DoctorRequest): Observable<DoctorResponse>;
   deleteById(id: string | undefined): Observable<void>;
+  getByUsername(username: string | null): Observable<DoctorResponse>;
   getById(id: string): Observable<DoctorResponse>;
 }
 
@@ -660,6 +661,64 @@ export class DoctorClient implements IDoctorClient {
         let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
         result404 = ProblemDetails.fromJS(resultData404);
         return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+      }));
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
+  }
+
+  getByUsername(username: string | null): Observable<DoctorResponse> {
+    let url_ = this.baseUrl + "/api/v1/Doctor/username/{username}";
+    if (username === undefined || username === null)
+      throw new Error("The parameter 'username' must be defined.");
+    url_ = url_.replace("{username}", encodeURIComponent("" + username));
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_ : any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Accept": "application/json"
+      })
+    };
+
+    return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+      return this.processGetByUsername(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processGetByUsername(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<DoctorResponse>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<DoctorResponse>;
+    }));
+  }
+
+  protected processGetByUsername(response: HttpResponseBase): Observable<DoctorResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result200 = DoctorResponse.fromJS(resultData200);
+        return _observableOf(result200);
+      }));
+    } else if (status === 400) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result400: any = null;
+        let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result400 = ProblemDetails.fromJS(resultData400);
+        return throwException("A server side error occurred.", status, _responseText, _headers, result400);
       }));
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -2141,6 +2200,7 @@ export class ScheduleClient implements IScheduleClient {
 export class LoginResponse implements ILoginResponse {
   message?: string | undefined;
   token?: string | undefined;
+  userToken?: UserToken | undefined;
 
   constructor(data?: ILoginResponse) {
     if (data) {
@@ -2155,6 +2215,7 @@ export class LoginResponse implements ILoginResponse {
     if (_data) {
       this.message = _data["message"];
       this.token = _data["token"];
+      this.userToken = _data["userToken"] ? UserToken.fromJS(_data["userToken"]) : <any>undefined;
     }
   }
 
@@ -2169,6 +2230,7 @@ export class LoginResponse implements ILoginResponse {
     data = typeof data === 'object' ? data : {};
     data["message"] = this.message;
     data["token"] = this.token;
+    data["userToken"] = this.userToken ? this.userToken.toJSON() : <any>undefined;
     return data;
   }
 }
@@ -2176,6 +2238,63 @@ export class LoginResponse implements ILoginResponse {
 export interface ILoginResponse {
   message?: string | undefined;
   token?: string | undefined;
+  userToken?: UserToken | undefined;
+}
+
+export class UserToken implements IUserToken {
+  id?: string;
+  email?: string | undefined;
+  role?: string | undefined;
+  username?: string | undefined;
+  name?: string | undefined;
+  surname?: string | undefined;
+
+  constructor(data?: IUserToken) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.id = _data["id"];
+      this.email = _data["email"];
+      this.role = _data["role"];
+      this.username = _data["username"];
+      this.name = _data["name"];
+      this.surname = _data["surname"];
+    }
+  }
+
+  static fromJS(data: any): UserToken {
+    data = typeof data === 'object' ? data : {};
+    let result = new UserToken();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data["id"] = this.id;
+    data["email"] = this.email;
+    data["role"] = this.role;
+    data["username"] = this.username;
+    data["name"] = this.name;
+    data["surname"] = this.surname;
+    return data;
+  }
+}
+
+export interface IUserToken {
+  id?: string;
+  email?: string | undefined;
+  role?: string | undefined;
+  username?: string | undefined;
+  name?: string | undefined;
+  surname?: string | undefined;
 }
 
 export class ProblemDetails implements IProblemDetails {

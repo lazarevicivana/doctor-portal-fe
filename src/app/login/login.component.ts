@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
     password: new FormControl<string | undefined>(undefined)
   })
 
-  constructor(private userService: UserService,private tokenStorageService:TokenStorageService
+  constructor(private tokenStorageService:TokenStorageService
               , private applicationUserClient:ApplicationUserClient, private toast:NgToastService) { }
   ngOnInit(): void {
 
@@ -32,11 +32,12 @@ export class LoginComponent implements OnInit {
       username: this.loginForm.controls.username.value!,
       password: this.loginForm.controls.password.value!
     })
-    this.userService.gainUser(this.userId);
+
     this.applicationUserClient.authenticate(loginRequest).subscribe({
         next: response => {
           console.log(response)
           this.tokenStorageService.saveToken(response.token!)
+          this.tokenStorageService.saveUser(response.userToken!)
           this.toast.success({detail: 'Success!', summary: response.message, duration: 5000})
         },
         error: message => {

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import {UserToken} from "../../model/UserToken";
-import {ApplicationUserClient} from "../api/api-reference";
+import {ApplicationUserClient, UserToken} from "../api/api-reference";
 
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
@@ -24,7 +23,8 @@ export class TokenStorageService {
   public isLoggedIn():boolean{
     return !!window.sessionStorage.getItem(TOKEN_KEY);
   }
-  public saveUser(user: any): void {
+  public saveUser(user: UserToken): void {
+    console.log(user)
     window.sessionStorage.removeItem(USER_KEY);
     window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
   }
@@ -33,6 +33,6 @@ export class TokenStorageService {
     if (user) {
       return JSON.parse(user);
     }
-    return {email: "", id: "", jwt: "", role: "", username: ""};
+    return new UserToken();
   }
 }

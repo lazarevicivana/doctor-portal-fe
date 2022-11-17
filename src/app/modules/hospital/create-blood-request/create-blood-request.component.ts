@@ -10,7 +10,7 @@ import {NgToastService} from "ng-angular-popup";
 export class CreateBloodRequestComponent implements OnInit {
   request: BloodRequest;
   date:any;
-  number_reg = new RegExp("[0-9]+")
+  number_reg = new RegExp("\\d+")
   todayDate: Date;
 
   constructor( private alert: NgToastService) {
