@@ -21,11 +21,16 @@ import {authInterceptorProviders} from "./helpers/auth.interceptor";
 import { CreateBloodRequestComponent } from './modules/hospital/create-blood-request/create-blood-request.component';
 import {MatSelectModule} from "@angular/material/select";
 import { HospitalModule } from "./modules/hospital/hospital.module";
+import { SignOutComponent} from './components/sign-out/sign-out.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import { DialogSignComponent } from './components/dialog-sign/dialog-sign.component';
 @NgModule({
   declarations: [
     AppComponent,
     BodyComponent,
-    SidenavComponent
+    SidenavComponent,
+    SignOutComponent,
+    DialogSignComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +48,8 @@ import { HospitalModule } from "./modules/hospital/hospital.module";
     MatDatepickerModule,
     NgxMaterialTimepickerModule,
     MatGridListModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule
   ],
   providers: [
     DoctorClient,
