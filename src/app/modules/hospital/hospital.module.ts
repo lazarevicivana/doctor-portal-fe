@@ -11,14 +11,17 @@ import { UpdateRoomComponent } from "./update-room/update-room.component";
 import { FeedbackComponent } from './feedback/feedback.component';
 import { BloodbankRegistrationComponent } from './bloodbank-registration/bloodbank-registration.component';
 import { BloodBankChangePasswordComponent } from './blood-bank-change-password/blood-bank-change-password.component';
-import { MatSelectModule} from '@angular/material/select';
+import {MatSelectModule} from "@angular/material/select";
+import {CreateBloodRequestComponent} from "./create-blood-request/create-blood-request.component";
+import {NgToastModule} from "ng-angular-popup";
+import {MatDatepickerModule} from "@angular/material/datepicker";
 
 
 const routes: Routes = [
   { path: 'bloodBank', component: BloodBankComponent},
   { path: 'rooms', component: RoomsComponent },
   { path: 'rooms/add', component: CreateRoomComponent },
-  { path: 'rooms/:id', component: RoomDetailComponent },  
+  { path: 'rooms/:id', component: RoomDetailComponent },
   { path: 'rooms/:id/update', component: UpdateRoomComponent },
   { path: 'feedback', component: FeedbackComponent },
   { path: 'bloodBank/add', component: BloodbankRegistrationComponent},
@@ -34,16 +37,19 @@ const routes: Routes = [
     UpdateRoomComponent,
     FeedbackComponent,
     BloodbankRegistrationComponent,
-    BloodBankChangePasswordComponent
+    BloodBankChangePasswordComponent,
+    CreateBloodRequestComponent
   ],
-  imports: [
-    CommonModule,
-    MaterialModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatSelectModule,
-    RouterModule.forChild(routes)
-  ],
+    imports: [
+        CommonModule,
+        MaterialModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule.forChild(routes),
+        MatSelectModule,
+        NgToastModule,
+        MatDatepickerModule
+    ],
   exports: [ RouterModule ]
 })
 export class HospitalModule { }

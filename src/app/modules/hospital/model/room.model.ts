@@ -1,13 +1,22 @@
-export class Room {
-    id: number = 0;
-    number: string = '';
-    floor: number = 0;
+import { GRoom } from "./groom.model";
 
+export class Room {
+    id: string = '';
+    name: string = '';
+    floorId: string = '';
+    buildingId: string = '';
+    groomId: string = '';
+    groom: GRoom = new GRoom();
+
+    
     public constructor(obj?: any) {
-        if (obj) {
+        if (obj) 
+        {
             this.id = obj.id;
-            this.number = obj.number;
-            this.floor = obj.floor;        
+            this.name = obj.name;
+            this.floorId = obj.floorId;
+            this.buildingId = obj.buildingId;
+            this.groomId = obj.groomId;
         }
     }
 }

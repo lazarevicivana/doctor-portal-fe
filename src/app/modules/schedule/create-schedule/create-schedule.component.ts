@@ -5,10 +5,12 @@ import {
   AppointmentState,
   AppointmentType,
   DateRange,
-  ScheduleClient
+  ScheduleClient, UserToken
 } from "../../../api/api-reference";
 import {NgToastService} from "ng-angular-popup";
 import * as moment from "moment/moment";
+import {UserService} from "../../../services/user.service";
+import {TokenStorageService} from "../../../services/token-storage.service";
 
 @Component({
   selector: 'app-create-schedule',
@@ -18,18 +20,21 @@ import * as moment from "moment/moment";
 export class CreateScheduleComponent implements OnInit {
   myForm: FormGroup;
   patientId : string = "";
-  doctorId : string[] = ['4a5f7b19-f0d1-4461-b7f7-d5c0f74a0b0b',
-    '317eb3a7-f6af-4c0b-851a-728bedde9062','f6b8e95e-9a4a-46d6-8c38-a895d79ec8e8']
-  constructor(private  fb: FormBuilder,private client: ScheduleClient, private alert: NgToastService) {
+  doctorId : string="";
+  userToken: UserToken;
+  constructor(private  fb: FormBuilder,private client: ScheduleClient, private alert: NgToastService,private userService: UserService,private tokenStorageService:TokenStorageService) {
+    console.log(this.tokenStorageService.getUser())
+    this.userToken = this.tokenStorageService.getUser();
     this.myForm = this.fb.group({
       date: new Date(),
       startTime : "",
       finishTime : ""
       }
-    )
+    );
   }
 
   ngOnInit(): void {
+
   }
 
   onSelecting(value: string) {
@@ -43,13 +48,13 @@ export class CreateScheduleComponent implements OnInit {
     }
     let fromDateTime: moment.Moment = this.getMomentFromTimeString(this.myForm.controls['startTime'].value)
     let toDateTime: moment.Moment = this.getMomentFromTimeString(this.myForm.controls['finishTime'].value)
-    let hoursTo:number = fromDateTime.toDate().getHours()
-    let minsTo:number = fromDateTime.toDate().getMinutes()
-    let fromDate: Date  = new Date(new Date(this.myForm.controls['date'].value).setHours(hoursTo+1, minsTo, 0, 0))
-    let hoursFrom:number = toDateTime.toDate().getHours()
-    let minsFrom :number= toDateTime.toDate().getMinutes()
-    let toDate: Date = new Date(new Date(this.myForm.controls['date'].value).setHours(hoursFrom+1, minsFrom, 0, 0))
-    if(!this.checkTime(hoursTo,hoursFrom,minsTo,minsFrom)){
+    let hoursFrom:number = fromDateTime.toDate().getHours()
+    let minsFrom:number = fromDateTime.toDate().getMinutes()
+    let fromDate: Date  = new Date(new Date(this.myForm.controls['date'].value).setHours(hoursFrom+1, minsFrom, 0, 0))
+    let hoursTo:number = toDateTime.toDate().getHours()
+    let minsTo :number= toDateTime.toDate().getMinutes()
+    let toDate: Date = new Date(new Date(this.myForm.controls['date'].value).setHours(hoursTo+1, minsTo, 0, 0))
+    if(!this.checkTime(hoursFrom,hoursTo,minsFrom,minsTo)){
       return;
     }
     this.postAppointment(fromDate, toDate);
@@ -60,7 +65,7 @@ export class CreateScheduleComponent implements OnInit {
       {
         appointmentState: AppointmentState.Pending,
         appointmentType: AppointmentType.Examination,
-        doctorId: this.doctorId[1],
+        doctorId: this.userToken.id,
         patientId: this.patientId,
         duration: new DateRange(
           {
@@ -75,6 +80,7 @@ export class CreateScheduleComponent implements OnInit {
       {
         next: response => {
           app = response
+          this.alert.success({detail: 'Success!', summary: "You are successfully schedule appointment!", duration: 5000})
           console.log(response)
         },
         error: message => {

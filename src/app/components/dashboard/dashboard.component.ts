@@ -1,7 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {AppointmentClient, AppointmentResponse} from "../../api/api-reference";
+import {Component, OnInit} from '@angular/core';
+import {AppointmentClient, AppointmentResponse, UserToken} from "../../api/api-reference";
 import {MatTabChangeEvent} from "@angular/material/tabs";
-import {MatTable} from "@angular/material/table";
+import {UserService} from "../../services/user.service";
+import {TokenStorageService} from "../../services/token-storage.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -11,18 +12,17 @@ import {MatTable} from "@angular/material/table";
 export class DashboardComponent implements OnInit {
   appointments: AppointmentResponse[]=[];
   currentTabIndex = new Date().getDay() - 1;
-  doctorId : string[] = ['4a5f7b19-f0d1-4461-b7f7-d5c0f74a0b0b',
-                          '317eb3a7-f6af-4c0b-851a-728bedde9062',
-                          'bd25c7e7-d61d-4a9f-b90b-1083fa375fca',
-                          'f6b8e95e-9a4a-46d6-8c38-a895d79ec8e8']
-  constructor(private readonly client: AppointmentClient) { }
+  userToken:UserToken;
+  constructor(private readonly client: AppointmentClient,private tokenStorageService:TokenStorageService) {
+    this.userToken = this.tokenStorageService.getUser();
+  }
   ngOnInit(): void {
     this.getDoctorAppointments();
     console.log(this.currentTabIndex);
 
   }
   private readonly getDoctorAppointments=()=> {
-  this.client.getDoctorAppointments(this.doctorId[1]).subscribe(
+  this.client.getDoctorAppointments(this.userToken.id!).subscribe(
     {
       next: response => {
         this.appointments = response;

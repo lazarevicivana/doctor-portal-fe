@@ -3,7 +3,7 @@ import { MatTableDataSource} from '@angular/material/table';
 import { MatSelectModule} from '@angular/material/select';
 import { Router } from '@angular/router';
 import { Room } from 'src/app/modules/hospital/model/room.model';
-import { RoomService } from 'src/app/modules/hospital/services/room.service';
+import { RoomService } from 'src/app/modules/hospital/services/HospitalMapServices/room.service';
 import { BloodbankService } from '../services/bloodbank.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ErrorHandlerService } from '../services/error-handler.service';

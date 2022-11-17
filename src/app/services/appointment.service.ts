@@ -26,7 +26,6 @@ export class AppointmentService {
   }
 
   updateAppointment(appointment:AppointmentResponse){
-    console.log("kurcolada")
     console.log(appointment)
     const url = `${this.aplUrl}`
     this.http.put<AppointmentResponse>(url,appointment)

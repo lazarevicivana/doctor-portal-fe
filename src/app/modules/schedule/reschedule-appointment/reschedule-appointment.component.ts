@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {AppointmentService} from '../../services/appointment.service';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import * as moment from "moment";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {AppointmentClient, AppointmentResponse, DateRange, ScheduleClient} from "../../api/api-reference";
+import {AppointmentClient, AppointmentResponse, DateRange, ScheduleClient, UserToken} from "../../../api/api-reference";
 import {NgToastService} from "ng-angular-popup";
+import {UserService} from "../../../services/user.service";
+import {TokenStorageService} from "../../../services/token-storage.service";
 
 
 @Component({
@@ -14,24 +15,25 @@ import {NgToastService} from "ng-angular-popup";
 })
 export class RescheduleAppointmentComponent implements OnInit {
 
-
   appointment= new AppointmentResponse();
   formGroup = new FormGroup({
-    date: new FormControl<Date | undefined>(undefined),
+    date: new FormControl<Date | undefined>(new Date()),
     startTime:new FormControl<string >(""),
     finishTime:new FormControl<string >("")
   });
-  constructor(private appointmentService : AppointmentService,private  fb: FormBuilder,
+  userToken: UserToken;
+  constructor(private appointmentClient : AppointmentClient,private  fb: FormBuilder,
               private readonly route:ActivatedRoute,private client: ScheduleClient,private readonly router1:Router,
-              private readonly  ngToast:NgToastService) {
+              private readonly  ngToast:NgToastService,private tokenStorageService:TokenStorageService) {
+    this.userToken = this.tokenStorageService.getUser();
 
   }
 
   ngOnInit(): void {
 
     this.route.paramMap.subscribe((p: ParamMap) => {
-      var id = p.get('id');
-      this.appointmentService.getAppointmentById(id!).subscribe((appointment) =>
+      const id = p.get('id');
+      this.appointmentClient.getById(id!).subscribe((appointment) =>
       {
         this.appointment = appointment;
         this.patchForm();
@@ -42,8 +44,8 @@ export class RescheduleAppointmentComponent implements OnInit {
   private patchForm() {
     let startDateTimeString = this.appointment.duration?.from!
     let endDateTimeString = this.appointment.duration?.to!
-    var startTime = moment(startDateTimeString).format("HH:mm A")
-    var endTime = moment(endDateTimeString).format("HH:mm A")
+    const startTime = moment(startDateTimeString).format("HH:mm A");
+    const endTime = moment(endDateTimeString).format("HH:mm A");
 
     this.formGroup.controls.date.patchValue(this.appointment.duration?.from)
     this.formGroup.controls.startTime.patchValue(startTime)
@@ -57,19 +59,17 @@ export class RescheduleAppointmentComponent implements OnInit {
         {
           next : res => {
             console.log(res)
+            console.log(this.appointment)
+            this.ngToast.success({detail: 'Success!',summary:"Successfully rescheduled apointment!",duration:5000})
+            this.router1.navigateByUrl('/dashboard');
            },
           error: message =>{
             console.log(message.Error)
             this.ngToast.error({detail: 'Error!',summary:message.Error,duration:5000})
           }
-
         }
       )
-      console.log(this.appointment)
-      //this.router1.navigateByUrl('/dashboard');
     }
-
-
   }
   ubdateAppointmentsTime():boolean {
     let startTime: moment.Moment = this.convertStringToTime(this.formGroup.controls.startTime.value!)
@@ -79,17 +79,24 @@ export class RescheduleAppointmentComponent implements OnInit {
     let endHours:number = endTime.toDate().getHours()
     let endMins:number = endTime.toDate().getMinutes()
 
+    if(new Date(new Date(this.formGroup.controls.date.value!).setHours(startHours+1,startMins,0,0)) < new Date()){
+      this.ngToast.error({detail: 'Error!',summary:"Date must be in future!",duration:5000})
+      return false
+    }
+
     if(!this.checkTime(startHours,endHours,startMins,endMins)){
 
       return false
     }
-    let fromDate: Date  = new Date(new Date(this.formGroup.controls.date.value!).getFullYear(),new Date(this.formGroup.controls.date.value!).getMonth()!,new Date(this.formGroup.controls.date.value!).getDay()!,startHours,startMins)
-    let endDate: Date  = new Date(new Date(this.formGroup.controls.date.value!).getFullYear(),new Date(this.formGroup.controls.date.value!).getMonth()!,new Date(this.formGroup.controls.date.value!).getDay()!,endHours,endMins)
+    console.log(this.formGroup.controls.date.value)
+    let fromDate: Date  = new Date(new Date(this.formGroup.controls.date.value!).setHours(startHours+1,startMins,0,0))
+    let endDate: Date  = new Date(new Date(this.formGroup.controls.date.value!).setHours(endHours+1,endMins,0,0))
 
     this.appointment.duration = new DateRange({
       from: fromDate,
       to: endDate
     })
+    console.log(this.appointment.duration)
     return true
   }
 
@@ -109,10 +116,7 @@ export class RescheduleAppointmentComponent implements OnInit {
 
     return true
     }
-
-
   convertStringToTime(str: string ){
-    const t = moment(str, 'HH:mm A');
-    return t
+    return moment(str, 'HH:mm A');
   }
 }
