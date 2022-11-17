@@ -30,6 +30,9 @@ export class RoomsComponent implements OnInit {
   public editFloorName: string = '';
   public editRoomName: string = '';
 
+  //ROOM SEARCH
+  public findThisRoom: string = '';
+
   //CONSTS
   floorLenght = 20;
   floorWidth = 15;
@@ -472,5 +475,29 @@ export class RoomsComponent implements OnInit {
 
     this.canvas.renderAll();
   }
-  
+  public searchRoom():void
+  {
+
+      this.allRooms.forEach(room=>{
+        if(room.name == this.findThisRoom){
+          console.log("Room>>> "+room.buildingId+" "+room.floorId+" "+room.name);
+          // NAdji sprat trazene sobe
+          this.allFloors.forEach(floor=>{
+            if (floor.id==room.floorId){
+              this.selectedFloor=floor;
+            }
+          });
+          //Nadji bolnicu trazene sobe
+          this.allBuildings.forEach(building=>{
+            if (building.id==room.buildingId){
+              this.selectedBuilding=building;
+            }
+          });
+
+          this.reloadRooms();
+          this.selectRoom(room);
+          return;
+        }
+      });    
+  }  
 }
