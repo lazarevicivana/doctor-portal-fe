@@ -21,5 +21,4 @@ export class ManagerGuard implements CanActivate {
     });
     return false;
   }
-
 }
