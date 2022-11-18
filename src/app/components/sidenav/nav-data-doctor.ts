@@ -1,9 +1,4 @@
-export const navbarData=[
-  {
-    routeLink: '',
-    icon: 'fal fa-sign-in',
-    label: 'Login'
-  },
+export const navbarDataDoctor=[
   {
     routeLink: 'dashboard',
     icon: 'fal fa-home',
@@ -40,8 +35,8 @@ export const navbarData=[
     label: 'Blood Supply'
   },
   {
-    routeLink: 'configureSendingReports',
-    icon: 'fal fa-cog',
-    label: 'Configure sending reports'
+    routeLink: 'sign-out',
+    icon: 'fal fa-sign-out',
+    label: 'Sign out'
   }
 ];

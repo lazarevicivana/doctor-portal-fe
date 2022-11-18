@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ApplicationUserClient, LoginRequest} from "../api/api-reference";
 import {FormGroup, FormControl} from "@angular/forms";
 import {NgToastService} from "ng-angular-popup";
 import {TokenStorageService} from "../services/token-storage.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -17,8 +18,8 @@ export class LoginComponent implements OnInit {
     password: new FormControl<string | undefined>(undefined)
   })
 
-  constructor(private tokenStorageService:TokenStorageService
-              , private applicationUserClient:ApplicationUserClient, private toast:NgToastService) { }
+  constructor(private tokenStorageService:TokenStorageService,private applicationUserClient:ApplicationUserClient,
+              private toast:NgToastService,private router:Router) { }
   ngOnInit(): void {
 
   }
@@ -39,6 +40,15 @@ export class LoginComponent implements OnInit {
           this.tokenStorageService.saveToken(response.token!)
           this.tokenStorageService.saveUser(response.userToken!)
           this.toast.success({detail: 'Success!', summary: response.message, duration: 5000})
+          if(response.userToken!.role === 'Doctor'){
+            this.router.navigate(['dashboard']).then(
+              ()=>{
+                window.location.reload();
+                //this.changeDetectorRef.detectChanges();
+              }
+            )
+          }
+
         },
         error: message => {
           console.log(message.Error)

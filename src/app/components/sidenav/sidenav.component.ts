@@ -1,4 +1,7 @@
 import {Component, EventEmitter, HostListener, OnInit, Output} from '@angular/core';
+import {navbarDataDoctor} from "./nav-data-doctor";
+import {TokenStorageService} from "../../services/token-storage.service";
+import {UserToken} from "../../api/api-reference";
 import {navbarData} from "./nav-data";
 
 interface SideNavToggle{
@@ -14,8 +17,15 @@ export class SidenavComponent implements OnInit {
   @Output() onToggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter();
   screenWidth = 0;
   collapsed = false;
+  navDataDoctor = navbarDataDoctor;
   navData = navbarData;
-  @HostListener('window:resize',['$event'])
+  userToken:UserToken;
+  isLoggedIn:boolean = false;
+  constructor(private tokenStorageService:TokenStorageService) {
+    this.userToken = this.tokenStorageService.getUser()
+    this.isLoggedIn = this.tokenStorageService.isLoggedIn()
+  }
+  @HostListener('window:resize', ['$event'])
   onResize(event: any){
     this.screenWidth = window.innerWidth;
     if(this.screenWidth <=2133){
