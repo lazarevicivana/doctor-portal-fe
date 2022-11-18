@@ -38,6 +38,11 @@ export const navbarData=[
     routeLink: 'bloodBank',
     icon: 'fal fa-tint',
     label: 'Blood Supply'
+  },
+  {
+    routeLink: 'configureSendingReports',
+    icon: 'fal fa-cog',
+    label: 'Configure sending reports'
   }
 
 

@@ -15,6 +15,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {CreateBloodRequestComponent} from "./create-blood-request/create-blood-request.component";
 import {NgToastModule} from "ng-angular-popup";
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import { ConfigureSendingReportsComponent } from './configure-sending-reports/configure-sending-reports.component';
 
 
 const routes: Routes = [
@@ -25,7 +26,8 @@ const routes: Routes = [
   { path: 'rooms/:id/update', component: UpdateRoomComponent },
   { path: 'feedback', component: FeedbackComponent },
   { path: 'bloodBank/add', component: BloodbankRegistrationComponent},
-  { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent}
+  { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent},
+  {path: 'configureSendingReports', component: ConfigureSendingReportsComponent}
 ];
 
 @NgModule({
@@ -38,7 +40,8 @@ const routes: Routes = [
     FeedbackComponent,
     BloodbankRegistrationComponent,
     BloodBankChangePasswordComponent,
-    CreateBloodRequestComponent
+    CreateBloodRequestComponent,
+    ConfigureSendingReportsComponent
   ],
     imports: [
         CommonModule,

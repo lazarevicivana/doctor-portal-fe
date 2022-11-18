@@ -1,0 +1,45 @@
+.mat-stroked-button {
+    color: white;
+    background-color: rgb(99, 49, 180);
+    width: 100%;
+    
+}
+
+div {
+    width: 65%;
+    margin: auto;
+}
+
+mat-form-field {
+    width: 100%;
+    margin: auto;
+}
+
+.legend{
+    height: 250px;
+    width: 100%;
+}
+
+h3{
+    color: gray;
+}
+
+.form{
+    background-color: white;
+    max-width: 900px;
+    max-height: 1100px;
+    box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+h1{
+    text-align: center;
+}
+
+.custom{
+    height: 30px;
+    width: 100px;
+    color: white;
+    background-color: rgb(99, 49, 180);
+    border: none;
+    border-radius: 7%;
+}
