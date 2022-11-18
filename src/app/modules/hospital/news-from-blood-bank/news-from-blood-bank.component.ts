@@ -14,8 +14,9 @@ import { NewsService } from '../services/news.service';
 export class NewsFromBloodBankComponent implements OnInit {
 
   public dataSource = new MatTableDataSource<NewsFromBloodBank>();
-  public displayedColumns = ['Blood bank', 'Title', 'Content', 'publish', 'archive'];
+  public displayedColumns = ['Image', 'Blood bank', 'Title', 'Content', 'publish', 'archive'];
   public news: NewsFromBloodBank[] = [];
+  public new: NewsFromBloodBank = new NewsFromBloodBank();
   public isNewsEmpty: boolean = false;
 
   constructor(private newsService: NewsService, private router: Router,  private alert: NgToastService) { }
@@ -27,6 +28,7 @@ export class NewsFromBloodBankComponent implements OnInit {
       if(this.news.length == 0){
         this.isNewsEmpty = true;
       }
+      this.new = this.news[1];
     })
   }
 

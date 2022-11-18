@@ -2,8 +2,10 @@ export class NewsFromBloodBank {
     id: string = '';
     title: string = '';
     content: string = '';
-    bloodBankName: string = '';
+    apiKey: string = '';
+    base64image : string = '';
     newsStatus: NewsFromBloodBankStatus = NewsFromBloodBankStatus.ON_HOLD; 
+    bloodBankName: string = '';
 
 
     public constructor(obj?: any) {
@@ -11,8 +13,10 @@ export class NewsFromBloodBank {
             this.id = obj.id;
             this.title = obj.title;
             this.content = obj.content;
-            this.bloodBankName = obj.bloodBankName
-            this.newsStatus = obj.newsStatus       
+            this.apiKey = obj.apiKey;
+            this.newsStatus = obj.newsStatus;
+            this.base64image = obj.base64image;  
+            this.bloodBankName = obj.bloodBankName;  
         }
     }
 }
