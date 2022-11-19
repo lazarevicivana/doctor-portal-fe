@@ -1,8 +1,10 @@
 import {Component, EventEmitter, HostListener, OnInit, Output} from '@angular/core';
 import {navbarDataDoctor} from "./nav-data-doctor";
 import {TokenStorageService} from "../../services/token-storage.service";
-import {UserToken} from "../../api/api-reference";
 import {navbarData} from "./nav-data";
+import {navDataManager} from "./nav-data-manager";
+import {UserToken} from "../../model/UserToken";
+import {navbarDataBank} from "./nav-data-bank";
 
 interface SideNavToggle{
   screenWidth: number;
@@ -18,6 +20,8 @@ export class SidenavComponent implements OnInit {
   screenWidth = 0;
   collapsed = false;
   navDataDoctor = navbarDataDoctor;
+  navDataManager= navDataManager;
+  navDataBank= navbarDataBank;
   navData = navbarData;
   userToken:UserToken;
   isLoggedIn:boolean = false;

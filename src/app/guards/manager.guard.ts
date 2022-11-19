@@ -13,11 +13,11 @@ export class ManagerGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if(this.tokenStorageService.isLoggedIn() && this.tokenStorageService.getUser().role == "Manager"){
+    if(this.tokenStorageService.isLoggedIn() && this.tokenStorageService.getUser().role === "Manager"){
       return true
     }
     this.router.navigate(['']).then(()=>{
-      this.toast.warning({detail:"Warning",summary:"Please sign in!",duration:5000});
+      this.toast.error({detail:"Error",summary:"Please sign in!",duration:5000});
     });
     return false;
   }
