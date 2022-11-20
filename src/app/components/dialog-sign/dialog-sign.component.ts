@@ -22,6 +22,9 @@ export class DialogSignComponent implements OnInit {
     })
   }
   cancelSignOut() {
-    this.router.navigate(['dashboard'])
+    if(this.tokenStorageService.getUser().role ==='Doctor')
+      this.router.navigate(['dashboard'])
+    if(this.tokenStorageService.getUser().role ==='Manager')
+      this.router.navigate(['rooms'])
   }
 }

@@ -16,15 +16,16 @@ import {CreateBloodRequestComponent} from "./create-blood-request/create-blood-r
 import {NgToastModule} from "ng-angular-popup";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import { ConfigureSendingReportsComponent } from './configure-sending-reports/configure-sending-reports.component';
+import {ManagerGuard} from "../../guards/manager.guard";
 
 
 const routes: Routes = [
   { path: 'bloodBank', component: BloodBankComponent},
-  { path: 'rooms', component: RoomsComponent },
+  { path: 'rooms', component: RoomsComponent,canActivate:[ManagerGuard]},
   { path: 'rooms/add', component: CreateRoomComponent },
   { path: 'rooms/:id', component: RoomDetailComponent },
   { path: 'rooms/:id/update', component: UpdateRoomComponent },
-  { path: 'feedback', component: FeedbackComponent },
+  { path: 'feedback', component: FeedbackComponent,canActivate:[ManagerGuard] },
   { path: 'bloodBank/add', component: BloodbankRegistrationComponent},
   { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent},
   {path: 'configureSendingReports', component: ConfigureSendingReportsComponent}
