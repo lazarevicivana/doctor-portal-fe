@@ -21,4 +21,5 @@ export class BloodbankService {
    checkBloodSupply(bloodType:string, bloodAmount:string): Observable <BloodSupply> {
     return this.http.get<BloodSupply>(this.apiHost + 'api/bloodbank/bloodSupply/'+ bloodType + '/'+ bloodAmount, { headers: this.headers }); 
   }
+
 }

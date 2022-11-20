@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { BloodBank, BloodBankName } from '../model/bloodBank.model';
+import { ConfigureGenerateAndSendPerid } from '../model/configureSending.model';
+import { BloodBankService } from '../services/blood-bank.service';
+import { ConfigureGenerateAndSendService } from '../services/configure-sending.service';
 
 @Component({
   selector: 'app-configure-sending-reports',
@@ -7,7 +13,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConfigureSendingReportsComponent implements OnInit {
 
-  bloodBanks:string[]=["Banka krvi1", 'Moja banka krvi'];
+  public dataSource = new MatTableDataSource<BloodBankName>();
+  
+  bloodBanks:BloodBankName[]= [];
   chooseRecomended:any;
   chooseCustomDate: any;
 
@@ -20,10 +28,19 @@ export class ConfigureSendingReportsComponent implements OnInit {
   click:any='';
   sendCustom:any='';
 
+  
 
-  constructor() { }
+  public configureGeenerateAndSend = new ConfigureGenerateAndSendPerid();
+
+
+  constructor(private bloodBankService : BloodBankService, private configureGenerateAndSendService: ConfigureGenerateAndSendService , private router: Router) { }
 
   ngOnInit(): void {
+    (this.bloodBankService.getBloodBanks()).subscribe(res => {
+      this.bloodBanks = res;
+      this.dataSource.data = this.bloodBanks;
+      
+    })  
   }
 
   isRecomendedSelected(){
@@ -56,6 +73,15 @@ export class ConfigureSendingReportsComponent implements OnInit {
       this.showSendCustom=true;
     else
       this.showSendCustom=false;
+  }
+
+
+
+  public saveConfiguration(){
+    this.configureGenerateAndSendService.saveConfiguration(this.configureGeenerateAndSend).subscribe(res => {
+
+      return console.log("Configuratin is save!");
+  });
   }
 
 }
