@@ -69,7 +69,7 @@ export class RoomsComponent implements OnInit {
   shownRoom = false;  ///DA PRIKAZE SOBU KAD SE KLIKNE NA OBJEKAT SOBE
 
 
-  shownEquipment =false;
+
 
 
   //LOADING
@@ -377,7 +377,7 @@ export class RoomsComponent implements OnInit {
     if(resetFloor)
     {
       this.shownRoom = false;
-      this.shownEquipment =false;
+
       this.selectedFloor = new Floor();
     }
 
@@ -405,7 +405,6 @@ export class RoomsComponent implements OnInit {
   public reloadRooms():void
   {
     this.shownRoom = false;
-    this.shownEquipment =false;
     this.clearRooms();
 
     //Load newRooms
@@ -464,7 +463,7 @@ export class RoomsComponent implements OnInit {
 
           this.shownRoom = true; //PRIKAZE SPECIFIKACIJE SOBE
 
-          this.shownEquipment=true;
+
 
           this.selectRoom(room);
           console.log("Clicked on room: " + room.name);
