@@ -15,6 +15,8 @@ import { GRoom } from '../model/groom.model';
 import { forkJoin, switchMap } from 'rxjs';
 import {RoomEquipment} from "../model/roomEquipment";
 import {RoomEquipmentService} from "../services/HospitalMapServices/roomequipment.service";
+import {MatSort, Sort, MatSortModule} from '@angular/material/sort';
+
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
@@ -22,6 +24,10 @@ import {RoomEquipmentService} from "../services/HospitalMapServices/roomequipmen
 })
 export class RoomsComponent implements OnInit {
 
+
+  displayedColumns: string[] = [ 'amount', 'equipmentName',  'Edit'];
+
+   equipment = new MatTableDataSource<RoomEquipment[]> ;
   //SELECTED
   public selectedBuilding: Building = new Building();
   public selectedFloor: Floor = new Floor();
@@ -47,6 +53,8 @@ export class RoomsComponent implements OnInit {
   public allFloors: Floor[] = [];
   public allRooms: Room[] = [];
   public allGRooms: GRoom[] = [];
+
+
   public allRoomEquipments: RoomEquipment[] = [];
 
   //FOR VISUALISATION, FABRIC.JS
@@ -57,8 +65,10 @@ export class RoomsComponent implements OnInit {
 
   //NZM STA JE OVO NI DA LI TREBA
   public dataSource = new MatTableDataSource<Room>();
-  public displayedColumns = ['number', 'floor', 'update', 'delete'];
+ // public displayedColumns = ['number', 'floor', 'update', 'delete'];
   shownRoom = false;  ///DA PRIKAZE SOBU KAD SE KLIKNE NA OBJEKAT SOBE
+
+
   shownEquipment =false;
 
 
@@ -98,6 +108,8 @@ export class RoomsComponent implements OnInit {
     this.roomsLoaded = true;
     this.groomsLoaded = true;
     //this.roomequipmentLoaded =true;
+
+
 
     forkJoin([this.buildingService.getBuildings(), this.floorService.getFloors(), this.roomService.getRooms(), this.groomService.getGRooms()])
     .subscribe((result => {
@@ -358,7 +370,8 @@ export class RoomsComponent implements OnInit {
 
   public clearRooms(resetFloor=false):void
   {
-    console.log("rooms: " + this.selectedRoom.name + " buildings: " + this.selectedBuilding.name + " floor: " + this.selectedFloor.name);
+    console.log("rooms: " + this.selectedRoom.name + " buildings: " + this.selectedBuilding.name + " floor: " + this.selectedFloor.name + " EquipmentName: " +
+    this.selectedRoomEquipment.equipmentName + " EquipmentAmount :" + this.selectedRoomEquipment.amount);
 
 
     if(resetFloor)
@@ -440,9 +453,17 @@ export class RoomsComponent implements OnInit {
           this.editBuildingName = this.selectedBuilding.name;
           this.editFloorName = this.selectedFloor.name;
           this.editRoomName = this.selectedRoom.name;
-          this.editRoomEquipmentName = this.selectedRoomEquipment.roomEquipmentId;
+
+          this.roomEquipmentService.getAllEquipmentByRoomId(this.selectedRoom.id).subscribe((result => {
+          console.log(result);
+          this.equipment = new MatTableDataSource(<RoomEquipment[][]><unknown>result);
+      }));
+
+
+
 
           this.shownRoom = true; //PRIKAZE SPECIFIKACIJE SOBE
+
           this.shownEquipment=true;
 
           this.selectRoom(room);
