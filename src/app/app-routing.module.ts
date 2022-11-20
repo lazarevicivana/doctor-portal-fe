@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'reschedule-appointment/:id', component: RescheduleAppointmentComponent,canActivate:[DoctorGuard]},
   { path: 'create-schedule', component: CreateScheduleComponent,canActivate:[DoctorGuard] },
   {path: '',component:LoginComponent},
-  {path: 'sign-out',component:SignOutComponent,canActivate:[DoctorGuard,ManagerGuard]}
+  {path: 'sign-out',component:SignOutComponent}
 ];
 
 @NgModule({
