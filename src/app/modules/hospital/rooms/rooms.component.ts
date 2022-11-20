@@ -13,6 +13,10 @@ import { FloorService } from '../services/HospitalMapServices/floor.service';
 import { GroomService } from '../services/HospitalMapServices/groom.service';
 import { GRoom } from '../model/groom.model';
 import { forkJoin, switchMap } from 'rxjs';
+import {RoomEquipment} from "../model/roomEquipment";
+import {RoomEquipmentService} from "../services/HospitalMapServices/roomequipment.service";
+import {MatSort, Sort, MatSortModule} from '@angular/material/sort';
+
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
@@ -20,15 +24,21 @@ import { forkJoin, switchMap } from 'rxjs';
 })
 export class RoomsComponent implements OnInit {
 
+
+  displayedColumns: string[] = [ 'amount', 'equipmentName',  'Edit'];
+
+   equipment = new MatTableDataSource<RoomEquipment[]> ;
   //SELECTED
   public selectedBuilding: Building = new Building();
   public selectedFloor: Floor = new Floor();
   public selectedRoom: Room = new Room();
-  
+  public selectedRoomEquipment : RoomEquipment = new RoomEquipment();
+
   //ROOM EDIT
   public editBuildingName: string = '';
   public editFloorName: string = '';
   public editRoomName: string = '';
+  public editRoomEquipmentName: string = '';
 
   //ROOM SEARCH
   public findThisRoom: string = '';
@@ -44,6 +54,9 @@ export class RoomsComponent implements OnInit {
   public allRooms: Room[] = [];
   public allGRooms: GRoom[] = [];
 
+
+  public allRoomEquipments: RoomEquipment[] = [];
+
   //FOR VISUALISATION, FABRIC.JS
   public allRoomsGroups: Group[] = [];
   public allSquares: Rect[] = [];
@@ -51,24 +64,29 @@ export class RoomsComponent implements OnInit {
   canvas: any;
 
   //NZM STA JE OVO NI DA LI TREBA
-  public dataSource = new MatTableDataSource<Room>(); 
-  public displayedColumns = ['number', 'floor', 'update', 'delete'];
+  public dataSource = new MatTableDataSource<Room>();
+ // public displayedColumns = ['number', 'floor', 'update', 'delete'];
   shownRoom = false;  ///DA PRIKAZE SOBU KAD SE KLIKNE NA OBJEKAT SOBE
-  
+
+
+
+
+
   //LOADING
   buildingsLoaded:boolean = false;
   floorsLoaded:boolean = false;
   roomsLoaded:boolean = false;
   groomsLoaded:boolean = false;
+  roomequipmentLoaded:boolean = false;
 
   //UPDATING
   buildingUpdating:boolean = false;
   floorUpdating:boolean = false;
   roomUpdating:boolean = false;
 
-  constructor(private roomService: RoomService, private buildingService: BuildingService, private groomService: GroomService, private floorService: FloorService,  private router: Router) { }
+  constructor(private roomService: RoomService, private buildingService: BuildingService, private groomService: GroomService, private floorService: FloorService, private roomEquipmentService :RoomEquipmentService, private router: Router) { }
 
-  ngOnInit(): void 
+  ngOnInit(): void
   {
     this.setInitialSquares();
     this.reloadAllInfo();
@@ -76,11 +94,12 @@ export class RoomsComponent implements OnInit {
 
   private reloadAllInfo()
   {
-    
+
     this.allBuildings = [];
     this.allFloors = [];
     this.allRooms = [];
     this.allGRooms = [];
+    this.allRoomEquipments=[]
 
     this.clearRooms();
 
@@ -88,6 +107,9 @@ export class RoomsComponent implements OnInit {
     this.floorsLoaded = true;
     this.roomsLoaded = true;
     this.groomsLoaded = true;
+    //this.roomequipmentLoaded =true;
+
+
 
     forkJoin([this.buildingService.getBuildings(), this.floorService.getFloors(), this.roomService.getRooms(), this.groomService.getGRooms()])
     .subscribe((result => {
@@ -169,11 +191,11 @@ export class RoomsComponent implements OnInit {
     this.loadRoomsToFloors(this.allRooms);
     this.loadFloorsToBuildings(this.allFloors);
 
-    this.allBuildings.forEach(building => 
+    this.allBuildings.forEach(building =>
     {
       if(this.selectedBuilding.id == building.id)
       {
-        building.floors!.forEach(floor => 
+        building.floors!.forEach(floor =>
         {
           if(floor.id == this.selectedFloor.id)
           {
@@ -188,7 +210,7 @@ export class RoomsComponent implements OnInit {
         });
         this.selectedBuilding = building;
       }
-      
+
     });
     this.reloadRooms();
   }
@@ -282,9 +304,9 @@ export class RoomsComponent implements OnInit {
 
   private loadRoomsToFloors(roomsForLoad:Room[]):void
   {
-    roomsForLoad.forEach(room => 
+    roomsForLoad.forEach(room =>
     {
-      this.allFloors.forEach(floor => 
+      this.allFloors.forEach(floor =>
       {
         if(floor.id == room.floorId)
         {
@@ -308,9 +330,9 @@ export class RoomsComponent implements OnInit {
 
   private loadFloorsToBuildings(floorsForLoad:Floor[]):void
   {
-    floorsForLoad.forEach(floor => 
+    floorsForLoad.forEach(floor =>
     {
-      this.allBuildings.forEach(building => 
+      this.allBuildings.forEach(building =>
       {
 
         if(building.floors == null)
@@ -333,9 +355,9 @@ export class RoomsComponent implements OnInit {
 
   private loadGroomsToRooms(groomsForLoad:GRoom[]):void
   {
-    groomsForLoad.forEach(groom => 
+    groomsForLoad.forEach(groom =>
     {
-      this.allRooms.forEach(room => 
+      this.allRooms.forEach(room =>
       {
         if(room.id == groom.roomId)
         {
@@ -348,12 +370,14 @@ export class RoomsComponent implements OnInit {
 
   public clearRooms(resetFloor=false):void
   {
-    console.log("rooms: " + this.selectedRoom.name + " buildings: " + this.selectedBuilding.name + " floor: " + this.selectedFloor.name);
-    
+    console.log("rooms: " + this.selectedRoom.name + " buildings: " + this.selectedBuilding.name + " floor: " + this.selectedFloor.name + " EquipmentName: " +
+    this.selectedRoomEquipment.equipmentName + " EquipmentAmount :" + this.selectedRoomEquipment.amount);
+
 
     if(resetFloor)
     {
       this.shownRoom = false;
+
       this.selectedFloor = new Floor();
     }
 
@@ -384,7 +408,7 @@ export class RoomsComponent implements OnInit {
     this.clearRooms();
 
     //Load newRooms
-    this.selectedFloor.Rooms.forEach(room => 
+    this.selectedFloor.Rooms.forEach(room =>
     {
 
       console.log("RELOADUJEM");
@@ -404,7 +428,7 @@ export class RoomsComponent implements OnInit {
        this.canvas.add(square);
 
       //TEXT
-      let text = new fabric.Text(room.name, 
+      let text = new fabric.Text(room.name,
       {
         left: room.groom.positionX * this.squareSize + (this.squareSize * room.groom.width) / 4,
         top: room.groom.positionY * this.squareSize + (this.squareSize * room.groom.lenght) / 4,
@@ -422,14 +446,24 @@ export class RoomsComponent implements OnInit {
       group.lockMovementX = true;
       group.lockMovementY = true;
       group.name = room.id;
-      group.on('mousedblclick', () => 
+      group.on('mousedblclick', () =>
       {
         this.selectedRoom = room; /// OVO OVDE DODATO
           this.editBuildingName = this.selectedBuilding.name;
           this.editFloorName = this.selectedFloor.name;
           this.editRoomName = this.selectedRoom.name;
-          
+
+          this.roomEquipmentService.getAllEquipmentByRoomId(this.selectedRoom.id).subscribe((result => {
+          console.log(result);
+          this.equipment = new MatTableDataSource(<RoomEquipment[][]><unknown>result);
+      }));
+
+
+
+
           this.shownRoom = true; //PRIKAZE SPECIFIKACIJE SOBE
+
+
 
           this.selectRoom(room);
           console.log("Clicked on room: " + room.name);
@@ -442,14 +476,14 @@ export class RoomsComponent implements OnInit {
     this.canvas.renderAll();
   }
 
-  
+
   public selectRoom(roomToSelect: Room):void
   {
-    
+
     let allRoomsGroupsTemp: fabric.Group[] = [];
-    
+
     //Load newRooms
-    this.allRoomsGroups.forEach(group => 
+    this.allRoomsGroups.forEach(group =>
     {
       let groupTemp = group;
 
@@ -464,11 +498,11 @@ export class RoomsComponent implements OnInit {
 
       allRoomsGroupsTemp.push(groupTemp);
     });
-    
+
       this.clearRooms();
 
       this.allRoomsGroups = allRoomsGroupsTemp;
-      
+
       this.allRoomsGroups.forEach(element => {
         this.canvas.add(element);
       });
@@ -498,6 +532,6 @@ export class RoomsComponent implements OnInit {
           this.selectRoom(room);
           return;
         }
-      });    
-  }  
+      });
+  }
 }
