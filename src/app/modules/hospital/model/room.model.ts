@@ -8,9 +8,11 @@ export class Room {
     groomId: string = '';
     groom: GRoom = new GRoom();
 
-    
+
+
+
     public constructor(obj?: any) {
-        if (obj) 
+        if (obj)
         {
             this.id = obj.id;
             this.name = obj.name;
