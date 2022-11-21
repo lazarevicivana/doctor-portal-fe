@@ -16,6 +16,7 @@ import {CreateBloodRequestComponent} from "./create-blood-request/create-blood-r
 import {NgToastModule} from "ng-angular-popup";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {ManagerGuard} from "../../guards/manager.guard";
+import { NewsFromBloodBankComponent } from './news-from-blood-bank/news-from-blood-bank.component';
 
 
 const routes: Routes = [
@@ -26,7 +27,8 @@ const routes: Routes = [
   { path: 'rooms/:id/update', component: UpdateRoomComponent },
   { path: 'feedback', component: FeedbackComponent,canActivate:[ManagerGuard] },
   { path: 'bloodBank/add', component: BloodbankRegistrationComponent},
-  { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent}
+  { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent},
+  { path: 'news/publish', component: NewsFromBloodBankComponent}
 ];
 
 @NgModule({
@@ -39,7 +41,8 @@ const routes: Routes = [
     FeedbackComponent,
     BloodbankRegistrationComponent,
     BloodBankChangePasswordComponent,
-    CreateBloodRequestComponent
+    CreateBloodRequestComponent,
+    NewsFromBloodBankComponent
   ],
     imports: [
         CommonModule,
