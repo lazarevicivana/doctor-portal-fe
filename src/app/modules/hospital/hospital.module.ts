@@ -17,6 +17,8 @@ import {NgToastModule} from "ng-angular-popup";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {ManagerGuard} from "../../guards/manager.guard";
 import { NewsFromBloodBankComponent } from './news-from-blood-bank/news-from-blood-bank.component';
+import {BloodUnitsComponent} from "./blood-units/blood-units.component";
+import { CreateBloodConsumptionComponent } from './create-blood-consumption/create-blood-consumption.component';
 
 
 const routes: Routes = [
@@ -42,7 +44,10 @@ const routes: Routes = [
     BloodbankRegistrationComponent,
     BloodBankChangePasswordComponent,
     CreateBloodRequestComponent,
-    NewsFromBloodBankComponent
+    NewsFromBloodBankComponent,
+    BloodUnitsComponent,
+    CreateBloodConsumptionComponent
+
   ],
     imports: [
         CommonModule,
