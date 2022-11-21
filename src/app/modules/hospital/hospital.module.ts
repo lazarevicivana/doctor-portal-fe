@@ -51,9 +51,7 @@ const routes: Routes = [
     BloodUnitsComponent,
     CreateBloodConsumptionComponent,
     PatientHospitalizationComponent,
-    PatientsForHospitalizationComponent,
-
-
+    PatientsForHospitalizationComponent
   ],
     imports: [
         CommonModule,
