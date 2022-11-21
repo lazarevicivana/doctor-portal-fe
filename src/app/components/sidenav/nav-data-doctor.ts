@@ -18,5 +18,10 @@ export const navbarDataDoctor=[
     routeLink: 'sign-out',
     icon: 'fal fa-sign-out',
     label: 'Sign out'
+  },
+  {
+    routeLink: 'patients/hospitalization',
+    icon: 'fal fa-solid fa-bed',
+    label: 'Hospitalize'
   }
 ];
