@@ -19,6 +19,8 @@ import {ManagerGuard} from "../../guards/manager.guard";
 import { NewsFromBloodBankComponent } from './news-from-blood-bank/news-from-blood-bank.component';
 import {BloodUnitsComponent} from "./blood-units/blood-units.component";
 import { CreateBloodConsumptionComponent } from './create-blood-consumption/create-blood-consumption.component';
+import { PatientHospitalizationComponent } from "./patient-hospitalization/patient-hospitalization.component";
+import { PatientsForHospitalizationComponent } from "./patients-for-hospitalization/patients-for-hospitalization.component";
 
 
 const routes: Routes = [
@@ -30,7 +32,8 @@ const routes: Routes = [
   { path: 'feedback', component: FeedbackComponent,canActivate:[ManagerGuard] },
   { path: 'bloodBank/add', component: BloodbankRegistrationComponent},
   { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent},
-  { path: 'news/publish', component: NewsFromBloodBankComponent}
+  { path: 'news/publish', component: NewsFromBloodBankComponent},
+  { path: 'patients/hospitalization', component: PatientHospitalizationComponent}
 ];
 
 @NgModule({
@@ -46,7 +49,10 @@ const routes: Routes = [
     CreateBloodRequestComponent,
     NewsFromBloodBankComponent,
     BloodUnitsComponent,
-    CreateBloodConsumptionComponent
+    CreateBloodConsumptionComponent,
+    PatientHospitalizationComponent,
+    PatientsForHospitalizationComponent,
+
 
   ],
     imports: [
