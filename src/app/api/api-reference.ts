@@ -530,7 +530,7 @@ export class BloodConsumptionClient {
     return _observableOf(null as any);
   }
 
-  getByBloodBankNameGET2(doctorId: string): Observable<BloodConsumption[]> {
+  getDoctorConsumptions(doctorId: string): Observable<BloodConsumption[]> {
     let url_ = this.baseUrl + "/api/v1/BloodConsumption/getDoctorConsumptions/{doctorId}";
     if (doctorId === undefined || doctorId === null)
       throw new Error("The parameter 'doctorId' must be defined.");
@@ -546,11 +546,11 @@ export class BloodConsumptionClient {
     };
 
     return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-      return this.processGetByBloodBankNameGET2(response_);
+      return this.processgetDoctorConsumptions(response_);
     })).pipe(_observableCatch((response_: any) => {
       if (response_ instanceof HttpResponseBase) {
         try {
-          return this.processGetByBloodBankNameGET2(response_ as any);
+          return this.processgetDoctorConsumptions(response_ as any);
         } catch (e) {
           return _observableThrow(e) as any as Observable<BloodConsumption[]>;
         }
@@ -559,7 +559,7 @@ export class BloodConsumptionClient {
     }));
   }
 
-  protected processGetByBloodBankNameGET2(response: HttpResponseBase): Observable<BloodConsumption[]> {
+  protected processgetDoctorConsumptions(response: HttpResponseBase): Observable<BloodConsumption[]> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse ? response.body :
@@ -595,7 +595,7 @@ export class BloodConsumptionClient {
     return _observableOf(null as any);
   }
 
-  getByBloodBankNamePOST(doctorId: string, request: BloodConsumationRequest): Observable<BloodConsumption[]> {
+  CreateConsumptions(doctorId: string, request: BloodConsumationRequest): Observable<BloodConsumption[]> {
     let url_ = this.baseUrl + "/api/v1/BloodConsumption/{doctorId}";
     if (doctorId === undefined || doctorId === null)
       throw new Error("The parameter 'doctorId' must be defined.");
@@ -615,11 +615,11 @@ export class BloodConsumptionClient {
     };
 
     return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-      return this.processGetByBloodBankNamePOST(response_);
+      return this.processCreateConsumptions(response_);
     })).pipe(_observableCatch((response_: any) => {
       if (response_ instanceof HttpResponseBase) {
         try {
-          return this.processGetByBloodBankNamePOST(response_ as any);
+          return this.processCreateConsumptions(response_ as any);
         } catch (e) {
           return _observableThrow(e) as any as Observable<BloodConsumption[]>;
         }
@@ -628,7 +628,7 @@ export class BloodConsumptionClient {
     }));
   }
 
-  protected processGetByBloodBankNamePOST(response: HttpResponseBase): Observable<BloodConsumption[]> {
+  protected processCreateConsumptions(response: HttpResponseBase): Observable<BloodConsumption[]> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse ? response.body :

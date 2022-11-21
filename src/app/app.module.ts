@@ -7,7 +7,15 @@ import { PagesModule } from "./modules/pages/pages.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {NgToastModule} from "ng-angular-popup";
 import { AppComponent } from "./app.component";
-import {AppointmentClient, DoctorClient, FeedbackClient, PatientClient, ScheduleClient,ApplicationUserClient} from "./api/api-reference";
+import {
+  AppointmentClient,
+  DoctorClient,
+  FeedbackClient,
+  PatientClient,
+  ScheduleClient,
+  ApplicationUserClient,
+  BloodUnitClient, BloodConsumptionClient
+} from "./api/api-reference";
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import {ScheduleModule} from "./modules/schedule/schedule.module";
@@ -24,6 +32,7 @@ import { HospitalModule } from "./modules/hospital/hospital.module";
 import { SignOutComponent} from './components/sign-out/sign-out.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { DialogSignComponent } from './components/dialog-sign/dialog-sign.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,7 +67,9 @@ import { DialogSignComponent } from './components/dialog-sign/dialog-sign.compon
     ScheduleClient,
     FeedbackClient,
     ApplicationUserClient,
-    authInterceptorProviders
+    authInterceptorProviders,
+    BloodUnitClient,
+    BloodConsumptionClient
   ],
   exports: [
   ],
