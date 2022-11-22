@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { BloodBank, BloodBankName } from '../model/bloodBank.model';
@@ -25,8 +26,8 @@ export class ConfigureSendingReportsComponent implements OnInit {
   showCustom:boolean=false;
   showSendCustom:boolean=false;
   
-  click:any='';
-  sendCustom:any='';
+  maxDate = new Date();
+  minDate = new Date();
 
   
 
@@ -34,6 +35,14 @@ export class ConfigureSendingReportsComponent implements OnInit {
 
 
   constructor(private bloodBankService : BloodBankService, private configureGenerateAndSendService: ConfigureGenerateAndSendService , private router: Router) { }
+
+  groupForm= new FormGroup({
+    name:new FormControl('',[Validators.required]),
+    generatePeriod:new FormControl('',[Validators.required]),
+    sendPeriod: new FormControl('',[Validators.required]),
+
+  });
+
 
   ngOnInit(): void {
     (this.bloodBankService.getBloodBanks()).subscribe(res => {
@@ -48,7 +57,7 @@ export class ConfigureSendingReportsComponent implements OnInit {
   }
 
   isCustomDateSelected(){
-    if(this.click != 'CUSTOM')
+    if(this.configureGeenerateAndSend.generatePeriod != 'CUSTOM')
       this.chooseRecomended= '';
   }
 
@@ -57,31 +66,32 @@ export class ConfigureSendingReportsComponent implements OnInit {
   }
 
   isCustomDateSendingSelected(){
-    if(this.sendCustom != 'CUSTOM')
+    if(this.configureGeenerateAndSend.sendPeriod != 'CUSTOM')
     this.chooseRecomendedSending='';
   }
 
   isCustomSelected(){
-    if(this.click === 'CUSTOM')
+    if(this.configureGeenerateAndSend.generatePeriod === 'CUSTOM')
       this.showCustom=true;
     else
       this.showCustom=false;
   }
 
   isSendCustomSelected(){
-    if(this.sendCustom === 'CUSTOM')
+    if(this.configureGeenerateAndSend.sendPeriod === 'CUSTOM')
       this.showSendCustom=true;
     else
       this.showSendCustom=false;
   }
 
 
-
   public saveConfiguration(){
-    this.configureGenerateAndSendService.saveConfiguration(this.configureGeenerateAndSend).subscribe(res => {
+    if(this.groupForm.valid){
+      this.configureGenerateAndSendService.saveConfiguration(this.configureGeenerateAndSend).subscribe(res => {
 
-      return console.log("Configuratin is save!");
-  });
+        return console.log("Configuratin is save!");
+    });
+  }
   }
 
 }

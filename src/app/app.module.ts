@@ -7,6 +7,7 @@ import { PagesModule } from "./modules/pages/pages.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {NgToastModule} from "ng-angular-popup";
 import { AppComponent } from "./app.component";
+
 import {
   AppointmentClient,
   DoctorClient,
@@ -58,6 +59,7 @@ import { DialogSignComponent } from './components/dialog-sign/dialog-sign.compon
     NgxMaterialTimepickerModule,
     MatGridListModule,
     ReactiveFormsModule,
+    FormsModule,
     MatDialogModule
   ],
   providers: [
