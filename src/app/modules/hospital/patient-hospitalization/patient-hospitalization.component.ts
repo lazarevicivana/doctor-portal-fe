@@ -24,16 +24,32 @@ export class PatientHospitalizationComponent implements OnInit {
   }
 
   hospitalize(): void {
-    console.log(this.patientAdmission);
+    if(!this.isValidInput()){
+     return;
+    }
     this.patientAdmissionService.postAdmission(this.patientAdmission).subscribe(res => {
-      console.log("Success!")
+        this.alert.success({detail: 'Patient hospitalized successfully!', summary: "Success!", duration: 5000})
     },
       error => {
-      if(error.status == '403')
+      if(error.status == '403') {
         this.alert.error({detail: 'This patient is already hospitalized!', summary: error.status, duration: 5000})
-        else if (error.status == '404')
+      }
+        else if (error.status == '404') {
         this.alert.error({detail: 'There is no free beds left!', summary: error.status, duration: 5000})
+      }
+
       });
   }
 
+  private isValidInput(): boolean {
+    if (this.patientAdmission.reason == ''){
+      this.alert.error({detail: 'Enter a reason!', summary: "Fill all the fields!", duration: 5000})
+      return false;
+    }
+    if (this.patientAdmission.patientId == '' || this.patientAdmission.patientId == undefined){
+      this.alert.error({detail: 'Select a patient!', summary: "A patient must be selected...", duration: 5000})
+      return false;
+    }
+    return true;
+  }
 }
