@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Add your comment:</h1>
+<div mat-dialog-content>
+    <mat-form-field color="primary" id="feedbackArea" appearance="fill">
+        <mat-label>Your comment here...</mat-label>
+        <textarea  matInput [(ngModel)]="comment"></textarea>
+    </mat-form-field>
+    <div mat-dialog-action [align]="'end'">
+        <button class="dialogButtonCancel" mat-raised-button color="warn" mat-dialog-close (click)="close()">Cancel</button>
+        <button class="dialogButton" mat-raised-button (click)="addComment()" mat-dialog-close>Send</button>
+    </div>
+</div>

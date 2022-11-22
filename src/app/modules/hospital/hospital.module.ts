@@ -15,6 +15,10 @@ import {MatSelectModule} from "@angular/material/select";
 import {CreateBloodRequestComponent} from "./create-blood-request/create-blood-request.component";
 import {NgToastModule} from "ng-angular-popup";
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import { ViewBloodRequestsComponent } from "./view-blood-requests/view-blood-requests.component";
+import { AddCommentComponent } from "./view-blood-requests/add-comment.component/add-comments.component";
+import { MatDialogModule } from "@angular/material/dialog";
+import {MatTabsModule} from "@angular/material/tabs";
 
 
 const routes: Routes = [
@@ -25,6 +29,8 @@ const routes: Routes = [
   { path: 'rooms/:id/update', component: UpdateRoomComponent },
   { path: 'feedback', component: FeedbackComponent },
   { path: 'bloodBank/add', component: BloodbankRegistrationComponent},
+  { path: 'view-bloodRequests', component: ViewBloodRequestsComponent},
+  { path: 'view-bloodRequests/comment', component: AddCommentComponent},
   { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent}
 ];
 
@@ -38,7 +44,9 @@ const routes: Routes = [
     FeedbackComponent,
     BloodbankRegistrationComponent,
     BloodBankChangePasswordComponent,
-    CreateBloodRequestComponent
+    ViewBloodRequestsComponent,
+    AddCommentComponent,
+    CreateBloodRequestComponent,
   ],
     imports: [
         CommonModule,
@@ -47,7 +55,9 @@ const routes: Routes = [
         ReactiveFormsModule,
         RouterModule.forChild(routes),
         MatSelectModule,
+        MatDialogModule,
         NgToastModule,
+        MatTabsModule,
         MatDatepickerModule
     ],
   exports: [ RouterModule ]

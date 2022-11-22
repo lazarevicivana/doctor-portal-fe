@@ -4,8 +4,8 @@ export class BloodRequest {
   reason: string = '';
   date: Date = new Date();
   doctor: string = '';
-  status: string ='';
-  bankComment: string = '';
+  status: number = 0;
+  comment: string = '';
   public constructor(obj?: any) {
     if (obj) {
       this.type = obj.type;
@@ -14,7 +14,7 @@ export class BloodRequest {
       this.date = obj.date;
       this.doctor = obj.doctor;
       this.status = obj.status;
-      this.bankComment = obj.bankComment;
+      this.comment = obj.comment;
     }
   }
 }
