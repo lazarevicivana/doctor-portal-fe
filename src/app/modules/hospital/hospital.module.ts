@@ -15,6 +15,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {CreateBloodRequestComponent} from "./create-blood-request/create-blood-request.component";
 import {NgToastModule} from "ng-angular-popup";
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import { ConfigureSendingReportsComponent } from './configure-sending-reports/configure-sending-reports.component';
 import {ManagerGuard} from "../../guards/manager.guard";
 import { NewsFromBloodBankComponent } from './news-from-blood-bank/news-from-blood-bank.component';
 import {BloodUnitsComponent} from "./blood-units/blood-units.component";
@@ -32,8 +33,10 @@ const routes: Routes = [
   { path: 'feedback', component: FeedbackComponent,canActivate:[ManagerGuard] },
   { path: 'bloodBank/add', component: BloodbankRegistrationComponent},
   { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent},
+  {path: 'configureSendingReports', component: ConfigureSendingReportsComponent},
   { path: 'news/publish', component: NewsFromBloodBankComponent},
   { path: 'patients/hospitalization', component: PatientHospitalizationComponent}
+
 ];
 
 @NgModule({
@@ -47,6 +50,7 @@ const routes: Routes = [
     BloodbankRegistrationComponent,
     BloodBankChangePasswordComponent,
     CreateBloodRequestComponent,
+    ConfigureSendingReportsComponent,
     NewsFromBloodBankComponent,
     BloodUnitsComponent,
     CreateBloodConsumptionComponent,

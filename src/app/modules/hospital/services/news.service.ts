@@ -8,7 +8,7 @@ import { NewsFromBloodBank } from '../model/news.model';
 })
 export class NewsService {
 
-  apiHost: string = 'http://localhost:45488/';
+  apiHost: string = 'http://localhost:5001/';
   headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(private http: HttpClient) { }
