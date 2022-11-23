@@ -8,7 +8,7 @@ import { BloodRequest } from '../model/bloodRequest.model';
 })
 export class AddCommentService {
 
-  apiHost: string = 'http://localhost:5000/';
+  apiHost: string = 'http://localhost:5001/';
   headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(private http: HttpClient) { }

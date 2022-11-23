@@ -43,7 +43,7 @@ const routes: Routes = [
   { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent},
   { path: 'edit-blood-request',component: EditBoodRequestComponent},
   { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent},
-  {path: 'configureSendingReports', component: ConfigureSendingReportsComponent},
+  { path: 'configureSendingReports', component: ConfigureSendingReportsComponent},
   { path: 'news/publish', component: NewsFromBloodBankComponent},
   { path: 'patients/hospitalization', component: PatientHospitalizationComponent}
 ];
