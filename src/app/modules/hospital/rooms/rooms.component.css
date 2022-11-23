@@ -53,6 +53,7 @@ p {
   position:relative;
 */
   float:right;
+  clear: right;
 
 
   overflow: hidden;
@@ -91,4 +92,33 @@ p {
 .wrapepr{
   justify-content: space-between;
   clear: right;
+}
+
+.tabelica{
+  float:right;
+  /*clear: left;*/
+  margin-left:auto;
+  width: 30%;
+  height: 50%;
+}
+
+.nePostojiOprema{
+  color:red;
+  font-size: 18px;
+}
+
+.searchEquipment{
+
+  width: 30%;
+  height: 50%;
+  margin-top: 25px;
+  margin-left: 800px;
+
+  /*
+  margin-left: 1000px;
+  margin-bottom: 1500px;
+  width: 30%;
+  height: 50%;
+*/
+
 }
