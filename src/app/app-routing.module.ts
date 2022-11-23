@@ -14,6 +14,7 @@ import {
 import {HospitalizedPatientsComponent} from "./modules/hospital/hospitalized-patients/hospitalized-patients.component";
 import {DischargePatientsComponent} from "./modules/hospital/discharge-patients/discharge-patients.component";
 import { EditConfigurationComponent } from "./modules/hospital/edit-configuration/edit-configuration.component";
+import {LoginGuard} from "./guards/login.guard";
 
 
 const routes: Routes = [
@@ -41,11 +42,18 @@ const routes: Routes = [
     component: CreateBloodConsumptionComponent,
     canActivate:[DoctorGuard]
   },
-  {path: '',component:LoginComponent},
-  {path: 'sign-out',component:SignOutComponent},
-  {path: 'hospitalizes-patients',
-   component:HospitalizedPatientsComponent,
-  canActivate:[DoctorGuard]
+  {
+    path: '',
+    component:LoginComponent,
+    canActivate:[LoginGuard]
+  },
+  {
+    path: 'sign-out',
+    component:SignOutComponent},
+  {
+    path: 'hospitalizes-patients',
+    component:HospitalizedPatientsComponent,
+    canActivate:[DoctorGuard]
   },
   {
     path: 'discharge-patient/:id',
