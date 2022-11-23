@@ -17,6 +17,11 @@ export class PatientStatisticsComponent implements OnInit {
   public genderFemale: number = 0;
   public genderMale: number = 0;
   public genderOther: number = 0;
+  public pediatricGroup: number = 0;
+  public youngGroup: number = 0;
+  public middleAgeGroup: number = 0;
+  public elderlyGroup: number = 0;
+
 
   constructor(private patientStatisticsService: PatientStatisticsService, private router: Router) { }
 
@@ -34,6 +39,22 @@ export class PatientStatisticsComponent implements OnInit {
 
           this.GenderChart()
 
+
+        })
+      })
+    })
+    this.patientStatisticsService.GetPediatricGroup().subscribe(numberOfPediatric =>{
+      this.patientStatisticsService.GetYoungGroup().subscribe(numberOfYoung=>{
+        this.patientStatisticsService.GetMiddleAgeGroup().subscribe(numberOfMiddle=>{
+          this.patientStatisticsService.GetElderyGroup().subscribe(numberOfElderly=>{
+
+            this.pediatricGroup = numberOfPediatric;
+            this.youngGroup = numberOfYoung;
+            this.middleAgeGroup = numberOfMiddle;
+            this.elderlyGroup = numberOfElderly;
+
+            this.AgeChart()
+          })
         })
       })
     })
@@ -42,7 +63,7 @@ export class PatientStatisticsComponent implements OnInit {
   GenderChart() {
 
     Chart.register(...registerables);
-    var myChart = new Chart("myChart", {
+    var myChart = new Chart("myChart2", {
       type: 'bar',
       data: {
         labels: ['Female', 'Male', 'Other'],
@@ -66,7 +87,32 @@ export class PatientStatisticsComponent implements OnInit {
 
   }
 
-  
+  AgeChart() {
+
+    Chart.register(...registerables);
+    var myChart = new Chart("myChart", {
+      type: 'bar',
+      data: {
+        labels: ['0-14', '15-47', '48-63', '>64'],
+        datasets: [{
+          label: 'by age',
+          data: [this.pediatricGroup, this.youngGroup, this.middleAgeGroup, this.elderlyGroup],
+          backgroundColor: "#0196FD",
+          borderColor: "#0196FD",
+          borderWidth: 1,
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+
+          }
+        }
+      }
+    });
+
+  }
 
 
 
