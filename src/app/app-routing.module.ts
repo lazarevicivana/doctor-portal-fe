@@ -15,6 +15,8 @@ import {
 import {HospitalizedPatientResponse} from "./api/api-reference";
 import {HospitalizedPatientsComponent} from "./modules/hospital/hospitalized-patients/hospitalized-patients.component";
 import {DischargePatientsComponent} from "./modules/hospital/discharge-patients/discharge-patients.component";
+import { EditConfigurationComponent } from "./modules/hospital/edit-configuration/edit-configuration.component";
+
 
 const routes: Routes = [
   { path: 'dashboard',
@@ -52,6 +54,7 @@ const routes: Routes = [
     component:DischargePatientsComponent,
     canActivate:[DoctorGuard]
   }
+  {path: 'configureSendingReports/edit',component:EditConfigurationComponent}
 ];
 
 @NgModule({

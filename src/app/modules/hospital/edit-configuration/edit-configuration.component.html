@@ -1,11 +1,10 @@
-<div class="form">
+<div class="form" (submit)="editConfiguration()">
     <br>
     <br>
     <div>
-        <button class="editBtn" (click)="edit()"><i class="fas fa-edit"></i>Edit</button>
-        <h1>Configure generate and sending reports</h1>
+        <h1>Edit configure generate and sending reports</h1>
         <br><br>
-        <form (ngSubmit)="saveConfiguration();">
+        <form>
         
             <div [formGroup]="groupForm">
             <mat-form-field appearance="fill">
@@ -20,6 +19,7 @@
             <br><br>        
 
             <div [formGroup]="groupForm">
+                
                 <h3>Choose period for <strong>generate </strong>report <span style="font-size: 12px;"> (recomended or custom)</span>:</h3> 
                 <mat-form-field appearance="fill" required>
                 <mat-label>Recommended </mat-label>

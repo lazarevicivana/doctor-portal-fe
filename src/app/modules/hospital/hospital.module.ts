@@ -15,6 +15,11 @@ import {MatSelectModule} from "@angular/material/select";
 import {CreateBloodRequestComponent} from "./create-blood-request/create-blood-request.component";
 import {NgToastModule} from "ng-angular-popup";
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import { ViewBloodRequestsComponent } from "./view-blood-requests/view-blood-requests.component";
+import { AddCommentComponent } from "./view-blood-requests/add-comment.component/add-comments.component";
+import { MatDialogModule } from "@angular/material/dialog";
+import {MatTabsModule} from "@angular/material/tabs";
+import { EditBoodRequestComponent } from "./edit-blood-request/edit-blood-request.component";
 import { ConfigureSendingReportsComponent } from './configure-sending-reports/configure-sending-reports.component';
 import {ManagerGuard} from "../../guards/manager.guard";
 import { NewsFromBloodBankComponent } from './news-from-blood-bank/news-from-blood-bank.component';
@@ -27,6 +32,7 @@ import {CommonComponentsModule} from "../../components/common-components.module"
 import {MatDividerModule} from "@angular/material/divider";
 import { DischargePatientsComponent } from './discharge-patients/discharge-patients.component';
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
+import { EditConfigurationComponent } from './edit-configuration/edit-configuration.component';
 
 
 const routes: Routes = [
@@ -37,11 +43,14 @@ const routes: Routes = [
   { path: 'rooms/:id/update', component: UpdateRoomComponent },
   { path: 'feedback', component: FeedbackComponent,canActivate:[ManagerGuard] },
   { path: 'bloodBank/add', component: BloodbankRegistrationComponent},
+  { path: 'view-bloodRequests', component: ViewBloodRequestsComponent},
+  { path: 'view-bloodRequests/comment', component: AddCommentComponent},
   { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent},
-  {path: 'configureSendingReports', component: ConfigureSendingReportsComponent},
+  { path: 'edit-blood-request',component: EditBoodRequestComponent},
+  { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent},
+  { path: 'configureSendingReports', component: ConfigureSendingReportsComponent},
   { path: 'news/publish', component: NewsFromBloodBankComponent},
   { path: 'patients/hospitalization', component: PatientHospitalizationComponent}
-
 ];
 
 @NgModule({
@@ -54,6 +63,10 @@ const routes: Routes = [
     FeedbackComponent,
     BloodbankRegistrationComponent,
     BloodBankChangePasswordComponent,
+    ViewBloodRequestsComponent,
+    AddCommentComponent,
+    CreateBloodRequestComponent,
+    EditBoodRequestComponent,
     CreateBloodRequestComponent,
     ConfigureSendingReportsComponent,
     NewsFromBloodBankComponent,
@@ -63,6 +76,7 @@ const routes: Routes = [
     PatientsForHospitalizationComponent,
     HospitalizedPatientsComponent,
     DischargePatientsComponent
+    EditConfigurationComponent
   ],
     imports: [
         CommonModule,
@@ -71,11 +85,13 @@ const routes: Routes = [
         ReactiveFormsModule,
         RouterModule.forChild(routes),
         MatSelectModule,
+        MatDialogModule,
         NgToastModule,
-        MatDatepickerModule,
         CommonComponentsModule,
         MatDividerModule,
         NgxMaterialTimepickerModule
+        MatTabsModule,
+        MatDatepickerModule
     ],
   exports: [ RouterModule ]
 })

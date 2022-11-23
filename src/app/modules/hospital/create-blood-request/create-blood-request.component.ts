@@ -4,6 +4,7 @@ import {NgToastService} from "ng-angular-popup";
 import {Router} from "@angular/router";
 import {TokenStorageService} from "../../../services/token-storage.service";
 import {UserToken} from "../../../model/UserToken";
+import { Status } from 'src/app/api/api-reference';
 
 @Component({
   selector: 'app-create-blood-request',
@@ -21,14 +22,14 @@ export class CreateBloodRequestComponent implements OnInit {
     this.todayDate = new Date();
     // @ts-ignore
     this.request.type = this.router.getCurrentNavigation()?.extras.state.data
-    this.request.doctor =this.tokenStorageService.getUser().name;
+    this.request.doctorUsername =this.tokenStorageService.getUser().name;
   }
 
   ngOnInit(): void {
   }
 
   createRequest() {
-    this.request.status = "PENDING"
+    this.request.status = Status.PENDING;
     this.request.date = new Date(new Date(this.date).getFullYear(),new Date(this.date).getMonth(),new Date(this.date).getDay())
     if(this.validateFields())
       return

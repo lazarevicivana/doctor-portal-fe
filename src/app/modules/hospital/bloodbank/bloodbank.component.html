@@ -3,31 +3,42 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>blabla</title>
+    <title></title>
 </head>
 <body>
   <div class="container">
+    <div class="container-f">
 
-    <mat-label>Check blood supply: </mat-label><br>
+      <div class="title-container">
+        <h1 class="title">Check blood supply</h1>
+      </div>
 
-    <form [formGroup]="bloodSupplyForm" (ngSubmit)="checkBloodSupply()">
-      <mat-form-field appearance="fill">
-        <mat-label>BloodType</mat-label>
-        <mat-select [(ngModel)]="bloodType" formControlName="bloodType">
-          <mat-option>None</mat-option>
-          <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <form [formGroup]="bloodSupplyForm" (ngSubmit)="checkBloodSupply()" class="input-schedule">
 
-      <mat-form-field appearance="fill">
-        <mat-label>Requred amount (in liters)</mat-label>
-        <input  matInput [(ngModel)]="bloodAmount" formControlName="bloodAmount" min="0" type="number">
-        <mat-error>Input positive number!</mat-error>
-      </mat-form-field><br>
+        <div>
+          <mat-form-field appearance="fill" class="input-schedule">
+            <mat-label>BloodType</mat-label>
+            <mat-select [(ngModel)]="bloodType" formControlName="bloodType">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
 
-      <button mat-stroked-button [disabled]="bloodSupplyForm.invalid">Submit</button><br>
-      <mat-label>Response from blood bank: {{responseStatus}}</mat-label><br>
-    </form>
-  </div>>
+        <div>
+          <mat-form-field appearance="fill" class="input-schedule">
+            <mat-label>Requred amount (in liters)</mat-label>
+            <input  matInput [(ngModel)]="bloodAmount" formControlName="bloodAmount" min="0" type="number">
+            <mat-error>Input positive number!</mat-error>
+          </mat-form-field>
+        </div>
+
+        <button mat-stroked-button [disabled]="bloodSupplyForm.invalid" mat-flat-button color="primary" class="input-schedule">Submit</button><br>
+        <div>
+          <mat-label style="text-align:center;">Response from blood bank: {{responseStatus}}</mat-label><br>
+        </div>
+      </form>
+    </div>
+  </div>
 </body>
 </html>

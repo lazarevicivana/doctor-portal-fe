@@ -5,18 +5,18 @@ export class BloodRequest {
   amount: number | undefined;
   reason: string = '';
   date: Date = new Date();
-  doctor: string = '';
-  status: string ='';
-  bankComment: string = '';
+  doctorUsername: string = '';
+  status: number = 0;
+  comment: string = '';
   public constructor(obj?: any) {
     if (obj) {
       this.type = obj.type;
       this.amount = obj.amount;
       this.reason = obj.reason;
       this.date = obj.date;
-      this.doctor = obj.doctor;
+      this.doctorUsername = obj.doctorUsername;
       this.status = obj.status;
-      this.bankComment = obj.bankComment;
+      this.comment = obj.comment;
     }
   }
 }
