@@ -15,7 +15,8 @@ import {MatSelectModule} from "@angular/material/select";
 import {CreateBloodRequestComponent} from "./create-blood-request/create-blood-request.component";
 import {NgToastModule} from "ng-angular-popup";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-
+import { PatientStatisticsComponent } from './patient-statistics/patient-statistics.component';
+import { PatientStatisticsAgeComponent } from './patient-statistics-age/patient-statistics-age.component';
 
 const routes: Routes = [
   { path: 'bloodBank', component: BloodBankComponent},
@@ -25,7 +26,9 @@ const routes: Routes = [
   { path: 'rooms/:id/update', component: UpdateRoomComponent },
   { path: 'feedback', component: FeedbackComponent },
   { path: 'bloodBank/add', component: BloodbankRegistrationComponent},
-  { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent}
+  { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent},
+  { path: 'patient-statistics', component: PatientStatisticsComponent },
+  { path: 'patient-statistics-age', component: PatientStatisticsAgeComponent }
 ];
 
 @NgModule({
@@ -38,7 +41,9 @@ const routes: Routes = [
     FeedbackComponent,
     BloodbankRegistrationComponent,
     BloodBankChangePasswordComponent,
-    CreateBloodRequestComponent
+    CreateBloodRequestComponent,
+    PatientStatisticsComponent,
+    PatientStatisticsAgeComponent
   ],
     imports: [
         CommonModule,
