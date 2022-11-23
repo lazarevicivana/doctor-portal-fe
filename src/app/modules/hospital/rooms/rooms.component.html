@@ -204,8 +204,8 @@
 
 <!--- PIKULIN DEO, NE DIRATI NI ZA ZIVU GLAVU!-->
 
-<div style="background-color: rgba(0, 0, 0, 0.5);width: 100%; height: 100%; position: absolute; top:0%;left:0%" *ngIf="this.tabNumber >0">
-<div class="forma" *ngIf="this.tabNumber >0">
+<div style="background-color: rgba(0, 0, 0, 0.5);width: 100%; height: 100%; position: absolute; top:0%;left:0%" name="pozadina" *ngIf="this.tabNumber >0">
+<div class="forma"  name="equipmentMovementRequest" *ngIf="this.tabNumber >0">
 
   <button style="float: left; " (click)="exitEquipmentMovementForm()"> Exit </button>
   <form>
@@ -213,20 +213,20 @@
       <h1 class="naslov">Equipment movement form</h1>
     </div>
 
-    <div class="formaInputi" *ngIf="this.tabNumber===1">
+    <div class="formaInputi" name="Amount" *ngIf="this.tabNumber===1">
       <div>
         <h1>Amount:</h1>
-        <input type="number">
+        <input  name="amountInput" [(ngModel)]="currentEquipmentRequest.amount" type="number" value="1" min ="1">
       </div>
     </div>
 
-    <div class="formaInputi" *ngIf="tabNumber===2">
+    <div class="formaInputi" name="DestinationRoom" *ngIf="tabNumber===2">
       <div>
         <h1>Destination room:</h1>
         <mat-form-field appearance="fill">
           <mat-label>Room</mat-label>
-          <mat-select>
-            <mat-option *ngFor="let room of this.allRooms" [value]="room">
+          <mat-select name="preForPetlja" [(ngModel)]="formSelectedRoomId">
+            <mat-option  ngDefaultControl  name="forPetlja" *ngFor="let room of this.allRooms" [value]="room.id">
               {{ room.name + ", " + this.getFloorNameByFloorId(room.floorId) + ", " + this.getBuildingNameByBuildingId(room.buildingId)}}
             </mat-option>
           </mat-select>
@@ -234,30 +234,30 @@
       </div>
     </div>
 
-    <div class="formaInputi" *ngIf="tabNumber===3">
+    <div class="formaInputi" name="Datumi" *ngIf="tabNumber===3">
       <div>
         <h1>Date interval:</h1>
           <h2>Start date:</h2>
-          <input type="date">
+          <input type="date" name="datumPocetni" [(ngModel)]="formStartDate">
           <h2>End date:</h2>
-          <input type="date">
+          <input type="date" name="datumKrajnji" [(ngModel)]="formEndDate">
       </div>
     </div>
 
-    <div class="formaInputi" *ngIf="tabNumber===4">
+    <div class="formaInputi" name="Durutacija" *ngIf="tabNumber===4">
       <div >
         <h1>Days:</h1>
-        <input type="number" value="0">
+        <input type="number" name="dani" value="0" min ="0" [(ngModel)]="formDays">
       </div>
 
       <div>
         <h1>Hours:</h1>
-        <input type="number" value="0">
+        <input type="number" name="sati" value="0" min ="0" [(ngModel)]="formHours">
       </div>
 
       <div>
         <h1>Minutes:</h1>
-        <input type="number" value="0">
+        <input type="number" name="minuti" value="0" min ="0" [(ngModel)]="formMinutes">
       </div>
     </div>
 
@@ -268,7 +268,7 @@
         </div>
       </div>
 
-      <div *ngIf="tabNumber > 1">
+      <div name="Back" *ngIf="tabNumber > 1">
         <div>
           <button style="float: left; " (click)="previousPageInEquipmentMovement()"> Back </button>
         </div>
@@ -276,8 +276,32 @@
     </div>
 
   </form>
+  <div *ngIf="currentEquipmentResponses!=[]">
+    <table class="tabelica" mat-table [dataSource]="Searchedequipment" matSort  *ngIf="shownEquipment" >
+    
+      <ng-container matColumnDef="equipmentName">
+        <th mat-header-cell  align="center"*matHeaderCellDef mat-sort-header> Equipment Name </th>
+        <td mat-cell  align="center" *matCellDef="let element"> {{element.equipmentName}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="roomId">
+        <th mat-header-cell align="center"  *matHeaderCellDef mat-sort-header> RoomID </th>
+        <td mat-cell  *matCellDef="let element"> {{element.roomId}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell align="center"  *matHeaderCellDef mat-sort-header> Amount </th>
+        <td mat-cell  align="center"  *matCellDef="let element"> {{element.amount}} </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+    
+    
+      <span class="nePostojiOprema" *matNoDataRow>Search for  "{{input.value}}" does not exist</span>
+    </table>
+  </div>
   </div>
 </div>
-
 
 </div>
