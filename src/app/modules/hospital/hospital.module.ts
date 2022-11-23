@@ -75,7 +75,7 @@ const routes: Routes = [
     PatientHospitalizationComponent,
     PatientsForHospitalizationComponent,
     HospitalizedPatientsComponent,
-    DischargePatientsComponent
+    DischargePatientsComponent,
     EditConfigurationComponent
   ],
     imports: [
@@ -89,7 +89,7 @@ const routes: Routes = [
         NgToastModule,
         CommonComponentsModule,
         MatDividerModule,
-        NgxMaterialTimepickerModule
+        NgxMaterialTimepickerModule,
         MatTabsModule,
         MatDatepickerModule
     ],

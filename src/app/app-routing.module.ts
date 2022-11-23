@@ -6,13 +6,11 @@ import {CreateScheduleComponent} from "./modules/schedule/create-schedule/create
 import {LoginComponent} from "./login/login.component";
 import {DoctorGuard} from "./guards/doctor.guard";
 import {SignOutComponent} from "./components/sign-out/sign-out.component";
-import {ManagerGuard} from "./guards/manager.guard";
 import {BloodUnitsComponent} from "./modules/hospital/blood-units/blood-units.component";
 import {CreateBloodRequestComponent} from "./modules/hospital/create-blood-request/create-blood-request.component";
 import {
   CreateBloodConsumptionComponent
 } from "./modules/hospital/create-blood-consumption/create-blood-consumption.component";
-import {HospitalizedPatientResponse} from "./api/api-reference";
 import {HospitalizedPatientsComponent} from "./modules/hospital/hospitalized-patients/hospitalized-patients.component";
 import {DischargePatientsComponent} from "./modules/hospital/discharge-patients/discharge-patients.component";
 import { EditConfigurationComponent } from "./modules/hospital/edit-configuration/edit-configuration.component";
@@ -53,7 +51,7 @@ const routes: Routes = [
     path: 'discharge-patient/:id',
     component:DischargePatientsComponent,
     canActivate:[DoctorGuard]
-  }
+  },
   {path: 'configureSendingReports/edit',component:EditConfigurationComponent}
 ];
 
