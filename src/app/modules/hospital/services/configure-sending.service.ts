@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ConfiguratinRequest } from '../model/configureSending.model';
 
 
 @Injectable({
@@ -16,5 +17,14 @@ export class ConfigureGenerateAndSendService {
     saveConfiguration(configureGenerateAndSend: any): Observable<any> {
         return this.http.post<any>(this.apiHost + 'api/v1/configureGenerateAndSend', configureGenerateAndSend, {headers: this.headers});
       }
+    
+      getConfigurations(): Observable<ConfiguratinRequest[]> {
+        return this.http.get<ConfiguratinRequest[]>(this.apiHost + 'api/v1/configureGenerateAndSend', {headers: this.headers});
+ 
+     }
+
+     editConfiguration(configuration: any): Observable<any> {
+      return this.http.post<any>(this.apiHost + 'api/v1/configureGenerateAndSend/edit',configuration, {headers: this.headers});
+    }
  
 }
