@@ -22,6 +22,11 @@ import {BloodUnitsComponent} from "./blood-units/blood-units.component";
 import { CreateBloodConsumptionComponent } from './create-blood-consumption/create-blood-consumption.component';
 import { PatientHospitalizationComponent } from "./patient-hospitalization/patient-hospitalization.component";
 import { PatientsForHospitalizationComponent } from "./patients-for-hospitalization/patients-for-hospitalization.component";
+import { HospitalizedPatientsComponent } from './hospitalized-patients/hospitalized-patients.component';
+import {CommonComponentsModule} from "../../components/common-components.module";
+import {MatDividerModule} from "@angular/material/divider";
+import { DischargePatientsComponent } from './discharge-patients/discharge-patients.component';
+import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 
 
 const routes: Routes = [
@@ -55,7 +60,9 @@ const routes: Routes = [
     BloodUnitsComponent,
     CreateBloodConsumptionComponent,
     PatientHospitalizationComponent,
-    PatientsForHospitalizationComponent
+    PatientsForHospitalizationComponent,
+    HospitalizedPatientsComponent,
+    DischargePatientsComponent
   ],
     imports: [
         CommonModule,
@@ -65,7 +72,10 @@ const routes: Routes = [
         RouterModule.forChild(routes),
         MatSelectModule,
         NgToastModule,
-        MatDatepickerModule
+        MatDatepickerModule,
+        CommonComponentsModule,
+        MatDividerModule,
+        NgxMaterialTimepickerModule
     ],
   exports: [ RouterModule ]
 })

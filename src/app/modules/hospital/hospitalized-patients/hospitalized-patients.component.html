@@ -1,0 +1,9 @@
+<div class="container-fluid">
+  <h1>Hospitalized patients</h1>
+  <mat-divider style="margin-bottom: 3rem"></mat-divider>
+  <div class="row col col-md">
+    <div *ngFor="let patient of patients" class="col-4 col-md-4">
+      <app-user-card  [patient]="patient"></app-user-card>
+    </div>
+  </div>
+</div>

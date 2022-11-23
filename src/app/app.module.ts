@@ -15,7 +15,7 @@ import {
   PatientClient,
   ScheduleClient,
   ApplicationUserClient,
-  BloodUnitClient, BloodConsumptionClient
+  BloodUnitClient, BloodConsumptionClient, PatientAdmissionClient
 } from "./api/api-reference";
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
@@ -27,12 +27,11 @@ import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {FormsModule,ReactiveFormsModule} from "@angular/forms";
 import {authInterceptorProviders} from "./helpers/auth.interceptor";
-import { CreateBloodRequestComponent } from './modules/hospital/create-blood-request/create-blood-request.component';
-import {MatSelectModule} from "@angular/material/select";
 import { HospitalModule } from "./modules/hospital/hospital.module";
 import { SignOutComponent} from './components/sign-out/sign-out.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { DialogSignComponent } from './components/dialog-sign/dialog-sign.component';
+import {CommonComponentsModule} from "./components/common-components.module";
 
 @NgModule({
   declarations: [
@@ -40,7 +39,7 @@ import { DialogSignComponent } from './components/dialog-sign/dialog-sign.compon
     BodyComponent,
     SidenavComponent,
     SignOutComponent,
-    DialogSignComponent
+    DialogSignComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,7 +59,8 @@ import { DialogSignComponent } from './components/dialog-sign/dialog-sign.compon
     MatGridListModule,
     ReactiveFormsModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
+    CommonComponentsModule
   ],
   providers: [
     DoctorClient,
@@ -71,7 +71,8 @@ import { DialogSignComponent } from './components/dialog-sign/dialog-sign.compon
     ApplicationUserClient,
     authInterceptorProviders,
     BloodUnitClient,
-    BloodConsumptionClient
+    BloodConsumptionClient,
+    PatientAdmissionClient
   ],
   exports: [
   ],

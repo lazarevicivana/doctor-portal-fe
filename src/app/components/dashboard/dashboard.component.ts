@@ -18,15 +18,12 @@ export class DashboardComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getDoctorAppointments();
-    console.log(this.currentTabIndex);
-
   }
   private readonly getDoctorAppointments=()=> {
   this.client.getDoctorAppointments(this.userToken.id!).subscribe(
     {
       next: response => {
         this.appointments = response;
-        console.log(this.appointments)
       }
     }
   )

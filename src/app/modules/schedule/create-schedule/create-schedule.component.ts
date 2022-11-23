@@ -86,10 +86,8 @@ export class CreateScheduleComponent implements OnInit {
           app = response
           this.alert.success({detail: 'Success!', summary: "You are successfully schedule appointment!", duration: 5000})
           this.router.navigate(['dashboard'])
-          console.log(response)
         },
         error: message => {
-          console.log(message.Error)
           this.alert.error({detail: 'Error!', summary: message.Error, duration: 5000})
         }
 
