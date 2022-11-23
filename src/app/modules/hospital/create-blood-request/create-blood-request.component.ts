@@ -23,7 +23,7 @@ export class CreateBloodRequestComponent implements OnInit {
 
   createRequest() {
     this.request.status = 3
-    this.request.doctor = "Ilija"
+    this.request.doctorUsername = "Ilija"
     this.request.date = new Date(new Date(this.date).getFullYear(),new Date(this.date).getMonth(),new Date(this.date).getDay())
     if(this.validateFields())
       return

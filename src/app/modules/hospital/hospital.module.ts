@@ -19,6 +19,7 @@ import { ViewBloodRequestsComponent } from "./view-blood-requests/view-blood-req
 import { AddCommentComponent } from "./view-blood-requests/add-comment.component/add-comments.component";
 import { MatDialogModule } from "@angular/material/dialog";
 import {MatTabsModule} from "@angular/material/tabs";
+import { EditBoodRequestComponent } from "./edit-blood-request/edit-blood-request.component";
 
 
 const routes: Routes = [
@@ -31,7 +32,8 @@ const routes: Routes = [
   { path: 'bloodBank/add', component: BloodbankRegistrationComponent},
   { path: 'view-bloodRequests', component: ViewBloodRequestsComponent},
   { path: 'view-bloodRequests/comment', component: AddCommentComponent},
-  { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent}
+  { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent},
+  { path: 'edit-blood-request',component: EditBoodRequestComponent}
 ];
 
 @NgModule({
@@ -47,6 +49,7 @@ const routes: Routes = [
     ViewBloodRequestsComponent,
     AddCommentComponent,
     CreateBloodRequestComponent,
+    EditBoodRequestComponent
   ],
     imports: [
         CommonModule,
