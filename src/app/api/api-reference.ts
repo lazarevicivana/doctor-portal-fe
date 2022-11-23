@@ -4060,6 +4060,7 @@ export enum Status {
   APPROVED = 0,
   REJECTED = 1,
   PENDING = 2,
+  RETURNED = 3
 }
 
 export class FeedbackRequest implements IFeedbackRequest {
