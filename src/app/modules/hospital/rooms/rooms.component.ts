@@ -24,15 +24,19 @@ import {MatSort, Sort, MatSortModule} from '@angular/material/sort';
 })
 export class RoomsComponent implements OnInit {
 
+  
+
+
 //Show Equipment
   displayedColumns: string[] = [ 'amount', 'equipmentName',  'Edit'];
-   equipment = new MatTableDataSource<RoomEquipment[]> ;
+    public equipment = new MatTableDataSource<RoomEquipment[]> ;
 
    //For  Displaying Searched Equipment
   Searchedequipment = new MatTableDataSource<RoomEquipment[]> ;
   displayedColumns2: string[] = [ 'roomId', 'equipmentName', 'amount'];
-  public NamestiOvo : string="";
 
+
+  public oprema:RoomEquipment=new RoomEquipment();
 
   //SELECTED
   public selectedBuilding: Building = new Building();
@@ -40,11 +44,13 @@ export class RoomsComponent implements OnInit {
   public selectedRoom: Room = new Room();
   public selectedRoomEquipment : RoomEquipment = new RoomEquipment();
 
+
+
   //ROOM EDIT
   public editBuildingName: string = '';
   public editFloorName: string = '';
   public editRoomName: string = '';
-  public editRoomEquipmentName: string = '';
+
 
   //ROOM SEARCH
   public findThisRoom: string = '';
@@ -73,7 +79,6 @@ export class RoomsComponent implements OnInit {
   public dataSource = new MatTableDataSource<Room>();
  // public displayedColumns = ['number', 'floor', 'update', 'delete'];
   shownRoom = false;  ///DA PRIKAZE SOBU KAD SE KLIKNE NA OBJEKAT SOBE
-
   shownEquipment =false; //za prikazivanje sobe
 
 
@@ -83,7 +88,7 @@ export class RoomsComponent implements OnInit {
   floorsLoaded:boolean = false;
   roomsLoaded:boolean = false;
   groomsLoaded:boolean = false;
-  roomequipmentLoaded:boolean = false;
+
 
   //UPDATING
   buildingUpdating:boolean = false;
@@ -461,9 +466,6 @@ export class RoomsComponent implements OnInit {
           this.editFloorName = this.selectedFloor.name;
           this.editRoomName = this.selectedRoom.name;
 
-          // this.roomEquipmentService.getAllEquipment().subscribe(res=>{
-          //   this.Searchedequipment = new MatTableDataSource(<RoomEquipment[][]><unknown>res);
-          // });
 
           this.roomEquipmentService.getAllEquipmentByRoomId(this.selectedRoom.id).subscribe((result => {
           console.log(result);
@@ -545,27 +547,36 @@ export class RoomsComponent implements OnInit {
 
 
 
-  public SearchEquipment() :void{ //Dobavlja svu opremu(na vrhu kod )
+  public SearchEquipment() :void{ //Dobavlja svu opremu
 
       this.roomEquipmentService.getAllEquipment().subscribe(res => {
         this.Searchedequipment = new MatTableDataSource(<RoomEquipment[][]><unknown>res);
-      });
-  }
-
-  public applyFilter(event:Event) { //Filtrira Opremu po nazivu
-
-
-      const filterValue = (event.target as HTMLInputElement).value;
-      this.Searchedequipment.filter = filterValue.trim().toLowerCase();
-      this.shownEquipment = true;
-
-
-
-    // this.allRoomEquipments.forEach(roomEquipment=> {
-    //   console.log("Room>>> " + roomEquipment.equipmentName + " " + roomEquipment.amount + " " + roomEquipment.roomId);
-    // })
+        // this.allRoomEquipments.forEach(roomEquipment=>{
+        //   console.log("Dobavio opremu za" +  roomEquipment.equipmentName + "Amount:" +roomEquipment.amount);
+        //   });
+    });
 
   }
 
+  public applyFilter(event:Event) {    //Filtrira Opremu
+
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.Searchedequipment.filter = filterValue.trim().toLowerCase();
+        this.shownEquipment = true;
+
+
+  }
+
+  public ShowEquipment():void{
+
+
+    // group.on('mousedblclick', () =>
+    // {
+    //   this.ShowEquipment(equipment);
+    //   console.log("Clicked on room: " + equipment.equipmentName);
+    // });
+
+
+  }
 
 }
