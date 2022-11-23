@@ -98,6 +98,8 @@ export class RoomsComponent implements OnInit {
   roomUpdating:boolean = false;
 
   //EQUIPMENT MOVEMENT
+  displayedColumnsMovement: string[] = [ 'equipmentName', 'from', 'to', 'Schedule'];
+  currentEquipmentResponsesTable = new MatTableDataSource<equipmentMovementAppointment[]> ;
   tabNumber: number = 0;
   currentEquipmentRequest: equipmentMovementRequest = new equipmentMovementRequest();
   currentEquipmentResponses: equipmentMovementAppointment[] = [];
@@ -602,6 +604,17 @@ export class RoomsComponent implements OnInit {
     console.log(this.tabNumber)
   }
 
+  public onEquipmentScheduleClick(selectedEquipmentAppointment : equipmentMovementAppointment):void
+  {
+    console.log("IZABRAN APOINTMENTJ: " + selectedEquipmentAppointment.duration?.from);
+    
+    this.equipmentMovementService.create(selectedEquipmentAppointment).subscribe((result => {
+    this.tabNumber = 0;
+    this.currentEquipmentResponses = [];
+    this.currentEquipmentResponsesTable = new MatTableDataSource(<equipmentMovementAppointment[][]><unknown>this.currentEquipmentResponses);
+    }))
+  }
+
   public nextPageInEquipmentMovement():void
   {
     if(this.tabNumber < 4)
@@ -625,6 +638,7 @@ export class RoomsComponent implements OnInit {
       console.log("PROBACEMO DA POSALJEMo");
       this.equipmentMovementService.getAvailableByRequest(this.currentEquipmentRequest).subscribe((result => {
         this.currentEquipmentResponses = result;
+        this.currentEquipmentResponsesTable = new MatTableDataSource(<equipmentMovementAppointment[][]><unknown>this.currentEquipmentResponses);
         console.log(result);
         console.log("BAR SMO DOBILI NESTO");
       }))
