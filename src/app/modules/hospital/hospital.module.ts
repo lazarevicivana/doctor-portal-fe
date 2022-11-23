@@ -22,6 +22,7 @@ import {BloodUnitsComponent} from "./blood-units/blood-units.component";
 import { CreateBloodConsumptionComponent } from './create-blood-consumption/create-blood-consumption.component';
 import { PatientHospitalizationComponent } from "./patient-hospitalization/patient-hospitalization.component";
 import { PatientsForHospitalizationComponent } from "./patients-for-hospitalization/patients-for-hospitalization.component";
+import { EditConfigurationComponent } from './edit-configuration/edit-configuration.component';
 
 
 const routes: Routes = [
@@ -55,7 +56,8 @@ const routes: Routes = [
     BloodUnitsComponent,
     CreateBloodConsumptionComponent,
     PatientHospitalizationComponent,
-    PatientsForHospitalizationComponent
+    PatientsForHospitalizationComponent,
+    EditConfigurationComponent
   ],
     imports: [
         CommonModule,

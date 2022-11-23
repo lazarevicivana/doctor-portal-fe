@@ -12,6 +12,7 @@ import {CreateBloodRequestComponent} from "./modules/hospital/create-blood-reque
 import {
   CreateBloodConsumptionComponent
 } from "./modules/hospital/create-blood-consumption/create-blood-consumption.component";
+import { EditConfigurationComponent } from "./modules/hospital/edit-configuration/edit-configuration.component";
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent,canActivate:[DoctorGuard]},
@@ -21,7 +22,8 @@ const routes: Routes = [
   { path: 'create-blood-request', component: CreateBloodRequestComponent,canActivate:[DoctorGuard]},
   { path: 'create-blood-consumption', component: CreateBloodConsumptionComponent,canActivate:[DoctorGuard]},
   {path: '',component:LoginComponent},
-  {path: 'sign-out',component:SignOutComponent}
+  {path: 'sign-out',component:SignOutComponent},
+  {path: 'configureSendingReports/edit',component:EditConfigurationComponent}
 ];
 
 @NgModule({

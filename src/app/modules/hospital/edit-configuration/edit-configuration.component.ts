@@ -3,17 +3,17 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
-import { BloodBank, BloodBankName } from '../model/bloodBank.model';
+import { BloodBankName } from '../model/bloodBank.model';
 import { ConfiguratinRequest, ConfigureGenerateAndSendPerid } from '../model/configureSending.model';
 import { BloodBankService } from '../services/blood-bank.service';
 import { ConfigureGenerateAndSendService } from '../services/configure-sending.service';
 
 @Component({
-  selector: 'app-configure-sending-reports',
-  templateUrl: './configure-sending-reports.component.html',
-  styleUrls: ['./configure-sending-reports.component.css']
+  selector: 'app-edit-configuration',
+  templateUrl: './edit-configuration.component.html',
+  styleUrls: ['./edit-configuration.component.css']
 })
-export class ConfigureSendingReportsComponent implements OnInit {
+export class EditConfigurationComponent implements OnInit {
 
   public dataSource = new MatTableDataSource<BloodBankName>();
   
@@ -32,9 +32,10 @@ export class ConfigureSendingReportsComponent implements OnInit {
   maxDate = new Date();
   minDate = new Date();
 
+
   
 
-  public configureGeenerateAndSend = new ConfigureGenerateAndSendPerid();
+  public configureGeenerateAndSend = new ConfiguratinRequest();
 
 
   constructor(private bloodBankService : BloodBankService, private configureGenerateAndSendService: ConfigureGenerateAndSendService , private router: Router, private alert: NgToastService) { }
@@ -49,7 +50,7 @@ export class ConfigureSendingReportsComponent implements OnInit {
 
   ngOnInit(): void {
     this.configureGenerateAndSendService.getConfigurations().subscribe(res => {
-     this.configurations=res;
+      this.configurations=res;
       (this.bloodBankService.getBloodBanks()).subscribe(res => {
         this.bloodBanks = res;
 
@@ -61,10 +62,11 @@ export class ConfigureSendingReportsComponent implements OnInit {
                 isEqual=true;
               }
             }
-            if(isEqual===false)
+            if(isEqual===true)
               this.showBloodBanks.push(this.bloodBanks[j]);
         }
         this.dataSource.data = this.showBloodBanks;
+      
       
       }); 
   });
@@ -102,17 +104,16 @@ export class ConfigureSendingReportsComponent implements OnInit {
       this.showSendCustom=false;
   }
 
+  public editConfiguration() {
 
-  public saveConfiguration(){
     if(this.groupForm.valid){
-      this.configureGenerateAndSendService.saveConfiguration(this.configureGeenerateAndSend).subscribe(res => {
-        this.alert.success({detail: 'Success!',summary:"Configuration successfuly created!",duration:5000})
-        return console.log("Configuratin is save!");
+      this.configureGenerateAndSendService.editConfiguration(this.configureGeenerateAndSend).subscribe(res => {
+        this.alert.success({detail: 'Success!',summary:"Configuration  successfuly edited!",duration:5000})
+        console.log("Edit configuration");
     });
+  }  
   }
-  }
+    
 
-  public edit(){
-    this.router.navigate(['configureSendingReports/edit']);
-  }
 }
+
