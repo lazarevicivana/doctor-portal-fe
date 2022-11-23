@@ -27,6 +27,11 @@ import {BloodUnitsComponent} from "./blood-units/blood-units.component";
 import { CreateBloodConsumptionComponent } from './create-blood-consumption/create-blood-consumption.component';
 import { PatientHospitalizationComponent } from "./patient-hospitalization/patient-hospitalization.component";
 import { PatientsForHospitalizationComponent } from "./patients-for-hospitalization/patients-for-hospitalization.component";
+import { HospitalizedPatientsComponent } from './hospitalized-patients/hospitalized-patients.component';
+import {CommonComponentsModule} from "../../components/common-components.module";
+import {MatDividerModule} from "@angular/material/divider";
+import { DischargePatientsComponent } from './discharge-patients/discharge-patients.component';
+import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 import { EditConfigurationComponent } from './edit-configuration/edit-configuration.component';
 
 
@@ -69,6 +74,8 @@ const routes: Routes = [
     CreateBloodConsumptionComponent,
     PatientHospitalizationComponent,
     PatientsForHospitalizationComponent,
+    HospitalizedPatientsComponent,
+    DischargePatientsComponent
     EditConfigurationComponent
   ],
     imports: [
@@ -80,6 +87,9 @@ const routes: Routes = [
         MatSelectModule,
         MatDialogModule,
         NgToastModule,
+        CommonComponentsModule,
+        MatDividerModule,
+        NgxMaterialTimepickerModule
         MatTabsModule,
         MatDatepickerModule
     ],

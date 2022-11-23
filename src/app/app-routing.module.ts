@@ -12,17 +12,48 @@ import {CreateBloodRequestComponent} from "./modules/hospital/create-blood-reque
 import {
   CreateBloodConsumptionComponent
 } from "./modules/hospital/create-blood-consumption/create-blood-consumption.component";
+import {HospitalizedPatientResponse} from "./api/api-reference";
+import {HospitalizedPatientsComponent} from "./modules/hospital/hospitalized-patients/hospitalized-patients.component";
+import {DischargePatientsComponent} from "./modules/hospital/discharge-patients/discharge-patients.component";
 import { EditConfigurationComponent } from "./modules/hospital/edit-configuration/edit-configuration.component";
 
+
 const routes: Routes = [
-  { path: 'dashboard', component: DashboardComponent,canActivate:[DoctorGuard]},
-  { path: 'reschedule-appointment/:id', component: RescheduleAppointmentComponent,canActivate:[DoctorGuard]},
-  { path: 'create-schedule', component: CreateScheduleComponent,canActivate:[DoctorGuard] },
-  { path: 'blood-units', component: BloodUnitsComponent,canActivate:[DoctorGuard] },
-  { path: 'create-blood-request', component: CreateBloodRequestComponent,canActivate:[DoctorGuard]},
-  { path: 'create-blood-consumption', component: CreateBloodConsumptionComponent,canActivate:[DoctorGuard]},
+  { path: 'dashboard',
+    component: DashboardComponent,
+    canActivate:[DoctorGuard]
+  },
+  { path: 'reschedule-appointment/:id',
+    component: RescheduleAppointmentComponent,
+    canActivate:[DoctorGuard]
+  },
+  { path: 'create-schedule',
+    component: CreateScheduleComponent,
+    canActivate:[DoctorGuard]
+  },
+  { path: 'blood-units',
+    component: BloodUnitsComponent,
+    canActivate:[DoctorGuard]
+  },
+  { path: 'create-blood-request',
+    component: CreateBloodRequestComponent,
+    canActivate:[DoctorGuard]
+  },
+  { path: 'create-blood-consumption',
+    component: CreateBloodConsumptionComponent,
+    canActivate:[DoctorGuard]
+  },
   {path: '',component:LoginComponent},
   {path: 'sign-out',component:SignOutComponent},
+  {path: 'hospitalizes-patients',
+   component:HospitalizedPatientsComponent,
+  canActivate:[DoctorGuard]
+  },
+  {
+    path: 'discharge-patient/:id',
+    component:DischargePatientsComponent,
+    canActivate:[DoctorGuard]
+  }
   {path: 'configureSendingReports/edit',component:EditConfigurationComponent}
 ];
 
