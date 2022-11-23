@@ -20,20 +20,32 @@ import { AddCommentComponent } from "./view-blood-requests/add-comment.component
 import { MatDialogModule } from "@angular/material/dialog";
 import {MatTabsModule} from "@angular/material/tabs";
 import { EditBoodRequestComponent } from "./edit-blood-request/edit-blood-request.component";
+import { ConfigureSendingReportsComponent } from './configure-sending-reports/configure-sending-reports.component';
+import {ManagerGuard} from "../../guards/manager.guard";
+import { NewsFromBloodBankComponent } from './news-from-blood-bank/news-from-blood-bank.component';
+import {BloodUnitsComponent} from "./blood-units/blood-units.component";
+import { CreateBloodConsumptionComponent } from './create-blood-consumption/create-blood-consumption.component';
+import { PatientHospitalizationComponent } from "./patient-hospitalization/patient-hospitalization.component";
+import { PatientsForHospitalizationComponent } from "./patients-for-hospitalization/patients-for-hospitalization.component";
+import { EditConfigurationComponent } from './edit-configuration/edit-configuration.component';
 
 
 const routes: Routes = [
   { path: 'bloodBank', component: BloodBankComponent},
-  { path: 'rooms', component: RoomsComponent },
+  { path: 'rooms', component: RoomsComponent,canActivate:[ManagerGuard]},
   { path: 'rooms/add', component: CreateRoomComponent },
   { path: 'rooms/:id', component: RoomDetailComponent },
   { path: 'rooms/:id/update', component: UpdateRoomComponent },
-  { path: 'feedback', component: FeedbackComponent },
+  { path: 'feedback', component: FeedbackComponent,canActivate:[ManagerGuard] },
   { path: 'bloodBank/add', component: BloodbankRegistrationComponent},
   { path: 'view-bloodRequests', component: ViewBloodRequestsComponent},
   { path: 'view-bloodRequests/comment', component: AddCommentComponent},
   { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent},
-  { path: 'edit-blood-request',component: EditBoodRequestComponent}
+  { path: 'edit-blood-request',component: EditBoodRequestComponent},
+  { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent},
+  {path: 'configureSendingReports', component: ConfigureSendingReportsComponent},
+  { path: 'news/publish', component: NewsFromBloodBankComponent},
+  { path: 'patients/hospitalization', component: PatientHospitalizationComponent}
 ];
 
 @NgModule({
@@ -49,7 +61,15 @@ const routes: Routes = [
     ViewBloodRequestsComponent,
     AddCommentComponent,
     CreateBloodRequestComponent,
-    EditBoodRequestComponent
+    EditBoodRequestComponent,
+    CreateBloodRequestComponent,
+    ConfigureSendingReportsComponent,
+    NewsFromBloodBankComponent,
+    BloodUnitsComponent,
+    CreateBloodConsumptionComponent,
+    PatientHospitalizationComponent,
+    PatientsForHospitalizationComponent,
+    EditConfigurationComponent
   ],
     imports: [
         CommonModule,

@@ -13,6 +13,10 @@ import { FloorService } from '../services/HospitalMapServices/floor.service';
 import { GroomService } from '../services/HospitalMapServices/groom.service';
 import { GRoom } from '../model/groom.model';
 import { forkJoin, switchMap } from 'rxjs';
+import {RoomEquipment} from "../model/roomEquipment";
+import {RoomEquipmentService} from "../services/HospitalMapServices/roomequipment.service";
+import {MatSort, Sort, MatSortModule} from '@angular/material/sort';
+
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
@@ -20,15 +24,36 @@ import { forkJoin, switchMap } from 'rxjs';
 })
 export class RoomsComponent implements OnInit {
 
+  
+
+
+//Show Equipment
+  displayedColumns: string[] = [ 'amount', 'equipmentName',  'Edit'];
+    public equipment = new MatTableDataSource<RoomEquipment[]> ;
+
+   //For  Displaying Searched Equipment
+  Searchedequipment = new MatTableDataSource<RoomEquipment[]> ;
+  displayedColumns2: string[] = [ 'roomId', 'equipmentName', 'amount'];
+
+
+  public oprema:RoomEquipment=new RoomEquipment();
+
   //SELECTED
   public selectedBuilding: Building = new Building();
   public selectedFloor: Floor = new Floor();
   public selectedRoom: Room = new Room();
-  
+  public selectedRoomEquipment : RoomEquipment = new RoomEquipment();
+
+
+
   //ROOM EDIT
   public editBuildingName: string = '';
   public editFloorName: string = '';
   public editRoomName: string = '';
+
+
+  //ROOM SEARCH
+  public findThisRoom: string = '';
 
   //CONSTS
   floorLenght = 20;
@@ -41,6 +66,9 @@ export class RoomsComponent implements OnInit {
   public allRooms: Room[] = [];
   public allGRooms: GRoom[] = [];
 
+
+  public allRoomEquipments: RoomEquipment[] = [];
+
   //FOR VISUALISATION, FABRIC.JS
   public allRoomsGroups: Group[] = [];
   public allSquares: Rect[] = [];
@@ -48,36 +76,72 @@ export class RoomsComponent implements OnInit {
   canvas: any;
 
   //NZM STA JE OVO NI DA LI TREBA
-  public dataSource = new MatTableDataSource<Room>(); 
-  public displayedColumns = ['number', 'floor', 'update', 'delete'];
+  public dataSource = new MatTableDataSource<Room>();
+ // public displayedColumns = ['number', 'floor', 'update', 'delete'];
   shownRoom = false;  ///DA PRIKAZE SOBU KAD SE KLIKNE NA OBJEKAT SOBE
-  
+  shownEquipment =false; //za prikazivanje sobe
+
+
+
   //LOADING
   buildingsLoaded:boolean = false;
   floorsLoaded:boolean = false;
   roomsLoaded:boolean = false;
   groomsLoaded:boolean = false;
 
+
   //UPDATING
   buildingUpdating:boolean = false;
   floorUpdating:boolean = false;
   roomUpdating:boolean = false;
+  tabNumber: number = 1;
 
-  constructor(private roomService: RoomService, private buildingService: BuildingService, private groomService: GroomService, private floorService: FloorService,  private router: Router) { }
+  constructor(private roomService: RoomService, private buildingService: BuildingService, private groomService: GroomService, private floorService: FloorService, private roomEquipmentService :RoomEquipmentService, private router: Router) { }
 
-  ngOnInit(): void 
+  ngOnInit(): void
   {
     this.setInitialSquares();
     this.reloadAllInfo();
+    this.SearchEquipment(); //Poziva fju za dobavljanje soba
+
+  }
+
+  getFloorNameByFloorId(id:string): string
+  {
+    let name = '';
+    this.allFloors.forEach(element => {
+      if(element.id === id)
+      {
+        name = element.name;
+      }
+    });
+
+    return name;
+  }
+
+  getBuildingNameByBuildingId(id:string): string
+  {
+    let name = '';
+    this.allBuildings.forEach(element => 
+    {
+      if(element.id === id)
+      {
+        name = element.name;
+      }
+
+    });
+    
+    return name;
   }
 
   private reloadAllInfo()
   {
-    
+
     this.allBuildings = [];
     this.allFloors = [];
     this.allRooms = [];
     this.allGRooms = [];
+    this.allRoomEquipments=[]
 
     this.clearRooms();
 
@@ -85,6 +149,9 @@ export class RoomsComponent implements OnInit {
     this.floorsLoaded = true;
     this.roomsLoaded = true;
     this.groomsLoaded = true;
+    //this.roomequipmentLoaded =true;
+
+
 
     forkJoin([this.buildingService.getBuildings(), this.floorService.getFloors(), this.roomService.getRooms(), this.groomService.getGRooms()])
     .subscribe((result => {
@@ -94,31 +161,6 @@ export class RoomsComponent implements OnInit {
       this.allGRooms = result[3];
       this.checkIfAllLoadedAndProccesIt();
     }))
-/*
-    this.buildingService.getBuildings().subscribe(res =>{
-      this.allBuildings = res;
-      this.buildingsLoaded = true;
-      this.checkIfAllLoadedAndProccesIt();
-    })
-
-    this.floorService.getFloors().subscribe(res =>{
-      this.allFloors = res;
-      this.floorsLoaded = true;
-      this.checkIfAllLoadedAndProccesIt();
-    })
-
-    this.groomService.getGRooms().subscribe(res =>{
-      this.allGRooms = res;
-      this.groomsLoaded = true;
-      this.checkIfAllLoadedAndProccesIt();
-    })
-
-    this.roomService.getRooms().subscribe(res => {
-      this.allRooms = res;
-      this.dataSource.data = this.allRooms; //NZM STA JE OVO
-      this.roomsLoaded = true;
-      this.checkIfAllLoadedAndProccesIt();
-    })*///////
   }
 
   checkIfAnythingNeedsUpdate()
@@ -166,11 +208,11 @@ export class RoomsComponent implements OnInit {
     this.loadRoomsToFloors(this.allRooms);
     this.loadFloorsToBuildings(this.allFloors);
 
-    this.allBuildings.forEach(building => 
+    this.allBuildings.forEach(building =>
     {
       if(this.selectedBuilding.id == building.id)
       {
-        building.floors!.forEach(floor => 
+        building.floors!.forEach(floor =>
         {
           if(floor.id == this.selectedFloor.id)
           {
@@ -185,7 +227,7 @@ export class RoomsComponent implements OnInit {
         });
         this.selectedBuilding = building;
       }
-      
+
     });
     this.reloadRooms();
   }
@@ -230,14 +272,13 @@ export class RoomsComponent implements OnInit {
     });
   }
 
-
   private setInitialSquares(): void
   {
     this.canvas = new fabric.Canvas('c');
 
-    this.canvas.setHeight(screen.height);
+    this.canvas.setHeight(455);
 
-    this.canvas.setWidth(screen.width/2);
+    this.canvas.setWidth(605);
 
     for(let l = 0; l < this.floorLenght; l++)
     {
@@ -279,9 +320,9 @@ export class RoomsComponent implements OnInit {
 
   private loadRoomsToFloors(roomsForLoad:Room[]):void
   {
-    roomsForLoad.forEach(room => 
+    roomsForLoad.forEach(room =>
     {
-      this.allFloors.forEach(floor => 
+      this.allFloors.forEach(floor =>
       {
         if(floor.id == room.floorId)
         {
@@ -305,9 +346,9 @@ export class RoomsComponent implements OnInit {
 
   private loadFloorsToBuildings(floorsForLoad:Floor[]):void
   {
-    floorsForLoad.forEach(floor => 
+    floorsForLoad.forEach(floor =>
     {
-      this.allBuildings.forEach(building => 
+      this.allBuildings.forEach(building =>
       {
 
         if(building.floors == null)
@@ -330,9 +371,9 @@ export class RoomsComponent implements OnInit {
 
   private loadGroomsToRooms(groomsForLoad:GRoom[]):void
   {
-    groomsForLoad.forEach(groom => 
+    groomsForLoad.forEach(groom =>
     {
-      this.allRooms.forEach(room => 
+      this.allRooms.forEach(room =>
       {
         if(room.id == groom.roomId)
         {
@@ -345,12 +386,14 @@ export class RoomsComponent implements OnInit {
 
   public clearRooms(resetFloor=false):void
   {
-    console.log("rooms: " + this.selectedRoom.name + " buildings: " + this.selectedBuilding.name + " floor: " + this.selectedFloor.name);
-    
+    console.log("rooms: " + this.selectedRoom.name + " buildings: " + this.selectedBuilding.name + " floor: " + this.selectedFloor.name + " EquipmentName: " +
+    this.selectedRoomEquipment.equipmentName + " EquipmentAmount :" + this.selectedRoomEquipment.amount);
+
 
     if(resetFloor)
     {
       this.shownRoom = false;
+
       this.selectedFloor = new Floor();
     }
 
@@ -381,7 +424,7 @@ export class RoomsComponent implements OnInit {
     this.clearRooms();
 
     //Load newRooms
-    this.selectedFloor.Rooms.forEach(room => 
+    this.selectedFloor.Rooms.forEach(room =>
     {
 
       console.log("RELOADUJEM");
@@ -401,7 +444,7 @@ export class RoomsComponent implements OnInit {
        this.canvas.add(square);
 
       //TEXT
-      let text = new fabric.Text(room.name, 
+      let text = new fabric.Text(room.name,
       {
         left: room.groom.positionX * this.squareSize + (this.squareSize * room.groom.width) / 4,
         top: room.groom.positionY * this.squareSize + (this.squareSize * room.groom.lenght) / 4,
@@ -419,13 +462,19 @@ export class RoomsComponent implements OnInit {
       group.lockMovementX = true;
       group.lockMovementY = true;
       group.name = room.id;
-      group.on('mousedblclick', () => 
+      group.on('mousedblclick', () =>
       {
         this.selectedRoom = room; /// OVO OVDE DODATO
           this.editBuildingName = this.selectedBuilding.name;
           this.editFloorName = this.selectedFloor.name;
           this.editRoomName = this.selectedRoom.name;
-          
+
+
+          this.roomEquipmentService.getAllEquipmentByRoomId(this.selectedRoom.id).subscribe((result => {
+          console.log(result);
+          this.equipment = new MatTableDataSource(<RoomEquipment[][]><unknown>result);
+      }));
+
           this.shownRoom = true; //PRIKAZE SPECIFIKACIJE SOBE
 
           this.selectRoom(room);
@@ -439,14 +488,13 @@ export class RoomsComponent implements OnInit {
     this.canvas.renderAll();
   }
 
-  
   public selectRoom(roomToSelect: Room):void
   {
-    
+
     let allRoomsGroupsTemp: fabric.Group[] = [];
-    
+
     //Load newRooms
-    this.allRoomsGroups.forEach(group => 
+    this.allRoomsGroups.forEach(group =>
     {
       let groupTemp = group;
 
@@ -461,16 +509,119 @@ export class RoomsComponent implements OnInit {
 
       allRoomsGroupsTemp.push(groupTemp);
     });
-    
+
       this.clearRooms();
 
       this.allRoomsGroups = allRoomsGroupsTemp;
-      
+
       this.allRoomsGroups.forEach(element => {
         this.canvas.add(element);
       });
 
     this.canvas.renderAll();
   }
-  
+
+  public searchRoom():void
+  {
+
+      this.allRooms.forEach(room=>{
+        if(room.name == this.findThisRoom){
+          console.log("Room>>> "+room.buildingId+" "+room.floorId+" "+room.name);
+          // NAdji sprat trazene sobe
+          this.allFloors.forEach(floor=>{
+            if (floor.id==room.floorId){
+              this.selectedFloor=floor;
+            }
+          });
+          //Nadji bolnicu trazene sobe
+          this.allBuildings.forEach(building=>{
+            if (building.id==room.buildingId){
+              this.selectedBuilding=building;
+            }
+          });
+
+          this.reloadRooms();
+          this.selectRoom(room);
+          return;
+        }
+      });
+  }
+
+
+
+
+
+  public SearchEquipment() :void{ //Dobavlja svu opremu
+
+      this.roomEquipmentService.getAllEquipment().subscribe(res => {
+        this.Searchedequipment = new MatTableDataSource(<RoomEquipment[][]><unknown>res);
+        // this.allRoomEquipments.forEach(roomEquipment=>{
+        //   console.log("Dobavio opremu za" +  roomEquipment.equipmentName + "Amount:" +roomEquipment.amount);
+        //   });
+    });
+
+  }
+
+  public applyFilter(event:Event) {    //Filtrira Opremu
+
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.Searchedequipment.filter = filterValue.trim().toLowerCase();
+        this.shownEquipment = true;
+
+
+  }
+
+  public ShowEquipment():void{
+
+
+    // group.on('mousedblclick', () =>
+    // {
+    //   this.ShowEquipment(equipment);
+    //   console.log("Clicked on room: " + equipment.equipmentName);
+    // });
+
+
+  }
+
+
+  public onEquipmentMoveClick(equipmentToMove: RoomEquipment):void
+  {
+    this.selectedRoomEquipment = equipmentToMove;
+    this.tabNumber = 1;
+    console.log(equipmentToMove.equipmentName + " amount: " + equipmentToMove.amount)
+    console.log(this.tabNumber)
+  }
+
+  public nextPageInEquipmentMovement():void
+  {
+    if(this.tabNumber < 4)
+    {
+      //Do validation of current data
+      this.tabNumber += 1;
+    }
+    else
+    {
+      //End of form try to send data
+    }
+  }
+
+  public previousPageInEquipmentMovement():void
+  {
+    if(this.tabNumber > 1)
+    {
+      this.tabNumber -= 1;
+    }
+    else
+    {
+      this.tabNumber = 0;
+    }
+  }
+
+  public exitEquipmentMovementForm():void
+  {
+    this.selectedRoomEquipment = new RoomEquipment();
+    this.tabNumber = 0;
+
+  }
+
 }
