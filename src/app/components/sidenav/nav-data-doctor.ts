@@ -15,13 +15,19 @@ export const navbarDataDoctor=[
     label: 'Blood units'
   },
   {
-    routeLink: 'sign-out',
-    icon: 'fal fa-sign-out',
-    label: 'Sign out'
-  },
-  {
     routeLink: 'patients/hospitalization',
     icon: 'fal fa-solid fa-bed',
     label: 'Hospitalize'
+  },
+  {
+    routeLink: 'patients/therapy-prescription',
+    icon: 'fal fa-file-invoice',
+    label: 'Prescribe therapy'
+  },
+  {
+    routeLink: 'sign-out',
+    icon: 'fal fa-sign-out',
+    label: 'Sign out'
   }
+
 ];

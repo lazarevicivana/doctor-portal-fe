@@ -28,6 +28,9 @@ import { CreateBloodConsumptionComponent } from './create-blood-consumption/crea
 import { PatientHospitalizationComponent } from "./patient-hospitalization/patient-hospitalization.component";
 import { PatientsForHospitalizationComponent } from "./patients-for-hospitalization/patients-for-hospitalization.component";
 import { EditConfigurationComponent } from './edit-configuration/edit-configuration.component';
+import { AllHospitalizedPatientsComponent } from "./all-hospitalized-patients/all-hospitalized-patients.component";
+import { TherapyPrescriptionComponent} from "./therapy-prescription/therapy-prescription.component";
+import { MedicineForPrescriptionComponent} from "./medicine-for-prescription/medicine-for-prescription.component";
 
 
 const routes: Routes = [
@@ -45,7 +48,10 @@ const routes: Routes = [
   { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent},
   { path: 'configureSendingReports', component: ConfigureSendingReportsComponent},
   { path: 'news/publish', component: NewsFromBloodBankComponent},
-  { path: 'patients/hospitalization', component: PatientHospitalizationComponent}
+  { path: 'patients/hospitalization', component: PatientHospitalizationComponent},
+  { path: 'all-hospitalized', component: AllHospitalizedPatientsComponent},
+  { path: 'patients/therapy-prescription', component: TherapyPrescriptionComponent},
+  { path: 'medicine-for-prescription', component: MedicineForPrescriptionComponent}
 ];
 
 @NgModule({
@@ -69,7 +75,10 @@ const routes: Routes = [
     CreateBloodConsumptionComponent,
     PatientHospitalizationComponent,
     PatientsForHospitalizationComponent,
-    EditConfigurationComponent
+    EditConfigurationComponent,
+    AllHospitalizedPatientsComponent,
+    TherapyPrescriptionComponent,
+    MedicineForPrescriptionComponent
   ],
     imports: [
         CommonModule,
