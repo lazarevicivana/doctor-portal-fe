@@ -24,10 +24,15 @@ export const navbarDataDoctor=[
     icon: 'fal fa-tint',
     label: 'Blood units'
   },
-
+  {
+    routeLink: 'schedule-holiday',
+    icon: 'fal  fa-briefcase',
+    label: 'Schedule holiday'
+  },
   {
     routeLink: 'sign-out',
     icon: 'fal fa-sign-out',
     label: 'Sign out'
   }
+
 ];

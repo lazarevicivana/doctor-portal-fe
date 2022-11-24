@@ -15,6 +15,7 @@ import {
   PatientClient,
   ScheduleClient,
   ApplicationUserClient,
+  HolidayClient,
   BloodUnitClient, BloodConsumptionClient, PatientAdmissionClient
 } from "./api/api-reference";
 import { BodyComponent } from './components/body/body.component';
@@ -32,6 +33,8 @@ import { SignOutComponent} from './components/sign-out/sign-out.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { DialogSignComponent } from './components/dialog-sign/dialog-sign.component';
 import {CommonComponentsModule} from "./components/common-components.module";
+import { ScheduleHolidayComponent } from './modules/hoiday/schedule-holiday/schedule-holiday.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [
@@ -40,6 +43,7 @@ import {CommonComponentsModule} from "./components/common-components.module";
     SidenavComponent,
     SignOutComponent,
     DialogSignComponent,
+    ScheduleHolidayComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,12 +64,14 @@ import {CommonComponentsModule} from "./components/common-components.module";
     ReactiveFormsModule,
     FormsModule,
     MatDialogModule,
-    CommonComponentsModule
+    CommonComponentsModule,
+    MatCheckboxModule
   ],
   providers: [
     DoctorClient,
     AppointmentClient,
     PatientClient,
+    HolidayClient,
     ScheduleClient,
     FeedbackClient,
     ApplicationUserClient,
