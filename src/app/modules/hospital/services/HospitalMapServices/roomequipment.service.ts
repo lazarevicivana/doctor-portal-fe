@@ -28,4 +28,8 @@ export class RoomEquipmentService {
     return this.http.get<RoomEquipment[]>(this.apiHost + 'api/v1/RoomEquipment/' + roomEquipmentId, {headers: this.headers});
   }
 
+  SearchEquipmentByName(equipmentName:string) : Observable<RoomEquipment[]>{
+    return this.http.get<RoomEquipment[]>(this.apiHost + 'api/v1/RoomEquipment/SearchEquipmentByName' + equipmentName, {headers: this.headers});
+  }
+
 }

@@ -26,7 +26,7 @@ import { DateRange, equipmentMovementAppointment, equipmentMovementRequest } fro
 })
 export class RoomsComponent implements OnInit {
 
-  
+
 
 
 //Show Equipment
@@ -47,6 +47,7 @@ export class RoomsComponent implements OnInit {
   public selectedRoomEquipment : RoomEquipment = new RoomEquipment();
 
 
+  public EquipmentToSearch:any;
 
   //ROOM EDIT
   public editBuildingName: string = '';
@@ -56,6 +57,8 @@ export class RoomsComponent implements OnInit {
 
   //ROOM SEARCH
   public findThisRoom: string = '';
+
+
 
   //CONSTS
   floorLenght = 20;
@@ -136,7 +139,7 @@ export class RoomsComponent implements OnInit {
   getBuildingNameByBuildingId(id:string): string
   {
     let name = '';
-    this.allBuildings.forEach(element => 
+    this.allBuildings.forEach(element =>
     {
       if(element.id === id)
       {
@@ -144,7 +147,7 @@ export class RoomsComponent implements OnInit {
       }
 
     });
-    
+
     return name;
   }
 
@@ -563,34 +566,45 @@ export class RoomsComponent implements OnInit {
 
 
 
+public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na mapi nakon klika na listu opreme
 
+   this.allRooms.forEach(room=>{
+     if(room.id == bilosta.roomId){
+        console.log("IDEMO BREEEEEEEEEEE");
+       // NAdji sprat trazene sobe
+       this.allFloors.forEach(floor=>{
+         if (floor.id==room.floorId){
+           this.selectedFloor=floor;
+         }
+       });
+       //Nadji bolnicu trazene sobe
+       this.allBuildings.forEach(building=>{
+         if (building.id==room.buildingId){
+           this.selectedBuilding=building;
+         }
+       });
+       this.reloadRooms();
+       this.selectRoom(room);
+
+       return;
+     }
+   });
+
+  }
 
   public SearchEquipment() :void{ //Dobavlja svu opremu
 
-      this.roomEquipmentService.getAllEquipment().subscribe(res => {
+        this.roomEquipmentService.getAllEquipment().subscribe(res => {
         this.Searchedequipment = new MatTableDataSource(<RoomEquipment[][]><unknown>res);
-        // this.allRoomEquipments.forEach(roomEquipment=>{
-        //   console.log("Dobavio opremu za" +  roomEquipment.equipmentName + "Amount:" +roomEquipment.amount);
-        //   });
     });
 
   }
 
-  public applyFilter(event:Event) {    //Filtrira Opremu
+  public applyFilter(event:Event) {    //Filtrira Opremu na search Equipment
 
         const filterValue = (event.target as HTMLInputElement).value;
         this.Searchedequipment.filter = filterValue.trim().toLowerCase();
         this.shownEquipment = true;
-
-
-  }
-
-  public ShowEquipment():void{
-    // group.on('mousedblclick', () =>
-    // {
-    //   this.ShowEquipment(equipment);
-    //   console.log("Clicked on room: " + equipment.equipmentName);
-    // });
   }
 
 
@@ -607,7 +621,7 @@ export class RoomsComponent implements OnInit {
   public onEquipmentScheduleClick(selectedEquipmentAppointment : equipmentMovementAppointment):void
   {
     console.log("IZABRAN APOINTMENTJ: " + selectedEquipmentAppointment.duration?.from);
-    
+
     this.equipmentMovementService.create(selectedEquipmentAppointment).subscribe((result => {
     this.tabNumber = 0;
     this.currentEquipmentResponses = [];
@@ -629,7 +643,7 @@ export class RoomsComponent implements OnInit {
 
       let fromDate: Date  = new Date(new Date(this.formStartDate!).setHours(7,0,0,0))
       let endDate: Date  = new Date(new Date(this.formEndDate!).setHours(20,0,0,0))
-  
+
       this.currentEquipmentRequest.datesForSearch = new DateRange({
         from: fromDate,
         to: endDate
