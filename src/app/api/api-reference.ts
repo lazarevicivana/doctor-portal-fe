@@ -12,6 +12,7 @@ import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 
 import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
+import { Time } from '@angular/common';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -4053,6 +4054,57 @@ export class AppointmentResponse implements IAppointmentResponse {
     data["doctorId"] = this.doctorId;
     data["appointmentState"] = this.appointmentState;
     return data;
+  }
+}
+
+export class equipmentMovementAppointment {
+  id: string = '';
+  originalRoomId: string = '';
+  destinationRoomId: string = '';
+  amount: number = 0;
+  duration? : DateRange | undefined;
+  equipmentId: string = '';
+  equipmentName: string = '';
+
+
+
+
+  public constructor(obj?: any) {
+      if (obj)
+      {
+          this.id = obj.id;
+          this.originalRoomId = obj.originalRoomId;
+          this.destinationRoomId = obj.destinationRoomId;
+          this.amount = obj.amount;
+          this.duration = obj.duration;
+          this.equipmentId = obj.equipmentId;
+          this.equipmentName = obj.equipmentName;
+      }
+  }
+}
+
+export class equipmentMovementRequest {
+  originalRoomId: string = '';
+  destinationRoomId: string = '';
+  amount: number = 0;
+  datesForSearch : DateRange =new DateRange();
+  duration : string = '';
+  equipmentId: string = '';
+  equipmentName: string = '';
+
+
+
+  public constructor(obj?: any) {
+      if (obj)
+      {
+          this.originalRoomId = obj.originalRoomId;
+          this.destinationRoomId = obj.destinationRoomId;
+          this.amount = obj.amount;
+          this.datesForSearch = obj.datesForSearch;
+          this.duration = obj.duration;
+          this.equipmentId = obj.equipmentId;
+          this.equipmentName = obj.equipmentName;
+      }
   }
 }
 
