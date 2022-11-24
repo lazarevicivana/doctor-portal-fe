@@ -16,6 +16,8 @@ import { forkJoin, switchMap } from 'rxjs';
 import {RoomEquipment} from "../model/roomEquipment";
 import {RoomEquipmentService} from "../services/HospitalMapServices/roomequipment.service";
 import {MatSort, Sort, MatSortModule} from '@angular/material/sort';
+import { EquipmentMovementService } from '../services/equipmentMovement.service';
+import { DateRange, equipmentMovementAppointment, equipmentMovementRequest } from 'src/app/api/api-reference';
 
 @Component({
   selector: 'app-rooms',
@@ -94,9 +96,21 @@ export class RoomsComponent implements OnInit {
   buildingUpdating:boolean = false;
   floorUpdating:boolean = false;
   roomUpdating:boolean = false;
-  tabNumber: number = 1;
 
-  constructor(private roomService: RoomService, private buildingService: BuildingService, private groomService: GroomService, private floorService: FloorService, private roomEquipmentService :RoomEquipmentService, private router: Router) { }
+  //EQUIPMENT MOVEMENT
+  displayedColumnsMovement: string[] = [ 'equipmentName', 'from', 'to', 'Schedule'];
+  currentEquipmentResponsesTable = new MatTableDataSource<equipmentMovementAppointment[]> ;
+  tabNumber: number = 0;
+  currentEquipmentRequest: equipmentMovementRequest = new equipmentMovementRequest();
+  currentEquipmentResponses: equipmentMovementAppointment[] = [];
+  formDays: number = 0;
+  formHours: number = 0;
+  formMinutes: number = 0;
+  formStartDate: Date = new Date();
+  formEndDate: Date = new Date();
+  formSelectedRoomId: string = '';
+
+  constructor(private equipmentMovementService:EquipmentMovementService, private roomService: RoomService, private buildingService: BuildingService, private groomService: GroomService, private floorService: FloorService, private roomEquipmentService :RoomEquipmentService, private router: Router) { }
 
   ngOnInit(): void
   {
@@ -469,7 +483,7 @@ export class RoomsComponent implements OnInit {
           this.editFloorName = this.selectedFloor.name;
           this.editRoomName = this.selectedRoom.name;
 
-
+          this.currentEquipmentRequest.originalRoomId = this.selectedRoom.id;
           this.roomEquipmentService.getAllEquipmentByRoomId(this.selectedRoom.id).subscribe((result => {
           console.log(result);
           this.equipment = new MatTableDataSource(<RoomEquipment[][]><unknown>result);
@@ -572,24 +586,33 @@ export class RoomsComponent implements OnInit {
   }
 
   public ShowEquipment():void{
-
-
     // group.on('mousedblclick', () =>
     // {
     //   this.ShowEquipment(equipment);
     //   console.log("Clicked on room: " + equipment.equipmentName);
     // });
-
-
   }
 
 
   public onEquipmentMoveClick(equipmentToMove: RoomEquipment):void
   {
     this.selectedRoomEquipment = equipmentToMove;
+    this.currentEquipmentRequest.equipmentId = this.selectedRoomEquipment.roomEquipmentId;
+    this.currentEquipmentRequest.equipmentName = this.selectedRoomEquipment.equipmentName;
     this.tabNumber = 1;
     console.log(equipmentToMove.equipmentName + " amount: " + equipmentToMove.amount)
     console.log(this.tabNumber)
+  }
+
+  public onEquipmentScheduleClick(selectedEquipmentAppointment : equipmentMovementAppointment):void
+  {
+    console.log("IZABRAN APOINTMENTJ: " + selectedEquipmentAppointment.duration?.from);
+    
+    this.equipmentMovementService.create(selectedEquipmentAppointment).subscribe((result => {
+    this.tabNumber = 0;
+    this.currentEquipmentResponses = [];
+    this.currentEquipmentResponsesTable = new MatTableDataSource(<equipmentMovementAppointment[][]><unknown>this.currentEquipmentResponses);
+    }))
   }
 
   public nextPageInEquipmentMovement():void
@@ -601,6 +624,24 @@ export class RoomsComponent implements OnInit {
     }
     else
     {
+      this.currentEquipmentRequest.destinationRoomId = this.formSelectedRoomId;
+      this.currentEquipmentRequest.duration = this.formDays+":"+this.formHours+":"+this.formMinutes+":00";
+
+      let fromDate: Date  = new Date(new Date(this.formStartDate!).setHours(7,0,0,0))
+      let endDate: Date  = new Date(new Date(this.formEndDate!).setHours(20,0,0,0))
+  
+      this.currentEquipmentRequest.datesForSearch = new DateRange({
+        from: fromDate,
+        to: endDate
+      })
+
+      console.log("PROBACEMO DA POSALJEMo");
+      this.equipmentMovementService.getAvailableByRequest(this.currentEquipmentRequest).subscribe((result => {
+        this.currentEquipmentResponses = result;
+        this.currentEquipmentResponsesTable = new MatTableDataSource(<equipmentMovementAppointment[][]><unknown>this.currentEquipmentResponses);
+        console.log(result);
+        console.log("BAR SMO DOBILI NESTO");
+      }))
       //End of form try to send data
     }
   }
