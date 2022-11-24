@@ -16,6 +16,9 @@ import { forkJoin, switchMap } from 'rxjs';
 import {RoomEquipment} from "../model/roomEquipment";
 import {RoomEquipmentService} from "../services/HospitalMapServices/roomequipment.service";
 import {MatSort, Sort, MatSortModule} from '@angular/material/sort';
+import { EquipmentMovementService } from '../services/equipmentMovement.service';
+import { DateRange, equipmentMovementAppointment, equipmentMovementRequest } from 'src/app/api/api-reference';
+import { DIALOG_SCROLL_STRATEGY_PROVIDER_FACTORY } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-rooms',
@@ -24,7 +27,7 @@ import {MatSort, Sort, MatSortModule} from '@angular/material/sort';
 })
 export class RoomsComponent implements OnInit {
 
-  
+
 
 
 //Show Equipment
@@ -45,6 +48,7 @@ export class RoomsComponent implements OnInit {
   public selectedRoomEquipment : RoomEquipment = new RoomEquipment();
 
 
+  public EquipmentToSearch:any;
 
   //ROOM EDIT
   public editBuildingName: string = '';
@@ -54,6 +58,8 @@ export class RoomsComponent implements OnInit {
 
   //ROOM SEARCH
   public findThisRoom: string = '';
+
+
 
   //CONSTS
   floorLenght = 20;
@@ -94,9 +100,21 @@ export class RoomsComponent implements OnInit {
   buildingUpdating:boolean = false;
   floorUpdating:boolean = false;
   roomUpdating:boolean = false;
-  tabNumber: number = 1;
 
-  constructor(private roomService: RoomService, private buildingService: BuildingService, private groomService: GroomService, private floorService: FloorService, private roomEquipmentService :RoomEquipmentService, private router: Router) { }
+  //EQUIPMENT MOVEMENT
+  displayedColumnsMovement: string[] = [ 'equipmentName', 'from', 'to', 'Schedule'];
+  currentEquipmentResponsesTable = new MatTableDataSource<equipmentMovementAppointment[]> ;
+  tabNumber: number = 0;
+  currentEquipmentRequest: equipmentMovementRequest = new equipmentMovementRequest();
+  currentEquipmentResponses: equipmentMovementAppointment[] = [];
+  formDays: number = 0;
+  formHours: number = 0;
+  formMinutes: number = 0;
+  formStartDate: Date = new Date();
+  formEndDate: Date = new Date();
+  formSelectedRoomId: string = '';
+
+  constructor(private equipmentMovementService:EquipmentMovementService, private roomService: RoomService, private buildingService: BuildingService, private groomService: GroomService, private floorService: FloorService, private roomEquipmentService :RoomEquipmentService, private router: Router) { }
 
   ngOnInit(): void
   {
@@ -122,7 +140,7 @@ export class RoomsComponent implements OnInit {
   getBuildingNameByBuildingId(id:string): string
   {
     let name = '';
-    this.allBuildings.forEach(element => 
+    this.allBuildings.forEach(element =>
     {
       if(element.id === id)
       {
@@ -130,7 +148,7 @@ export class RoomsComponent implements OnInit {
       }
 
     });
-    
+
     return name;
   }
 
@@ -469,7 +487,7 @@ export class RoomsComponent implements OnInit {
           this.editFloorName = this.selectedFloor.name;
           this.editRoomName = this.selectedRoom.name;
 
-
+          this.currentEquipmentRequest.originalRoomId = this.selectedRoom.id;
           this.roomEquipmentService.getAllEquipmentByRoomId(this.selectedRoom.id).subscribe((result => {
           console.log(result);
           this.equipment = new MatTableDataSource(<RoomEquipment[][]><unknown>result);
@@ -549,47 +567,69 @@ export class RoomsComponent implements OnInit {
 
 
 
+public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na mapi nakon klika na listu opreme
 
+   this.allRooms.forEach(room=>{
+     if(room.id == bilosta.roomId){
+        console.log("IDEMO BREEEEEEEEEEE");
+       // NAdji sprat trazene sobe
+       this.allFloors.forEach(floor=>{
+         if (floor.id==room.floorId){
+           this.selectedFloor=floor;
+         }
+       });
+       //Nadji bolnicu trazene sobe
+       this.allBuildings.forEach(building=>{
+         if (building.id==room.buildingId){
+           this.selectedBuilding=building;
+         }
+       });
+       this.reloadRooms();
+       this.selectRoom(room);
+
+       return;
+     }
+   });
+
+  }
 
   public SearchEquipment() :void{ //Dobavlja svu opremu
 
-      this.roomEquipmentService.getAllEquipment().subscribe(res => {
+        this.roomEquipmentService.getAllEquipment().subscribe(res => {
         this.Searchedequipment = new MatTableDataSource(<RoomEquipment[][]><unknown>res);
-        // this.allRoomEquipments.forEach(roomEquipment=>{
-        //   console.log("Dobavio opremu za" +  roomEquipment.equipmentName + "Amount:" +roomEquipment.amount);
-        //   });
     });
 
   }
 
-  public applyFilter(event:Event) {    //Filtrira Opremu
+  public applyFilter(event:Event) {    //Filtrira Opremu na search Equipment
 
         const filterValue = (event.target as HTMLInputElement).value;
         this.Searchedequipment.filter = filterValue.trim().toLowerCase();
         this.shownEquipment = true;
-
-
-  }
-
-  public ShowEquipment():void{
-
-
-    // group.on('mousedblclick', () =>
-    // {
-    //   this.ShowEquipment(equipment);
-    //   console.log("Clicked on room: " + equipment.equipmentName);
-    // });
-
-
   }
 
 
   public onEquipmentMoveClick(equipmentToMove: RoomEquipment):void
   {
     this.selectedRoomEquipment = equipmentToMove;
+    this.currentEquipmentRequest.equipmentId = this.selectedRoomEquipment.roomEquipmentId;
+    this.currentEquipmentRequest.equipmentName = this.selectedRoomEquipment.equipmentName;
     this.tabNumber = 1;
     console.log(equipmentToMove.equipmentName + " amount: " + equipmentToMove.amount)
     console.log(this.tabNumber)
+  }
+
+  public onEquipmentScheduleClick(selectedEquipmentAppointment : equipmentMovementAppointment):void
+  {
+    console.log("IZABRAN APOINTMENTJ: " + selectedEquipmentAppointment.duration?.from);
+
+    this.equipmentMovementService.create(selectedEquipmentAppointment).subscribe((result => {
+    this.tabNumber = 0;
+    this.currentEquipmentResponses = [];
+    this.currentEquipmentResponsesTable = new MatTableDataSource(<equipmentMovementAppointment[][]><unknown>this.currentEquipmentResponses);
+  
+    this.reloadAllInfo();  
+    }))
   }
 
   public nextPageInEquipmentMovement():void
@@ -601,6 +641,34 @@ export class RoomsComponent implements OnInit {
     }
     else
     {
+      this.currentEquipmentRequest.destinationRoomId = this.formSelectedRoomId;
+      this.currentEquipmentRequest.duration = this.formDays+":"+this.formHours+":"+this.formMinutes+":00";
+
+      let currentDate = new Date();
+      
+
+      let fromDate:Date = new Date(new Date(this.formStartDate!).setHours(7,0,0,0))
+      let endDate:Date  = new Date(new Date(this.formEndDate!).setHours(20,0,0,0))
+
+      this.currentEquipmentRequest.datesForSearch = new DateRange({
+        from: fromDate,
+        to: endDate
+      })
+
+      console.log("PROBACEMO DA POSALJEMo");
+      this.equipmentMovementService.getAvailableByRequest(this.currentEquipmentRequest).subscribe((result => {
+        if(!Array.isArray(result) || result.length != 0)
+        {
+          this.currentEquipmentResponses = result;
+          this.currentEquipmentResponsesTable = new MatTableDataSource(<equipmentMovementAppointment[][]><unknown>this.currentEquipmentResponses);
+          console.log(result);
+        }
+        else
+        {
+          console.log(result);
+          alert("BAD REQUEST!");
+        }
+      }))
       //End of form try to send data
     }
   }

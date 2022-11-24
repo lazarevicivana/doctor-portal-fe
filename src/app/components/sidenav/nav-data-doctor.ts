@@ -34,6 +34,10 @@ export const navbarDataDoctor=[
     icon: 'fal fa-sleigh',
     label: 'Your holidays'
   },
+    routeLink: 'edit-blood-request',
+    icon: 'fal fa-edit',
+    label: 'Edit blood request'
+  },
   {
     routeLink: 'sign-out',
     icon: 'fal fa-sign-out',
