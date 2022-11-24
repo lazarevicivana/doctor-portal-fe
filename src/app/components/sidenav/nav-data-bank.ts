@@ -18,10 +18,5 @@ export const navbarDataBank=[
     routeLink: 'sign-out',
     icon: 'fal fa-sign-out',
     label: 'Sign out'
-  },
-  {
-    routeLink: 'configureSendingReports',
-    icon: 'fal fa-cog',
-    label: 'Configure sending reports'
   }
 ];
