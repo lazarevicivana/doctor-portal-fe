@@ -1,24 +1,21 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Room } from 'src/app/modules/hospital/model/room.model';
 import { RoomService } from 'src/app/modules/hospital/services/HospitalMapServices/room.service';
 import { fabric } from 'fabric';
 import { Group, Rect } from 'fabric/fabric-impl';
-import {FormControl} from '@angular/forms';
 import {Building} from "../model/building.model";
 import { Floor } from '../model/floor.model';
 import { BuildingService } from '../services/HospitalMapServices/building.service';
 import { FloorService } from '../services/HospitalMapServices/floor.service';
 import { GroomService } from '../services/HospitalMapServices/groom.service';
 import { GRoom } from '../model/groom.model';
-import { forkJoin, switchMap } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import {RoomEquipment} from "../model/roomEquipment";
 import {RoomEquipmentService} from "../services/HospitalMapServices/roomequipment.service";
-import {MatSort, Sort, MatSortModule} from '@angular/material/sort';
 import { EquipmentMovementService } from '../services/equipmentMovement.service';
-import { DateRange, equipmentMovementAppointment, equipmentMovementRequest } from 'src/app/api/api-reference';
-import { DIALOG_SCROLL_STRATEGY_PROVIDER_FACTORY } from '@angular/cdk/dialog';
+import { DateRange, EquipmentMovementAppointmentResponse, EquipmentMovementAppointmentRequest } from 'src/app/api/api-reference';
 
 @Component({
   selector: 'app-rooms',
@@ -103,10 +100,10 @@ export class RoomsComponent implements OnInit {
 
   //EQUIPMENT MOVEMENT
   displayedColumnsMovement: string[] = [ 'equipmentName', 'from', 'to', 'Schedule'];
-  currentEquipmentResponsesTable = new MatTableDataSource<equipmentMovementAppointment[]> ;
+  currentEquipmentResponsesTable = new MatTableDataSource<EquipmentMovementAppointmentResponse[]> ;
   tabNumber: number = 0;
-  currentEquipmentRequest: equipmentMovementRequest = new equipmentMovementRequest();
-  currentEquipmentResponses: equipmentMovementAppointment[] = [];
+  currentEquipmentRequest: EquipmentMovementAppointmentRequest = new EquipmentMovementAppointmentRequest();
+  currentEquipmentResponses: EquipmentMovementAppointmentResponse[] = [];
   formDays: number = 0;
   formHours: number = 0;
   formMinutes: number = 0;
@@ -619,16 +616,16 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
     console.log(this.tabNumber)
   }
 
-  public onEquipmentScheduleClick(selectedEquipmentAppointment : equipmentMovementAppointment):void
+  public onEquipmentScheduleClick(selectedEquipmentAppointment : EquipmentMovementAppointmentResponse):void
   {
     console.log("IZABRAN APOINTMENTJ: " + selectedEquipmentAppointment.duration?.from);
 
     this.equipmentMovementService.create(selectedEquipmentAppointment).subscribe((result => {
     this.tabNumber = 0;
     this.currentEquipmentResponses = [];
-    this.currentEquipmentResponsesTable = new MatTableDataSource(<equipmentMovementAppointment[][]><unknown>this.currentEquipmentResponses);
-  
-    this.reloadAllInfo();  
+    this.currentEquipmentResponsesTable = new MatTableDataSource(<EquipmentMovementAppointmentResponse[][]><unknown>this.currentEquipmentResponses);
+
+    this.reloadAllInfo();
     }))
   }
 
@@ -645,7 +642,7 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
       this.currentEquipmentRequest.duration = this.formDays+":"+this.formHours+":"+this.formMinutes+":00";
 
       let currentDate = new Date();
-      
+
 
       let fromDate:Date = new Date(new Date(this.formStartDate!).setHours(7,0,0,0))
       let endDate:Date  = new Date(new Date(this.formEndDate!).setHours(20,0,0,0))
@@ -660,7 +657,7 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
         if(!Array.isArray(result) || result.length != 0)
         {
           this.currentEquipmentResponses = result;
-          this.currentEquipmentResponsesTable = new MatTableDataSource(<equipmentMovementAppointment[][]><unknown>this.currentEquipmentResponses);
+          this.currentEquipmentResponsesTable = new MatTableDataSource(<EquipmentMovementAppointmentResponse[][]><unknown>this.currentEquipmentResponses);
           console.log(result);
         }
         else

@@ -9398,7 +9398,7 @@ export class BloodRequest implements IBloodRequest {
   reason?: string | undefined;
   date?: Date;
   doctorUsername?: string | undefined;
-  status?: Status2;
+  status?: BloodRequestStatus;
   comment?: string | undefined;
 
   constructor(data?: IBloodRequest) {
@@ -9451,7 +9451,7 @@ export interface IBloodRequest {
   reason?: string | undefined;
   date?: Date;
   doctorUsername?: string | undefined;
-  status?: Status2;
+  status?: BloodRequestStatus;
   comment?: string | undefined;
 }
 
@@ -9466,7 +9466,7 @@ export enum BloodType2 {
   Oneg = 7,
 }
 
-export enum Status2 {
+export enum BloodRequestStatus {
   APPPROVED = 0,
   REJECTED = 1,
   PENDING = 2,

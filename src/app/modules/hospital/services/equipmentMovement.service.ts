@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient,HttpHeaders} from '@angular/common/http'
-import { equipmentMovementAppointment, equipmentMovementRequest } from 'src/app/api/api-reference';
+import { EquipmentMovementAppointmentResponse, EquipmentMovementAppointmentRequest } from 'src/app/api/api-reference';
 
 const httpOptions ={
   headers: new HttpHeaders({
@@ -18,17 +18,17 @@ export class EquipmentMovementService {
 
   constructor(private http:HttpClient) { }
 
-  create(request:equipmentMovementAppointment): Observable<any>{
+  create(request:EquipmentMovementAppointmentResponse): Observable<any>{
 
     console.log(request)
     const url = `${this.aplUrl}`
-    return this.http.post<equipmentMovementAppointment>(url,request)
+    return this.http.post<EquipmentMovementAppointmentResponse>(url,request)
   }
 
-  getAvailableByRequest(request:equipmentMovementRequest) : Observable<any>
+  getAvailableByRequest(request:EquipmentMovementAppointmentRequest) : Observable<any>
   {
     console.log(request)
     const url = `${this.aplUrl}`
-    return this.http.post<equipmentMovementAppointment>(url+"/getAvailable",request)
+    return this.http.post<EquipmentMovementAppointmentResponse>(url+"/getAvailable",request)
   }
 }
