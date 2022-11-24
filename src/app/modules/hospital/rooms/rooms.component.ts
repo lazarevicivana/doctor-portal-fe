@@ -18,6 +18,7 @@ import {RoomEquipmentService} from "../services/HospitalMapServices/roomequipmen
 import {MatSort, Sort, MatSortModule} from '@angular/material/sort';
 import { EquipmentMovementService } from '../services/equipmentMovement.service';
 import { DateRange, equipmentMovementAppointment, equipmentMovementRequest } from 'src/app/api/api-reference';
+import { DIALOG_SCROLL_STRATEGY_PROVIDER_FACTORY } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-rooms',
@@ -626,6 +627,8 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
     this.tabNumber = 0;
     this.currentEquipmentResponses = [];
     this.currentEquipmentResponsesTable = new MatTableDataSource(<equipmentMovementAppointment[][]><unknown>this.currentEquipmentResponses);
+  
+    this.reloadAllInfo();  
     }))
   }
 
@@ -641,8 +644,11 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
       this.currentEquipmentRequest.destinationRoomId = this.formSelectedRoomId;
       this.currentEquipmentRequest.duration = this.formDays+":"+this.formHours+":"+this.formMinutes+":00";
 
-      let fromDate: Date  = new Date(new Date(this.formStartDate!).setHours(7,0,0,0))
-      let endDate: Date  = new Date(new Date(this.formEndDate!).setHours(20,0,0,0))
+      let currentDate = new Date();
+      
+
+      let fromDate:Date = new Date(new Date(this.formStartDate!).setHours(7,0,0,0))
+      let endDate:Date  = new Date(new Date(this.formEndDate!).setHours(20,0,0,0))
 
       this.currentEquipmentRequest.datesForSearch = new DateRange({
         from: fromDate,
@@ -651,10 +657,17 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
 
       console.log("PROBACEMO DA POSALJEMo");
       this.equipmentMovementService.getAvailableByRequest(this.currentEquipmentRequest).subscribe((result => {
-        this.currentEquipmentResponses = result;
-        this.currentEquipmentResponsesTable = new MatTableDataSource(<equipmentMovementAppointment[][]><unknown>this.currentEquipmentResponses);
-        console.log(result);
-        console.log("BAR SMO DOBILI NESTO");
+        if(!Array.isArray(result) || result.length != 0)
+        {
+          this.currentEquipmentResponses = result;
+          this.currentEquipmentResponsesTable = new MatTableDataSource(<equipmentMovementAppointment[][]><unknown>this.currentEquipmentResponses);
+          console.log(result);
+        }
+        else
+        {
+          console.log(result);
+          alert("BAD REQUEST!");
+        }
       }))
       //End of form try to send data
     }

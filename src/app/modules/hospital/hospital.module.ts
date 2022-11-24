@@ -33,6 +33,7 @@ import {MatDividerModule} from "@angular/material/divider";
 import { DischargePatientsComponent } from './discharge-patients/discharge-patients.component';
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 import { EditConfigurationComponent } from './edit-configuration/edit-configuration.component';
+import { DoctorGuard } from "src/app/guards/doctor.guard";
 
 
 const routes: Routes = [
