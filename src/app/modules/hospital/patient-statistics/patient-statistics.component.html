@@ -1,5 +1,32 @@
-<div style="width: 100px; height:200px"></div>
-<canvas id="myChart"></canvas>
-<div style="width: 100px; height:200px"></div>
+<div class="container">
+    <mat-tab-group (selectedTabChange)="onTabChange($event)" mat-stretch-tabs>
+        <mat-tab label="Patients by gender">
+            <div id="tab1" style="width: 80%; height:80%" class="gender">
+                <br><h2>Statistics of patients by gender</h2>
+                <p>Female: {{genderFemale}}</p>
+                <p>Male: {{genderMale}}</p>
+                <p>Other: {{genderOther}}</p>
+                <canvas id="genderChart">{{GenderChart}}</canvas>
+            </div>
 
-<canvas id="myChart2"></canvas>
+        </mat-tab>
+
+        <mat-tab label="Patients by age group">
+            <div id="tab2" style="width: 75%; height:75%" class="age">
+                <br><h2>Statistics of patients by age group</h2>
+                <p>0-14 years of age: {{pediatricGroup}}</p>
+                <p>15-47 years of age: {{youngGroup}}</p>
+                <p>48-63 years of age: {{middleAgeGroup}}</p>
+                <p>64+ years of age: {{elderlyGroup}}</p>
+                <canvas id="ageChart">{{AgeChart}}</canvas>
+            </div>
+
+        </mat-tab>
+
+        <mat-tab label="Chosen doctors">
+            
+        </mat-tab>
+    </mat-tab-group>
+
+       
+</div>

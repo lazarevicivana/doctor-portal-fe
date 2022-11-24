@@ -16,6 +16,7 @@ import {CreateBloodRequestComponent} from "./create-blood-request/create-blood-r
 import {NgToastModule} from "ng-angular-popup";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import { PatientStatisticsComponent } from './patient-statistics/patient-statistics.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 const routes: Routes = [
   { path: 'bloodBank', component: BloodBankComponent},
@@ -40,7 +41,7 @@ const routes: Routes = [
     BloodbankRegistrationComponent,
     BloodBankChangePasswordComponent,
     CreateBloodRequestComponent,
-    PatientStatisticsComponent
+    PatientStatisticsComponent,
   ],
     imports: [
         CommonModule,
@@ -50,7 +51,8 @@ const routes: Routes = [
         RouterModule.forChild(routes),
         MatSelectModule,
         NgToastModule,
-        MatDatepickerModule
+        MatDatepickerModule,
+        MatTabsModule
     ],
   exports: [ RouterModule ]
 })
