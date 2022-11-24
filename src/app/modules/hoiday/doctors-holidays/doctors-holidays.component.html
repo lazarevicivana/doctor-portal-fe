@@ -19,7 +19,7 @@
     <ng-container matColumnDef="Cancel">
       <th mat-header-cell *matHeaderCellDef>CancelHoliday</th>
       <td mat-cell *matCellDef="let row">
-        <button style="margin-left: 15px; height: 50%" mat-mini-fab  aria-label="Example icon button with a home icon">
+        <button style="margin-left: 15px; height: 50%" mat-mini-fab [disabled]="!canCancel(row)" aria-label="Example icon button with a home icon">
           <mat-icon>clear</mat-icon>
         </button>
       </td>

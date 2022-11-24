@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {HolidayClient, HolidayResponse} from "../../../api/api-reference";
+import {Holiday, HolidayClient, HolidayResponse} from "../../../api/api-reference";
 import {TokenStorageService} from "../../../services/token-storage.service";
 import * as moment from "moment/moment";
 
@@ -36,4 +36,10 @@ export class DoctorsHolidaysComponent implements OnInit {
     return 'Declined'
   }
 
+  canCancel(holiday:Holiday) {
+    if(holiday.holidayStatus==1|| holiday.dateRange?.from!<new Date()){
+      return false
+    }
+    return true
+  }
 }
