@@ -25,6 +25,15 @@ export const navbarDataDoctor=[
     label: 'Blood units'
   },
   {
+    routeLink: 'schedule-holiday',
+    icon: 'fal  fa-briefcase',
+    label: 'Schedule holiday'
+  },
+  {
+    routeLink: 'doctors-holidays',
+    icon: 'fal fa-sleigh',
+    label: 'Your holidays'
+  },
     routeLink: 'edit-blood-request',
     icon: 'fal fa-edit',
     label: 'Edit blood request'
@@ -34,4 +43,5 @@ export const navbarDataDoctor=[
     icon: 'fal fa-sign-out',
     label: 'Sign out'
   }
+
 ];
