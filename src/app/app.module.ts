@@ -35,6 +35,7 @@ import { DialogSignComponent } from './components/dialog-sign/dialog-sign.compon
 import {CommonComponentsModule} from "./components/common-components.module";
 import { ScheduleHolidayComponent } from './modules/hoiday/schedule-holiday/schedule-holiday.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import { DoctorsHolidaysComponent } from './modules/hoiday/doctors-holidays/doctors-holidays.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     SignOutComponent,
     DialogSignComponent,
     ScheduleHolidayComponent,
+    DoctorsHolidaysComponent,
   ],
   imports: [
     BrowserModule,

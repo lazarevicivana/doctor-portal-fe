@@ -75,6 +75,7 @@ export class ScheduleHolidayComponent implements OnInit {
         next: response =>{
           console.log("uspesno")
           this.alert.success({detail: 'Success!', summary: "You are successfully schedule holiday!", duration: 5000})
+          this.router.navigateByUrl('/doctors-holidays');
         },
         error: message => {
           this.alert.error({detail: 'Error!', summary: message.Error, duration: 5000})
@@ -94,14 +95,12 @@ export class ScheduleHolidayComponent implements OnInit {
     return true
   }
   private checkTime(holiday:Holiday){
-    if(new Date(holiday.dateRange?.from!).getDate() - new Date().getDate() <= 3 ){
+    if(new Date(holiday.dateRange?.from!) <=new Date(new Date().setDate(new Date().getDate() +3))){
+
       return false
     }
     return true;
 
   }
-
-
-
-
+  
 }
