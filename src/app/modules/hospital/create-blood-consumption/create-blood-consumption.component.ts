@@ -28,7 +28,7 @@ export class CreateBloodConsumptionComponent implements OnInit {
   createConsumption=()=> {
     if(this.validateFileds())
       return
-    this.client.CreateConsumptions(this.userToken.id, this.request).subscribe(
+    this.client.createConsumptions(this.userToken.id, this.request).subscribe(
       {
         next: response => {
           this.redirectToBloodUnits()

@@ -1,13 +1,13 @@
-import { Component, OnInit,Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { BloodRequest } from '../model/bloodRequest.model';
 import { BloodRequestService } from '../services/view-blood-requests.service';
 import {NgToastService} from "ng-angular-popup";
-import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import { AddCommentComponent } from './add-comment.component/add-comments.component';
 import { AddCommentService } from '../services/add-comment.service';
-import { Status } from 'src/app/api/api-reference';
+import { BloodRequestStatus } from 'src/app/api/api-reference';
 
 @Component({
   selector: 'app-view-blood-request',
@@ -24,7 +24,7 @@ export class ViewBloodRequestsComponent implements OnInit{
   public pendingDataSource = new MatTableDataSource<BloodRequest>();
   public displayedColumns = ['type','amount', 'doctorUsername','status','comment'];
   public displayedColumns1 = ['type','amount', 'doctorUsername','status','comfirm','decline','comment'];
-  
+
 
   constructor(private commentService: AddCommentService,private bloodRequestService: BloodRequestService, private router: Router, private alert: NgToastService,public dialog: MatDialog) { }
 
@@ -41,21 +41,21 @@ export class ViewBloodRequestsComponent implements OnInit{
 
   public confirmRequest(request:BloodRequest) {
     request.status = 0;
-    this.bloodRequestService.confirmRequest(request).subscribe(res => {
+    this.bloodRequestService.confirmRequest(request).subscribe(_ => {
         this.alert.success({detail: 'Success!', summary: "You approved blood request!", duration: 5000})
         this.ngOnInit();
       });
   }
   public declineRequest(request:BloodRequest) {
     request.status = 1;
-    this.bloodRequestService.declineRequest(request).subscribe(res => {
+    this.bloodRequestService.declineRequest(request).subscribe(_ => {
         this.alert.info({detail: 'Info!', summary: "You declined blood request!", duration: 5000})
         this.ngOnInit();
       });
     }
   public returnRequest(request:BloodRequest) {
     request.status = 3;
-    this.bloodRequestService.returnRequest(request).subscribe(res => {
+    this.bloodRequestService.returnRequest(request).subscribe(_ => {
         this.alert.info({detail: 'Success!', summary: "You returned blood request!", duration: 5000})
       });
     }
@@ -72,8 +72,8 @@ export class ViewBloodRequestsComponent implements OnInit{
 
         }else{
           request.comment = this.comment;
-          request.status = Status.RETURNED;
-          this.commentService.commentRequest(request).subscribe(res => {
+          request.status = BloodRequestStatus.RETURNED;
+          this.commentService.commentRequest(request).subscribe(_ => {
             this.alert.info({detail: 'Info!', summary: "You returned blood request!", duration: 5000})
             this.ngOnInit();
           });

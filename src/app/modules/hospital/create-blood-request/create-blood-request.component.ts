@@ -5,6 +5,8 @@ import {Router} from "@angular/router";
 import {TokenStorageService} from "../../../services/token-storage.service";
 import {UserToken} from "../../../model/UserToken";
 import { Status } from 'src/app/api/api-reference';
+import { HttpClient } from '@angular/common/http';
+import { CreateBloodRequestService } from '../services/create-blood-request.service';
 
 @Component({
   selector: 'app-create-blood-request',
@@ -17,7 +19,7 @@ export class CreateBloodRequestComponent implements OnInit {
   number_reg = new RegExp("\\d+")
   todayDate: Date;
 
-  constructor( private alert: NgToastService,private readonly router:Router,private tokenStorageService:TokenStorageService) {
+  constructor( private alert: NgToastService,private readonly router:Router,private tokenStorageService:TokenStorageService, private service: CreateBloodRequestService) {
     this.request = new BloodRequest();
     this.todayDate = new Date();
     // @ts-ignore
@@ -35,7 +37,10 @@ export class CreateBloodRequestComponent implements OnInit {
       return
 
     console.log(this.request)
-
+    this.service.create(this.request).subscribe(res => {
+      this.alert.success({detail: 'Success!',summary:"Blood request created!",duration:5000})
+        this.redirectToBloodUnits()
+    })
   }
 
   private validateFields() {
@@ -65,5 +70,9 @@ export class CreateBloodRequestComponent implements OnInit {
     }
 
     return false;
+  }
+
+  async redirectToBloodUnits(): Promise<void>{
+    await this.router.navigateByUrl('/blood-units')
   }
 }
