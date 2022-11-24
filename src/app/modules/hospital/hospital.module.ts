@@ -36,17 +36,17 @@ import { EditConfigurationComponent } from './edit-configuration/edit-configurat
 
 
 const routes: Routes = [
-  { path: 'bloodBank', component: BloodBankComponent},
+  { path: 'bloodBank', component: BloodBankComponent, canActivate:[ManagerGuard]},
   { path: 'rooms', component: RoomsComponent,canActivate:[ManagerGuard]},
   { path: 'rooms/add', component: CreateRoomComponent },
   { path: 'rooms/:id', component: RoomDetailComponent },
   { path: 'rooms/:id/update', component: UpdateRoomComponent },
   { path: 'feedback', component: FeedbackComponent,canActivate:[ManagerGuard] },
-  { path: 'bloodBank/add', component: BloodbankRegistrationComponent},
-  { path: 'view-bloodRequests', component: ViewBloodRequestsComponent},
-  { path: 'view-bloodRequests/comment', component: AddCommentComponent},
+  { path: 'bloodBank/add', component: BloodbankRegistrationComponent, canActivate:[ManagerGuard]},
+  { path: 'view-bloodRequests', component: ViewBloodRequestsComponent, canActivate:[ManagerGuard]},
+  { path: 'view-bloodRequests/comment', component: AddCommentComponent, canActivate:[ManagerGuard]},
   { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent},
-  { path: 'edit-blood-request',component: EditBoodRequestComponent},
+  { path: 'edit-blood-request',component: EditBoodRequestComponent, canActivate:[DoctorGuard]},
   { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent},
   { path: 'configureSendingReports', component: ConfigureSendingReportsComponent},
   { path: 'news/publish', component: NewsFromBloodBankComponent},
