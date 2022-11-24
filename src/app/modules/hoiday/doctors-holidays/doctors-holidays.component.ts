@@ -9,7 +9,7 @@ import * as moment from "moment/moment";
   styleUrls: ['./doctors-holidays.component.css']
 })
 export class DoctorsHolidaysComponent implements OnInit {
-  displayedColumns: string[] = ['StartDate','EndDate','Description','Status'];
+  displayedColumns: string[] = ['StartDate','EndDate','Description','Status','Cancel'];
   holidays: HolidayResponse[] =[]
 
   constructor(private readonly client: HolidayClient,private tokenStorageService:TokenStorageService) { }

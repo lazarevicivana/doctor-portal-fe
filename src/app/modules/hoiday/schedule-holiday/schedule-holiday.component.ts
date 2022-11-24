@@ -102,5 +102,5 @@ export class ScheduleHolidayComponent implements OnInit {
     return true;
 
   }
-  
+
 }
