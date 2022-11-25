@@ -24,7 +24,7 @@
             </div>
         </mat-tab>
 
-        <mat-tab label="Chosen doctor">
+        <mat-tab label="Chosen doctors">
             <div class="twocharts">
             <div id="tab3" style="width: 30%; height:30%" class="pediatric">
                 <br>
@@ -36,6 +36,7 @@
                 <h3>Chosen doctors in the age group of 15-47</h3>
                 <canvas id="doctorYoungChart">{{DrawDoctorsYoungChart}}</canvas>
             </div></div>
+            <div class="secondcharts">
             <div id="tab3" style="width: 30%; height:30%" class="middle">
                 <br>
                 <h3>Chosen doctors in the age group of 48-63</h3>
@@ -45,7 +46,7 @@
                 <br>
                 <h3>Chosen doctors in the age group of 64+</h3>
                 <canvas id="doctorElderlyChart">{{DrawDoctorsElderlyChart}}</canvas>
-            </div>
+            </div></div>
         </mat-tab>
     </mat-tab-group>
 

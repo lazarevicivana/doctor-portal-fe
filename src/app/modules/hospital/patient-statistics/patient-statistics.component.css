@@ -20,7 +20,7 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 .young{
-    margin-left: 50%;
+    margin-left: 20%;
     margin-bottom: 10%;
     justify-content: top;
     align-items: right;
@@ -35,12 +35,17 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 .elderly{
-    margin-left: 50%;
+    margin-left: 20%;
     justify-content: right;
     align-items: right;
     text-align: right;
     font-family: Arial, Helvetica, sans-serif;
 }
 .twocharts{
-    justify-content: baseline;
+    display: flex;
+    flex-direction: row;
+}
+.secondcharts{
+    display: flex;
+    flex-direction: row;
 }
