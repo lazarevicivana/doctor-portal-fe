@@ -37,27 +37,27 @@ import { AllHospitalizedPatientsComponent } from "./all-hospitalized-patients/al
 import { TherapyPrescriptionComponent} from "./therapy-prescription/therapy-prescription.component";
 import { MedicineForPrescriptionComponent} from "./medicine-for-prescription/medicine-for-prescription.component";
 import { DoctorGuard } from "src/app/guards/doctor.guard";
+import {BloodBankGuard} from "../../guards/blood-bank.guard";
 
 
 const routes: Routes = [
-  { path: 'bloodBank', component: BloodBankComponent, canActivate:[ManagerGuard]},
+  { path: 'bloodBank', component: BloodBankComponent, canActivate:[BloodBankGuard]},
   { path: 'rooms', component: RoomsComponent,canActivate:[ManagerGuard]},
-  { path: 'rooms/add', component: CreateRoomComponent },
-  { path: 'rooms/:id', component: RoomDetailComponent },
-  { path: 'rooms/:id/update', component: UpdateRoomComponent },
+  { path: 'rooms/add', component: CreateRoomComponent,canActivate:[ManagerGuard]},
+  { path: 'rooms/:id', component: RoomDetailComponent,canActivate:[ManagerGuard]},
+  { path: 'rooms/:id/update', component: UpdateRoomComponent,canActivate:[ManagerGuard]},
   { path: 'feedback', component: FeedbackComponent,canActivate:[ManagerGuard] },
-  { path: 'bloodBank/add', component: BloodbankRegistrationComponent, canActivate:[ManagerGuard]},
-  { path: 'view-bloodRequests', component: ViewBloodRequestsComponent, canActivate:[ManagerGuard]},
-  { path: 'view-bloodRequests/comment', component: AddCommentComponent, canActivate:[ManagerGuard]},
-  { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent},
-  { path: 'edit-blood-request',component: EditBoodRequestComponent, canActivate:[DoctorGuard]},
-  { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent},
-  { path: 'configureSendingReports', component: ConfigureSendingReportsComponent},
-  { path: 'news/publish', component: NewsFromBloodBankComponent},
-  { path: 'patients/hospitalization', component: PatientHospitalizationComponent},
-  { path: 'all-hospitalized', component: AllHospitalizedPatientsComponent},
-  { path: 'patients/therapy-prescription', component: TherapyPrescriptionComponent},
-  { path: 'medicine-for-prescription', component: MedicineForPrescriptionComponent}
+  { path: 'bloodBank/add', component: BloodbankRegistrationComponent, canActivate:[BloodBankGuard]},
+  { path: 'view-bloodRequests', component: ViewBloodRequestsComponent, canActivate:[BloodBankGuard]},
+  { path: 'view-bloodRequests/comment', component: AddCommentComponent, canActivate:[BloodBankGuard]},
+  { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent, canActivate:[BloodBankGuard]},
+  { path: 'edit-blood-request',component: EditBoodRequestComponent, canActivate:[BloodBankGuard]},
+  { path: 'configureSendingReports', component: ConfigureSendingReportsComponent,canActivate:[BloodBankGuard]},
+  { path: 'news/publish', component: NewsFromBloodBankComponent,canActivate:[BloodBankGuard]},
+  { path: 'patients/hospitalization', component: PatientHospitalizationComponent,canActivate:[DoctorGuard]},
+  { path: 'all-hospitalized', component: AllHospitalizedPatientsComponent,canActivate:[DoctorGuard]},
+  { path: 'patients/therapy-prescription', component: TherapyPrescriptionComponent,canActivate:[DoctorGuard]},
+  { path: 'medicine-for-prescription', component: MedicineForPrescriptionComponent,canActivate:[DoctorGuard]}
 ];
 
 @NgModule({

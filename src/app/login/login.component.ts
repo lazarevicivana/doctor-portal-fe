@@ -39,10 +39,10 @@ export class LoginComponent implements OnInit {
           console.log(response)
           this.tokenStorageService.saveToken(response.token!)
           this.tokenStorageService.saveUser(response.token!)
-          this.toast.success({detail: 'Success!', summary: response.message, duration: 5000})
           this.resolveDoctor()
           this.resolveManager()
           this.resolveBloodBank()
+          this.toast.success({detail: 'Success!', summary: response.message, duration: 5000})
         },
         error: message => {
           console.log(message.Error)

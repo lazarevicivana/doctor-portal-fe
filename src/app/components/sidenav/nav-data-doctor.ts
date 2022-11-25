@@ -40,11 +40,6 @@ export const navbarDataDoctor=[
     label: 'Your holidays'
   },
   {
-    routeLink: 'edit-blood-request',
-    icon: 'fal fa-edit',
-    label: 'Edit blood request'
-  },
-  {
     routeLink: 'sign-out',
     icon: 'fal fa-sign-out',
     label: 'Sign out'
