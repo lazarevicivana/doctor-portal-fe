@@ -24,7 +24,7 @@
             <mat-label>Input blood amount</mat-label>
             <input matInput [(ngModel)]="bloodResponse.amount" name="amount" matInput>
           </mat-form-field>
-          <button mat-raised-button class="prescribe">Prescribe the medicine</button>
+          <button mat-raised-button class="prescribe"  (click)="medicineSubmit()">Prescribe the medicine</button>
         </div>
         <div class="med">
           <button mat-raised-button class="prescribe2" (click)="bloodSubmit()">Prescribe blood</button>
