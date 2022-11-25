@@ -12,3 +12,35 @@
     text-align: left;
     font-family: Arial, Helvetica, sans-serif;
 }
+.pediatric{
+    margin-left: 10%;
+    justify-content: left;
+    align-items: left;
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.young{
+    margin-left: 50%;
+    margin-bottom: 10%;
+    justify-content: top;
+    align-items: right;
+    text-align: right;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.middle{
+    margin-left: 10%;
+    justify-content: right;
+    align-items: left;
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.elderly{
+    margin-left: 50%;
+    justify-content: right;
+    align-items: right;
+    text-align: right;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.twocharts{
+    justify-content: baseline;
+}

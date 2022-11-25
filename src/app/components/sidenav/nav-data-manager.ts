@@ -13,5 +13,11 @@ export const navDataManager= [
     routeLink: 'sign-out',
     icon: 'fal fa-sign-out',
     label: 'Sign out'
+  },
+  {
+    routeLink: 'patient-statistics',
+    icon: 'fal fa-chart-line',
+    label: 'Patient statistics'
   }
+
 ]

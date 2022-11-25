@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { ThisReceiver } from "@angular/compiler";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { DoctorCount } from "../model/doctorCount.model";
 
 @Injectable({
     providedIn: 'root'
@@ -42,4 +43,21 @@ export class PatientStatisticsService{
   GetElderyGroup(): Observable<any>{
     return this.http.get<any>(this.apiHost + 'api/v1/Patient-elderly-group')
   }
+
+  GetDoctorsByPediatricGroup():Observable<any>{
+    return this.http.get<any>(this.apiHost + 'api/v1/Doctors-by-pediatric-group')
+  }
+
+  GetDoctorsByYoungGroup():Observable<any>{
+    return this.http.get<any>(this.apiHost + 'api/v1/Doctors-by-young-group')
+  }
+
+  GetDoctorsByMiddleAgeGroup():Observable<any>{
+    return this.http.get<any>(this.apiHost + 'api/v1/Doctors-by-middle-age-group')
+  }
+
+  GetDoctorsByElderlyGroup():Observable<any>{
+    return this.http.get<any>(this.apiHost + 'api/v1/Doctors-by-elderly-group')
+  }
+  
 }
