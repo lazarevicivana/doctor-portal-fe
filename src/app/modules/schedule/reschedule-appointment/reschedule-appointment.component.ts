@@ -5,6 +5,8 @@ import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {AppointmentClient, AppointmentResponse, DateRange, ScheduleClient} from "../../../api/api-reference";
 import {NgToastService} from "ng-angular-popup";
 import {UserService} from "../../../services/user.service";
+import {TokenStorageService} from "../../../services/token-storage.service";
+import {UserToken} from "../../../model/UserToken";
 
 
 @Component({
@@ -14,16 +16,17 @@ import {UserService} from "../../../services/user.service";
 })
 export class RescheduleAppointmentComponent implements OnInit {
 
-  doctorId: string = ""
   appointment= new AppointmentResponse();
   formGroup = new FormGroup({
     date: new FormControl<Date | undefined>(new Date()),
     startTime:new FormControl<string >(""),
     finishTime:new FormControl<string >("")
   });
+  userToken: UserToken;
   constructor(private appointmentClient : AppointmentClient,private  fb: FormBuilder,
               private readonly route:ActivatedRoute,private client: ScheduleClient,private readonly router1:Router,
-              private readonly  ngToast:NgToastService,private userService: UserService) {
+              private readonly  ngToast:NgToastService,private tokenStorageService:TokenStorageService) {
+    this.userToken = this.tokenStorageService.getUser();
 
   }
 
@@ -37,12 +40,6 @@ export class RescheduleAppointmentComponent implements OnInit {
         this.patchForm();
       })
     })
-    this.userService.userId.subscribe(
-      id =>{
-        this.doctorId = id
-        console.log(this.doctorId)
-      }
-    )
   }
 
   private patchForm() {

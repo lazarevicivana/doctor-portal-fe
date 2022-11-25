@@ -11,8 +11,6 @@ export class BodyComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.collapsed);
-    console.log(this.screenWidth);
   }
   getBodyClass(): string{
     let styleClass = '';

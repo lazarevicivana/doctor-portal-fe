@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AppointmentClient, AppointmentResponse} from "../../api/api-reference";
 import {MatTabChangeEvent} from "@angular/material/tabs";
-import {UserService} from "../../services/user.service";
+import {TokenStorageService} from "../../services/token-storage.service";
+import {UserToken} from "../../model/UserToken";
 
 @Component({
   selector: 'app-dashboard',
@@ -11,25 +12,18 @@ import {UserService} from "../../services/user.service";
 export class DashboardComponent implements OnInit {
   appointments: AppointmentResponse[]=[];
   currentTabIndex = new Date().getDay() - 1;
-  doctorId : string = ""
-  constructor(private readonly client: AppointmentClient,private userService: UserService) { }
+  userToken:UserToken;
+  constructor(private readonly client: AppointmentClient,private tokenStorageService:TokenStorageService) {
+    this.userToken = this.tokenStorageService.getUser();
+  }
   ngOnInit(): void {
-    this.userService.userId.subscribe(
-      id =>{
-        this.doctorId = id
-        console.log(this.doctorId)
-      }
-    )
     this.getDoctorAppointments();
-    console.log(this.currentTabIndex);
-
   }
   private readonly getDoctorAppointments=()=> {
-  this.client.getDoctorAppointments(this.doctorId).subscribe(
+  this.client.getDoctorAppointments(this.userToken.id!).subscribe(
     {
       next: response => {
         this.appointments = response;
-        console.log(this.appointments)
       }
     }
   )

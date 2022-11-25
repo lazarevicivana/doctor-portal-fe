@@ -7,7 +7,17 @@ import { PagesModule } from "./modules/pages/pages.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {NgToastModule} from "ng-angular-popup";
 import { AppComponent } from "./app.component";
-import {AppointmentClient, DoctorClient, FeedbackClient, PatientClient, ScheduleClient,ApplicationUserClient} from "./api/api-reference";
+
+import {
+  AppointmentClient,
+  DoctorClient,
+  FeedbackClient,
+  PatientClient,
+  ScheduleClient,
+  ApplicationUserClient,
+  HolidayClient,
+  BloodUnitClient, BloodConsumptionClient, PatientAdmissionClient
+} from "./api/api-reference";
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import {ScheduleModule} from "./modules/schedule/schedule.module";
@@ -18,14 +28,24 @@ import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {FormsModule,ReactiveFormsModule} from "@angular/forms";
 import {authInterceptorProviders} from "./helpers/auth.interceptor";
-import { CreateBloodRequestComponent } from './modules/hospital/create-blood-request/create-blood-request.component';
-import {MatSelectModule} from "@angular/material/select";
 import { HospitalModule } from "./modules/hospital/hospital.module";
+import { SignOutComponent} from './components/sign-out/sign-out.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import { DialogSignComponent } from './components/dialog-sign/dialog-sign.component';
+import {CommonComponentsModule} from "./components/common-components.module";
+import { ScheduleHolidayComponent } from './modules/hoiday/schedule-holiday/schedule-holiday.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import { DoctorsHolidaysComponent } from './modules/hoiday/doctors-holidays/doctors-holidays.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     BodyComponent,
-    SidenavComponent
+    SidenavComponent,
+    SignOutComponent,
+    DialogSignComponent,
+    ScheduleHolidayComponent,
+    DoctorsHolidaysComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,16 +63,24 @@ import { HospitalModule } from "./modules/hospital/hospital.module";
     MatDatepickerModule,
     NgxMaterialTimepickerModule,
     MatGridListModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
+    MatDialogModule,
+    CommonComponentsModule,
+    MatCheckboxModule
   ],
   providers: [
     DoctorClient,
     AppointmentClient,
     PatientClient,
+    HolidayClient,
     ScheduleClient,
     FeedbackClient,
     ApplicationUserClient,
-    authInterceptorProviders
+    authInterceptorProviders,
+    BloodUnitClient,
+    BloodConsumptionClient,
+    PatientAdmissionClient
   ],
   exports: [
   ],

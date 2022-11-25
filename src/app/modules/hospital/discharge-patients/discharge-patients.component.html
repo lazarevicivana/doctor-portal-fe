@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="container-f">
+    <div>
+      <form [formGroup]="formGroup" (ngSubmit)="onSubmit()"  >
+        <div class="title-container">
+          <h1 class="title">Discharge patient</h1>
+        </div>
+        <div>
+          <mat-form-field class="input-schedule" appearance="fill">
+            <mat-label>Name</mat-label>
+            <textarea formControlName="patientName" readonly matInput ></textarea>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="input-schedule"   appearance="fill">
+            <mat-label>Admitted</mat-label>
+            <textarea formControlName="dateOfAdmission" readonly matInput ></textarea>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="input-schedule" appearance="fill">
+            <mat-label>Cause</mat-label>
+            <textarea formControlName="reason" readonly matInput ></textarea>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="input-schedule" appearance="fill">
+            <mat-label>Cause</mat-label>
+            <textarea formControlName="reason" readonly matInput ></textarea>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="input-schedule" appearance="fill">
+            <mat-label>Cause of discharge</mat-label>
+            <textarea formControlName="reasonOfDischarge" matInput ></textarea>
+          </mat-form-field>
+        </div>
+        <button mat-flat-button color="primary" class="input-schedule">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
