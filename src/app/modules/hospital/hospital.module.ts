@@ -15,10 +15,11 @@ import {MatSelectModule} from "@angular/material/select";
 import {CreateBloodRequestComponent} from "./create-blood-request/create-blood-request.component";
 import {NgToastModule} from "ng-angular-popup";
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import { PatientStatisticsComponent } from './patient-statistics/patient-statistics.component';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ViewBloodRequestsComponent } from "./view-blood-requests/view-blood-requests.component";
 import { AddCommentComponent } from "./view-blood-requests/add-comment.component/add-comments.component";
 import { MatDialogModule } from "@angular/material/dialog";
-import {MatTabsModule} from "@angular/material/tabs";
 import { EditBoodRequestComponent } from "./edit-blood-request/edit-blood-request.component";
 import { ConfigureSendingReportsComponent } from './configure-sending-reports/configure-sending-reports.component';
 import {ManagerGuard} from "../../guards/manager.guard";
@@ -46,6 +47,7 @@ const routes: Routes = [
   { path: 'rooms/add', component: CreateRoomComponent,canActivate:[ManagerGuard]},
   { path: 'rooms/:id', component: RoomDetailComponent,canActivate:[ManagerGuard]},
   { path: 'rooms/:id/update', component: UpdateRoomComponent,canActivate:[ManagerGuard]},
+  { path: 'patient-statistics', component: PatientStatisticsComponent, canActivate:[ManagerGuard] },
   { path: 'feedback', component: FeedbackComponent,canActivate:[ManagerGuard] },
   { path: 'bloodBank/add', component: BloodbankRegistrationComponent, canActivate:[BloodBankGuard]},
   { path: 'view-bloodRequests', component: ViewBloodRequestsComponent, canActivate:[BloodBankGuard]},
@@ -70,6 +72,8 @@ const routes: Routes = [
     FeedbackComponent,
     BloodbankRegistrationComponent,
     BloodBankChangePasswordComponent,
+    CreateBloodRequestComponent,
+    PatientStatisticsComponent,
     ViewBloodRequestsComponent,
     AddCommentComponent,
     CreateBloodRequestComponent,
