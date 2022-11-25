@@ -10,11 +10,6 @@ export const navbarDataDoctor=[
     label: 'Schedule'
   },
   {
-    routeLink: 'patients/hospitalization',
-    icon: 'fal fa-solid fa-bed',
-    label: 'Hospitalize'
-  },
-  {
     routeLink: 'hospitalizes-patients',
     icon: 'fal fa-users',
     label: 'Hospitalize'
@@ -24,7 +19,26 @@ export const navbarDataDoctor=[
     icon: 'fal fa-tint',
     label: 'Blood units'
   },
-
+  {
+    routeLink: 'patients/hospitalization',
+    icon: 'fal fa-solid fa-bed',
+    label: 'Hospitalize'
+  },
+  {
+    routeLink: 'patients/therapy-prescription',
+    icon: 'fal fa-file-invoice',
+    label: 'Prescribe therapy'
+  },
+  {
+    routeLink: 'schedule-holiday',
+    icon: 'fal  fa-briefcase',
+    label: 'Schedule holiday'
+  },
+  {
+    routeLink: 'doctors-holidays',
+    icon: 'fal fa-sleigh',
+    label: 'Your holidays'
+  },
   {
     routeLink: 'sign-out',
     icon: 'fal fa-sign-out',

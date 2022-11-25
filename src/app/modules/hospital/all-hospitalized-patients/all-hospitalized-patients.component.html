@@ -1,0 +1,17 @@
+<mat-form-field appearance="fill" class="input-schedule">
+  <mat-label>Select a patient</mat-label>
+  <mat-select [(ngModel)]="selectedItem" (ngModelChange)="selectedPatient($event)">
+    <mat-option *ngFor="let patient of patients" [value]="patient.id">
+      {{patient.patient.name}} {{patient.patient.surname}}
+        <span *ngIf="patient.patient.bloodType==0"> (A-) </span>
+        <span *ngIf="patient.patient.bloodType==1"> (A+) </span>
+        <span *ngIf="patient.patient.bloodType==2"> (B-) </span>
+        <span *ngIf="patient.patient.bloodType==3"> (B+) </span>
+        <span *ngIf="patient.patient.bloodType==4"> (AB+) </span>
+        <span *ngIf="patient.patient.bloodType==5"> (AB-) </span>
+        <span *ngIf="patient.patient.bloodType==6"> (0+) </span>
+        <span *ngIf="patient.patient.bloodType==7"> (0-) </span>
+    </mat-option>
+  </mat-select>
+
+</mat-form-field>

@@ -15,10 +15,11 @@ import {MatSelectModule} from "@angular/material/select";
 import {CreateBloodRequestComponent} from "./create-blood-request/create-blood-request.component";
 import {NgToastModule} from "ng-angular-popup";
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import { PatientStatisticsComponent } from './patient-statistics/patient-statistics.component';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ViewBloodRequestsComponent } from "./view-blood-requests/view-blood-requests.component";
 import { AddCommentComponent } from "./view-blood-requests/add-comment.component/add-comments.component";
 import { MatDialogModule } from "@angular/material/dialog";
-import {MatTabsModule} from "@angular/material/tabs";
 import { EditBoodRequestComponent } from "./edit-blood-request/edit-blood-request.component";
 import { ConfigureSendingReportsComponent } from './configure-sending-reports/configure-sending-reports.component';
 import {ManagerGuard} from "../../guards/manager.guard";
@@ -27,30 +28,38 @@ import {BloodUnitsComponent} from "./blood-units/blood-units.component";
 import { CreateBloodConsumptionComponent } from './create-blood-consumption/create-blood-consumption.component';
 import { PatientHospitalizationComponent } from "./patient-hospitalization/patient-hospitalization.component";
 import { PatientsForHospitalizationComponent } from "./patients-for-hospitalization/patients-for-hospitalization.component";
-import { HospitalizedPatientsComponent } from './hospitalized-patients/hospitalized-patients.component';
 import {CommonComponentsModule} from "../../components/common-components.module";
+import { HospitalizedPatientsComponent } from './hospitalized-patients/hospitalized-patients.component';
 import {MatDividerModule} from "@angular/material/divider";
 import { DischargePatientsComponent } from './discharge-patients/discharge-patients.component';
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 import { EditConfigurationComponent } from './edit-configuration/edit-configuration.component';
+import { AllHospitalizedPatientsComponent } from "./all-hospitalized-patients/all-hospitalized-patients.component";
+import { TherapyPrescriptionComponent} from "./therapy-prescription/therapy-prescription.component";
+import { MedicineForPrescriptionComponent} from "./medicine-for-prescription/medicine-for-prescription.component";
+import { DoctorGuard } from "src/app/guards/doctor.guard";
+import {BloodBankGuard} from "../../guards/blood-bank.guard";
 
 
 const routes: Routes = [
-  { path: 'bloodBank', component: BloodBankComponent},
+  { path: 'bloodBank', component: BloodBankComponent, canActivate:[BloodBankGuard]},
   { path: 'rooms', component: RoomsComponent,canActivate:[ManagerGuard]},
-  { path: 'rooms/add', component: CreateRoomComponent },
-  { path: 'rooms/:id', component: RoomDetailComponent },
-  { path: 'rooms/:id/update', component: UpdateRoomComponent },
+  { path: 'rooms/add', component: CreateRoomComponent,canActivate:[ManagerGuard]},
+  { path: 'rooms/:id', component: RoomDetailComponent,canActivate:[ManagerGuard]},
+  { path: 'rooms/:id/update', component: UpdateRoomComponent,canActivate:[ManagerGuard]},
+  { path: 'patient-statistics', component: PatientStatisticsComponent, canActivate:[ManagerGuard] },
   { path: 'feedback', component: FeedbackComponent,canActivate:[ManagerGuard] },
-  { path: 'bloodBank/add', component: BloodbankRegistrationComponent},
-  { path: 'view-bloodRequests', component: ViewBloodRequestsComponent},
-  { path: 'view-bloodRequests/comment', component: AddCommentComponent},
-  { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent},
-  { path: 'edit-blood-request',component: EditBoodRequestComponent},
-  { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent},
-  { path: 'configureSendingReports', component: ConfigureSendingReportsComponent},
-  { path: 'news/publish', component: NewsFromBloodBankComponent},
-  { path: 'patients/hospitalization', component: PatientHospitalizationComponent}
+  { path: 'bloodBank/add', component: BloodbankRegistrationComponent, canActivate:[BloodBankGuard]},
+  { path: 'view-bloodRequests', component: ViewBloodRequestsComponent, canActivate:[BloodBankGuard]},
+  { path: 'view-bloodRequests/comment', component: AddCommentComponent, canActivate:[BloodBankGuard]},
+  { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent, canActivate:[BloodBankGuard]},
+  { path: 'edit-blood-request',component: EditBoodRequestComponent, canActivate:[BloodBankGuard]},
+  { path: 'configureSendingReports', component: ConfigureSendingReportsComponent,canActivate:[BloodBankGuard]},
+  { path: 'news/publish', component: NewsFromBloodBankComponent,canActivate:[BloodBankGuard]},
+  { path: 'patients/hospitalization', component: PatientHospitalizationComponent,canActivate:[DoctorGuard]},
+  { path: 'all-hospitalized', component: AllHospitalizedPatientsComponent,canActivate:[DoctorGuard]},
+  { path: 'patients/therapy-prescription', component: TherapyPrescriptionComponent,canActivate:[DoctorGuard]},
+  { path: 'medicine-for-prescription', component: MedicineForPrescriptionComponent,canActivate:[DoctorGuard]}
 ];
 
 @NgModule({
@@ -63,11 +72,12 @@ const routes: Routes = [
     FeedbackComponent,
     BloodbankRegistrationComponent,
     BloodBankChangePasswordComponent,
+    CreateBloodRequestComponent,
+    PatientStatisticsComponent,
     ViewBloodRequestsComponent,
     AddCommentComponent,
     CreateBloodRequestComponent,
     EditBoodRequestComponent,
-    CreateBloodRequestComponent,
     ConfigureSendingReportsComponent,
     NewsFromBloodBankComponent,
     BloodUnitsComponent,
@@ -76,7 +86,10 @@ const routes: Routes = [
     PatientsForHospitalizationComponent,
     HospitalizedPatientsComponent,
     DischargePatientsComponent,
-    EditConfigurationComponent
+    EditConfigurationComponent,
+    AllHospitalizedPatientsComponent,
+    TherapyPrescriptionComponent,
+    MedicineForPrescriptionComponent
   ],
     imports: [
         CommonModule,

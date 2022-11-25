@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="container-f">
+    <div>
+      <form>
+        <!--        Value : {{myForm.value! | json}}-->
+        <div class="title-container">
+          <h1 class="title">Schedule Holiday</h1>
+        </div>
+        <div>
+          <mat-form-field appearance="fill" class="input-schedule">
+            <mat-label>Choose starting date</mat-label>
+            <input matInput name="picker" [matDatepicker]="picker" [(ngModel)]="startDate">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="fill" class="input-schedule">
+            <mat-label>Choose end date</mat-label>
+            <input matInput name="picker1" [matDatepicker]="picker1" [(ngModel)]="endDate">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div appearance="fill" class="input-schedule">
+          <mat-checkbox class="example-margin" name="urgentPicker" [(ngModel)]="isUrgent">Check if urgent!</mat-checkbox>
+        </div>
+
+        <div  class="input-schedule">
+          <mat-form-field class="comment">
+            <mat-label>Leave a comment</mat-label>
+            <textarea name="comment" [(ngModel)]="comment" matInput placeholder="Insert description"></textarea>
+          </mat-form-field>
+        </div>
+        <button mat-flat-button color="primary" class="input-schedule" (click)="scheduleHoliday()">Submit</button>
+
+      </form>
+    </div>
+  </div>
+</div>

@@ -8,18 +8,26 @@ import {DoctorGuard} from "./guards/doctor.guard";
 import {SignOutComponent} from "./components/sign-out/sign-out.component";
 import {BloodUnitsComponent} from "./modules/hospital/blood-units/blood-units.component";
 import {CreateBloodRequestComponent} from "./modules/hospital/create-blood-request/create-blood-request.component";
-import {
-  CreateBloodConsumptionComponent
-} from "./modules/hospital/create-blood-consumption/create-blood-consumption.component";
+import {CreateBloodConsumptionComponent} from "./modules/hospital/create-blood-consumption/create-blood-consumption.component";
 import {HospitalizedPatientsComponent} from "./modules/hospital/hospitalized-patients/hospitalized-patients.component";
 import {DischargePatientsComponent} from "./modules/hospital/discharge-patients/discharge-patients.component";
 import { EditConfigurationComponent } from "./modules/hospital/edit-configuration/edit-configuration.component";
 import {LoginGuard} from "./guards/login.guard";
+import {ScheduleHolidayComponent} from "./modules/hoiday/schedule-holiday/schedule-holiday.component";
+import {DoctorsHolidaysComponent} from "./modules/hoiday/doctors-holidays/doctors-holidays.component";
 
 
 const routes: Routes = [
   { path: 'dashboard',
     component: DashboardComponent,
+    canActivate:[DoctorGuard]
+  },
+  { path: 'doctors-holidays',
+    component: DoctorsHolidaysComponent,
+    canActivate:[DoctorGuard]
+  },
+  { path: 'schedule-holiday',
+    component: ScheduleHolidayComponent,
     canActivate:[DoctorGuard]
   },
   { path: 'reschedule-appointment/:id',
