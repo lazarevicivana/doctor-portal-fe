@@ -14,8 +14,8 @@ import { GRoom } from '../model/groom.model';
 import { forkJoin } from 'rxjs';
 import {RoomEquipment} from "../model/roomEquipment";
 import {RoomEquipmentService} from "../services/HospitalMapServices/roomequipment.service";
-import { EquipmentMovementService } from '../services/equipmentMovement.service';
 import { DateRange, EquipmentMovementAppointmentResponse, EquipmentMovementAppointmentRequest } from 'src/app/api/api-reference';
+import {EquipmentMovementService} from "../services/equipmentMovement.service";
 
 @Component({
   selector: 'app-rooms',

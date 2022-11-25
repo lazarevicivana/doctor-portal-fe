@@ -68,7 +68,6 @@ const routes: Routes = [
     AddCommentComponent,
     CreateBloodRequestComponent,
     EditBoodRequestComponent,
-    CreateBloodRequestComponent,
     ConfigureSendingReportsComponent,
     NewsFromBloodBankComponent,
     BloodUnitsComponent,
