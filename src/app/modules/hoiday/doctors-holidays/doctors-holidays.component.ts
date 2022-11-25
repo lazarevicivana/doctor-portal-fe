@@ -15,7 +15,7 @@ export class DoctorsHolidaysComponent implements OnInit {
   constructor(private readonly client: HolidayClient,private tokenStorageService:TokenStorageService) { }
 
   ngOnInit(): void {
-    this.client.getAllHolidays().subscribe(
+    this.client.getDoctorHolidays(this.tokenStorageService.getUser().id).subscribe(
       {
         next: response=>{
           this.holidays = response
@@ -41,5 +41,17 @@ export class DoctorsHolidaysComponent implements OnInit {
       return false
     }
     return true
+  }
+
+  cancleHoliday(id:string) {
+    this.client.cancelHoliday(id).subscribe({
+      next:res=>{
+        this.client.getDoctorHolidays(this.tokenStorageService.getUser().id).subscribe({
+          next:response=>{
+            this.holidays=response
+          }
+        })
+    }
+    })
   }
 }
