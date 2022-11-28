@@ -1,0 +1,54 @@
+<div class="container">
+    <mat-tab-group (selectedTabChange)="onTabChange($event)" mat-stretch-tabs>
+        <mat-tab label="Patients by gender">
+            <div id="tab1" style="width: 80%; height:80%" class="gender">
+                <br>
+                <h2>Statistics of patients by gender</h2>
+                <p>Female: {{genderFemale}}</p>
+                <p>Male: {{genderMale}}</p>
+                <p>Other: {{genderOther}}</p>
+                <canvas id="genderChart">{{DrawGenderChart}}</canvas>
+            </div>
+
+        </mat-tab>
+
+        <mat-tab label="Patients by age group">
+            <div id="tab2" style="width: 75%; height:75%" class="age">
+                <br>
+                <h2>Statistics of patients by age group</h2>
+                <p>0-14 years of age: {{pediatricGroup}}</p>
+                <p>15-47 years of age: {{youngGroup}}</p>
+                <p>48-63 years of age: {{middleAgeGroup}}</p>
+                <p>64+ years of age: {{elderlyGroup}}</p>
+                <canvas id="ageChart">{{DrawAgeChart}}</canvas>
+            </div>
+        </mat-tab>
+
+        <mat-tab label="Chosen doctors">
+            <div class="twocharts">
+            <div id="tab3" style="width: 30%; height:30%" class="pediatric">
+                <br>
+                <h3>Chosen doctors in the age group of 0-14</h3>
+                <canvas id="doctorPediatricChart">{{DrawDoctorsPediatricChart}}</canvas>
+            </div>
+            <div id="tab3" style="width: 30%; height:30%" class="young">
+                <br>
+                <h3>Chosen doctors in the age group of 15-47</h3>
+                <canvas id="doctorYoungChart">{{DrawDoctorsYoungChart}}</canvas>
+            </div></div>
+            <div class="secondcharts">
+            <div id="tab3" style="width: 30%; height:30%" class="middle">
+                <br>
+                <h3>Chosen doctors in the age group of 48-63</h3>
+                <canvas id="doctorMiddleChart">{{DrawDoctorsMiddleChart}}</canvas>
+            </div>
+            <div id="tab3" style="width: 30%; height:30%" class="elderly">
+                <br>
+                <h3>Chosen doctors in the age group of 64+</h3>
+                <canvas id="doctorElderlyChart">{{DrawDoctorsElderlyChart}}</canvas>
+            </div></div>
+        </mat-tab>
+    </mat-tab-group>
+
+
+</div>

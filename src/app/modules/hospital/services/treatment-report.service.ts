@@ -1,25 +1,21 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {PatientAdmissionModel} from "../model/patientAdmission.model";
+import {BloodBank} from "../model/bloodBank.model";
+import {TreatmentReportIdDtoModel} from "../model/treatmentReportIdDto.model";
 
 @Injectable({
   providedIn: 'root'
 })
-export class PatientAdmissionService {
+export class TreatmentReportService {
 
   apiHost: string = 'http://localhost:5000/';
   headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(private http: HttpClient) { }
 
-
-  postAdmission(admission: any): Observable<any> {
-    return this.http.post<any>(this.apiHost + 'api/v1/PatientAdmission', admission, {headers: this.headers});
-  }
-
-  getAllHospitalized(): Observable<PatientAdmissionModel> {
-    return this.http.get<PatientAdmissionModel>(this.apiHost + 'api/v1/PatientAdmission/hospitalized', {headers: this.headers});
+  getTreatmentReport(id: string): Observable<TreatmentReportIdDtoModel> {
+    return this.http.get<TreatmentReportIdDtoModel>(this.apiHost + 'api/v1/TreatmentReport/' + id, {headers: this.headers});
   }
   /*
     deleteRoom(id: any): Observable<any> {

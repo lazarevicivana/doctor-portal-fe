@@ -10,6 +10,11 @@ export const navDataManager= [
     label: 'Feedback'
   },
   {
+    routeLink: 'patient-statistics',
+    icon: 'fal fa-chart-line',
+    label: 'Patient statistics'
+  },
+  {
     routeLink: 'configureSendingReports',
     icon: 'fal fa-cog',
     label: 'Configure sending reports'
@@ -39,5 +44,4 @@ export const navDataManager= [
     icon: 'fal fa-sign-out',
     label: 'Sign out'
   }
-  
 ]

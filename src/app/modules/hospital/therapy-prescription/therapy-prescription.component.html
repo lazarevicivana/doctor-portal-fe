@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="container-f">
+    <div>
+      <form >
+        <div class="title-container">
+          <h1 class="title">Prescribe therapy</h1>
+        </div>
+        <div>
+          <app-all-hospitalized-patients (onSelectedPatient)="onSelectingPatient($event)"></app-all-hospitalized-patients>
+        </div>
+        <div class="med">
+          <mat-form-field appearance="fill" class="blood">
+            <mat-label>Choose blood type</mat-label>
+            <mat-select [(ngModel)]="bloodResponse.bloodType" name="food">
+              <mat-option *ngFor="let b of blood" [value]="b.value">
+                {{b.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <app-medicine-for-prescription (onSelectedMedicine)="onSelectingMedicine($event)"></app-medicine-for-prescription>
+        </div>
+        <div class="med">
+          <mat-form-field class="example-form-field" appearance="fill">
+            <mat-label>Input blood amount</mat-label>
+            <input matInput [(ngModel)]="bloodResponse.amount" name="amount" matInput>
+          </mat-form-field>
+          <button mat-raised-button class="prescribe"  (click)="medicineSubmit()">Prescribe the medicine</button>
+        </div>
+        <div class="med">
+          <button mat-raised-button class="prescribe2" (click)="bloodSubmit()">Prescribe blood</button>
+
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>
