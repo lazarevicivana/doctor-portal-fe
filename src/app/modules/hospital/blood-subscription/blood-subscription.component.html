@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="container-f">
+      <div>
+          <div class="title-container">
+            <h1 class="title">Blood subscription</h1>
+          </div>
+          <div>
+            <mat-form-field appearance="fill" >
+                <mat-label>Blood bank</mat-label>
+                <mat-select [(ngModel)]="bloodSubscription.bloodBankName" required class="comboBox">
+                <mat-option *ngFor="let bloodBank of bloodBanks" [value]="bloodBank.name" >
+                    {{bloodBank.name}}
+                </mat-option>
+                </mat-select>
+            </mat-form-field> 
+          </div>
+          <div>
+            <mat-form-field appearance="fill">
+                <mat-label>Blood type</mat-label>
+                <mat-select [(value)]="currentBloodType"  required>
+                <mat-option [value]=0>A-</mat-option>
+                <mat-option [value]=1>A+</mat-option>
+                <mat-option [value]=2>B-</mat-option>
+                <mat-option [value]=3>B+</mat-option>
+                <mat-option [value]=4>AB+</mat-option>
+                <mat-option [value]=5>AB-</mat-option>
+                <mat-option [value]=6>0+</mat-option>
+                <mat-option [value]=7>0-</mat-option>
+                </mat-select>
+            </mat-form-field> 
+            <mat-form-field appearance="fill">
+                <mat-label>Amount</mat-label>
+                <input name="Amount" type="number" min="1" [(ngModel)]="currentAmount" matInput>
+            </mat-form-field>
+            <button mat-stroked-button (click)="add()">Add</button>
+          </div>
+          <div>
+            <button (click)="openDialog()">View subscription</button>
+          </div>
+          <button mat-flat-button color="primary" class="input-schedule" (click)="subscript()" [disabled]="bloodSubscription.bloodBankName.name === '' || bloodSubscription.bloodTypeAmountPair.size === 0">
+            Submit
+          </button>
+      </div>
+    </div>
+  </div>
+  

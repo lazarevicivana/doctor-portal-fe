@@ -39,6 +39,8 @@ import { TherapyPrescriptionComponent} from "./therapy-prescription/therapy-pres
 import { MedicineForPrescriptionComponent} from "./medicine-for-prescription/medicine-for-prescription.component";
 import { DoctorGuard } from "src/app/guards/doctor.guard";
 import {BloodBankGuard} from "../../guards/blood-bank.guard";
+import { BloodSubscriptionComponent } from './blood-subscription/blood-subscription.component';
+import { BloodSubscriptionDialogComponent } from './blood-subscription/blood-subscription-dialog/blood-subscription-dialog.component';
 
 
 const routes: Routes = [
@@ -59,7 +61,8 @@ const routes: Routes = [
   { path: 'patients/hospitalization', component: PatientHospitalizationComponent,canActivate:[DoctorGuard]},
   { path: 'all-hospitalized', component: AllHospitalizedPatientsComponent,canActivate:[DoctorGuard]},
   { path: 'patients/therapy-prescription', component: TherapyPrescriptionComponent,canActivate:[DoctorGuard]},
-  { path: 'medicine-for-prescription', component: MedicineForPrescriptionComponent,canActivate:[DoctorGuard]}
+  { path: 'medicine-for-prescription', component: MedicineForPrescriptionComponent,canActivate:[DoctorGuard]},
+  { path: 'bloodBank/bloodSubscription', component: BloodSubscriptionComponent}
 ];
 
 @NgModule({
@@ -89,7 +92,9 @@ const routes: Routes = [
     EditConfigurationComponent,
     AllHospitalizedPatientsComponent,
     TherapyPrescriptionComponent,
-    MedicineForPrescriptionComponent
+    MedicineForPrescriptionComponent,
+    BloodSubscriptionComponent,
+    BloodSubscriptionDialogComponent
   ],
     imports: [
         CommonModule,

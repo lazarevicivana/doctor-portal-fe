@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>View blood subscription</h1>
+<div mat-dialog-content>
+    <div>
+        <label>Blood bank: {{data.bloodSubscriptionData.bloodBankName}}</label>
+    </div>
+    <div>
+        <ul>
+            <li *ngFor="let d of data.bloodSubscriptionData.bloodTypeAmountPair | keyvalue">
+                {{bloodTypeToString(d.key)}} ==> {{d.value}}
+            </li>
+        </ul>
+    </div>
+</div>
