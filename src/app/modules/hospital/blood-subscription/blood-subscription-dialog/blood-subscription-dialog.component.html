@@ -5,8 +5,8 @@
     </div>
     <div>
         <ul>
-            <li *ngFor="let d of data.bloodSubscriptionData.bloodTypeAmountPair | keyvalue">
-                {{bloodTypeToString(d.key)}} ==> {{d.value}}
+            <li *ngFor="let d of data.bloodSubscriptionData.bloodTypeAmountPair">
+                {{bloodTypeToString(d.bloodType)}} ==> {{d.amount}}
             </li>
         </ul>
     </div>

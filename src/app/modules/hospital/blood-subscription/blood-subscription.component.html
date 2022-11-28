@@ -37,7 +37,7 @@
           <div>
             <button (click)="openDialog()">View subscription</button>
           </div>
-          <button mat-flat-button color="primary" class="input-schedule" (click)="subscript()" [disabled]="bloodSubscription.bloodBankName.name === '' || bloodSubscription.bloodTypeAmountPair.size === 0">
+          <button mat-flat-button color="primary" class="input-schedule" (click)="subscript()" [disabled]="bloodSubscription.bloodBankName.name === '' || bloodSubscription.bloodTypeAmountPair.length === 0">
             Submit
           </button>
       </div>
