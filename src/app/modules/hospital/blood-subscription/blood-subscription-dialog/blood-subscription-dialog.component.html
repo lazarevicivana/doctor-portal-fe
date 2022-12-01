@@ -1,12 +1,12 @@
 <h1 mat-dialog-title>View blood subscription</h1>
 <div mat-dialog-content>
     <div>
-        <label>Blood bank: {{data.bloodSubscriptionData.bloodBankName}}</label>
+        <label>Blood bank: <b>{{data.bloodSubscriptionData.bloodBankName}}</b></label>
     </div>
     <div>
         <ul>
             <li *ngFor="let d of data.bloodSubscriptionData.bloodTypeAmountPair">
-                {{bloodTypeToString(d.bloodType)}} ==> {{d.amount}}
+                Blood type: (<b>{{bloodTypeToString(d.bloodType)}}</b>), amount: <b>{{d.amount}}</b> units
             </li>
         </ul>
     </div>

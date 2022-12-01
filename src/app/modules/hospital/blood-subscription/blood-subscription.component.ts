@@ -22,7 +22,6 @@ export class BloodSubscriptionComponent implements OnInit {
   bloodSubscription: BloodSubscription = new BloodSubscription();
   currentBloodType:  BloodType = BloodType.ABneg;
   currentAmount: number = 1
-  amountOfBloodType: AmountOfBloodType = new AmountOfBloodType();
 
   constructor(private bloodBankService: BloodBankService, private alert: NgToastService, public dialog: MatDialog, private service: BloodSubscriptionService) { }
 
@@ -52,9 +51,10 @@ export class BloodSubscriptionComponent implements OnInit {
     });
 
     if(flag == false){
-      this.amountOfBloodType.bloodType = this.currentBloodType;
-      this.amountOfBloodType.bloodType = this.currentAmount;
-      this.bloodSubscription.bloodTypeAmountPair.push(this.amountOfBloodType);
+      let amountOfBloodType: AmountOfBloodType = new AmountOfBloodType();
+      amountOfBloodType.bloodType = this.currentBloodType;
+      amountOfBloodType.amount = this.currentAmount;
+      this.bloodSubscription.bloodTypeAmountPair.push(amountOfBloodType);
       this.alert.success({detail: 'Success!',summary:"Blood type and amount succesfuly added to subscription!",duration:5000})
       console.log(this.bloodSubscription)
     }else{
