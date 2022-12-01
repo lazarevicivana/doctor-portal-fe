@@ -39,6 +39,7 @@ import { TherapyPrescriptionComponent} from "./therapy-prescription/therapy-pres
 import { MedicineForPrescriptionComponent} from "./medicine-for-prescription/medicine-for-prescription.component";
 import { DoctorGuard } from "src/app/guards/doctor.guard";
 import {BloodBankGuard} from "../../guards/blood-bank.guard";
+import { CreateTenderComponent } from './create-tender/create-tender.component';
 
 
 const routes: Routes = [
@@ -59,7 +60,8 @@ const routes: Routes = [
   { path: 'patients/hospitalization', component: PatientHospitalizationComponent,canActivate:[DoctorGuard]},
   { path: 'all-hospitalized', component: AllHospitalizedPatientsComponent,canActivate:[DoctorGuard]},
   { path: 'patients/therapy-prescription', component: TherapyPrescriptionComponent,canActivate:[DoctorGuard]},
-  { path: 'medicine-for-prescription', component: MedicineForPrescriptionComponent,canActivate:[DoctorGuard]}
+  { path: 'medicine-for-prescription', component: MedicineForPrescriptionComponent,canActivate:[DoctorGuard]},
+  { path: 'tender/add', component: CreateTenderComponent,canActivate:[BloodBankGuard]}
 ];
 
 @NgModule({
@@ -89,7 +91,8 @@ const routes: Routes = [
     EditConfigurationComponent,
     AllHospitalizedPatientsComponent,
     TherapyPrescriptionComponent,
-    MedicineForPrescriptionComponent
+    MedicineForPrescriptionComponent,
+    CreateTenderComponent
   ],
     imports: [
         CommonModule,
