@@ -41,6 +41,10 @@ import { DoctorGuard } from "src/app/guards/doctor.guard";
 import {BloodBankGuard} from "../../guards/blood-bank.guard";
 import { BloodSubscriptionComponent } from './blood-subscription/blood-subscription.component';
 import { BloodSubscriptionDialogComponent } from './blood-subscription/blood-subscription-dialog/blood-subscription-dialog.component';
+import { TenderVerificationComponent } from "./tender-verification/tender-verification.component";
+import {MatStepperModule} from '@angular/material/stepper';
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 
 const routes: Routes = [
@@ -62,7 +66,8 @@ const routes: Routes = [
   { path: 'all-hospitalized', component: AllHospitalizedPatientsComponent,canActivate:[DoctorGuard]},
   { path: 'patients/therapy-prescription', component: TherapyPrescriptionComponent,canActivate:[DoctorGuard]},
   { path: 'medicine-for-prescription', component: MedicineForPrescriptionComponent,canActivate:[DoctorGuard]},
-  { path: 'bloodBank/bloodSubscription', component: BloodSubscriptionComponent}
+  { path: 'bloodBank/bloodSubscription', component: BloodSubscriptionComponent},
+  { path: 'tender/verification', component: TenderVerificationComponent}
 ];
 
 @NgModule({
@@ -94,7 +99,8 @@ const routes: Routes = [
     TherapyPrescriptionComponent,
     MedicineForPrescriptionComponent,
     BloodSubscriptionComponent,
-    BloodSubscriptionDialogComponent
+    BloodSubscriptionDialogComponent,
+    TenderVerificationComponent
   ],
     imports: [
         CommonModule,
@@ -109,8 +115,11 @@ const routes: Routes = [
         MatDividerModule,
         NgxMaterialTimepickerModule,
         MatTabsModule,
-        MatDatepickerModule
+        MatDatepickerModule,
+        BrowserModule,
+        MatStepperModule,
+        BrowserAnimationsModule
     ],
-  exports: [ RouterModule ]
+  exports: [ RouterModule]
 })
 export class HospitalModule { }
