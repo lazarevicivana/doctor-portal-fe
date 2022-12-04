@@ -1969,6 +1969,61 @@ export class MedicineClient {
     }
     return _observableOf(null as any);
   }
+
+  getAllForExamination(): Observable<MedicineExaminationResponse[]> {
+    let url_ = this.baseUrl + "/api/v1/Medicine/Examination";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_ : any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Accept": "application/json"
+      })
+    };
+
+    return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+      return this.processGetAllForExamination(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processGetAllForExamination(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<MedicineExaminationResponse[]>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<MedicineExaminationResponse[]>;
+    }));
+  }
+
+  protected processGetAllForExamination(response: HttpResponseBase): Observable<MedicineExaminationResponse[]> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        if (Array.isArray(resultData200)) {
+          result200 = [] as any;
+          for (let item of resultData200)
+            result200!.push(MedicineExaminationResponse.fromJS(item));
+        }
+        else {
+          result200 = <any>null;
+        }
+        return _observableOf(result200);
+      }));
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
+  }
 }
 
 @Injectable()
@@ -6305,7 +6360,6 @@ export class PDFReportClient {
 export class Allergen implements IAllergen {
   id?: string;
   name?: string | undefined;
-  medicines?: Medicine[] | undefined;
   patients?: Patient[] | undefined;
 
   constructor(data?: IAllergen) {
@@ -6321,11 +6375,6 @@ export class Allergen implements IAllergen {
     if (_data) {
       this.id = _data["id"];
       this.name = _data["name"];
-      if (Array.isArray(_data["medicines"])) {
-        this.medicines = [] as any;
-        for (let item of _data["medicines"])
-          this.medicines!.push(Medicine.fromJS(item));
-      }
       if (Array.isArray(_data["patients"])) {
         this.patients = [] as any;
         for (let item of _data["patients"])
@@ -6345,11 +6394,6 @@ export class Allergen implements IAllergen {
     data = typeof data === 'object' ? data : {};
     data["id"] = this.id;
     data["name"] = this.name;
-    if (Array.isArray(this.medicines)) {
-      data["medicines"] = [];
-      for (let item of this.medicines)
-        data["medicines"].push(item.toJSON());
-    }
     if (Array.isArray(this.patients)) {
       data["patients"] = [];
       for (let item of this.patients)
@@ -6362,151 +6406,6 @@ export class Allergen implements IAllergen {
 export interface IAllergen {
   id?: string;
   name?: string | undefined;
-  medicines?: Medicine[] | undefined;
-  patients?: Patient[] | undefined;
-}
-
-export class Medicine implements IMedicine {
-  id?: string;
-  name?: string | undefined;
-  amount?: number;
-  ingredients?: Ingredient[] | undefined;
-  allergens?: Allergen[] | undefined;
-  medicinePrescription?: MedicinePrescription[] | undefined;
-
-  constructor(data?: IMedicine) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
-    }
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.id = _data["id"];
-      this.name = _data["name"];
-      this.amount = _data["amount"];
-      if (Array.isArray(_data["ingredients"])) {
-        this.ingredients = [] as any;
-        for (let item of _data["ingredients"])
-          this.ingredients!.push(Ingredient.fromJS(item));
-      }
-      if (Array.isArray(_data["allergens"])) {
-        this.allergens = [] as any;
-        for (let item of _data["allergens"])
-          this.allergens!.push(Allergen.fromJS(item));
-      }
-      if (Array.isArray(_data["medicinePrescription"])) {
-        this.medicinePrescription = [] as any;
-        for (let item of _data["medicinePrescription"])
-          this.medicinePrescription!.push(MedicinePrescription.fromJS(item));
-      }
-    }
-  }
-
-  static fromJS(data: any): Medicine {
-    data = typeof data === 'object' ? data : {};
-    let result = new Medicine();
-    result.init(data);
-    return result;
-  }
-
-  toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data["id"] = this.id;
-    data["name"] = this.name;
-    data["amount"] = this.amount;
-    if (Array.isArray(this.ingredients)) {
-      data["ingredients"] = [];
-      for (let item of this.ingredients)
-        data["ingredients"].push(item.toJSON());
-    }
-    if (Array.isArray(this.allergens)) {
-      data["allergens"] = [];
-      for (let item of this.allergens)
-        data["allergens"].push(item.toJSON());
-    }
-    if (Array.isArray(this.medicinePrescription)) {
-      data["medicinePrescription"] = [];
-      for (let item of this.medicinePrescription)
-        data["medicinePrescription"].push(item.toJSON());
-    }
-    return data;
-  }
-}
-
-export interface IMedicine {
-  id?: string;
-  name?: string | undefined;
-  amount?: number;
-  ingredients?: Ingredient[] | undefined;
-  allergens?: Allergen[] | undefined;
-  medicinePrescription?: MedicinePrescription[] | undefined;
-}
-
-export class Ingredient implements IIngredient {
-  id?: string;
-  name?: string | undefined;
-  medicines?: Medicine[] | undefined;
-  patients?: Patient[] | undefined;
-
-  constructor(data?: IIngredient) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
-    }
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.id = _data["id"];
-      this.name = _data["name"];
-      if (Array.isArray(_data["medicines"])) {
-        this.medicines = [] as any;
-        for (let item of _data["medicines"])
-          this.medicines!.push(Medicine.fromJS(item));
-      }
-      if (Array.isArray(_data["patients"])) {
-        this.patients = [] as any;
-        for (let item of _data["patients"])
-          this.patients!.push(Patient.fromJS(item));
-      }
-    }
-  }
-
-  static fromJS(data: any): Ingredient {
-    data = typeof data === 'object' ? data : {};
-    let result = new Ingredient();
-    result.init(data);
-    return result;
-  }
-
-  toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data["id"] = this.id;
-    data["name"] = this.name;
-    if (Array.isArray(this.medicines)) {
-      data["medicines"] = [];
-      for (let item of this.medicines)
-        data["medicines"].push(item.toJSON());
-    }
-    if (Array.isArray(this.patients)) {
-      data["patients"] = [];
-      for (let item of this.patients)
-        data["patients"].push(item.toJSON());
-    }
-    return data;
-  }
-}
-
-export interface IIngredient {
-  id?: string;
-  name?: string | undefined;
-  medicines?: Medicine[] | undefined;
   patients?: Patient[] | undefined;
 }
 
@@ -7648,186 +7547,6 @@ export enum BloodType {
   Oneg = 7,
 }
 
-export class MedicinePrescription implements IMedicinePrescription {
-  id?: string;
-  medicine?: Medicine | undefined;
-  medicineId?: string;
-  description?: string | undefined;
-  treatmentReport?: TreatmentReport | undefined;
-  treatmentReportId?: string;
-
-  constructor(data?: IMedicinePrescription) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
-    }
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.id = _data["id"];
-      this.medicine = _data["medicine"] ? Medicine.fromJS(_data["medicine"]) : <any>undefined;
-      this.medicineId = _data["medicineId"];
-      this.description = _data["description"];
-      this.treatmentReport = _data["treatmentReport"] ? TreatmentReport.fromJS(_data["treatmentReport"]) : <any>undefined;
-      this.treatmentReportId = _data["treatmentReportId"];
-    }
-  }
-
-  static fromJS(data: any): MedicinePrescription {
-    data = typeof data === 'object' ? data : {};
-    let result = new MedicinePrescription();
-    result.init(data);
-    return result;
-  }
-
-  toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data["id"] = this.id;
-    data["medicine"] = this.medicine ? this.medicine.toJSON() : <any>undefined;
-    data["medicineId"] = this.medicineId;
-    data["description"] = this.description;
-    data["treatmentReport"] = this.treatmentReport ? this.treatmentReport.toJSON() : <any>undefined;
-    data["treatmentReportId"] = this.treatmentReportId;
-    return data;
-  }
-}
-
-export interface IMedicinePrescription {
-  id?: string;
-  medicine?: Medicine | undefined;
-  medicineId?: string;
-  description?: string | undefined;
-  treatmentReport?: TreatmentReport | undefined;
-  treatmentReportId?: string;
-}
-
-export class TreatmentReport implements ITreatmentReport {
-  id?: string;
-  patientAdmissionId?: string;
-  patientAdmission?: PatientAdmission | undefined;
-  medicinePrescriptions?: MedicinePrescription[] | undefined;
-  bloodPrescriptions?: BloodPrescription[] | undefined;
-
-  constructor(data?: ITreatmentReport) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
-    }
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.id = _data["id"];
-      this.patientAdmissionId = _data["patientAdmissionId"];
-      this.patientAdmission = _data["patientAdmission"] ? PatientAdmission.fromJS(_data["patientAdmission"]) : <any>undefined;
-      if (Array.isArray(_data["medicinePrescriptions"])) {
-        this.medicinePrescriptions = [] as any;
-        for (let item of _data["medicinePrescriptions"])
-          this.medicinePrescriptions!.push(MedicinePrescription.fromJS(item));
-      }
-      if (Array.isArray(_data["bloodPrescriptions"])) {
-        this.bloodPrescriptions = [] as any;
-        for (let item of _data["bloodPrescriptions"])
-          this.bloodPrescriptions!.push(BloodPrescription.fromJS(item));
-      }
-    }
-  }
-
-  static fromJS(data: any): TreatmentReport {
-    data = typeof data === 'object' ? data : {};
-    let result = new TreatmentReport();
-    result.init(data);
-    return result;
-  }
-
-  toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data["id"] = this.id;
-    data["patientAdmissionId"] = this.patientAdmissionId;
-    data["patientAdmission"] = this.patientAdmission ? this.patientAdmission.toJSON() : <any>undefined;
-    if (Array.isArray(this.medicinePrescriptions)) {
-      data["medicinePrescriptions"] = [];
-      for (let item of this.medicinePrescriptions)
-        data["medicinePrescriptions"].push(item.toJSON());
-    }
-    if (Array.isArray(this.bloodPrescriptions)) {
-      data["bloodPrescriptions"] = [];
-      for (let item of this.bloodPrescriptions)
-        data["bloodPrescriptions"].push(item.toJSON());
-    }
-    return data;
-  }
-}
-
-export interface ITreatmentReport {
-  id?: string;
-  patientAdmissionId?: string;
-  patientAdmission?: PatientAdmission | undefined;
-  medicinePrescriptions?: MedicinePrescription[] | undefined;
-  bloodPrescriptions?: BloodPrescription[] | undefined;
-}
-
-export class BloodPrescription implements IBloodPrescription {
-  id?: string;
-  bloodType?: BloodType;
-  amount?: number;
-  description?: string | undefined;
-  treatmentReport?: TreatmentReport | undefined;
-  treatmentReportId?: string;
-
-  constructor(data?: IBloodPrescription) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
-    }
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.id = _data["id"];
-      this.bloodType = _data["bloodType"];
-      this.amount = _data["amount"];
-      this.description = _data["description"];
-      this.treatmentReport = _data["treatmentReport"] ? TreatmentReport.fromJS(_data["treatmentReport"]) : <any>undefined;
-      this.treatmentReportId = _data["treatmentReportId"];
-    }
-  }
-
-  static fromJS(data: any): BloodPrescription {
-    data = typeof data === 'object' ? data : {};
-    let result = new BloodPrescription();
-    result.init(data);
-    return result;
-  }
-
-  toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data["id"] = this.id;
-    data["bloodType"] = this.bloodType;
-    data["amount"] = this.amount;
-    data["description"] = this.description;
-    data["treatmentReport"] = this.treatmentReport ? this.treatmentReport.toJSON() : <any>undefined;
-    data["treatmentReportId"] = this.treatmentReportId;
-    return data;
-  }
-}
-
-export interface IBloodPrescription {
-  id?: string;
-  bloodType?: BloodType;
-  amount?: number;
-  description?: string | undefined;
-  treatmentReport?: TreatmentReport | undefined;
-  treatmentReportId?: string;
-}
-
 export class LoginResponse implements ILoginResponse {
   message?: string | undefined;
   token?: string | undefined;
@@ -8198,6 +7917,498 @@ export interface IBloodPrescriptionRequest {
   bloodType?: BloodType;
   amount?: number;
   treatmentReportId?: string;
+}
+
+export class BloodPrescription implements IBloodPrescription {
+  id?: string;
+  bloodType?: BloodType;
+  amount?: number;
+  description?: string | undefined;
+  treatmentReport?: TreatmentReport | undefined;
+  treatmentReportId?: string;
+
+  constructor(data?: IBloodPrescription) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.id = _data["id"];
+      this.bloodType = _data["bloodType"];
+      this.amount = _data["amount"];
+      this.description = _data["description"];
+      this.treatmentReport = _data["treatmentReport"] ? TreatmentReport.fromJS(_data["treatmentReport"]) : <any>undefined;
+      this.treatmentReportId = _data["treatmentReportId"];
+    }
+  }
+
+  static fromJS(data: any): BloodPrescription {
+    data = typeof data === 'object' ? data : {};
+    let result = new BloodPrescription();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data["id"] = this.id;
+    data["bloodType"] = this.bloodType;
+    data["amount"] = this.amount;
+    data["description"] = this.description;
+    data["treatmentReport"] = this.treatmentReport ? this.treatmentReport.toJSON() : <any>undefined;
+    data["treatmentReportId"] = this.treatmentReportId;
+    return data;
+  }
+}
+
+export interface IBloodPrescription {
+  id?: string;
+  bloodType?: BloodType;
+  amount?: number;
+  description?: string | undefined;
+  treatmentReport?: TreatmentReport | undefined;
+  treatmentReportId?: string;
+}
+
+export class TreatmentReport implements ITreatmentReport {
+  id?: string;
+  patientAdmissionId?: string;
+  patientAdmission?: PatientAdmission | undefined;
+  medicinePrescriptions?: MedicinePrescription[] | undefined;
+  bloodPrescriptions?: BloodPrescription[] | undefined;
+
+  constructor(data?: ITreatmentReport) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.id = _data["id"];
+      this.patientAdmissionId = _data["patientAdmissionId"];
+      this.patientAdmission = _data["patientAdmission"] ? PatientAdmission.fromJS(_data["patientAdmission"]) : <any>undefined;
+      if (Array.isArray(_data["medicinePrescriptions"])) {
+        this.medicinePrescriptions = [] as any;
+        for (let item of _data["medicinePrescriptions"])
+          this.medicinePrescriptions!.push(MedicinePrescription.fromJS(item));
+      }
+      if (Array.isArray(_data["bloodPrescriptions"])) {
+        this.bloodPrescriptions = [] as any;
+        for (let item of _data["bloodPrescriptions"])
+          this.bloodPrescriptions!.push(BloodPrescription.fromJS(item));
+      }
+    }
+  }
+
+  static fromJS(data: any): TreatmentReport {
+    data = typeof data === 'object' ? data : {};
+    let result = new TreatmentReport();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data["id"] = this.id;
+    data["patientAdmissionId"] = this.patientAdmissionId;
+    data["patientAdmission"] = this.patientAdmission ? this.patientAdmission.toJSON() : <any>undefined;
+    if (Array.isArray(this.medicinePrescriptions)) {
+      data["medicinePrescriptions"] = [];
+      for (let item of this.medicinePrescriptions)
+        data["medicinePrescriptions"].push(item.toJSON());
+    }
+    if (Array.isArray(this.bloodPrescriptions)) {
+      data["bloodPrescriptions"] = [];
+      for (let item of this.bloodPrescriptions)
+        data["bloodPrescriptions"].push(item.toJSON());
+    }
+    return data;
+  }
+}
+
+export interface ITreatmentReport {
+  id?: string;
+  patientAdmissionId?: string;
+  patientAdmission?: PatientAdmission | undefined;
+  medicinePrescriptions?: MedicinePrescription[] | undefined;
+  bloodPrescriptions?: BloodPrescription[] | undefined;
+}
+
+export class MedicinePrescription implements IMedicinePrescription {
+  id?: string;
+  medicine?: Medicine | undefined;
+  medicineId?: string;
+  description?: string | undefined;
+  treatmentReport?: TreatmentReport | undefined;
+  treatmentReportId?: string;
+
+  constructor(data?: IMedicinePrescription) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.id = _data["id"];
+      this.medicine = _data["medicine"] ? Medicine.fromJS(_data["medicine"]) : <any>undefined;
+      this.medicineId = _data["medicineId"];
+      this.description = _data["description"];
+      this.treatmentReport = _data["treatmentReport"] ? TreatmentReport.fromJS(_data["treatmentReport"]) : <any>undefined;
+      this.treatmentReportId = _data["treatmentReportId"];
+    }
+  }
+
+  static fromJS(data: any): MedicinePrescription {
+    data = typeof data === 'object' ? data : {};
+    let result = new MedicinePrescription();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data["id"] = this.id;
+    data["medicine"] = this.medicine ? this.medicine.toJSON() : <any>undefined;
+    data["medicineId"] = this.medicineId;
+    data["description"] = this.description;
+    data["treatmentReport"] = this.treatmentReport ? this.treatmentReport.toJSON() : <any>undefined;
+    data["treatmentReportId"] = this.treatmentReportId;
+    return data;
+  }
+}
+
+export interface IMedicinePrescription {
+  id?: string;
+  medicine?: Medicine | undefined;
+  medicineId?: string;
+  description?: string | undefined;
+  treatmentReport?: TreatmentReport | undefined;
+  treatmentReportId?: string;
+}
+
+export class Medicine implements IMedicine {
+  id?: string;
+  name?: string | undefined;
+  amount?: number;
+  ingredients?: Ingredient[] | undefined;
+  examinationPrescriptions?: ExaminationPrescription[] | undefined;
+  medicinePrescription?: MedicinePrescription[] | undefined;
+
+  constructor(data?: IMedicine) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.id = _data["id"];
+      this.name = _data["name"];
+      this.amount = _data["amount"];
+      if (Array.isArray(_data["ingredients"])) {
+        this.ingredients = [] as any;
+        for (let item of _data["ingredients"])
+          this.ingredients!.push(Ingredient.fromJS(item));
+      }
+      if (Array.isArray(_data["examinationPrescriptions"])) {
+        this.examinationPrescriptions = [] as any;
+        for (let item of _data["examinationPrescriptions"])
+          this.examinationPrescriptions!.push(ExaminationPrescription.fromJS(item));
+      }
+      if (Array.isArray(_data["medicinePrescription"])) {
+        this.medicinePrescription = [] as any;
+        for (let item of _data["medicinePrescription"])
+          this.medicinePrescription!.push(MedicinePrescription.fromJS(item));
+      }
+    }
+  }
+
+  static fromJS(data: any): Medicine {
+    data = typeof data === 'object' ? data : {};
+    let result = new Medicine();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data["id"] = this.id;
+    data["name"] = this.name;
+    data["amount"] = this.amount;
+    if (Array.isArray(this.ingredients)) {
+      data["ingredients"] = [];
+      for (let item of this.ingredients)
+        data["ingredients"].push(item.toJSON());
+    }
+    if (Array.isArray(this.examinationPrescriptions)) {
+      data["examinationPrescriptions"] = [];
+      for (let item of this.examinationPrescriptions)
+        data["examinationPrescriptions"].push(item.toJSON());
+    }
+    if (Array.isArray(this.medicinePrescription)) {
+      data["medicinePrescription"] = [];
+      for (let item of this.medicinePrescription)
+        data["medicinePrescription"].push(item.toJSON());
+    }
+    return data;
+  }
+}
+
+export interface IMedicine {
+  id?: string;
+  name?: string | undefined;
+  amount?: number;
+  ingredients?: Ingredient[] | undefined;
+  examinationPrescriptions?: ExaminationPrescription[] | undefined;
+  medicinePrescription?: MedicinePrescription[] | undefined;
+}
+
+export class Ingredient implements IIngredient {
+  id?: string;
+  name?: string | undefined;
+  medicines?: Medicine[] | undefined;
+
+  constructor(data?: IIngredient) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.id = _data["id"];
+      this.name = _data["name"];
+      if (Array.isArray(_data["medicines"])) {
+        this.medicines = [] as any;
+        for (let item of _data["medicines"])
+          this.medicines!.push(Medicine.fromJS(item));
+      }
+    }
+  }
+
+  static fromJS(data: any): Ingredient {
+    data = typeof data === 'object' ? data : {};
+    let result = new Ingredient();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data["id"] = this.id;
+    data["name"] = this.name;
+    if (Array.isArray(this.medicines)) {
+      data["medicines"] = [];
+      for (let item of this.medicines)
+        data["medicines"].push(item.toJSON());
+    }
+    return data;
+  }
+}
+
+export interface IIngredient {
+  id?: string;
+  name?: string | undefined;
+  medicines?: Medicine[] | undefined;
+}
+
+export class ExaminationPrescription implements IExaminationPrescription {
+  id?: string;
+  usage?: string | undefined;
+  medicines?: Medicine[] | undefined;
+  examination?: Examination | undefined;
+  examinationId?: string;
+
+  constructor(data?: IExaminationPrescription) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.id = _data["id"];
+      this.usage = _data["usage"];
+      if (Array.isArray(_data["medicines"])) {
+        this.medicines = [] as any;
+        for (let item of _data["medicines"])
+          this.medicines!.push(Medicine.fromJS(item));
+      }
+      this.examination = _data["examination"] ? Examination.fromJS(_data["examination"]) : <any>undefined;
+      this.examinationId = _data["examinationId"];
+    }
+  }
+
+  static fromJS(data: any): ExaminationPrescription {
+    data = typeof data === 'object' ? data : {};
+    let result = new ExaminationPrescription();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data["id"] = this.id;
+    data["usage"] = this.usage;
+    if (Array.isArray(this.medicines)) {
+      data["medicines"] = [];
+      for (let item of this.medicines)
+        data["medicines"].push(item.toJSON());
+    }
+    data["examination"] = this.examination ? this.examination.toJSON() : <any>undefined;
+    data["examinationId"] = this.examinationId;
+    return data;
+  }
+}
+
+export interface IExaminationPrescription {
+  id?: string;
+  usage?: string | undefined;
+  medicines?: Medicine[] | undefined;
+  examination?: Examination | undefined;
+  examinationId?: string;
+}
+
+export class Examination implements IExamination {
+  id?: string;
+  symptoms?: Symptom[] | undefined;
+  appointment?: Appointment | undefined;
+  anamnesis?: string | undefined;
+  prescriptions?: ExaminationPrescription[] | undefined;
+
+  constructor(data?: IExamination) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.id = _data["id"];
+      if (Array.isArray(_data["symptoms"])) {
+        this.symptoms = [] as any;
+        for (let item of _data["symptoms"])
+          this.symptoms!.push(Symptom.fromJS(item));
+      }
+      this.appointment = _data["appointment"] ? Appointment.fromJS(_data["appointment"]) : <any>undefined;
+      this.anamnesis = _data["anamnesis"];
+      if (Array.isArray(_data["prescriptions"])) {
+        this.prescriptions = [] as any;
+        for (let item of _data["prescriptions"])
+          this.prescriptions!.push(ExaminationPrescription.fromJS(item));
+      }
+    }
+  }
+
+  static fromJS(data: any): Examination {
+    data = typeof data === 'object' ? data : {};
+    let result = new Examination();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data["id"] = this.id;
+    if (Array.isArray(this.symptoms)) {
+      data["symptoms"] = [];
+      for (let item of this.symptoms)
+        data["symptoms"].push(item.toJSON());
+    }
+    data["appointment"] = this.appointment ? this.appointment.toJSON() : <any>undefined;
+    data["anamnesis"] = this.anamnesis;
+    if (Array.isArray(this.prescriptions)) {
+      data["prescriptions"] = [];
+      for (let item of this.prescriptions)
+        data["prescriptions"].push(item.toJSON());
+    }
+    return data;
+  }
+}
+
+export interface IExamination {
+  id?: string;
+  symptoms?: Symptom[] | undefined;
+  appointment?: Appointment | undefined;
+  anamnesis?: string | undefined;
+  prescriptions?: ExaminationPrescription[] | undefined;
+}
+
+export class Symptom implements ISymptom {
+  id?: string;
+  description?: string | undefined;
+  examinations?: Examination[] | undefined;
+
+  constructor(data?: ISymptom) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.id = _data["id"];
+      this.description = _data["description"];
+      if (Array.isArray(_data["examinations"])) {
+        this.examinations = [] as any;
+        for (let item of _data["examinations"])
+          this.examinations!.push(Examination.fromJS(item));
+      }
+    }
+  }
+
+  static fromJS(data: any): Symptom {
+    data = typeof data === 'object' ? data : {};
+    let result = new Symptom();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data["id"] = this.id;
+    data["description"] = this.description;
+    if (Array.isArray(this.examinations)) {
+      data["examinations"] = [];
+      for (let item of this.examinations)
+        data["examinations"].push(item.toJSON());
+    }
+    return data;
+  }
+}
+
+export interface ISymptom {
+  id?: string;
+  description?: string | undefined;
+  examinations?: Examination[] | undefined;
 }
 
 export class BloodUnitDto implements IBloodUnitDto {
@@ -9182,6 +9393,46 @@ export interface IGRoom {
   lenght?: number;
   width?: number;
   roomId?: string;
+}
+
+export class MedicineExaminationResponse implements IMedicineExaminationResponse {
+  id?: string;
+  name?: string | undefined;
+
+  constructor(data?: IMedicineExaminationResponse) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.id = _data["id"];
+      this.name = _data["name"];
+    }
+  }
+
+  static fromJS(data: any): MedicineExaminationResponse {
+    data = typeof data === 'object' ? data : {};
+    let result = new MedicineExaminationResponse();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data["id"] = this.id;
+    data["name"] = this.name;
+    return data;
+  }
+}
+
+export interface IMedicineExaminationResponse {
+  id?: string;
+  name?: string | undefined;
 }
 
 export class MedicinePrescriptionRequest implements IMedicinePrescriptionRequest {
@@ -10627,6 +10878,12 @@ export enum NewsFromHospitalStatus {
   ACTIVE = 1,
   REFUSED = 2,
 }
+export enum BloodRequestStatus {
+  APPPROVED = 0,
+  REJECTED = 1,
+  PENDING = 2,
+  RETURNED = 3,
+}
 
 export interface FileResponse {
   data: Blob;
@@ -10665,12 +10922,7 @@ function throwException(message: string, status: number, response: string, heade
   else
     return _observableThrow(new ApiException(message, status, response, headers, null));
 }
-export enum BloodRequestStatus {
-  APPPROVED = 0,
-  REJECTED = 1,
-  PENDING = 2,
-  RETURNED = 3,
-}
+
 function blobToText(blob: any): Observable<string> {
   return new Observable<string>((observer: any) => {
     if (!blob) {
