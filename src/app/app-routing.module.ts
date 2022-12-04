@@ -15,6 +15,8 @@ import { EditConfigurationComponent } from "./modules/hospital/edit-configuratio
 import {LoginGuard} from "./guards/login.guard";
 import {ScheduleHolidayComponent} from "./modules/hoiday/schedule-holiday/schedule-holiday.component";
 import {DoctorsHolidaysComponent} from "./modules/hoiday/doctors-holidays/doctors-holidays.component";
+import {ExaminationModule} from "./modules/examination/examination.module";
+import {ExaminationComponent} from "./modules/examination/examination/examination.component";
 
 
 const routes: Routes = [
@@ -68,7 +70,8 @@ const routes: Routes = [
     component:DischargePatientsComponent,
     canActivate:[DoctorGuard]
   },
-  {path: 'configureSendingReports/edit',component:EditConfigurationComponent}
+  {path: 'configureSendingReports/edit',component:EditConfigurationComponent},
+  {path:'examination',component:ExaminationComponent}
 ];
 
 @NgModule({
