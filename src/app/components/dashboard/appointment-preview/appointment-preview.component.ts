@@ -1,7 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AppointmentClient,AppointmentResponse} from "../../../api/api-reference";
+import {MatDialog} from "@angular/material/dialog";
 import * as moment from "moment";
 import {Router} from "@angular/router";
+import {AppointmentReportDialogComponent} from "../appointment-report-dialog/appointment-report-dialog.component";
 
 @Component({
   selector: 'app-appointment-preview',
@@ -12,12 +14,12 @@ export class AppointmentPreviewComponent implements OnInit {
 @Input() appointments :AppointmentResponse[]=[];
  // @ViewChild('myTable') myTable:  MatTable<any> = new MatTable<any>();
 
-  displayedColumns: string[] = ['Date','start time','finish time','Patient','Reschedule','Cancel'];
+  displayedColumns: string[] = ['Date','start time','finish time','Patient','Reschedule','Cancel', 'Report'];
   tomorrow= new Date();
   @Output() onDelete: EventEmitter<AppointmentResponse[]> = new EventEmitter();
 
 
-  constructor(private readonly router:Router, private  client: AppointmentClient) {
+  constructor(private readonly router:Router, private  client: AppointmentClient,public dialog: MatDialog) {
     this.tomorrow.setDate(this.tomorrow.getDate() + 1);
   }
 
@@ -54,5 +56,21 @@ export class AppointmentPreviewComponent implements OnInit {
      return this.tomorrow < date;
   }
 
+  canCreateReport(date:Date)
+  {
+    return new Date() > date;
+  }
 
+  CreateAppointmentReport(id: string) {
+    this.openReportDialog(id);
+  }
+
+  openReportDialog(id: string): void {
+    let dialogRef = this.dialog.open(AppointmentReportDialogComponent, {
+      width: '380px',
+      height:'240px',
+      data: { appointmetId: id }
+    });
+
+  }
 }
