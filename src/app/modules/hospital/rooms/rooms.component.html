@@ -147,6 +147,44 @@
       <!--      (click)="getRecord(row)"-->
       </table>
     </div>
+
+  <div class="mat-elevation-z8" *ngIf="shownRoom">
+    <div>
+      <h1 class="naslov">Movement Details</h1>
+    </div>
+    <table mat-table [dataSource]="MovedEquipment" matSort >
+
+      <ng-container matColumnDef="equipmentName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Equipment Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.equipmentName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
+        <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="duration">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> duration </th>
+        <td mat-cell *matCellDef="let element"> {{element.duration}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="OriginalRoom">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> OriginalRoom </th>
+        <td mat-cell *matCellDef="let element"> {{element.OriginalRoom}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="DestinationRoom">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> DestinationRoom </th>
+        <td mat-cell *matCellDef="let element"> {{element.DestinationRoom}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns3"></tr>
+      <tr mat-row  *matRowDef="let row; columns: displayedColumns3;" ></tr>
+      <!--      (click)="getRecord(row)"-->
+    </table>
+  </div>
+
 </div>
 
 
@@ -198,6 +236,10 @@
 
   </table>
 </div>
+
+
+
+
 
 
 <!--- PIKULIN DEO, NE DIRATI NI ZA ZIVU GLAVU!-->
