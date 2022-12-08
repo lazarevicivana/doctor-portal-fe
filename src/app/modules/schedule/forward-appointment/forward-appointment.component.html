@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="container-f">
+    <mat-stepper class="example-stepper" [orientation]="(stepperOrientation | async)!">
+      <mat-step  label="Fill out your name">
+
+          <div class="formaa">
+            <mat-form-field appearance="fill">
+              <mat-label>Select specialisation</mat-label>
+              <mat-select [(ngModel)]="selectedValue" name="food">
+                <mat-option *ngFor="let specialisation of specialisation" [value]="specialisation">
+                  {{specialisation}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="dugme">
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-button matStepperNext>Next</button>
+            </div>
+          </div>
+
+      </mat-step>
+      <mat-step  label="Fill out your name">
+          <div class="formaa">
+            <mat-form-field appearance="fill">
+              <mat-label>Address</mat-label>
+              <input matInput [(ngModel)] = "selectedName" placeholder="Ex. 1 Main St, New York, NY"
+                     required>
+            </mat-form-field>
+            <div class="dugme">
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-button matStepperNext>Next</button>
+            </div>
+          </div>
+
+      </mat-step>
+      <mat-step  label="Fill out your name">
+          <div class="formaa">
+          <mat-form-field appearance="fill">
+            <mat-label>Address</mat-label>
+            <input matInput [(ngModel)] = "selectedName" placeholder="Ex. 1 Main St, New York, NY"
+                   required>
+          </mat-form-field>
+          <div class="dugme">
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Finish</button>
+            <button mat-button matStepperNext>Cancel</button>
+          </div>
+          </div>
+      </mat-step>
+    </mat-stepper>
+
+
+
+  </div>
+
+</div>
