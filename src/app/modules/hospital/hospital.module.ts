@@ -41,6 +41,7 @@ import { DoctorGuard } from "src/app/guards/doctor.guard";
 import {BloodBankGuard} from "../../guards/blood-bank.guard";
 import { BloodSubscriptionComponent } from './blood-subscription/blood-subscription.component';
 import { BloodSubscriptionDialogComponent } from './blood-subscription/blood-subscription-dialog/blood-subscription-dialog.component';
+import { UrgentBloodSupplyComponent } from './urgent-blood-supply/urgent-blood-supply.component';
 
 
 const routes: Routes = [
@@ -62,7 +63,8 @@ const routes: Routes = [
   { path: 'all-hospitalized', component: AllHospitalizedPatientsComponent,canActivate:[DoctorGuard]},
   { path: 'patients/therapy-prescription', component: TherapyPrescriptionComponent,canActivate:[DoctorGuard]},
   { path: 'medicine-for-prescription', component: MedicineForPrescriptionComponent,canActivate:[DoctorGuard]},
-  { path: 'bloodBank/bloodSubscription', component: BloodSubscriptionComponent}
+  { path: 'bloodBank/bloodSubscription', component: BloodSubscriptionComponent},
+  { path: 'urgent-blood-supply', component: UrgentBloodSupplyComponent}
 ];
 
 @NgModule({
@@ -94,7 +96,8 @@ const routes: Routes = [
     TherapyPrescriptionComponent,
     MedicineForPrescriptionComponent,
     BloodSubscriptionComponent,
-    BloodSubscriptionDialogComponent
+    BloodSubscriptionDialogComponent,
+    UrgentBloodSupplyComponent
   ],
     imports: [
         CommonModule,
