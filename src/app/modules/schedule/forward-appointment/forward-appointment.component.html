@@ -1,35 +1,64 @@
 <div class="container">
   <div class="container-f">
     <mat-stepper class="example-stepper" [orientation]="(stepperOrientation | async)!">
-      <mat-step  label="Fill out your name">
-
-          <div class="formaa">
-            <mat-form-field appearance="fill">
-              <mat-label>Select specialisation</mat-label>
-              <mat-select [(ngModel)]="selectedValue" name="food">
-                <mat-option *ngFor="let specialisation of specialisation" [value]="specialisation">
-                  {{specialisation}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <div class="dugme">
-              <button mat-button matStepperPrevious>Back</button>
-              <button mat-button matStepperNext>Next</button>
+      <mat-step  label="Choose your colleague">
+        <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+          <mat-step label="Choose specialisation">
+            <div class="formaa1">
+              <mat-form-field appearance="fill">
+                <mat-label>Select specialisation</mat-label>
+                <mat-select [(ngModel)]="selectedValue" name="food">
+                  <mat-option *ngFor="let specialisation of specialisation" [value]="specialisation" required>
+                    {{specialisation}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
+          </mat-step>
+          <mat-step label="Choose your colleague">
+            <div class="formaa1">
+              <mat-form-field appearance="fill">
+                <mat-label>Select specialisation</mat-label>
+                <mat-select [(ngModel)]="selectedValue" name="food">
+                  <mat-option *ngFor="let specialisation of specialisation" [value]="specialisation">
+                    {{specialisation}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </mat-step>
+        </mat-stepper>
+        <div class="low">
+          <div class="dugme">
+            <button mat-raised-button class="dugmence" matStepperPrevious>Back</button>
+            <button mat-raised-button class="dugmence" matStepperNext>Next</button>
           </div>
+        </div>
 
       </mat-step>
       <mat-step  label="Fill out your name">
           <div class="formaa">
             <mat-form-field appearance="fill">
-              <mat-label>Address</mat-label>
-              <input matInput [(ngModel)] = "selectedName" placeholder="Ex. 1 Main St, New York, NY"
-                     required>
+              <mat-label>Insert earliest date</mat-label>
+              <input matInput [matDatepicker]="picker">
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
-            <div class="dugme">
-              <button mat-button matStepperPrevious>Back</button>
-              <button mat-button matStepperNext>Next</button>
+            <mat-form-field appearance="fill" style="margin-left: 50px">
+              <mat-label>Insert end</mat-label>
+              <input matInput [matDatepicker]="picker1">
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+            <div class="low">
+              <div class="dugme">
+                <button mat-raised-button class="dugmence" matStepperPrevious>Back</button>
+                <button mat-raised-button class="dugmence" matStepperNext>Next</button>
+              </div>
             </div>
+
           </div>
 
       </mat-step>
@@ -40,11 +69,14 @@
             <input matInput [(ngModel)] = "selectedName" placeholder="Ex. 1 Main St, New York, NY"
                    required>
           </mat-form-field>
-          <div class="dugme">
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Finish</button>
-            <button mat-button matStepperNext>Cancel</button>
-          </div>
+            <div class="low">
+              <div class="dugme">
+                <button mat-raised-button class="dugmence" matStepperPrevious>Back</button>
+                <button mat-raised-button class="dugmence " color="primary" matStepperNext>Finish</button>
+                <button mat-raised-button class="dugmence" color="warn" matStepperNext>Cancel</button>
+              </div>
+            </div>
+
           </div>
       </mat-step>
     </mat-stepper>
