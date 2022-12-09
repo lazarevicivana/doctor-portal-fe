@@ -14,12 +14,15 @@ import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 import {AllPatientsComponent} from "../../components/all-patients/all-patients.component";
 import {NgToastModule} from "ng-angular-popup";
 import {RescheduleAppointmentComponent} from "./reschedule-appointment/reschedule-appointment.component";
+import { ForwardAppointmentComponent } from './forward-appointment/forward-appointment.component';
+import {MatStepperModule} from "@angular/material/stepper";
 
 @NgModule({
   declarations: [
     CreateScheduleComponent,
     AllPatientsComponent,
-    RescheduleAppointmentComponent
+    RescheduleAppointmentComponent,
+    ForwardAppointmentComponent
   ],
   exports: [
     CreateScheduleComponent,
@@ -37,7 +40,8 @@ import {RescheduleAppointmentComponent} from "./reschedule-appointment/reschedul
     MatDatepickerModule,
     NgxMaterialTimepickerModule,
     FormsModule,
-    NgToastModule
+    NgToastModule,
+    MatStepperModule
   ],
   providers: [
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }

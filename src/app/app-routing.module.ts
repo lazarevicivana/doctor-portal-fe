@@ -17,9 +17,14 @@ import {ScheduleHolidayComponent} from "./modules/hoiday/schedule-holiday/schedu
 import {DoctorsHolidaysComponent} from "./modules/hoiday/doctors-holidays/doctors-holidays.component";
 import {ExaminationModule} from "./modules/examination/examination.module";
 import {ExaminationComponent} from "./modules/examination/examination/examination.component";
+import {ForwardAppointmentComponent} from "./modules/schedule/forward-appointment/forward-appointment.component"
 
 
 const routes: Routes = [
+  { path: 'forward-appointment',
+    component: ForwardAppointmentComponent,
+    canActivate:[DoctorGuard]
+  },
   { path: 'dashboard',
     component: DashboardComponent,
     canActivate:[DoctorGuard]

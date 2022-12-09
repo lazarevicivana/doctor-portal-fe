@@ -1,0 +1,32 @@
+.container-f {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25),
+  0 10px 10px rgba(0,0,0,0.22);
+  position: center;
+  overflow: clip;
+  max-width: 100%;
+  max-height: 20%;
+  min-height: 200px;
+  margin: auto;
+  width: 90%;
+  padding: 10px;
+}
+.formaa{
+  position: center;
+  margin: auto;
+  margin-left: 5%;
+  margin-top: 5%;
+  height: 90%;
+  align-items: center;
+}
+.dugme{
+  margin-left: 70%;
+}
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 10%;
+}
