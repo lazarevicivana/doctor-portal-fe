@@ -10,20 +10,12 @@ import {BreakpointObserver} from "@angular/cdk/layout";
   styleUrls: ['./forward-appointment.component.css']
 })
 export class ForwardAppointmentComponent implements OnInit {
-  firstFormGroup = this._formBuilder.group({
-    firstCtrl: ['', Validators.required],
-  });
-  secondFormGroup = this._formBuilder.group({
-    secondCtrl: ['', Validators.required],
-  });
-  thirdFormGroup = this._formBuilder.group({
-    thirdCtrl: ['', Validators.required],
-  });
+
   stepperOrientation: Observable<StepperOrientation> | undefined;
   selectedValue: any;
-  specialisation : string[] =['general','dermatologist','surgeon']
+  specialisation : string[] =['all','general','dermatologist','surgeon']
   selectedName= "";
-
+  isLinear = false;
   constructor(private _formBuilder: FormBuilder,breakpointObserver: BreakpointObserver) {
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')

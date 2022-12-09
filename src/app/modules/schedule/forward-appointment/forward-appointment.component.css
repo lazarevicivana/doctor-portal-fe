@@ -12,6 +12,12 @@
   width: 90%;
   padding: 10px;
 }
+.low{
+  margin-top: 30px;
+  border-top-width: 1px;
+  border-top-color: #3b4d79;
+  border-top-style: solid;
+}
 .formaa{
   position: center;
   margin: auto;
@@ -20,8 +26,25 @@
   height: 90%;
   align-items: center;
 }
+.formaa1{
+ margin-left: 5%;
+  margin-top: 2%;
+  height: 90%;
+  align-items: center;
+}
+
 .dugme{
-  margin-left: 70%;
+  align-items: flex-start;
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin-left: 10%;
+}
+.dugmence{
+}
+.finish{
+  background-color: #16d719;
 }
 .container {
   padding-right: 15px;
