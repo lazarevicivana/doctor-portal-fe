@@ -3,6 +3,7 @@ import {map, Observable} from "rxjs";
 import {StepperOrientation} from "@angular/cdk/stepper";
 import {FormBuilder, Validators} from "@angular/forms";
 import {BreakpointObserver} from "@angular/cdk/layout";
+import {Doctor, DoctorClient, HolidayClient} from "../../../api/api-reference";
 
 @Component({
   selector: 'app-forward-appointment',
@@ -15,8 +16,9 @@ export class ForwardAppointmentComponent implements OnInit {
   selectedValue: any;
   specialisation : string[] =['all','general','dermatologist','surgeon']
   selectedName= "";
+  doctors: Doctor [] = []
   isLinear = false;
-  constructor(private _formBuilder: FormBuilder,breakpointObserver: BreakpointObserver) {
+  constructor(private _formBuilder: FormBuilder,breakpointObserver: BreakpointObserver,private readonly client: DoctorClient) {
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')
       .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
@@ -24,6 +26,14 @@ export class ForwardAppointmentComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.client.getAllDoctors().subscribe({
+      next: response=>{
+        this.doctors = response
+      }
+    })
   }
 
+  next() {
+    console.log(this.doctors)
+  }
 }

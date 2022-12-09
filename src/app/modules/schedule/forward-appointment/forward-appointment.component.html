@@ -31,12 +31,12 @@
         <div class="low">
           <div class="dugme">
             <button mat-raised-button class="dugmence" matStepperPrevious>Back</button>
-            <button mat-raised-button class="dugmence" matStepperNext>Next</button>
+            <button mat-raised-button class="dugmence" (click)="next()" matStepperNext>Next</button>
           </div>
         </div>
 
       </mat-step>
-      <mat-step  label="Fill out your name">
+      <mat-step  label="Insert appointment date range">
           <div class="formaa">
             <mat-form-field appearance="fill">
               <mat-label>Insert earliest date</mat-label>
@@ -54,7 +54,7 @@
             </mat-form-field>
             <div class="low">
               <div class="dugme">
-                <button mat-raised-button class="dugmence" matStepperPrevious>Back</button>
+                <button mat-raised-button class="dugmence"  matStepperPrevious>Back</button>
                 <button mat-raised-button class="dugmence" matStepperNext>Next</button>
               </div>
             </div>
@@ -62,7 +62,7 @@
           </div>
 
       </mat-step>
-      <mat-step  label="Fill out your name">
+      <mat-step  label="Select appointment">
           <div class="formaa">
           <mat-form-field appearance="fill">
             <mat-label>Address</mat-label>
