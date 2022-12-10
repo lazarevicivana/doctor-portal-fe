@@ -9,7 +9,7 @@
   max-height: 20%;
   min-height: 200px;
   margin: auto;
-  width: 90%;
+  width: 65%;
   padding: 10px;
 }
 .low{
@@ -17,6 +17,7 @@
   border-top-width: 1px;
   border-top-color: #3b4d79;
   border-top-style: solid;
+  margin-bottom: 15px;
 }
 .formaa{
   position: center;
@@ -25,6 +26,12 @@
   margin-top: 5%;
   height: 90%;
   align-items: center;
+  overflow: auto;
+}
+.lista{
+  height: 40vh;
+  overflow: auto;
+  margin-bottom: 15px;
 }
 .formaa1{
  margin-left: 5%;
@@ -33,13 +40,30 @@
   align-items: center;
 }
 
+.ceneter{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-left: 5%;
+}
+
 .dugme{
-  align-items: flex-start;
   margin-top: 30px;
   display: flex;
   justify-content: space-between;
-  width: 80%;
-  margin-left: 10%;
+}
+
+.datumi{
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin-left: 5%;
+}
+.option{
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
 }
 .dugmence{
 }
