@@ -16,6 +16,7 @@ const httpOptions ={
 })
 export class EquipmentMovementService {
   private aplUrl = 'http://localhost:5000/api/v1/EquipmentMovementAppointment';
+  apiHost: string = 'http://localhost:5000/';
   headers: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json'}); ///dodato
 
   constructor(private http:HttpClient) { }
@@ -39,12 +40,14 @@ export class EquipmentMovementService {
     return this.http.get<EquipmentMovementAppointmentResponse[]>(this.aplUrl + '/'+ id,{headers: this.headers});
 
   }
-/*
-  getAllMovementAppointmentByRoomId(roomId:string): Observable<RoomEquipment[]> {
-   return this.http.get<RoomEquipment[]>(this.aplUrl + 'api/v1/RoomEquipment/getAllEquipmentByRoomId/'+ roomId , {headers: this.headers});
-  }
-*/
+
   getAllMovementAppointmentByRoomId(roomId:string): Observable<EquipmentMovementAppointmentResponse[]> {
-    return this.http.get<EquipmentMovementAppointmentResponse[]>(this.aplUrl + '/GetAllMovementAppointmentByRoomId' + roomId, {headers: this.headers});
+    return this.http.get<EquipmentMovementAppointmentResponse[]>(this.apiHost + 'api/v1/EquipmentMovementAppointment/GetAllMovementAppointmentByRoomId/' + roomId, {headers: this.headers});
   }
+
+  deleteMoveAppointment(id?:string): Observable<EquipmentMovementAppointmentResponse[]> {
+    return this.http.delete<EquipmentMovementAppointmentResponse[]>(this.apiHost + 'api/v1/EquipmentMovementAppointment/' + id , {headers: this.headers});
+  }
+
+
 }
