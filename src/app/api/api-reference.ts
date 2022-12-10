@@ -4349,6 +4349,7 @@ export interface IAppointmentClient {
   cancelAppointment(id: string): Observable<void>;
   getByRoomId(roomId: string): Observable<AppointmentResponse>;
   getDoctorAppointments(id: string): Observable<AppointmentResponse[]>;
+  getAppointmentsForExamination(doctorId: string): Observable<AppointmentResponse[]>;
 }
 
 @Injectable()
@@ -4650,6 +4651,139 @@ export class AppointmentClient implements IAppointmentClient {
         let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
         result404 = ProblemDetails.fromJS(resultData404);
         return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+      }));
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
+  }
+
+  getAppointmentsForExamination(doctorId: string): Observable<AppointmentResponse[]> {
+    let url_ = this.baseUrl + "/api/v1/Appointment/GetAppointmentsForExamination/{doctorId}";
+    if (doctorId === undefined || doctorId === null)
+      throw new Error("The parameter 'doctorId' must be defined.");
+    url_ = url_.replace("{doctorId}", encodeURIComponent("" + doctorId));
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_ : any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Accept": "application/json"
+      })
+    };
+
+    return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+      return this.processGetAppointmentsForExamination(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processGetAppointmentsForExamination(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<AppointmentResponse[]>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<AppointmentResponse[]>;
+    }));
+  }
+
+  protected processGetAppointmentsForExamination(response: HttpResponseBase): Observable<AppointmentResponse[]> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        if (Array.isArray(resultData200)) {
+          result200 = [] as any;
+          for (let item of resultData200)
+            result200!.push(AppointmentResponse.fromJS(item));
+        }
+        else {
+          result200 = <any>null;
+        }
+        return _observableOf(result200);
+      }));
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
+  }
+}
+
+export interface IExaminationClient {
+  createExamination(examinationRequest: ExaminationRequest): Observable<Examination>;
+}
+
+@Injectable()
+export class ExaminationClient implements IExaminationClient {
+  private http: HttpClient;
+  private baseUrl: string;
+  protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+  constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+    this.http = http;
+    this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:5000";
+  }
+
+  createExamination(examinationRequest: ExaminationRequest): Observable<Examination> {
+    let url_ = this.baseUrl + "/api/v1/Examination";
+    url_ = url_.replace(/[?&]$/, "");
+
+    const content_ = JSON.stringify(examinationRequest);
+
+    let options_ : any = {
+      body: content_,
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      })
+    };
+
+    return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+      return this.processCreateExamination(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processCreateExamination(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<Examination>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<Examination>;
+    }));
+  }
+
+  protected processCreateExamination(response: HttpResponseBase): Observable<Examination> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 201) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result201: any = null;
+        let resultData201 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result201 = Examination.fromJS(resultData201);
+        return _observableOf(result201);
+      }));
+    } else if (status === 400) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result400: any = null;
+        let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result400 = ProblemDetails.fromJS(resultData400);
+        return throwException("A server side error occurred.", status, _responseText, _headers, result400);
       }));
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -8618,8 +8752,6 @@ export class ExaminationPrescription implements IExaminationPrescription {
   id?: string;
   usage?: string | undefined;
   medicines?: Medicine[] | undefined;
-  examination?: Examination | undefined;
-  examinationId?: string;
 
   constructor(data?: IExaminationPrescription) {
     if (data) {
@@ -8639,8 +8771,6 @@ export class ExaminationPrescription implements IExaminationPrescription {
         for (let item of _data["medicines"])
           this.medicines!.push(Medicine.fromJS(item));
       }
-      this.examination = _data["examination"] ? Examination.fromJS(_data["examination"]) : <any>undefined;
-      this.examinationId = _data["examinationId"];
     }
   }
 
@@ -8660,8 +8790,6 @@ export class ExaminationPrescription implements IExaminationPrescription {
       for (let item of this.medicines)
         data["medicines"].push(item.toJSON());
     }
-    data["examination"] = this.examination ? this.examination.toJSON() : <any>undefined;
-    data["examinationId"] = this.examinationId;
     return data;
   }
 }
@@ -8670,128 +8798,6 @@ export interface IExaminationPrescription {
   id?: string;
   usage?: string | undefined;
   medicines?: Medicine[] | undefined;
-  examination?: Examination | undefined;
-  examinationId?: string;
-}
-
-export class Examination implements IExamination {
-  id?: string;
-  symptoms?: Symptom[] | undefined;
-  appointment?: Appointment | undefined;
-  anamnesis?: string | undefined;
-  prescriptions?: ExaminationPrescription[] | undefined;
-
-  constructor(data?: IExamination) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
-    }
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.id = _data["id"];
-      if (Array.isArray(_data["symptoms"])) {
-        this.symptoms = [] as any;
-        for (let item of _data["symptoms"])
-          this.symptoms!.push(Symptom.fromJS(item));
-      }
-      this.appointment = _data["appointment"] ? Appointment.fromJS(_data["appointment"]) : <any>undefined;
-      this.anamnesis = _data["anamnesis"];
-      if (Array.isArray(_data["prescriptions"])) {
-        this.prescriptions = [] as any;
-        for (let item of _data["prescriptions"])
-          this.prescriptions!.push(ExaminationPrescription.fromJS(item));
-      }
-    }
-  }
-
-  static fromJS(data: any): Examination {
-    data = typeof data === 'object' ? data : {};
-    let result = new Examination();
-    result.init(data);
-    return result;
-  }
-
-  toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data["id"] = this.id;
-    if (Array.isArray(this.symptoms)) {
-      data["symptoms"] = [];
-      for (let item of this.symptoms)
-        data["symptoms"].push(item.toJSON());
-    }
-    data["appointment"] = this.appointment ? this.appointment.toJSON() : <any>undefined;
-    data["anamnesis"] = this.anamnesis;
-    if (Array.isArray(this.prescriptions)) {
-      data["prescriptions"] = [];
-      for (let item of this.prescriptions)
-        data["prescriptions"].push(item.toJSON());
-    }
-    return data;
-  }
-}
-
-export interface IExamination {
-  id?: string;
-  symptoms?: Symptom[] | undefined;
-  appointment?: Appointment | undefined;
-  anamnesis?: string | undefined;
-  prescriptions?: ExaminationPrescription[] | undefined;
-}
-
-export class Symptom implements ISymptom {
-  id?: string;
-  description?: string | undefined;
-  examinations?: Examination[] | undefined;
-
-  constructor(data?: ISymptom) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
-    }
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.id = _data["id"];
-      this.description = _data["description"];
-      if (Array.isArray(_data["examinations"])) {
-        this.examinations = [] as any;
-        for (let item of _data["examinations"])
-          this.examinations!.push(Examination.fromJS(item));
-      }
-    }
-  }
-
-  static fromJS(data: any): Symptom {
-    data = typeof data === 'object' ? data : {};
-    let result = new Symptom();
-    result.init(data);
-    return result;
-  }
-
-  toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data["id"] = this.id;
-    data["description"] = this.description;
-    if (Array.isArray(this.examinations)) {
-      data["examinations"] = [];
-      for (let item of this.examinations)
-        data["examinations"].push(item.toJSON());
-    }
-    return data;
-  }
-}
-
-export interface ISymptom {
-  id?: string;
-  description?: string | undefined;
-  examinations?: Examination[] | undefined;
 }
 
 export class BloodUnitDto implements IBloodUnitDto {
@@ -9781,6 +9787,7 @@ export interface IGRoom {
 export class MedicineExaminationResponse implements IMedicineExaminationResponse {
   id?: string;
   name?: string | undefined;
+  amount?: number;
 
   constructor(data?: IMedicineExaminationResponse) {
     if (data) {
@@ -9795,6 +9802,7 @@ export class MedicineExaminationResponse implements IMedicineExaminationResponse
     if (_data) {
       this.id = _data["id"];
       this.name = _data["name"];
+      this.amount = _data["amount"];
     }
   }
 
@@ -9809,6 +9817,7 @@ export class MedicineExaminationResponse implements IMedicineExaminationResponse
     data = typeof data === 'object' ? data : {};
     data["id"] = this.id;
     data["name"] = this.name;
+    data["amount"] = this.amount;
     return data;
   }
 }
@@ -9816,6 +9825,7 @@ export class MedicineExaminationResponse implements IMedicineExaminationResponse
 export interface IMedicineExaminationResponse {
   id?: string;
   name?: string | undefined;
+  amount?: number;
 }
 
 export class MedicinePrescriptionRequest implements IMedicinePrescriptionRequest {
@@ -10594,6 +10604,282 @@ export interface IAppointmentResponse {
   appointmentState?: AppointmentState;
 }
 
+export class Examination implements IExamination {
+  id?: string;
+  symptoms?: Symptom[] | undefined;
+  appointment?: Appointment | undefined;
+  idApp?: string;
+  anamnesis?: string | undefined;
+  prescriptions?: ExaminationPrescription[] | undefined;
+
+  constructor(data?: IExamination) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.id = _data["id"];
+      if (Array.isArray(_data["symptoms"])) {
+        this.symptoms = [] as any;
+        for (let item of _data["symptoms"])
+          this.symptoms!.push(Symptom.fromJS(item));
+      }
+      this.appointment = _data["appointment"] ? Appointment.fromJS(_data["appointment"]) : <any>undefined;
+      this.idApp = _data["idApp"];
+      this.anamnesis = _data["anamnesis"];
+      if (Array.isArray(_data["prescriptions"])) {
+        this.prescriptions = [] as any;
+        for (let item of _data["prescriptions"])
+          this.prescriptions!.push(ExaminationPrescription.fromJS(item));
+      }
+    }
+  }
+
+  static fromJS(data: any): Examination {
+    data = typeof data === 'object' ? data : {};
+    let result = new Examination();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data["id"] = this.id;
+    if (Array.isArray(this.symptoms)) {
+      data["symptoms"] = [];
+      for (let item of this.symptoms)
+        data["symptoms"].push(item.toJSON());
+    }
+    data["appointment"] = this.appointment ? this.appointment.toJSON() : <any>undefined;
+    data["idApp"] = this.idApp;
+    data["anamnesis"] = this.anamnesis;
+    if (Array.isArray(this.prescriptions)) {
+      data["prescriptions"] = [];
+      for (let item of this.prescriptions)
+        data["prescriptions"].push(item.toJSON());
+    }
+    return data;
+  }
+}
+
+export interface IExamination {
+  id?: string;
+  symptoms?: Symptom[] | undefined;
+  appointment?: Appointment | undefined;
+  idApp?: string;
+  anamnesis?: string | undefined;
+  prescriptions?: ExaminationPrescription[] | undefined;
+}
+
+export class Symptom implements ISymptom {
+  id?: string;
+  description?: string | undefined;
+  examinations?: Examination[] | undefined;
+
+  constructor(data?: ISymptom) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.id = _data["id"];
+      this.description = _data["description"];
+      if (Array.isArray(_data["examinations"])) {
+        this.examinations = [] as any;
+        for (let item of _data["examinations"])
+          this.examinations!.push(Examination.fromJS(item));
+      }
+    }
+  }
+
+  static fromJS(data: any): Symptom {
+    data = typeof data === 'object' ? data : {};
+    let result = new Symptom();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data["id"] = this.id;
+    data["description"] = this.description;
+    if (Array.isArray(this.examinations)) {
+      data["examinations"] = [];
+      for (let item of this.examinations)
+        data["examinations"].push(item.toJSON());
+    }
+    return data;
+  }
+}
+
+export interface ISymptom {
+  id?: string;
+  description?: string | undefined;
+  examinations?: Examination[] | undefined;
+}
+
+export class ExaminationRequest implements IExaminationRequest {
+  idApp?: string;
+  symptoms?: SymptomResponse[] | undefined;
+  prescriptions?: ExaminationPrescriptionRequest[] | undefined;
+  anamnesis?: string | undefined;
+
+  constructor(data?: IExaminationRequest) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.idApp = _data["idApp"];
+      if (Array.isArray(_data["symptoms"])) {
+        this.symptoms = [] as any;
+        for (let item of _data["symptoms"])
+          this.symptoms!.push(SymptomResponse.fromJS(item));
+      }
+      if (Array.isArray(_data["prescriptions"])) {
+        this.prescriptions = [] as any;
+        for (let item of _data["prescriptions"])
+          this.prescriptions!.push(ExaminationPrescriptionRequest.fromJS(item));
+      }
+      this.anamnesis = _data["anamnesis"];
+    }
+  }
+
+  static fromJS(data: any): ExaminationRequest {
+    data = typeof data === 'object' ? data : {};
+    let result = new ExaminationRequest();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data["idApp"] = this.idApp;
+    if (Array.isArray(this.symptoms)) {
+      data["symptoms"] = [];
+      for (let item of this.symptoms)
+        data["symptoms"].push(item.toJSON());
+    }
+    if (Array.isArray(this.prescriptions)) {
+      data["prescriptions"] = [];
+      for (let item of this.prescriptions)
+        data["prescriptions"].push(item.toJSON());
+    }
+    data["anamnesis"] = this.anamnesis;
+    return data;
+  }
+}
+
+export interface IExaminationRequest {
+  idApp?: string;
+  symptoms?: SymptomResponse[] | undefined;
+  prescriptions?: ExaminationPrescriptionRequest[] | undefined;
+  anamnesis?: string | undefined;
+}
+
+export class SymptomResponse implements ISymptomResponse {
+  id?: string;
+  description?: string | undefined;
+
+  constructor(data?: ISymptomResponse) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.id = _data["id"];
+      this.description = _data["description"];
+    }
+  }
+
+  static fromJS(data: any): SymptomResponse {
+    data = typeof data === 'object' ? data : {};
+    let result = new SymptomResponse();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data["id"] = this.id;
+    data["description"] = this.description;
+    return data;
+  }
+}
+
+export interface ISymptomResponse {
+  id?: string;
+  description?: string | undefined;
+}
+
+export class ExaminationPrescriptionRequest implements IExaminationPrescriptionRequest {
+  usage?: string | undefined;
+  medicines?: MedicineExaminationResponse[] | undefined;
+
+  constructor(data?: IExaminationPrescriptionRequest) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.usage = _data["usage"];
+      if (Array.isArray(_data["medicines"])) {
+        this.medicines = [] as any;
+        for (let item of _data["medicines"])
+          this.medicines!.push(MedicineExaminationResponse.fromJS(item));
+      }
+    }
+  }
+
+  static fromJS(data: any): ExaminationPrescriptionRequest {
+    data = typeof data === 'object' ? data : {};
+    let result = new ExaminationPrescriptionRequest();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data["usage"] = this.usage;
+    if (Array.isArray(this.medicines)) {
+      data["medicines"] = [];
+      for (let item of this.medicines)
+        data["medicines"].push(item.toJSON());
+    }
+    return data;
+  }
+}
+
+export interface IExaminationPrescriptionRequest {
+  usage?: string | undefined;
+  medicines?: MedicineExaminationResponse[] | undefined;
+}
+
 export class HolidayResponse implements IHolidayResponse {
   id?: string;
   isUrgent?: boolean;
@@ -10756,46 +11042,6 @@ export interface IAppointmentRequest {
   doctorId?: string;
   appointmentType?: AppointmentType;
   appointmentState?: AppointmentState;
-}
-
-export class SymptomResponse implements ISymptomResponse {
-  id?: string;
-  description?: string | undefined;
-
-  constructor(data?: ISymptomResponse) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
-    }
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.id = _data["id"];
-      this.description = _data["description"];
-    }
-  }
-
-  static fromJS(data: any): SymptomResponse {
-    data = typeof data === 'object' ? data : {};
-    let result = new SymptomResponse();
-    result.init(data);
-    return result;
-  }
-
-  toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data["id"] = this.id;
-    data["description"] = this.description;
-    return data;
-  }
-}
-
-export interface ISymptomResponse {
-  id?: string;
-  description?: string | undefined;
 }
 
 export class RoomEquipmentResponse implements IRoomEquipmentResponse {
