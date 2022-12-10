@@ -1,4 +1,4 @@
-.container-f {
+.container-examination {
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 14px 28px rgba(0,0,0,0.25),
@@ -6,7 +6,7 @@
   position: relative;
   overflow: hidden;
   min-height: 450px;
-  max-height: 900px;
+  max-height: 1200px;
   width: 80%;
   margin-top: 10px;
   margin-left: auto;
@@ -22,4 +22,23 @@
 .an-area{
   height: 300px;
   font-size: 20px;
+}
+.mg-prescription{
+  margin-top: 30px;
+}
+.header-h3 {
+  font-size: 15px;
+  font-weight: 300;
+  background-image: linear-gradient(to left,#3b4d79, #3C779BFF);
+  color: transparent;
+  -webkit-background-clip: text;
+  text-align: left;
+}
+.medicine-text{
+  text-align: center;
+  margin-left: 3px;
+}
+.anamnesis-text{
+  word-wrap: normal;
+  font-size: 15px;
 }

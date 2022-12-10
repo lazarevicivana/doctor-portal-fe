@@ -17,9 +17,17 @@ import {ScheduleHolidayComponent} from "./modules/hoiday/schedule-holiday/schedu
 import {DoctorsHolidaysComponent} from "./modules/hoiday/doctors-holidays/doctors-holidays.component";
 import {ExaminationModule} from "./modules/examination/examination.module";
 import {ExaminationComponent} from "./modules/examination/examination/examination.component";
+import {ForwardAppointmentComponent} from "./modules/schedule/forward-appointment/forward-appointment.component"
+import {ManagerGuard} from "./guards/manager.guard";
+import {MaliciousPatientsComponent} from "./modules/hospital/malicious-patients/malicious-patients.component";
+
 
 
 const routes: Routes = [
+  { path: 'forward-appointment',
+    component: ForwardAppointmentComponent,
+    canActivate:[DoctorGuard]
+  },
   { path: 'dashboard',
     component: DashboardComponent,
     canActivate:[DoctorGuard]
@@ -71,7 +79,12 @@ const routes: Routes = [
     canActivate:[DoctorGuard]
   },
   {path: 'configureSendingReports/edit',component:EditConfigurationComponent},
-  {path:'examination',component:ExaminationComponent}
+  {path:'examination',component:ExaminationComponent},
+  {
+    path: 'malicious-patients',
+    component:MaliciousPatientsComponent,
+    canActivate:[ManagerGuard]
+  },
 ];
 
 @NgModule({

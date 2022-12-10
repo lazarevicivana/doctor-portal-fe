@@ -1,5 +1,10 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {MedicineClient, MedicineExaminationResponse, SymptomResponse} from "../../../api/api-reference";
+import {
+  ExaminationPrescription, ExaminationPrescriptionRequest,
+  MedicineClient,
+  MedicineExaminationResponse,
+  SymptomResponse
+} from "../../../api/api-reference";
 import {FormControl, Validators} from "@angular/forms";
 
 @Component({
@@ -8,13 +13,14 @@ import {FormControl, Validators} from "@angular/forms";
   styleUrls: ['./prescription-form.component.css']
 })
 export class PrescriptionFormComponent implements OnInit {
-  @Output() onSelection: EventEmitter<MedicineExaminationResponse[]> = new EventEmitter()
+  @Output() onPrescriptionCreation: EventEmitter<ExaminationPrescriptionRequest> = new EventEmitter()
   medicines:MedicineExaminationResponse[] = []
   filteredOptions:MedicineExaminationResponse[] = []
   selected:MedicineExaminationResponse[] = []
   search: string = ""
   description: string = ""
   formControl =  new FormControl<string | MedicineExaminationResponse>('',Validators.required);
+  formControlDescription =  new FormControl<string>('',Validators.required);
   constructor(private client:MedicineClient) { }
 
   ngOnInit(): void {
@@ -35,10 +41,26 @@ export class PrescriptionFormComponent implements OnInit {
       filter(option => option.name?.toLowerCase().includes(filterValue)));
     this.filteredOptions = [...new Set(this.filteredOptions)]
   }
-  onSelectedSymptoms(value: MedicineExaminationResponse[]) {
-    console.log("Medicines",value)
-    this.onSelection.emit(value)
-    this.selected = value
+  onDescriptionChange(value: string) {
+    console.log("Description: ",value)
+    //this.onSelection.emit(value)
+    this.description = value
+    let examinationPrescriptionRequest = new ExaminationPrescriptionRequest({
+      usage: this.description,
+      medicines: this.selected
+    })
+    console.log("Ex: ",examinationPrescriptionRequest)
+    this.onPrescriptionCreation.emit(examinationPrescriptionRequest)
+    //console.log("Description: ",this.description)
   }
-
+  onMedicineChange(value: MedicineExaminationResponse[]) {
+    //console.log("Medicines: ",value)
+    this.selected = value
+    let examinationPrescriptionRequest = new ExaminationPrescriptionRequest({
+      usage: this.description,
+      medicines: this.selected
+    })
+    console.log("Ex: ",examinationPrescriptionRequest)
+    this.onPrescriptionCreation.emit(examinationPrescriptionRequest)
+  }
 }

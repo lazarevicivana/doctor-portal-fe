@@ -10,13 +10,17 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import { AppointmentReportDialogComponent } from './appointment-report-dialog/appointment-report-dialog.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MaterialModule} from "../../material/material.module";
+import { NextPatientsViewComponent } from './next-patients-view/next-patients-view.component';
+import {AppointmentClient} from "../../api/api-reference";
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
     AppointmentPreviewComponent,
-    AppointmentReportDialogComponent
+    AppointmentReportDialogComponent,
+    NextPatientsViewComponent
   ],
     imports: [
         CommonModule,
@@ -26,7 +30,11 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
         MatSortModule,
         MatButtonModule,
         MatIconModule,
-        MatCheckboxModule
-    ]
+        MatCheckboxModule,
+        MaterialModule
+    ],
+  providers:[
+    AppointmentClient
+  ]
 })
 export class DashboardModule { }
