@@ -305,6 +305,14 @@ body {
     -webkit-background-clip: text;
     text-align: center;
   }
+  .header-small {
+    font-size: 15px;
+    font-weight: 300;
+    background-image: linear-gradient(to left,#3b4d79, #3C779BFF);
+    color: transparent;
+    -webkit-background-clip: text;
+    text-align: center;
+  }
   .divider-b{
     background: #3b4d79;
   }
