@@ -7,6 +7,7 @@ import {
   SymptomResponse
 } from "../../../api/api-reference";
 import {NgToastService} from "ng-angular-popup";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-examination',
@@ -14,8 +15,6 @@ import {NgToastService} from "ng-angular-popup";
   styleUrls: ['./examination.component.css']
 })
 export class ExaminationComponent implements OnInit {
-
-  constructor(private examinationClient:ExaminationClient,private toastService:NgToastService) { }
   formControlAnamnesis =  new FormControl<string>('',Validators.required);
   formControlSymptoms =  new FormControl<SymptomResponse[]>([],Validators.required);
   formControlMedicine =  new FormControl<string>('',Validators.required);
@@ -26,6 +25,11 @@ export class ExaminationComponent implements OnInit {
   selectedPrescription:ExaminationPrescriptionRequest = new ExaminationPrescriptionRequest()
   selectedPrescriptions:ExaminationPrescriptionRequest[] = []
   anamnesis:string = ""
+
+  constructor(private examinationClient:ExaminationClient,private toastService:NgToastService,private router:Router) {
+    this.appointmentId = this.router.getCurrentNavigation()?.extras?.state?.['data']!
+    console.log(this.appointmentId)
+  }
 
   ngOnInit(): void {
   }
@@ -104,6 +108,11 @@ export class ExaminationComponent implements OnInit {
     this.examinationClient.createExamination(ex).subscribe({
       next: value => {
         console.log(value)
+        this.router.navigate(['dashboard']).then(()=>{
+          this.toastService.success({detail: 'Success!', summary: "You are successfully create examiantion!", duration: 5000})
+        })},
+      error: message => {
+        this.toastService.error({detail: 'Error!', summary: message.Error, duration: 5000})
       }
     })
   }
