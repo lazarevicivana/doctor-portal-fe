@@ -15,6 +15,11 @@ export const navDataManager= [
     label: 'Patient statistics'
   },
   {
+    routeLink: 'malicious-patients',
+    icon: 'fal fa-solid fa-user-slash',
+    label: 'Malicious patients'
+  },
+  {
     routeLink: 'configureSendingReports',
     icon: 'fal fa-cog',
     label: 'Configure sending reports'

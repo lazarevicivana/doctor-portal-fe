@@ -8,12 +8,16 @@ import {AppointmentPreviewComponent} from "./appointment-preview/appointment-pre
 import {MatSortModule} from '@angular/material/sort';
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
+import {MaterialModule} from "../../material/material.module";
+import { NextPatientsViewComponent } from './next-patients-view/next-patients-view.component';
+import {AppointmentClient} from "../../api/api-reference";
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    AppointmentPreviewComponent
+    AppointmentPreviewComponent,
+    NextPatientsViewComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +26,11 @@ import {MatIconModule} from "@angular/material/icon";
     MatTableModule,
     MatSortModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MaterialModule
+  ],
+  providers:[
+    AppointmentClient
   ]
 })
 export class DashboardModule { }
