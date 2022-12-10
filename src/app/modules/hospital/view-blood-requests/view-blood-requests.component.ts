@@ -7,7 +7,7 @@ import {NgToastService} from "ng-angular-popup";
 import {MatDialog} from '@angular/material/dialog';
 import { AddCommentComponent } from './add-comment.component/add-comments.component';
 import { AddCommentService } from '../services/add-comment.service';
-import { BloodRequestStatus } from 'src/app/api/api-reference';
+import { BloodRequestStatus } from 'src/app/api/BloodRequestStatus';
 
 @Component({
   selector: 'app-view-blood-request',
