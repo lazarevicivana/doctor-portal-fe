@@ -18,7 +18,7 @@ export class BloodBankComponent implements OnInit {
   public responseStatus= "Enter your requirements!";
   public bloodType = "";
   public bloodAmount = 0;
-  states: string[] = ['A','B','AB']
+  states: string[] = ['Apos','Bpos','Aneg','Bneg','ABpos','ABneg','0pos','0neg']
 
   constructor(private bloodbankService: BloodbankService, private router: Router) { }
 
