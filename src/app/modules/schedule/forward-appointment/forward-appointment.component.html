@@ -79,9 +79,9 @@
           <div class="formaa">
             <div class="lista">
               <mat-selection-list [multiple]="false" #shoes>
-                <mat-list-option  *ngFor="let span of generatedSpans" [value]="span">
+                <mat-list-option  *ngFor="let span of generatedSpans" [value]="span" (selectedChange)="selectAppointment(span)">
                   <div class="option">
-                    <span matListItemTitle>{{span!.from!.getFullYear()}}:{{span!.from!.getMonth()}}:{{span!.from!.getDate()}} </span>
+                    <span matListItemTitle>{{span!.from!.getFullYear()}}-{{span!.from!.getMonth()+1}}-{{span!.from!.getDate()}} </span>
                     <span matListItemLine> {{span!.from!.getHours()!}}:{{convertminutes(span!.from!.getMinutes()!)}}</span>
                     <span matListItemLine>{{span!.to!.getHours()!}}:{{convertminutes(span!.to!.getMinutes()!)}}</span>
                   </div>
@@ -93,7 +93,7 @@
               <div class="dugme">
                 <div><button mat-raised-button class="dugmence" matStepperPrevious>Back</button></div>
                 <div>
-                  <button mat-raised-button class="dugmence " style="margin-right: 15px" color="primary" matStepperNext>Finish</button>
+                  <button mat-raised-button class="dugmence " style="margin-right: 15px" color="primary" (click)="scheduleAppointment()" matStepperNext>Finish</button>
                   <button mat-raised-button class="dugmence" color="warn" matStepperNext>Cancel</button>
                 </div>
 

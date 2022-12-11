@@ -3,8 +3,17 @@ import {map, Observable} from "rxjs";
 import {StepperOrientation} from "@angular/cdk/stepper";
 import {FormBuilder, Validators} from "@angular/forms";
 import {BreakpointObserver} from "@angular/cdk/layout";
-import {DateRange, Doctor, DoctorClient, DoctorResponse, HolidayClient} from "../../../api/api-reference";
+import {
+  Appointment, AppointmentRequest, AppointmentState, AppointmentType,
+  DateRange,
+  Doctor,
+  DoctorClient,
+  DoctorResponse,
+  HolidayClient,
+  ScheduleClient
+} from "../../../api/api-reference";
 import {NgToastService} from "ng-angular-popup";
+import {Moment} from "moment";
 
 @Component({
   selector: 'app-forward-appointment',
@@ -20,14 +29,17 @@ export class ForwardAppointmentComponent implements OnInit {
   selectedName= "";
   selectedDoctorId = ""
   doctors: DoctorResponse[] = []
+  patientId = "a147ace2-6838-48ec-8a4f-28f4f683ca07"
   isLinear = true;
   generated = false;
-  stardDate: any;
+  stardDate: Date = new Date();
   valid = false;
   generatedSpans : DateRange[] = []
   endDate: any;
+  selectedDateRange : DateRange = new DateRange()
   bla: true | undefined;
-  constructor(private _formBuilder: FormBuilder,breakpointObserver: BreakpointObserver,private readonly client: DoctorClient,private readonly  ngToast:NgToastService) {
+  constructor(private _formBuilder: FormBuilder,breakpointObserver: BreakpointObserver,private readonly client: DoctorClient,
+              private readonly  ngToast:NgToastService,private scheduleClient: ScheduleClient,) {
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')
       .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
@@ -74,8 +86,11 @@ export class ForwardAppointmentComponent implements OnInit {
       return "00"
     }
     return mins.toString()
-
   }
+  convertMonth(month:number){
+    return month +1
+  }
+
   validate(){
     if(this.selectedDoctorId != "" && this.stardDate != undefined && this.endDate!= undefined){
       if(this.checkDates()){
@@ -142,5 +157,28 @@ export class ForwardAppointmentComponent implements OnInit {
       return false
     }
     return true
+  }
+
+  selectAppointment(span: DateRange) {
+    this.selectedDateRange = span
+    console.log( this.selectedDateRange)
+
+  }
+
+  scheduleAppointment() {
+    let app: AppointmentRequest = new AppointmentRequest(
+      {
+        appointmentState: AppointmentState.Pending,
+        appointmentType: AppointmentType.Examination,
+        doctorId: this.selectedDoctorId,
+        patientId: this.patientId,
+        duration: this.selectedDateRange,
+        emergent: false
+      });
+    this.scheduleClient.scheduleAppointment(app).subscribe({
+      next: res=>{
+        this.ngToast.success({detail: 'Success!',summary:"Scheduled appointment!",duration:5000})
+      }
+    })
   }
 }
