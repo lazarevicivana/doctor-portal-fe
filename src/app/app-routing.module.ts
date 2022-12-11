@@ -85,6 +85,7 @@ const routes: Routes = [
     component:MaliciousPatientsComponent,
     canActivate:[ManagerGuard]
   },
+
 ];
 
 @NgModule({

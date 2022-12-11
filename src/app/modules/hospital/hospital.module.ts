@@ -42,10 +42,11 @@ import {BloodBankGuard} from "../../guards/blood-bank.guard";
 import { BloodSubscriptionComponent } from './blood-subscription/blood-subscription.component';
 import { BloodSubscriptionDialogComponent } from './blood-subscription/blood-subscription-dialog/blood-subscription-dialog.component';
 import { MaliciousPatientsComponent } from './malicious-patients/malicious-patients.component';
+import { ChooseBloodBankComponent } from "./view-blood-requests/choose-bloodbank/choose-bloodbank.component";
 
 
 const routes: Routes = [
-  { path: 'bloodBank', component: BloodBankComponent, canActivate:[BloodBankGuard]},
+  { path: 'bloodBank', component: BloodBankComponent, canActivate:[ManagerGuard]},
   { path: 'rooms', component: RoomsComponent,canActivate:[ManagerGuard]},
   { path: 'rooms/add', component: CreateRoomComponent,canActivate:[ManagerGuard]},
   { path: 'rooms/:id', component: RoomDetailComponent,canActivate:[ManagerGuard]},
@@ -53,8 +54,8 @@ const routes: Routes = [
   { path: 'patient-statistics', component: PatientStatisticsComponent, canActivate:[ManagerGuard] },
   { path: 'feedback', component: FeedbackComponent,canActivate:[ManagerGuard] },
   { path: 'bloodBank/add', component: BloodbankRegistrationComponent, canActivate:[BloodBankGuard]},
-  { path: 'view-bloodRequests', component: ViewBloodRequestsComponent, canActivate:[BloodBankGuard]},
-  { path: 'view-bloodRequests/comment', component: AddCommentComponent, canActivate:[BloodBankGuard]},
+  { path: 'view-bloodRequests', component: ViewBloodRequestsComponent , canActivate:[ManagerGuard]},
+  { path: 'view-bloodRequests/comment', component: AddCommentComponent, canActivate:[ManagerGuard]},
   { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent, canActivate:[BloodBankGuard]},
   { path: 'edit-blood-request',component: EditBoodRequestComponent, canActivate:[BloodBankGuard]},
   { path: 'configureSendingReports', component: ConfigureSendingReportsComponent,canActivate:[BloodBankGuard]},
@@ -97,7 +98,8 @@ const routes: Routes = [
     MedicineForPrescriptionComponent,
     BloodSubscriptionComponent,
     BloodSubscriptionDialogComponent,
-    MaliciousPatientsComponent
+    MaliciousPatientsComponent,
+    ChooseBloodBankComponent
   ],
     imports: [
         CommonModule,
