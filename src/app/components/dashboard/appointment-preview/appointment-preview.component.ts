@@ -4,6 +4,8 @@ import {MatDialog} from "@angular/material/dialog";
 import * as moment from "moment";
 import {Router} from "@angular/router";
 import {AppointmentReportDialogComponent} from "../appointment-report-dialog/appointment-report-dialog.component";
+import {UserToken} from "../../../model/UserToken";
+import {TokenStorageService} from "../../../services/token-storage.service";
 
 @Component({
   selector: 'app-appointment-preview',
@@ -18,9 +20,14 @@ export class AppointmentPreviewComponent implements OnInit {
   tomorrow= new Date();
   @Output() onDelete: EventEmitter<AppointmentResponse[]> = new EventEmitter();
 
+  appointmentsForExamination: AppointmentResponse[]=[];
+  userToken:UserToken;
+  isLoaded:boolean = false;
 
-  constructor(private readonly router:Router, private  client: AppointmentClient,public dialog: MatDialog) {
+  constructor(private readonly router:Router, private  client: AppointmentClient,public dialog: MatDialog,private tokenStorageService:TokenStorageService) {
     this.tomorrow.setDate(this.tomorrow.getDate() + 1);
+    this.userToken = this.tokenStorageService.getUser();
+    this.loadAppointmentsForExamination()
   }
 
   ngOnInit(): void {
@@ -56,9 +63,13 @@ export class AppointmentPreviewComponent implements OnInit {
      return this.tomorrow < date;
   }
 
-  canCreateReport(date:Date)
+  canCreateReport(id:string)
   {
-    return new Date() > date;
+    for (var val of this.appointmentsForExamination) {
+      if (val.id == id)
+        return true
+    }
+    return false
   }
 
   CreateAppointmentReport(id: string) {
@@ -72,5 +83,15 @@ export class AppointmentPreviewComponent implements OnInit {
       data: { appointmetId: id }
     });
 
+  }
+
+  loadAppointmentsForExamination() {
+    this.client.getAppointmentsForExamination(this.userToken.id).subscribe({
+      next: value => {
+        this.appointmentsForExamination = value
+        console.log(this.appointments)
+        this.isLoaded = true
+      }
+    })
   }
 }
