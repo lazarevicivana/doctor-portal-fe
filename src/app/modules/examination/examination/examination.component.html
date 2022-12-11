@@ -1,0 +1,147 @@
+<div class="container">
+  <div class="container-f">
+    <mat-stepper linear #stepper>
+      <mat-step>
+        <ng-template matStepLabel>Symptoms</ng-template>
+        <form>
+          <div class="steeper-title">
+            <h1 class="header-b">Select symptoms</h1>
+            <mat-divider class="sub-color"></mat-divider>
+            <app-symptoms-select (onSelection)="bindSymptoms($event)"></app-symptoms-select>
+          </div>
+        </form>
+        <div align="center" class="align-me">
+          <button class="btn-b" mat-flat-button matStepperNext>Next</button>
+        </div>
+      </mat-step>
+      <mat-step [stepControl]="formControlAnamnesis">
+        <ng-template matStepLabel>Anamnesis</ng-template>
+        <div class="steeper-title">
+          <h1 class="header-b">Anamnesis</h1>
+          <mat-divider class="sub-color"></mat-divider>
+          <form class="an-form">
+          <mat-form-field class="text-area-an">
+            <mat-label>Write anamnesis</mat-label>
+            <textarea [formControl]="formControlAnamnesis" (ngModelChange)="submitAnamnesis($event)" class="an-area" matInput placeholder="Anamnesis..." required></textarea>
+          </mat-form-field>
+          </form>
+          <div class="row">
+          <div  class="col-6">
+            <button class="btn-b-cols" mat-flat-button matStepperPrevious>Back</button>
+          </div>
+          <div class="col-6">
+            <button class="btn-b-cols" mat-flat-button matStepperNext>Next</button>
+          </div>
+          </div>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Prescription</ng-template>
+        <div *ngIf="isActivePrescription">
+        <div class="center-text">
+        <div class="steeper-title">
+          <h1 class="header-b">Create prescriptions</h1>
+          <mat-divider class="sub-color"></mat-divider>
+        </div>
+          <app-prescription-form *ngIf="isActivePrescription" (onPrescriptionCreation)="bindPrescription($event)"></app-prescription-form>
+        <div class="row">
+          <div  class="col-6">
+            <button class="btn-b-cols" mat-flat-button matStepperPrevious>Back</button>
+          </div>
+          <div class="col-6">
+            <button class="btn-b-cols" mat-flat-button (click)="addPrescription()">Next</button>
+          </div>
+        </div>
+        </div>
+        </div>
+        <div *ngIf="!isActivePrescription">
+          <div class="center-text">
+          <div class="steeper-title">
+            <h1 class="header-b">Do you want to create another prescription?</h1>
+            <mat-divider class="sub-color"></mat-divider>
+          </div>
+          <div class="row mg-prescription">
+            <div  class="col-6">
+              <button class="btn-b-cols" mat-flat-button (click)="showNextPrescription()">Yes</button>
+            </div>
+            <div class="col-6">
+              <button class="btn-b-cols" mat-flat-button matStepperNext>No</button>
+            </div>
+          </div>
+        </div>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template  matStepLabel>Finish</ng-template>
+        <div class="center-text">
+        <div class="steeper-title">
+          <h1 class="header-b">Create examination</h1>
+          <mat-divider class="sub-color"></mat-divider>
+        </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="steeper-title">
+                <h3 class="header-small">Symptoms</h3>
+                <mat-divider class="sub-color"></mat-divider>
+              </div>
+              <mat-list #symptoms>
+                <div class="row">
+                <mat-list-item *ngFor="let s of selectedSymptoms" class="col-6 col-md-6">
+                  <div class="medicine-text">
+                    {{s.description}}
+                  </div>
+                </mat-list-item>
+                </div>
+              </mat-list>
+              </div>
+            <div class="col-6">
+              <div class="steeper-title">
+                <h3 class="header-small">Anamnesis</h3>
+                <mat-divider class="sub-color"></mat-divider>
+              </div>
+              <p class="anamnesis-text">
+                {{anamnesis}}
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="steeper-title">
+              <h2 class="header-small">Prescriptions</h2>
+              <mat-divider class="sub-color"></mat-divider>
+            </div>
+              <div *ngFor="let pr of selectedPrescriptions; let i=index" class="col-6 col-md-6">
+                <div class="steeper-title">
+                  <h3 class="header-small">Prescription {{i}}</h3>
+                  <mat-divider class="sub-color"></mat-divider>
+                </div>
+                <div class="row">
+                <div class="col-6 col-md-6">
+                <div class="steeper-title">
+                  <h3 class="header-h3">Medicines</h3>
+                </div>
+                <mat-list-item *ngFor="let m of pr.medicines">
+                  <div class="row medicine-text">
+                    {{m.name}}
+                  </div>
+                </mat-list-item>
+                </div>
+                <div class="col-6 col-md-6">
+                  <div class="steeper-title">
+                    <h3 class="header-h3">Usage</h3>
+                  </div>
+                  <div class="row medicine-text">
+                    {{pr.usage}}
+                  </div>
+                </div>
+              </div>
+              </div>
+          </div>
+        <div class="align-me mg-prescription">
+          <button class="btn-b" mat-flat-button (click)="createExamination()">Finish</button>
+        </div>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </div>
+
+</div>

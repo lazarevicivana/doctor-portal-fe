@@ -8,21 +8,33 @@ import {AppointmentPreviewComponent} from "./appointment-preview/appointment-pre
 import {MatSortModule} from '@angular/material/sort';
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
+import { AppointmentReportDialogComponent } from './appointment-report-dialog/appointment-report-dialog.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MaterialModule} from "../../material/material.module";
+import { NextPatientsViewComponent } from './next-patients-view/next-patients-view.component';
+import {AppointmentClient} from "../../api/api-reference";
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    AppointmentPreviewComponent
+    AppointmentPreviewComponent,
+    AppointmentReportDialogComponent,
+    NextPatientsViewComponent
   ],
-  imports: [
-    CommonModule,
-    MatGridListModule,
-    MatTabsModule,
-    MatTableModule,
-    MatSortModule,
-    MatButtonModule,
-    MatIconModule
+    imports: [
+        CommonModule,
+        MatGridListModule,
+        MatTabsModule,
+        MatTableModule,
+        MatSortModule,
+        MatButtonModule,
+        MatIconModule,
+        MatCheckboxModule,
+        MaterialModule
+    ],
+  providers:[
+    AppointmentClient
   ]
 })
 export class DashboardModule { }

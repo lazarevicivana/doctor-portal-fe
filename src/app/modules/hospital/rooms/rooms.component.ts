@@ -35,6 +35,11 @@ export class RoomsComponent implements OnInit {
   Searchedequipment = new MatTableDataSource<RoomEquipment[]> ;
   displayedColumns2: string[] = [ 'roomId', 'equipmentName', 'amount'];
 
+  MovedEquipment = new MatTableDataSource<EquipmentMovementAppointmentResponse[]> ;
+  displayedColumns3: string[] = [ 'equipmentName', 'amount', 'duration', 'Delete'];
+
+
+
 
   public oprema:RoomEquipment=new RoomEquipment();
 
@@ -43,6 +48,7 @@ export class RoomsComponent implements OnInit {
   public selectedFloor: Floor = new Floor();
   public selectedRoom: Room = new Room();
   public selectedRoomEquipment : RoomEquipment = new RoomEquipment();
+  //public selectedEquipmentMovementResponse : EquipmentMovementAppointmentResponse = new EquipmentMovementAppointmentResponse();
 
 
   public EquipmentToSearch:any;
@@ -111,7 +117,7 @@ export class RoomsComponent implements OnInit {
   formEndDate: Date = new Date();
   formSelectedRoomId: string = '';
 
-  constructor(private equipmentMovementService:EquipmentMovementService, private roomService: RoomService, private buildingService: BuildingService, private groomService: GroomService, private floorService: FloorService, private roomEquipmentService :RoomEquipmentService, private router: Router) { }
+  constructor(private equipmentMovementService:EquipmentMovementService, private roomService: RoomService, private buildingService: BuildingService, private groomService: GroomService, private floorService: FloorService, private roomEquipmentService :RoomEquipmentService,  private router: Router) { }
 
   ngOnInit(): void
   {
@@ -490,6 +496,13 @@ export class RoomsComponent implements OnInit {
           this.equipment = new MatTableDataSource(<RoomEquipment[][]><unknown>result);
       }));
 
+        this.equipmentMovementService.getAllMovementAppointmentByRoomId(this.selectedRoom.id).subscribe(res => {
+          console.log(res);
+          this.MovedEquipment = new MatTableDataSource(<EquipmentMovementAppointmentResponse[][]><unknown>res);
+
+
+        });
+
           this.shownRoom = true; //PRIKAZE SPECIFIKACIJE SOBE
 
           this.selectRoom(room);
@@ -686,6 +699,23 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
   {
     this.selectedRoomEquipment = new RoomEquipment();
     this.tabNumber = 0;
+
+  }
+
+
+  public deleteMovementEquipment(movedEquipment : EquipmentMovementAppointmentResponse){
+
+    var izabran = movedEquipment.id;
+    this.equipmentMovementService.deleteMoveAppointment(izabran).subscribe(
+      (resp) =>{
+        console.log(resp);
+        console.log("OBRISAOOOO");
+
+      }, err=>{
+        console.log(err);
+        console.log("GRESKA");
+      }
+    );
 
   }
 

@@ -147,6 +147,43 @@
       <!--      (click)="getRecord(row)"-->
       </table>
     </div>
+
+  <div class="mat-elevation-z8" *ngIf="shownRoom">
+    <div>
+      <h1 class="naslov">Movement Details</h1>
+    </div>
+    <table mat-table [dataSource]="MovedEquipment" matSort  >
+
+      <ng-container matColumnDef="equipmentName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Equipment Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.equipmentName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
+        <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="duration">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> duration </th>
+        <td mat-cell *matCellDef="let element"> {{element.duration}} </td>       <!-- VAMO MORAM NEKAKO DA GA PREBACIM U VIDLJIVO --->
+      </ng-container>
+
+      <ng-container matColumnDef="Delete"  >
+        <th mat-header-cell *matHeaderCellDef > Delete </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="deleteMovementEquipment(element)">
+            <mat-icon matTooltip="delete">delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns3"></tr>
+      <tr mat-row  *matRowDef="let row; columns: displayedColumns3;" ></tr>
+
+    </table>
+  </div>
+
 </div>
 
 
@@ -198,6 +235,10 @@
 
   </table>
 </div>
+
+
+
+
 
 
 <!--- PIKULIN DEO, NE DIRATI NI ZA ZIVU GLAVU!-->
