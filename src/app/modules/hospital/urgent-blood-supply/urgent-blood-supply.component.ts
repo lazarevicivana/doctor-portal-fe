@@ -34,7 +34,7 @@ export class UrgentBloodSupplyComponent implements OnInit {
   });
 
 
-  public saveConfiguration(){
+  public sendRequestForUrgentSupply(){
     if(this.groupForm.valid){
       this.urgentBloodSupplyService.sendRequestForUrgentBloodSupply(this.urgentBloodSupplyRequest).subscribe(res => {
         this.alert.success({detail: 'Success!',summary:"Request for urgent blood supply successfully sent!!",duration:5000})

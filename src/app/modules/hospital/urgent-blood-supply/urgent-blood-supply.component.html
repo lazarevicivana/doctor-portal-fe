@@ -4,7 +4,7 @@
     <div>
         <h1>Urgent blood supply</h1>
         <br><br>
-        <form>
+        <form (submit)="sendRequestForUrgentSupply()">
             <h3>Enter data in the following fields:</h3> 
         <div [formGroup]="groupForm">
             <mat-form-field appearance="fill">
