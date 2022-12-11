@@ -16,6 +16,8 @@ import {RoomEquipment} from "../model/roomEquipment";
 import {RoomEquipmentService} from "../services/HospitalMapServices/roomequipment.service";
 import { DateRange, EquipmentMovementAppointmentResponse, EquipmentMovementAppointmentRequest } from 'src/app/api/api-reference';
 import {EquipmentMovementService} from "../services/equipmentMovement.service";
+//import _default from "chart.js";
+//import numbers = _default.defaults.animations.numbers;
 
 @Component({
   selector: 'app-rooms',
@@ -23,8 +25,6 @@ import {EquipmentMovementService} from "../services/equipmentMovement.service";
   styleUrls: ['./rooms.component.css']
 })
 export class RoomsComponent implements OnInit {
-
-
 
 
 //Show Equipment
@@ -35,28 +35,25 @@ export class RoomsComponent implements OnInit {
   Searchedequipment = new MatTableDataSource<RoomEquipment[]> ;
   displayedColumns2: string[] = [ 'roomId', 'equipmentName', 'amount'];
 
+  ////For  Displaying Moved Equipment amount
   MovedEquipment = new MatTableDataSource<EquipmentMovementAppointmentResponse[]> ;
-  displayedColumns3: string[] = [ 'equipmentName', 'amount', 'duration', 'Delete'];
+  displayedColumns3: string[] = [ 'amount', 'equipmentName', 'startDate','endDate',  'Delete'];
+  public izabran : any ; // for splicing MovedEquip matTable
 
-
-
-
-  public oprema:RoomEquipment=new RoomEquipment();
 
   //SELECTED
   public selectedBuilding: Building = new Building();
   public selectedFloor: Floor = new Floor();
   public selectedRoom: Room = new Room();
   public selectedRoomEquipment : RoomEquipment = new RoomEquipment();
-  //public selectedEquipmentMovementResponse : EquipmentMovementAppointmentResponse = new EquipmentMovementAppointmentResponse();
 
 
-  public EquipmentToSearch:any;
 
   //ROOM EDIT
   public editBuildingName: string = '';
   public editFloorName: string = '';
   public editRoomName: string = '';
+
 
 
   //ROOM SEARCH
@@ -89,7 +86,6 @@ export class RoomsComponent implements OnInit {
  // public displayedColumns = ['number', 'floor', 'update', 'delete'];
   shownRoom = false;  ///DA PRIKAZE SOBU KAD SE KLIKNE NA OBJEKAT SOBE
   shownEquipment =false; //za prikazivanje sobe
-
 
 
   //LOADING
@@ -499,8 +495,6 @@ export class RoomsComponent implements OnInit {
         this.equipmentMovementService.getAllMovementAppointmentByRoomId(this.selectedRoom.id).subscribe(res => {
           console.log(res);
           this.MovedEquipment = new MatTableDataSource(<EquipmentMovementAppointmentResponse[][]><unknown>res);
-
-
         });
 
           this.shownRoom = true; //PRIKAZE SPECIFIKACIJE SOBE
@@ -702,21 +696,20 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
 
   }
 
-
   public deleteMovementEquipment(movedEquipment : EquipmentMovementAppointmentResponse){
 
-    var izabran = movedEquipment.id;
-    this.equipmentMovementService.deleteMoveAppointment(izabran).subscribe(
+    this.izabran = movedEquipment.id;
+    this.equipmentMovementService.deleteMoveAppointment(this.izabran).subscribe(
       (resp) =>{
         console.log(resp);
         console.log("OBRISAOOOO");
-
+        this.MovedEquipment.data.splice(this.izabran,1)
+        this.MovedEquipment.filter='';
       }, err=>{
         console.log(err);
         console.log("GRESKA");
-      }
-    );
-
+      });
   }
+
 
 }
