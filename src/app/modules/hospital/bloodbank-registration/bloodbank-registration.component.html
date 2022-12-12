@@ -2,21 +2,21 @@
     <form [formGroup]="registrationForm" (ngSubmit)="createBloodBank()">
         <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
-            <input matInput formControlName="name" type="text" [(ngModel)]="bloodBank.name">
+            <input matInput formControlName="name" type="text" [(ngModel)]="bloodBank.name" id="name">
         </mat-form-field><br>
         <br>
         <mat-form-field appearance="fill">
             <mat-label>Server address</mat-label>
-            <input matInput formControlName="serverAddress" [(ngModel)]="bloodBank.serverAddress">
+            <input matInput formControlName="serverAddress" [(ngModel)]="bloodBank.serverAddress" id="serverAddress">
         </mat-form-field><br>
         <br>
         <mat-form-field appearance="fill">
             <mat-label>Email</mat-label>
-            <input type="email" name="email" matInput formControlName="email" [(ngModel)]="bloodBank.email">
+            <input type="email" name="email" matInput formControlName="email" [(ngModel)]="bloodBank.email" id="email">
         </mat-form-field><br>
-        <span style="color: red;" *ngIf="email && email.invalid && email.touched">Email format is not valid!</span>
+        <span style="color: red;" *ngIf="email && email.invalid && email.touched" id="error">Email format is not valid!</span>
         <br>
-        <button mat-stroked-button [disabled]="registrationForm.invalid">
+        <button mat-stroked-button [disabled]="registrationForm.invalid" id="submitButton">
             Submit
         </button>
     </form>
