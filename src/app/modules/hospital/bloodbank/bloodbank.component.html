@@ -18,9 +18,9 @@
         <div>
           <mat-form-field appearance="fill" class="input-schedule">
             <mat-label>BloodType</mat-label>
-            <mat-select [(ngModel)]="bloodType" formControlName="bloodType">
+            <mat-select [(ngModel)]="bloodType" formControlName="bloodType" id="bloodTypeSelect">
               <mat-option>None</mat-option>
-              <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+              <mat-option *ngFor="let state of states; let i = index" [value]="state" [id]= "'state' + i">{{state}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -28,14 +28,14 @@
         <div>
           <mat-form-field appearance="fill" class="input-schedule">
             <mat-label>Requred amount (in liters)</mat-label>
-            <input  matInput [(ngModel)]="bloodAmount" formControlName="bloodAmount" min="0" type="number">
+            <input  matInput [(ngModel)]="bloodAmount" formControlName="bloodAmount" min="0" type="number" id="bloodAmountInput">
             <mat-error>Input positive number!</mat-error>
           </mat-form-field>
         </div>
 
-        <button mat-stroked-button [disabled]="bloodSupplyForm.invalid" mat-flat-button color="primary" class="input-schedule">Submit</button><br>
+        <button mat-stroked-button [disabled]="bloodSupplyForm.invalid" mat-flat-button color="primary" class="input-schedule" id="submitBloodSupply">Submit</button><br>
         <div>
-          <mat-label style="text-align:center;">Response from blood bank: {{responseStatus}}</mat-label><br>
+          <mat-label style="text-align:center;" id = "responseStatus">Response from blood bank: {{responseStatus}}</mat-label><br>
         </div>
       </form>
     </div>
