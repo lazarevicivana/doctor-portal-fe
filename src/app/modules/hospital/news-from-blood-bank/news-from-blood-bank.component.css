@@ -3,5 +3,14 @@
   }
 
 .custom-table{
-    width: auto;
+    width: 1140px;
+}
+
+.table-title{
+  text-align: center;
+}
+
+.news-empty{
+  text-align: center;
+  margin-top: 40px;
 }

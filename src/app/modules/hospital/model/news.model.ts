@@ -24,5 +24,7 @@ export class NewsFromBloodBank {
 export enum NewsFromBloodBankStatus{
     ON_HOLD,
     ACTIVATED,
-    REFUSED
+    REFUSED,
+    BLOOD_SUBSCRIPTION,
+    READ
 }
