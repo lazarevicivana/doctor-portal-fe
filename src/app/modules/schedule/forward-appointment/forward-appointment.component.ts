@@ -94,7 +94,6 @@ export class ForwardAppointmentComponent implements OnInit {
   validate(){
     if(this.selectedDoctorId != "" && this.stardDate != undefined && this.endDate!= undefined){
       if(this.checkDates()){
-        this.valid = true
         this.generate()
         return true
       }
@@ -114,7 +113,15 @@ export class ForwardAppointmentComponent implements OnInit {
       this.client.getFreeTimes(this.selectedDoctorId,dateRange).subscribe({
         next: res =>{
           this.generatedSpans = res
+          this.valid=true
+
+        },
+        error: message =>{
+          this.ngToast.error({detail: 'Error!',summary:"No free appointments!",duration:5000})
+          this.valid =false
+          console.log(this.generatedSpans)
         }
+
       })
 
 
