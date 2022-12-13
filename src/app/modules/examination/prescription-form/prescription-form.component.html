@@ -1,0 +1,28 @@
+<div class="row">
+<mat-form-field appearance="fill" class="search">
+  <mat-label>
+    Search medicines
+    <mat-icon aria-hidden="false" aria-label="Search" fontIcon="search"></mat-icon>
+  </mat-label>
+  <input matInput type="text" [(ngModel)]="search" (ngModelChange)="filter()"/>
+</mat-form-field>
+</div>
+<div class="row">
+<mat-form-field appearance="fill" class="input-symptom">
+  <mat-label>Select medicines</mat-label>
+  <mat-select class="input-h" [formControl]="formControl" (ngModelChange)="onMedicineChange($event)" multiple>
+    <mat-option *ngFor="let s of filteredOptions" [value]="s">
+      {{s.name}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+</div>
+<div class="row">
+    <mat-form-field appearance="fill" class="an-form">
+      <mat-label>
+         Description
+      </mat-label>
+      <textarea class="an-area" matInput type="text" [formControl]="formControlDescription" (ngModelChange)="onDescriptionChange($event)"></textarea>
+    </mat-form-field>
+</div>
+

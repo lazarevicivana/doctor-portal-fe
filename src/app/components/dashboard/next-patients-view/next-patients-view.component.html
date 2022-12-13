@@ -1,0 +1,22 @@
+<div class="container-patients">
+<mat-list>
+  <mat-list-item *ngFor="let app of appointmentsForExamination">
+        <img mat-list-avatar src="assets/pat.png"/>
+        <div class="cell-list">
+        {{app!.patient!.name}} {{app!.patient!.surname}}
+        </div>
+        <div class="cell-list">
+          {{getHourFormat(app!.duration!.from!)}} - {{getHourFormat(app!.duration!.to!)}}
+        </div>
+        <mat-divider class="sub-color"></mat-divider>
+        <button class="btn-cell"mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+          <mat-icon [matMenuTriggerFor]="optionsMenu">more_vert</mat-icon>
+        </button>
+    <mat-menu #optionsMenu="matMenu">
+      <button mat-menu-item (click)="Examine(app!.id!)">Examine</button>
+      <mat-divider class="sub-color"></mat-divider>
+      <button mat-menu-item (click)="showRecord()">Medical Record</button>
+    </mat-menu>
+  </mat-list-item>
+</mat-list>
+</div>

@@ -45,10 +45,12 @@ import { TenderVerificationComponent } from "./tender-verification/tender-verifi
 import {MatStepperModule} from '@angular/material/stepper';
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { MaliciousPatientsComponent } from './malicious-patients/malicious-patients.component';
+import { ChooseBloodBankComponent } from "./view-blood-requests/choose-bloodbank/choose-bloodbank.component";
 
 
 const routes: Routes = [
-  { path: 'bloodBank', component: BloodBankComponent, canActivate:[BloodBankGuard]},
+  { path: 'bloodBank', component: BloodBankComponent, canActivate:[ManagerGuard]},
   { path: 'rooms', component: RoomsComponent,canActivate:[ManagerGuard]},
   { path: 'rooms/add', component: CreateRoomComponent,canActivate:[ManagerGuard]},
   { path: 'rooms/:id', component: RoomDetailComponent,canActivate:[ManagerGuard]},
@@ -56,8 +58,8 @@ const routes: Routes = [
   { path: 'patient-statistics', component: PatientStatisticsComponent, canActivate:[ManagerGuard] },
   { path: 'feedback', component: FeedbackComponent,canActivate:[ManagerGuard] },
   { path: 'bloodBank/add', component: BloodbankRegistrationComponent, canActivate:[BloodBankGuard]},
-  { path: 'view-bloodRequests', component: ViewBloodRequestsComponent, canActivate:[BloodBankGuard]},
-  { path: 'view-bloodRequests/comment', component: AddCommentComponent, canActivate:[BloodBankGuard]},
+  { path: 'view-bloodRequests', component: ViewBloodRequestsComponent , canActivate:[ManagerGuard]},
+  { path: 'view-bloodRequests/comment', component: AddCommentComponent, canActivate:[ManagerGuard]},
   { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent, canActivate:[BloodBankGuard]},
   { path: 'edit-blood-request',component: EditBoodRequestComponent, canActivate:[BloodBankGuard]},
   { path: 'configureSendingReports', component: ConfigureSendingReportsComponent,canActivate:[BloodBankGuard]},
@@ -67,7 +69,8 @@ const routes: Routes = [
   { path: 'patients/therapy-prescription', component: TherapyPrescriptionComponent,canActivate:[DoctorGuard]},
   { path: 'medicine-for-prescription', component: MedicineForPrescriptionComponent,canActivate:[DoctorGuard]},
   { path: 'bloodBank/bloodSubscription', component: BloodSubscriptionComponent},
-  { path: 'tender/verification', component: TenderVerificationComponent}
+  { path: 'tender/verification', component: TenderVerificationComponent},
+  { path: 'malicious-patients', component: MaliciousPatientsComponent}
 ];
 
 @NgModule({
@@ -100,7 +103,9 @@ const routes: Routes = [
     MedicineForPrescriptionComponent,
     BloodSubscriptionComponent,
     BloodSubscriptionDialogComponent,
-    TenderVerificationComponent
+    TenderVerificationComponent,
+    MaliciousPatientsComponent,
+    ChooseBloodBankComponent
   ],
     imports: [
         CommonModule,

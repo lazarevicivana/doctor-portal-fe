@@ -1,0 +1,111 @@
+<div class="container">
+  <div class="container-f">
+    <mat-stepper [linear]="isLinear" class="example-stepper" [orientation]="(stepperOrientation | async)!">
+      <mat-step   label="Choose your colleague">
+        <div class="ceneter">
+
+
+          <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+            <mat-step label="Choose specialisation">
+              <div class="formaa1">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Select specialisation</mat-label>
+                    <mat-select [(ngModel)]="selectedValue" name="food">
+                      <mat-option *ngFor="let specialisation of specialisation" [value]="specialisation" required (onSelectionChange)="filterSpecialisation(specialisation)">
+                        {{specialisation}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+
+              </div>
+            </mat-step>
+            <mat-step label="Choose your colleague">
+              <div class="formaa1">
+                <mat-form-field appearance="fill">
+                  <mat-label>Select specialisation</mat-label>
+                  <mat-select [(ngModel)]="selectedDoctorId"   (selectionChange)="doct()" name="food">
+                    <mat-option *ngFor="let doctor of doctors" [value]="doctor.id">
+                      {{doctor.name}} {{doctor.surname}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </mat-step>
+          </mat-stepper>
+
+        </div>
+
+        <div class="low">
+          <div class="dugme">
+            <button mat-raised-button class="dugmence" matStepperPrevious>Back</button>
+            <button mat-raised-button class="dugmence"  matStepperNext>Next</button>
+          </div>
+        </div>
+
+      </mat-step>
+      <mat-step  label="Insert appointment date range">
+          <div class="formaa">
+            <div class="datumi">
+
+              <mat-form-field appearance="fill">
+                <mat-label>Insert earliest date</mat-label>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="stardDate" (dateChange)="validate()">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              <mat-form-field appearance="fill" style="margin-left: 80px">
+                <mat-label>Insert end</mat-label>
+                <input matInput [matDatepicker]="picker1" [(ngModel)]="endDate" (dateChange)="validate()">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+
+            </div>
+
+            <div class="low">
+              <div class="dugme">
+                <button mat-raised-button class="dugmence" (click)="next()"  matStepperPrevious>Back</button>
+                <button mat-raised-button class="dugmence" (click)="generate()" matStepperNext>Next</button>
+              </div>
+            </div>
+
+          </div>
+
+      </mat-step>
+      <mat-step *ngIf="valid" label="Select appointment" style="overflow: auto">
+          <div class="formaa">
+            <div class="lista">
+              <mat-selection-list [multiple]="false" #shoes>
+                <mat-list-option  *ngFor="let span of generatedSpans" [value]="span" (selectedChange)="selectAppointment(span)">
+                  <div class="option">
+                    <span matListItemTitle>{{span!.from!.getFullYear()}}-{{span!.from!.getMonth()+1}}-{{span!.from!.getDate()}} </span>
+                    <span matListItemLine> {{span!.from!.getHours()!}}:{{convertminutes(span!.from!.getMinutes()!)}}</span>
+                    <span matListItemLine>{{span!.to!.getHours()!}}:{{convertminutes(span!.to!.getMinutes()!)}}</span>
+                  </div>
+                </mat-list-option>
+              </mat-selection-list>
+            </div>
+
+            <div class="low">
+              <div class="dugme">
+                <div><button mat-raised-button class="dugmence" matStepperPrevious>Back</button></div>
+                <div>
+                  <button mat-raised-button class="dugmence " style="margin-right: 15px" color="primary" (click)="scheduleAppointment()" matStepperNext>Finish</button>
+                  <button mat-raised-button class="dugmence" color="warn" matStepperNext>Cancel</button>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+      </mat-step>
+    </mat-stepper>
+
+
+
+  </div>
+
+</div>

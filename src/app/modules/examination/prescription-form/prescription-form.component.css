@@ -1,0 +1,28 @@
+.input-symptom {
+  margin-top: 20px;
+  width: 80%;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+.search {
+  margin-top: 20px;
+  width: 30%;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+.input-h{
+  height: 25px;
+}
+.an-area{
+  height: 200px;
+  font-size: 20px;
+}
+.an-form{
+  width: 80%;
+  margin-top: 20px;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
