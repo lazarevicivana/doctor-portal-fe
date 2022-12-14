@@ -43,6 +43,7 @@ import { BloodSubscriptionComponent } from './blood-subscription/blood-subscript
 import { BloodSubscriptionDialogComponent } from './blood-subscription/blood-subscription-dialog/blood-subscription-dialog.component';
 import { MaliciousPatientsComponent } from './malicious-patients/malicious-patients.component';
 import { ChooseBloodBankComponent } from "./view-blood-requests/choose-bloodbank/choose-bloodbank.component";
+import { CreateTenderComponent } from './create-tender/create-tender.component';
 
 
 const routes: Routes = [
@@ -65,7 +66,8 @@ const routes: Routes = [
   { path: 'patients/therapy-prescription', component: TherapyPrescriptionComponent,canActivate:[DoctorGuard]},
   { path: 'medicine-for-prescription', component: MedicineForPrescriptionComponent,canActivate:[DoctorGuard]},
   { path: 'bloodBank/bloodSubscription', component: BloodSubscriptionComponent},
-  { path: 'malicious-patients', component: MaliciousPatientsComponent}
+  { path: 'malicious-patients', component: MaliciousPatientsComponent},
+  { path: 'tender/add', component: CreateTenderComponent,canActivate:[BloodBankGuard]}
 ];
 
 @NgModule({
@@ -99,7 +101,8 @@ const routes: Routes = [
     BloodSubscriptionComponent,
     BloodSubscriptionDialogComponent,
     MaliciousPatientsComponent,
-    ChooseBloodBankComponent
+    ChooseBloodBankComponent,
+    CreateTenderComponent
   ],
     imports: [
         CommonModule,
