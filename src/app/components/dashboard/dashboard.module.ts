@@ -13,6 +13,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MaterialModule} from "../../material/material.module";
 import { NextPatientsViewComponent } from './next-patients-view/next-patients-view.component';
 import {AppointmentClient} from "../../api/api-reference";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import {AppointmentClient} from "../../api/api-reference";
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
-        MaterialModule
+        MaterialModule,
+        FormsModule
     ],
   providers:[
     AppointmentClient
