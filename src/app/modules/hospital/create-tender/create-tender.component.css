@@ -6,3 +6,9 @@
     margin-left: auto;
     height: 60px;
   }
+
+  .container-f {
+    position: relative;
+    width:60%;
+    overflow: auto;
+  }
