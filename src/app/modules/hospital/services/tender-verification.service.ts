@@ -16,7 +16,7 @@ export class TenderVerificationService {
   constructor(private http: HttpClient, private alert: NgToastService) { }
 
   getTender(id: string): Observable<any>{
-    return this.http.get<any>(this.apiHost + 'api/Tender/'+ id, {headers: this.headers}).pipe(
+    return this.http.get<any>(this.apiHost + 'api/Tender/byId/'+ id, {headers: this.headers}).pipe(
       catchError(async (err) => {
         this.alert.error({detail: 'Error!', summary: "ID is not valid, try again!", duration: 5000})
         throw new Error('Try again')
@@ -24,8 +24,8 @@ export class TenderVerificationService {
     )
   }
 
-  confirmTender(id: string): Observable<any>{
-    return this.http.get<any>(this.apiHost + 'api/Tender/confirm/'+ id, {headers: this.headers})
+  confirmTender(tender: Tender): Observable<any>{
+    return this.http.put<any>(this.apiHost + 'api/Tender/confirm', tender,{headers: this.headers})
   }
 
 }

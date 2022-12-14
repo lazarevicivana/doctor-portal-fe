@@ -45,14 +45,38 @@ export class TenderVerificationComponent implements OnInit {
     .subscribe(res => {
           this.tender = res;
           this.isLinear = false;
+          this.items = this.tender.bloodUnitAmount;
+          this.dataSource.data = this.items;
           this.alert.success({detail: 'Success!', summary: "ID is valid, go to step 2!", duration: 5000})
     })
   }
 
   public confirmTender(){
-    this.tenderVerificationService.confirmTender(this.tenderId)
+    this.tenderVerificationService.confirmTender(this.tender)
     .subscribe(res => {
           this.alert.success({detail: 'Success!', summary: "Tender is confirmed!", duration: 5000})
     })
+  }
+
+  public enumToString(type:number){
+    if (type == 0){
+        return "A-";
+    }else if(type == 1){
+        return "A+";
+    }else if(type == 2){
+        return "B-";
+    }else if(type == 3){
+        return "B+";
+    }else if(type == 4){
+        return "AB+";
+    }else if(type == 5){
+        return "AB-";
+    }else if(type == 6){
+        return "O+";
+    }else if(type == 7){
+        return "O-";
+    }else{
+        return "UNKNOWN";
+    }
   }
 }
