@@ -48,6 +48,8 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaliciousPatientsComponent } from './malicious-patients/malicious-patients.component';
 import { ChooseBloodBankComponent } from "./view-blood-requests/choose-bloodbank/choose-bloodbank.component";
 import { CreateTenderComponent } from './create-tender/create-tender.component';
+import { AllTendersComponent } from "./view-all-tenders/view-all-tenders.component";
+import { ViewTenderComponent } from "./view-tender/view-tender.component";
 
 
 const routes: Routes = [
@@ -73,7 +75,9 @@ const routes: Routes = [
   { path: 'tender/verification', component: TenderVerificationComponent},
   { path: 'malicious-patients', component: MaliciousPatientsComponent},
   { path: 'malicious-patients', component: MaliciousPatientsComponent},
-  { path: 'tender/add', component: CreateTenderComponent,canActivate:[BloodBankGuard]}
+  { path: 'tender/add', component: CreateTenderComponent,canActivate:[BloodBankGuard]},
+  { path: 'view-all-tenders', component: AllTendersComponent, canActivate:[ManagerGuard]},
+  { path: 'view-tender/:id', component: ViewTenderComponent, canActivate:[ManagerGuard]}
 ];
 
 @NgModule({
@@ -109,7 +113,9 @@ const routes: Routes = [
     TenderVerificationComponent,
     MaliciousPatientsComponent,
     ChooseBloodBankComponent,
-    CreateTenderComponent
+    CreateTenderComponent,
+    AllTendersComponent,
+    ViewTenderComponent
   ],
     imports: [
         CommonModule,
