@@ -5,7 +5,7 @@
   10px 10px 10px rgba(0,0,0,0.22);
   position: relative;
   overflow: hidden;
-  width: 50%;
+  width: 70%;
   margin-top: 5px;
   margin-right: auto;
 }
@@ -13,7 +13,7 @@
   margin-left: 20px;
 }
 .btn-cell{
-  margin-left: 200px;
+  margin-left: 250px;
 }
 .dropdown-content {
   position: relative;

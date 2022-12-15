@@ -113,7 +113,7 @@ export class ExaminationComponent implements OnInit {
       next: value => {
         console.log(value)
         this.router.navigate(['dashboard']).then(()=>{
-          this.toastService.success({detail: 'Success!', summary: "You are successfully create examiantion!", duration: 5000})
+          this.toastService.success({detail: 'Success!', summary: "You are successfully create examination!", duration: 5000})
         })},
       error: message => {
         this.toastService.error({detail: 'Error!', summary: message.Error, duration: 5000})
