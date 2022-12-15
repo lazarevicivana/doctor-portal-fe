@@ -1,9 +1,8 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {
-  ExaminationPrescription, ExaminationPrescriptionRequest,
+  ExaminationPrescriptionRequest,
   MedicineClient,
-  MedicineExaminationResponse,
-  SymptomResponse
+  MedicineExaminationResponse
 } from "../../../api/api-reference";
 import {FormControl, Validators} from "@angular/forms";
 

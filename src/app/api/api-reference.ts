@@ -1012,7 +1012,7 @@ export interface IConsiliumClient {
   scheduleConsilium(consiliumRequest: ConsiliumRequest): Observable<ConsiliumResponse>;
   scheduleConsiliumSpecialization(consiliumRequest: ConsiliumSpecializationRequest): Observable<ConsiliumResponse>;
   getById(id: string): Observable<ConsiliumResponse>;
-  getConsiliumsForDoctor(id: string): Observable<ConsiliumResponse>;
+  getConsiliumsForDoctor(id: string): Observable<ConsiliumResponse[]>;
 }
 
 @Injectable()
@@ -1118,12 +1118,26 @@ export class ConsiliumClient implements IConsiliumClient {
         (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-    if (status === 200) {
+    if (status === 201) {
       return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-        let result200: any = null;
-        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-        result200 = ConsiliumResponse.fromJS(resultData200);
-        return _observableOf(result200);
+        let result201: any = null;
+        let resultData201 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result201 = ConsiliumResponse.fromJS(resultData201);
+        return _observableOf(result201);
+      }));
+    } else if (status === 404) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result404: any = null;
+        let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result404 = ProblemDetails.fromJS(resultData404);
+        return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+      }));
+    } else if (status === 400) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result400: any = null;
+        let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result400 = ProblemDetails.fromJS(resultData400);
+        return throwException("A server side error occurred.", status, _responseText, _headers, result400);
       }));
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -1170,12 +1184,26 @@ export class ConsiliumClient implements IConsiliumClient {
         (response as any).error instanceof Blob ? (response as any).error : undefined;
 
     let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-    if (status === 200) {
+    if (status === 201) {
       return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-        let result200: any = null;
-        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-        result200 = ConsiliumResponse.fromJS(resultData200);
-        return _observableOf(result200);
+        let result201: any = null;
+        let resultData201 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result201 = ConsiliumResponse.fromJS(resultData201);
+        return _observableOf(result201);
+      }));
+    } else if (status === 404) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result404: any = null;
+        let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result404 = ProblemDetails.fromJS(resultData404);
+        return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+      }));
+    } else if (status === 400) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result400: any = null;
+        let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result400 = ProblemDetails.fromJS(resultData400);
+        return throwException("A server side error occurred.", status, _responseText, _headers, result400);
       }));
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -1228,6 +1256,13 @@ export class ConsiliumClient implements IConsiliumClient {
         result200 = ConsiliumResponse.fromJS(resultData200);
         return _observableOf(result200);
       }));
+    } else if (status === 404) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result404: any = null;
+        let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result404 = ProblemDetails.fromJS(resultData404);
+        return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+      }));
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
         return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -1236,7 +1271,7 @@ export class ConsiliumClient implements IConsiliumClient {
     return _observableOf(null as any);
   }
 
-  getConsiliumsForDoctor(id: string): Observable<ConsiliumResponse> {
+  getConsiliumsForDoctor(id: string): Observable<ConsiliumResponse[]> {
     let url_ = this.baseUrl + "/api/v1/Consilium/doctor/{id}";
     if (id === undefined || id === null)
       throw new Error("The parameter 'id' must be defined.");
@@ -1258,14 +1293,14 @@ export class ConsiliumClient implements IConsiliumClient {
         try {
           return this.processGetConsiliumsForDoctor(response_ as any);
         } catch (e) {
-          return _observableThrow(e) as any as Observable<ConsiliumResponse>;
+          return _observableThrow(e) as any as Observable<ConsiliumResponse[]>;
         }
       } else
-        return _observableThrow(response_) as any as Observable<ConsiliumResponse>;
+        return _observableThrow(response_) as any as Observable<ConsiliumResponse[]>;
     }));
   }
 
-  protected processGetConsiliumsForDoctor(response: HttpResponseBase): Observable<ConsiliumResponse> {
+  protected processGetConsiliumsForDoctor(response: HttpResponseBase): Observable<ConsiliumResponse[]> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse ? response.body :
@@ -1276,7 +1311,14 @@ export class ConsiliumClient implements IConsiliumClient {
       return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
         let result200: any = null;
         let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-        result200 = ConsiliumResponse.fromJS(resultData200);
+        if (Array.isArray(resultData200)) {
+          result200 = [] as any;
+          for (let item of resultData200)
+            result200!.push(ConsiliumResponse.fromJS(item));
+        }
+        else {
+          result200 = <any>null;
+        }
         return _observableOf(result200);
       }));
     } else if (status !== 200 && status !== 204) {
@@ -1297,6 +1339,7 @@ export interface IDoctorClient {
   getBySpecialisation(specialisation: string | null): Observable<DoctorResponse[]>;
   getFreeTimes(id: string, span: DateRange): Observable<DateRange[]>;
   getById(id: string): Observable<DoctorResponse>;
+  getDoctorSpecialization(id: string): Observable<DoctorResponse>;
 }
 
 @Injectable()
@@ -1756,6 +1799,64 @@ export class DoctorClient implements IDoctorClient {
   }
 
   protected processGetById(response: HttpResponseBase): Observable<DoctorResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result200 = DoctorResponse.fromJS(resultData200);
+        return _observableOf(result200);
+      }));
+    } else if (status === 404) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result404: any = null;
+        let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result404 = ProblemDetails.fromJS(resultData404);
+        return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+      }));
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
+  }
+
+  getDoctorSpecialization(id: string): Observable<DoctorResponse> {
+    let url_ = this.baseUrl + "/api/v1/Doctor/specialization/{id}";
+    if (id === undefined || id === null)
+      throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace("{id}", encodeURIComponent("" + id));
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_ : any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Accept": "application/json"
+      })
+    };
+
+    return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+      return this.processGetDoctorSpecialization(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processGetDoctorSpecialization(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<DoctorResponse>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<DoctorResponse>;
+    }));
+  }
+
+  protected processGetDoctorSpecialization(response: HttpResponseBase): Observable<DoctorResponse> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse ? response.body :
@@ -4473,9 +4574,10 @@ export class RoomsClient implements IRoomsClient {
 }
 
 export interface ISpecializationsClient {
+  getAll(): Observable<SpecializationResponse[]>;
   create(specializationDto: SpecializationRequest): Observable<SpecializationResponse>;
   update(specializationDto: SpecializationRequest): Observable<void>;
-  getById(id: string): Observable<PatientResponse>;
+  getById(id: string): Observable<SpecializationResponse>;
   getByName(name: string | null): Observable<SpecializationResponse>;
 }
 
@@ -4488,6 +4590,68 @@ export class SpecializationsClient implements ISpecializationsClient {
   constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
     this.http = http;
     this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:5000";
+  }
+
+  getAll(): Observable<SpecializationResponse[]> {
+    let url_ = this.baseUrl + "/api/v1/Specializations";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_ : any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Accept": "application/json"
+      })
+    };
+
+    return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+      return this.processGetAll(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processGetAll(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<SpecializationResponse[]>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<SpecializationResponse[]>;
+    }));
+  }
+
+  protected processGetAll(response: HttpResponseBase): Observable<SpecializationResponse[]> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        if (Array.isArray(resultData200)) {
+          result200 = [] as any;
+          for (let item of resultData200)
+            result200!.push(SpecializationResponse.fromJS(item));
+        }
+        else {
+          result200 = <any>null;
+        }
+        return _observableOf(result200);
+      }));
+    } else if (status === 404) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result404: any = null;
+        let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result404 = ProblemDetails.fromJS(resultData404);
+        return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+      }));
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
   }
 
   create(specializationDto: SpecializationRequest): Observable<SpecializationResponse> {
@@ -4604,7 +4768,7 @@ export class SpecializationsClient implements ISpecializationsClient {
     return _observableOf(null as any);
   }
 
-  getById(id: string): Observable<PatientResponse> {
+  getById(id: string): Observable<SpecializationResponse> {
     let url_ = this.baseUrl + "/api/v1/Specializations/{id}";
     if (id === undefined || id === null)
       throw new Error("The parameter 'id' must be defined.");
@@ -4626,14 +4790,14 @@ export class SpecializationsClient implements ISpecializationsClient {
         try {
           return this.processGetById(response_ as any);
         } catch (e) {
-          return _observableThrow(e) as any as Observable<PatientResponse>;
+          return _observableThrow(e) as any as Observable<SpecializationResponse>;
         }
       } else
-        return _observableThrow(response_) as any as Observable<PatientResponse>;
+        return _observableThrow(response_) as any as Observable<SpecializationResponse>;
     }));
   }
 
-  protected processGetById(response: HttpResponseBase): Observable<PatientResponse> {
+  protected processGetById(response: HttpResponseBase): Observable<SpecializationResponse> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse ? response.body :
@@ -4644,7 +4808,7 @@ export class SpecializationsClient implements ISpecializationsClient {
       return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
         let result200: any = null;
         let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-        result200 = PatientResponse.fromJS(resultData200);
+        result200 = SpecializationResponse.fromJS(resultData200);
         return _observableOf(result200);
       }));
     } else if (status === 404) {
@@ -10483,6 +10647,7 @@ export class ConsiliumSpecializationRequest implements IConsiliumSpecializationR
   theme?: string | undefined;
   specializations?: SpecializationResponse[] | undefined;
   timeRange?: TimeRange | undefined;
+  doctorId?: string;
 
   constructor(data?: IConsiliumSpecializationRequest) {
     if (data) {
@@ -10502,6 +10667,7 @@ export class ConsiliumSpecializationRequest implements IConsiliumSpecializationR
           this.specializations!.push(SpecializationResponse.fromJS(item));
       }
       this.timeRange = _data["timeRange"] ? TimeRange.fromJS(_data["timeRange"]) : <any>undefined;
+      this.doctorId = _data["doctorId"];
     }
   }
 
@@ -10521,6 +10687,7 @@ export class ConsiliumSpecializationRequest implements IConsiliumSpecializationR
         data["specializations"].push(item.toJSON());
     }
     data["timeRange"] = this.timeRange ? this.timeRange.toJSON() : <any>undefined;
+    data["doctorId"] = this.doctorId;
     return data;
   }
 }
@@ -10529,6 +10696,7 @@ export interface IConsiliumSpecializationRequest {
   theme?: string | undefined;
   specializations?: SpecializationResponse[] | undefined;
   timeRange?: TimeRange | undefined;
+  doctorId?: string;
 }
 
 export class DoctorRequest implements IDoctorRequest {

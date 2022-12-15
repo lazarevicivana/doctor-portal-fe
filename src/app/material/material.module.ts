@@ -12,6 +12,7 @@ import {MatDividerModule} from "@angular/material/divider";
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatListModule} from "@angular/material/list";
 import {MatMenuModule} from "@angular/material/menu";
+import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
   declarations: [],
@@ -28,7 +29,8 @@ import {MatMenuModule} from "@angular/material/menu";
     MatDividerModule,
     MatStepperModule,
     MatListModule,
-    MatMenuModule
+    MatMenuModule,
+    MatTableModule
   ],
   exports: [
     CommonModule,
@@ -43,7 +45,8 @@ import {MatMenuModule} from "@angular/material/menu";
     MatDividerModule,
     MatListModule,
     MatStepperModule,
-    MatMenuModule
+    MatMenuModule,
+    MatTabsModule
   ]
 })
 export class MaterialModule {}
