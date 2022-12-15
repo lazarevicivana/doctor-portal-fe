@@ -102,6 +102,12 @@
 
           </div>
       </mat-step>
+
+      <mat-step *ngIf="notFound" label="Select appointment" style="overflow: auto">
+        <div>
+          Change range?
+        </div>
+      </mat-step>
     </mat-stepper>
 
 
