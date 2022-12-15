@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient,HttpHeaders} from '@angular/common/http'
-import { EquipmentMovementAppointmentResponse, EquipmentMovementAppointmentRequest } from 'src/app/api/api-reference';
+import {
+  EquipmentMovementAppointmentResponse,
+  EquipmentMovementAppointmentRequest,
+  Appointment
+} from 'src/app/api/api-reference';
 import {RoomEquipment} from "../model/roomEquipment";
 
 const httpOptions ={
@@ -47,6 +51,14 @@ export class EquipmentMovementService {
 
   deleteMoveAppointment(id?:string): Observable<EquipmentMovementAppointmentResponse[]> {
     return this.http.delete<EquipmentMovementAppointmentResponse[]>(this.apiHost + 'api/v1/EquipmentMovementAppointment/' + id , {headers: this.headers});
+  }
+
+  getAllAppointmentByRoomId(roomId:string) : Observable<Appointment[]>{
+    return this.http.get<Appointment[]>(this.apiHost + 'api/v1/Appointment/byRoom/' + roomId, {headers: this.headers});
+  }
+
+  deleteAppointment(id?:string): Observable<Appointment[]> {
+    return this.http.delete<Appointment[]>(this.apiHost + 'api/v1/Appointment/' + id , {headers: this.headers});
   }
 
 

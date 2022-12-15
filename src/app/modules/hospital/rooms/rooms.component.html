@@ -167,7 +167,7 @@
       <ng-container matColumnDef="amount">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
         <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
-      </ng-container> equipmentName
+      </ng-container>
 
       <ng-container matColumnDef="equipmentName"> equipmentName
         <th mat-header-cell *matHeaderCellDef mat-sort-header align="middle"> EquipmentName </th>
@@ -184,6 +184,16 @@
         <td mat-cell *matCellDef="let element"> {{element.duration.to}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="DestinationRoom">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> DestinationRoom </th>
+        <td mat-cell *matCellDef="let element"> {{element.destinationRoomId}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="OriginalRoom">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> OriginalRoom </th>
+        <td mat-cell *matCellDef="let element"> {{element.originalRoomId}} </td>
+      </ng-container>
+
       <ng-container matColumnDef="Delete">
         <th mat-header-cell *matHeaderCellDef   > Delete </th>
         <td mat-cell *matCellDef="let element" >
@@ -198,6 +208,52 @@
 
     </table>
   </div>
+
+
+  <div class="mat-elevation-z8" *ngIf="shownRoom">
+    <div>
+      <h1 class="naslov">Appointment Details</h1>
+    </div>
+    <table mat-table [dataSource]="shownAppointment" matSort>
+
+      <ng-container matColumnDef="emergent">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Emergency </th>
+        <td mat-cell *matCellDef="let element"> {{element.emergent}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="startDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header align="middle"> StartDate </th>
+        <td mat-cell *matCellDef="let element"  > {{element.duration.from}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="endDate">
+        <th class="hederMT" mat-header-cell  *matHeaderCellDef mat-sort-header> EndDate </th>
+        <td mat-cell *matCellDef="let element" > {{element.duration.to}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="doctorId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> DoctorId </th>
+        <td mat-cell *matCellDef="let element"> {{element.doctorId}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Delete">
+        <th mat-header-cell *matHeaderCellDef   > Delete </th>
+        <td mat-cell *matCellDef="let element" >
+          <button mat-icon-button (click)="deleteAppointment(element)">
+            <mat-icon matTooltip="delete">delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns4"></tr>
+      <tr mat-row  *matRowDef="let row; columns: displayedColumns4;" ></tr>
+
+    </table>
+  </div>
+
+
+
+
 
 </div>
 
