@@ -66,7 +66,7 @@ export class AppointmentPreviewComponent implements OnInit {
   canCreateReport(id:string)
   {
 
-    for (var val of this.examinations) {
+    for (let val of this.examinations) {
       console.log(val)
       if (val.appointment?.id== id)
         return false

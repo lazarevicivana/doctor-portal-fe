@@ -32,12 +32,32 @@
   height: 40vh;
   overflow: auto;
   margin-bottom: 15px;
+
+}
+.bluelist{
+  border-top-width: 1px;
+  border-top-color: #3b4d79;
+  border-top-style: solid;
 }
 .formaa1{
  margin-left: 5%;
-  margin-top: 2%;
   height: 90%;
+  margin-top: 5%;
   align-items: center;
+
+
+}
+.message{
+  margin-top: 7%;
+
+  padding-bottom: 2%;
+  margin-bottom: 5%;
+  text-align: center;
+  font-size: 18px;
+  color: #3b4d79;
+  border-bottom-width: 1px;
+  border-bottom-color: #3b4d79;
+  border-bottom-style: solid;
 }
 
 .ceneter{
@@ -48,9 +68,11 @@
 }
 
 .dugme{
-  margin-top: 30px;
+  margin-top: 15px;
   display: flex;
   justify-content: space-between;
+  width: 95%;
+  margin-left: 2.5%;
 }
 
 .datumi{
@@ -75,5 +97,5 @@
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
-  margin-top: 10%;
+  margin-top: 5%;
 }

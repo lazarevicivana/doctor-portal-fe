@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit {
   }
   private resolveBloodBank(){
     if(this.tokenStorageService.getUser().role === 'BloodBank'){
-      this.router.navigate(['bloodBank']).then(
+      this.router.navigate(['tender/add']).then(
         ()=>{
           window.location.reload();
         }
