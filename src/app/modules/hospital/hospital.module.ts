@@ -58,7 +58,7 @@ const routes: Routes = [
   { path: 'view-bloodRequests/comment', component: AddCommentComponent, canActivate:[BloodBankGuard]},
   { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent, canActivate:[BloodBankGuard]},
   { path: 'edit-blood-request',component: EditBoodRequestComponent, canActivate:[BloodBankGuard]},
-  { path: 'configureSendingReports', component: ConfigureSendingReportsComponent,canActivate:[BloodBankGuard]},
+  { path: 'configureSendingReports', component: ConfigureSendingReportsComponent,canActivate:[ManagerGuard]},
   { path: 'news/publish', component: NewsFromBloodBankComponent,canActivate:[BloodBankGuard]},
   { path: 'patients/hospitalization', component: PatientHospitalizationComponent,canActivate:[DoctorGuard]},
   { path: 'all-hospitalized', component: AllHospitalizedPatientsComponent,canActivate:[DoctorGuard]},
