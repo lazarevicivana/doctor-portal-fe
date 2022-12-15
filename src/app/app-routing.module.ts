@@ -19,7 +19,7 @@ import {ExaminationComponent} from "./modules/examination/examination/examinatio
 import {ForwardAppointmentComponent} from "./modules/schedule/forward-appointment/forward-appointment.component"
 import {ManagerGuard} from "./guards/manager.guard";
 import {MaliciousPatientsComponent} from "./modules/hospital/malicious-patients/malicious-patients.component";
-import {ExaminationGuard} from "./guards/examination.guard";
+import { AllTendersComponent } from "./modules/hospital/view-all-tenders/view-all-tenders.component";
 
 
 
