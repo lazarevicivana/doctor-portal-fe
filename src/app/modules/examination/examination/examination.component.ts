@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, Validators} from "@angular/forms";
 import {
+  AppointmentClient,
   ExaminationClient,
   ExaminationPrescriptionRequest,
   ExaminationRequest,
@@ -25,8 +26,11 @@ export class ExaminationComponent implements OnInit {
   selectedPrescription:ExaminationPrescriptionRequest = new ExaminationPrescriptionRequest()
   selectedPrescriptions:ExaminationPrescriptionRequest[] = []
   anamnesis:string = ""
+  private isForward = false;
+  patientId:string | undefined= "";
 
-  constructor(private examinationClient:ExaminationClient,private toastService:NgToastService,private router:Router) {
+  constructor(private examinationClient:ExaminationClient,private toastService:NgToastService,private router:Router,
+              private appointmentClient:AppointmentClient) {
     this.appointmentId = this.router.getCurrentNavigation()?.extras?.state?.['data']!
     console.log(this.appointmentId)
   }
@@ -109,15 +113,27 @@ export class ExaminationComponent implements OnInit {
       next: value => {
         console.log(value)
         this.router.navigate(['dashboard']).then(()=>{
-          this.toastService.success({detail: 'Success!', summary: "You are successfully create examiantion!", duration: 5000})
+          this.toastService.success({detail: 'Success!', summary: "You are successfully create examination!", duration: 5000})
         })},
       error: message => {
         this.toastService.error({detail: 'Error!', summary: message.Error, duration: 5000})
       }
     })
+
   }
 
   submitAnamnesis(value: string) {
     this.anamnesis = value
+  }
+
+  forwardAppointment() {
+    console.log(this.appointmentId)
+    this.appointmentClient.getById(this.appointmentId).subscribe({
+      next: value => {
+        this.patientId = value.patientId
+        console.log(value.patientId)
+        this.router.navigate(['/forward-appointment'],{state:{data:value.patientId}})
+      }
+    })
   }
 }

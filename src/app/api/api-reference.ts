@@ -4801,8 +4801,9 @@ export interface IAppointmentClient {
   cancelAppointment(id: string): Observable<void>;
   getByRoomId(roomId: string): Observable<AppointmentResponse>;
   getDoctorAppointments(id: string): Observable<AppointmentResponse[]>;
-  getAppointmentsForExamination(doctorId: string): Observable<AppointmentResponse[]>;
+  getPatientAppointments(id: string): Observable<AppointmentResponse[]>;
   getAppointmentPdfReport(id: string, request: AppointmentReportPdfRequest): Observable<void>;
+  getAppointmentsForExamination(doctorId: string): Observable<AppointmentResponse[]>;
 }
 
 @Injectable()
@@ -5113,11 +5114,11 @@ export class AppointmentClient implements IAppointmentClient {
     return _observableOf(null as any);
   }
 
-  getAppointmentsForExamination(doctorId: string): Observable<AppointmentResponse[]> {
-    let url_ = this.baseUrl + "/api/v1/Appointment/GetAppointmentsForExamination/{doctorId}";
-    if (doctorId === undefined || doctorId === null)
-      throw new Error("The parameter 'doctorId' must be defined.");
-    url_ = url_.replace("{doctorId}", encodeURIComponent("" + doctorId));
+  getPatientAppointments(id: string): Observable<AppointmentResponse[]> {
+    let url_ = this.baseUrl + "/api/v1/Appointment/GetPatientAppointments/{id}";
+    if (id === undefined || id === null)
+      throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace("{id}", encodeURIComponent("" + id));
     url_ = url_.replace(/[?&]$/, "");
 
     let options_ : any = {
@@ -5129,11 +5130,11 @@ export class AppointmentClient implements IAppointmentClient {
     };
 
     return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-      return this.processGetAppointmentsForExamination(response_);
+      return this.processGetPatientAppointments(response_);
     })).pipe(_observableCatch((response_: any) => {
       if (response_ instanceof HttpResponseBase) {
         try {
-          return this.processGetAppointmentsForExamination(response_ as any);
+          return this.processGetPatientAppointments(response_ as any);
         } catch (e) {
           return _observableThrow(e) as any as Observable<AppointmentResponse[]>;
         }
@@ -5142,7 +5143,7 @@ export class AppointmentClient implements IAppointmentClient {
     }));
   }
 
-  protected processGetAppointmentsForExamination(response: HttpResponseBase): Observable<AppointmentResponse[]> {
+  protected processGetPatientAppointments(response: HttpResponseBase): Observable<AppointmentResponse[]> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse ? response.body :
@@ -5162,6 +5163,13 @@ export class AppointmentClient implements IAppointmentClient {
           result200 = <any>null;
         }
         return _observableOf(result200);
+      }));
+    } else if (status === 404) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result404: any = null;
+        let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result404 = ProblemDetails.fromJS(resultData404);
+        return throwException("A server side error occurred.", status, _responseText, _headers, result404);
       }));
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -5228,10 +5236,69 @@ export class AppointmentClient implements IAppointmentClient {
     }
     return _observableOf(null as any);
   }
+
+  getAppointmentsForExamination(doctorId: string): Observable<AppointmentResponse[]> {
+    let url_ = this.baseUrl + "/api/v1/Appointment/GetAppointmentsForExamination/{doctorId}";
+    if (doctorId === undefined || doctorId === null)
+      throw new Error("The parameter 'doctorId' must be defined.");
+    url_ = url_.replace("{doctorId}", encodeURIComponent("" + doctorId));
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_ : any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Accept": "application/json"
+      })
+    };
+
+    return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+      return this.processGetAppointmentsForExamination(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processGetAppointmentsForExamination(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<AppointmentResponse[]>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<AppointmentResponse[]>;
+    }));
+  }
+
+  protected processGetAppointmentsForExamination(response: HttpResponseBase): Observable<AppointmentResponse[]> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        if (Array.isArray(resultData200)) {
+          result200 = [] as any;
+          for (let item of resultData200)
+            result200!.push(AppointmentResponse.fromJS(item));
+        }
+        else {
+          result200 = <any>null;
+        }
+        return _observableOf(result200);
+      }));
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
+  }
 }
 
 export interface IExaminationClient {
   createExamination(examinationRequest: ExaminationRequest): Observable<Examination>;
+  getAllExaminations(): Observable<Examination[]>;
 }
 
 @Injectable()
@@ -5295,6 +5362,61 @@ export class ExaminationClient implements IExaminationClient {
         let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
         result400 = ProblemDetails.fromJS(resultData400);
         return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+      }));
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
+  }
+
+  getAllExaminations(): Observable<Examination[]> {
+    let url_ = this.baseUrl + "/api/v1/Examination";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_ : any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Accept": "application/json"
+      })
+    };
+
+    return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+      return this.processGetAllExaminations(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processGetAllExaminations(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<Examination[]>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<Examination[]>;
+    }));
+  }
+
+  protected processGetAllExaminations(response: HttpResponseBase): Observable<Examination[]> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        if (Array.isArray(resultData200)) {
+          result200 = [] as any;
+          for (let item of resultData200)
+            result200!.push(Examination.fromJS(item));
+        }
+        else {
+          result200 = <any>null;
+        }
+        return _observableOf(result200);
       }));
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -7246,78 +7368,6 @@ export class ConfigureGenerateAndSendClient implements IConfigureGenerateAndSend
   }
 }
 
-export interface IMounthlyBloodSubscriptionClient {
-  create(bSup: MounthlyBloodSubscriptionRequest): Observable<FileResponse>;
-}
-
-@Injectable()
-export class MounthlyBloodSubscriptionClient implements IMounthlyBloodSubscriptionClient {
-  private http: HttpClient;
-  private baseUrl: string;
-  protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-  constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-    this.http = http;
-    this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:5000";
-  }
-
-  create(bSup: MounthlyBloodSubscriptionRequest): Observable<FileResponse> {
-    let url_ = this.baseUrl + "/api/MounthlyBloodSubscription";
-    url_ = url_.replace(/[?&]$/, "");
-
-    const content_ = JSON.stringify(bSup);
-
-    let options_ : any = {
-      body: content_,
-      observe: "response",
-      responseType: "blob",
-      headers: new HttpHeaders({
-        "Content-Type": "application/json",
-        "Accept": "application/octet-stream"
-      })
-    };
-
-    return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-      return this.processCreate(response_);
-    })).pipe(_observableCatch((response_: any) => {
-      if (response_ instanceof HttpResponseBase) {
-        try {
-          return this.processCreate(response_ as any);
-        } catch (e) {
-          return _observableThrow(e) as any as Observable<FileResponse>;
-        }
-      } else
-        return _observableThrow(response_) as any as Observable<FileResponse>;
-    }));
-  }
-
-  protected processCreate(response: HttpResponseBase): Observable<FileResponse> {
-    const status = response.status;
-    const responseBlob =
-      response instanceof HttpResponse ? response.body :
-        (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-    if (status === 200 || status === 206) {
-      const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-      let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
-      let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
-      if (fileName) {
-        fileName = decodeURIComponent(fileName);
-      } else {
-        fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-        fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-      }
-      return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
-    } else if (status !== 200 && status !== 204) {
-      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-      }));
-    }
-    return _observableOf(null as any);
-  }
-}
-
 export interface INewsFromBloodBankClient {
   getFirst(): Observable<NewsFromBloodBank>;
   getAllOnHold(): Observable<FileResponse>;
@@ -7596,6 +7646,191 @@ export class PDFReportClient implements IPDFReportClient {
   }
 
   protected processSendReport(response: HttpResponseBase): Observable<FileResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200 || status === 206) {
+      const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+      let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
+      let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
+      if (fileName) {
+        fileName = decodeURIComponent(fileName);
+      } else {
+        fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+        fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+      }
+      return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
+  }
+}
+
+export interface ITenderClient {
+  getAll(): Observable<Tender[]>;
+  create(tender: Tender): Observable<FileResponse>;
+  addTenderOffer(tenderOfferReq: TenderOfferRequest): Observable<FileResponse>;
+}
+
+@Injectable()
+export class TenderClient implements ITenderClient {
+  private http: HttpClient;
+  private baseUrl: string;
+  protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+  constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+    this.http = http;
+    this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:5000";
+  }
+
+  getAll(): Observable<Tender[]> {
+    let url_ = this.baseUrl + "/api/Tender/all";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_ : any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Accept": "application/json"
+      })
+    };
+
+    return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+      return this.processGetAll(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processGetAll(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<Tender[]>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<Tender[]>;
+    }));
+  }
+
+  protected processGetAll(response: HttpResponseBase): Observable<Tender[]> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        if (Array.isArray(resultData200)) {
+          result200 = [] as any;
+          for (let item of resultData200)
+            result200!.push(Tender.fromJS(item));
+        }
+        else {
+          result200 = <any>null;
+        }
+        return _observableOf(result200);
+      }));
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
+  }
+
+  create(tender: Tender): Observable<FileResponse> {
+    let url_ = this.baseUrl + "/api/Tender/add";
+    url_ = url_.replace(/[?&]$/, "");
+
+    const content_ = JSON.stringify(tender);
+
+    let options_ : any = {
+      body: content_,
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "Accept": "application/octet-stream"
+      })
+    };
+
+    return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+      return this.processCreate(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processCreate(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<FileResponse>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<FileResponse>;
+    }));
+  }
+
+  protected processCreate(response: HttpResponseBase): Observable<FileResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200 || status === 206) {
+      const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+      let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
+      let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
+      if (fileName) {
+        fileName = decodeURIComponent(fileName);
+      } else {
+        fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+        fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+      }
+      return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
+  }
+
+  addTenderOffer(tenderOfferReq: TenderOfferRequest): Observable<FileResponse> {
+    let url_ = this.baseUrl + "/api/Tender/addOffer";
+    url_ = url_.replace(/[?&]$/, "");
+
+    const content_ = JSON.stringify(tenderOfferReq);
+
+    let options_ : any = {
+      body: content_,
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "Accept": "application/octet-stream"
+      })
+    };
+
+    return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+      return this.processAddTenderOffer(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processAddTenderOffer(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<FileResponse>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<FileResponse>;
+    }));
+  }
+
+  protected processAddTenderOffer(response: HttpResponseBase): Observable<FileResponse> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse ? response.body :
@@ -8868,6 +9103,7 @@ export enum UserRole {
   Manager = 1,
   Patient = 2,
   BloodBank = 3,
+  BloodBankCenter = 4,
 }
 
 export enum AppointmentState {
@@ -12634,105 +12870,6 @@ export interface IConfigureGenerateAndSend {
   nextDateForSending?: Date;
 }
 
-export class MounthlyBloodSubscriptionRequest implements IMounthlyBloodSubscriptionRequest {
-  bloodBankName?: string | undefined;
-  bloodTypeAmountPair?: AmountOfBloodType[] | undefined;
-
-  constructor(data?: IMounthlyBloodSubscriptionRequest) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
-    }
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.bloodBankName = _data["bloodBankName"];
-      if (Array.isArray(_data["bloodTypeAmountPair"])) {
-        this.bloodTypeAmountPair = [] as any;
-        for (let item of _data["bloodTypeAmountPair"])
-          this.bloodTypeAmountPair!.push(AmountOfBloodType.fromJS(item));
-      }
-    }
-  }
-
-  static fromJS(data: any): MounthlyBloodSubscriptionRequest {
-    data = typeof data === 'object' ? data : {};
-    let result = new MounthlyBloodSubscriptionRequest();
-    result.init(data);
-    return result;
-  }
-
-  toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data["bloodBankName"] = this.bloodBankName;
-    if (Array.isArray(this.bloodTypeAmountPair)) {
-      data["bloodTypeAmountPair"] = [];
-      for (let item of this.bloodTypeAmountPair)
-        data["bloodTypeAmountPair"].push(item.toJSON());
-    }
-    return data;
-  }
-}
-
-export interface IMounthlyBloodSubscriptionRequest {
-  bloodBankName?: string | undefined;
-  bloodTypeAmountPair?: AmountOfBloodType[] | undefined;
-}
-
-export class AmountOfBloodType implements IAmountOfBloodType {
-  bloodType?: BloodType3;
-  amount?: number;
-
-  constructor(data?: IAmountOfBloodType) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
-    }
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.bloodType = _data["bloodType"];
-      this.amount = _data["amount"];
-    }
-  }
-
-  static fromJS(data: any): AmountOfBloodType {
-    data = typeof data === 'object' ? data : {};
-    let result = new AmountOfBloodType();
-    result.init(data);
-    return result;
-  }
-
-  toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data["bloodType"] = this.bloodType;
-    data["amount"] = this.amount;
-    return data;
-  }
-}
-
-export interface IAmountOfBloodType {
-  bloodType?: BloodType3;
-  amount?: number;
-}
-
-export enum BloodType3 {
-  Aneg = 0,
-  Apos = 1,
-  Bneg = 2,
-  Bpos = 3,
-  ABpos = 4,
-  ABneg = 5,
-  Opos = 6,
-  Oneg = 7,
-}
-
 export class NewsFromBloodBank implements INewsFromBloodBank {
   id?: string;
   title?: string | undefined;
@@ -12799,6 +12936,232 @@ export enum NewsFromHospitalStatus {
   REFUSED = 2,
   BLOOD_SUBSCRIPTION = 3,
   READ = 4,
+}
+
+export class Tender implements ITender {
+  id?: string;
+  hasDeadline?: boolean;
+  deadlineDate?: Date;
+  publishedDate?: Date;
+  status?: StatusTender;
+  bloodUnitAmount?: BloodUnitAmount[] | undefined;
+  tenderOffer?: TenderOffer[] | undefined;
+
+  constructor(data?: ITender) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.id = _data["id"];
+      this.hasDeadline = _data["hasDeadline"];
+      this.deadlineDate = _data["deadlineDate"] ? new Date(_data["deadlineDate"].toString()) : <any>undefined;
+      this.publishedDate = _data["publishedDate"] ? new Date(_data["publishedDate"].toString()) : <any>undefined;
+      this.status = _data["status"];
+      if (Array.isArray(_data["bloodUnitAmount"])) {
+        this.bloodUnitAmount = [] as any;
+        for (let item of _data["bloodUnitAmount"])
+          this.bloodUnitAmount!.push(BloodUnitAmount.fromJS(item));
+      }
+      if (Array.isArray(_data["tenderOffer"])) {
+        this.tenderOffer = [] as any;
+        for (let item of _data["tenderOffer"])
+          this.tenderOffer!.push(TenderOffer.fromJS(item));
+      }
+    }
+  }
+
+  static fromJS(data: any): Tender {
+    data = typeof data === 'object' ? data : {};
+    let result = new Tender();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data["id"] = this.id;
+    data["hasDeadline"] = this.hasDeadline;
+    data["deadlineDate"] = this.deadlineDate ? this.deadlineDate.toISOString() : <any>undefined;
+    data["publishedDate"] = this.publishedDate ? this.publishedDate.toISOString() : <any>undefined;
+    data["status"] = this.status;
+    if (Array.isArray(this.bloodUnitAmount)) {
+      data["bloodUnitAmount"] = [];
+      for (let item of this.bloodUnitAmount)
+        data["bloodUnitAmount"].push(item.toJSON());
+    }
+    if (Array.isArray(this.tenderOffer)) {
+      data["tenderOffer"] = [];
+      for (let item of this.tenderOffer)
+        data["tenderOffer"].push(item.toJSON());
+    }
+    return data;
+  }
+}
+
+export interface ITender {
+  id?: string;
+  hasDeadline?: boolean;
+  deadlineDate?: Date;
+  publishedDate?: Date;
+  status?: StatusTender;
+  bloodUnitAmount?: BloodUnitAmount[] | undefined;
+  tenderOffer?: TenderOffer[] | undefined;
+}
+
+export enum StatusTender {
+  Open = 0,
+  InProcess = 1,
+  Close = 2,
+}
+
+export class BloodUnitAmount implements IBloodUnitAmount {
+  bloodType?: BloodType2;
+  amount?: number;
+  tenderId?: string;
+  tender?: Tender | undefined;
+  id?: string;
+
+  constructor(data?: IBloodUnitAmount) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.bloodType = _data["bloodType"];
+      this.amount = _data["amount"];
+      this.tenderId = _data["tenderId"];
+      this.tender = _data["tender"] ? Tender.fromJS(_data["tender"]) : <any>undefined;
+      this.id = _data["id"];
+    }
+  }
+
+  static fromJS(data: any): BloodUnitAmount {
+    data = typeof data === 'object' ? data : {};
+    let result = new BloodUnitAmount();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data["bloodType"] = this.bloodType;
+    data["amount"] = this.amount;
+    data["tenderId"] = this.tenderId;
+    data["tender"] = this.tender ? this.tender.toJSON() : <any>undefined;
+    data["id"] = this.id;
+    return data;
+  }
+}
+
+export interface IBloodUnitAmount {
+  bloodType?: BloodType2;
+  amount?: number;
+  tenderId?: string;
+  tender?: Tender | undefined;
+  id?: string;
+}
+
+export class TenderOffer implements ITenderOffer {
+  bloodBankName?: string | undefined;
+  realizationDate?: Date;
+  price?: number;
+
+  constructor(data?: ITenderOffer) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.bloodBankName = _data["bloodBankName"];
+      this.realizationDate = _data["realizationDate"] ? new Date(_data["realizationDate"].toString()) : <any>undefined;
+      this.price = _data["price"];
+    }
+  }
+
+  static fromJS(data: any): TenderOffer {
+    data = typeof data === 'object' ? data : {};
+    let result = new TenderOffer();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data["bloodBankName"] = this.bloodBankName;
+    data["realizationDate"] = this.realizationDate ? this.realizationDate.toISOString() : <any>undefined;
+    data["price"] = this.price;
+    return data;
+  }
+}
+
+export interface ITenderOffer {
+  bloodBankName?: string | undefined;
+  realizationDate?: Date;
+  price?: number;
+}
+
+export class TenderOfferRequest implements ITenderOfferRequest {
+  tender?: Tender | undefined;
+  price?: number;
+  realizationDate?: Date;
+  bloodBankName?: string | undefined;
+
+  constructor(data?: ITenderOfferRequest) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.tender = _data["tender"] ? Tender.fromJS(_data["tender"]) : <any>undefined;
+      this.price = _data["price"];
+      this.realizationDate = _data["realizationDate"] ? new Date(_data["realizationDate"].toString()) : <any>undefined;
+      this.bloodBankName = _data["bloodBankName"];
+    }
+  }
+
+  static fromJS(data: any): TenderOfferRequest {
+    data = typeof data === 'object' ? data : {};
+    let result = new TenderOfferRequest();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data["tender"] = this.tender ? this.tender.toJSON() : <any>undefined;
+    data["price"] = this.price;
+    data["realizationDate"] = this.realizationDate ? this.realizationDate.toISOString() : <any>undefined;
+    data["bloodBankName"] = this.bloodBankName;
+    return data;
+  }
+}
+
+export interface ITenderOfferRequest {
+  tender?: Tender | undefined;
+  price?: number;
+  realizationDate?: Date;
+  bloodBankName?: string | undefined;
 }
 
 export interface FileResponse {
