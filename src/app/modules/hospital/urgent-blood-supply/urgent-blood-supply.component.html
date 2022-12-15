@@ -1,0 +1,55 @@
+<div class="form">
+    <br>
+    <br>
+    <div>
+        <h1>Urgent blood supply</h1>
+        <br><br>
+        <form (submit)="sendRequestForUrgentSupply()">
+            <h3>Enter data in the following fields:</h3> 
+        <div [formGroup]="groupForm">
+            <mat-form-field appearance="fill">
+                <mat-label>Blood bank</mat-label>
+                <mat-select required>
+                <mat-option *ngFor="let bloodBank of bloodBanks" [value]="bloodBank.name" formControlName="name">
+                    {{bloodBank.name}}
+                </mat-option>
+                </mat-select>
+            </mat-form-field>  
+        </div>
+            <br>
+
+            <div [formGroup]="groupForm">
+                <mat-form-field appearance="fill" required>
+                <mat-label>Blood type</mat-label>
+                <select matNativeControl required formControlName="bloodType">
+                    <option value=""></option>
+                    <option value="A_POSITIVE">A+</option>
+                    <option value="A_NEGATIVE">A-</option>
+                    <option value="B_POSITIVE">B+</option>
+                    <option value="B_NEGATIVE">B-</option>
+                    <option value="AB_POSITIVE">AB+</option>
+                    <option value="AB_NEGATIVE">AB-</option>
+                    <option value="O_POSITIVE">0+</option>
+                    <option value="O_NEGATIVE">0-</option>
+                </select>
+                </mat-form-field>
+            </div>
+
+            <br>
+            
+            <div [formGroup]="groupForm">
+                <mat-form-field appearance="fill">
+                    <mat-label>Blood quantity <span style="font-size: 10px;">(number)</span></mat-label>
+                    <input type="number" matInput required formControlName="bloodQuantity" min="1">
+                </mat-form-field>  
+            </div>
+            <br><br><br>
+            <div>
+                <button mat-stroked-button [disabled]="groupForm.invalid">Send sequest</button>
+            </div>
+            <br><br><br><br>
+        </form>
+        
+    </div>
+</div>
+  

@@ -23,6 +23,6 @@
       <app-appointment-preview (onDelete)="onDelete()" [appointments]="filterAppointmentBySunday()"></app-appointment-preview>
     </mat-tab>
   </mat-tab-group>
-  <h1 style="margin-bottom:20px; margin-top:20px ">Your next patients</h1>
+  <h1 style="margin-bottom:20px; margin-top:20px ">Patients for examination</h1>
   <app-next-patients-view [appointmentsForExamination]="appointmentsForExamination" *ngIf="isLoaded"></app-next-patients-view>
 </div>

@@ -12,9 +12,18 @@ import { FloorService } from '../services/HospitalMapServices/floor.service';
 import { GroomService } from '../services/HospitalMapServices/groom.service';
 import { GRoom } from '../model/groom.model';
 import { forkJoin } from 'rxjs';
+import {RoomMergingRequest} from "../model/RoomMergingRequest";
+import {RoomMergingResponse} from "../model/RoomMergingResponse";
+import {RoomSplitingRequest} from "../model/RoomSplitingRequest";
+import {RoomSplitingResponse} from "../model/RoomSplitingResponse";
 import {RoomEquipment} from "../model/roomEquipment";
 import {RoomEquipmentService} from "../services/HospitalMapServices/roomequipment.service";
-import { DateRange, EquipmentMovementAppointmentResponse, EquipmentMovementAppointmentRequest } from 'src/app/api/api-reference';
+import {
+  DateRange,
+  EquipmentMovementAppointmentResponse,
+  EquipmentMovementAppointmentRequest,
+  Appointment
+} from 'src/app/api/api-reference';
 import {EquipmentMovementService} from "../services/equipmentMovement.service";
 //import _default from "chart.js";
 //import numbers = _default.defaults.animations.numbers;
@@ -37,8 +46,17 @@ export class RoomsComponent implements OnInit {
 
   ////For  Displaying Moved Equipment amount
   MovedEquipment = new MatTableDataSource<EquipmentMovementAppointmentResponse[]> ;
-  displayedColumns3: string[] = [ 'amount', 'equipmentName', 'startDate','endDate',  'Delete'];
+  displayedColumns3: string[] = [ 'amount', 'equipmentName', 'startDate','endDate', 'DestinationRoom', 'OriginalRoom','Delete'];
   public izabran : any ; // for splicing MovedEquip matTable
+
+
+  ////For  Displaying Moved Equipment amount
+  shownAppointment = new MatTableDataSource<Appointment[]> ;
+  displayedColumns4: string[] = [ 'emergent', 'startDate', 'endDate','doctorId','Delete'];
+  public izabran2 : any ; // for splicing appointment matTable
+
+
+
 
 
   //SELECTED
@@ -102,10 +120,19 @@ export class RoomsComponent implements OnInit {
 
   //EQUIPMENT MOVEMENT
   displayedColumnsMovement: string[] = [ 'equipmentName', 'from', 'to', 'Schedule'];
+  displayRoomRenovation: string[] = [ 'from', 'to', 'Schedule'];
   currentEquipmentResponsesTable = new MatTableDataSource<EquipmentMovementAppointmentResponse[]> ;
+  currentRoomMergingResponsesTable = new MatTableDataSource<RoomMergingResponse[]> ;
+  currentRoomSplitingResponsesTable = new MatTableDataSource<RoomSplitingResponse[]> ;
   tabNumber: number = 0;
+  roomSplitingtabNumber:number =0;
+  roomMergingtabNumber:number = 0;
   currentEquipmentRequest: EquipmentMovementAppointmentRequest = new EquipmentMovementAppointmentRequest();
+  currentRoomMergingRequest: RoomMergingRequest = new RoomMergingRequest();
+  currentRoomSplitingRequest: RoomSplitingRequest = new RoomSplitingRequest();
   currentEquipmentResponses: EquipmentMovementAppointmentResponse[] = [];
+  currentRoomMergingResponses: EquipmentMovementAppointmentResponse[] = [];
+  currentRoomSplitingResponses: EquipmentMovementAppointmentResponse[] = [];
   formDays: number = 0;
   formHours: number = 0;
   formMinutes: number = 0;
@@ -491,6 +518,11 @@ export class RoomsComponent implements OnInit {
           console.log(result);
           this.equipment = new MatTableDataSource(<RoomEquipment[][]><unknown>result);
       }));
+          this.equipmentMovementService.getAllAppointmentByRoomId(this.selectedRoom.id).subscribe(res => {
+            console.log(res);
+            this.shownAppointment = new MatTableDataSource(<Appointment[][]><unknown>res);
+          });
+
 
         this.equipmentMovementService.getAllMovementAppointmentByRoomId(this.selectedRoom.id).subscribe(res => {
           console.log(res);
@@ -622,6 +654,24 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
     console.log(equipmentToMove.equipmentName + " amount: " + equipmentToMove.amount)
     console.log(this.tabNumber)
   }
+  public onRoomMerging():void
+  {
+    if(this.selectedRoom.id != "")
+    {
+      this.currentRoomMergingRequest.Room1Id = this.selectedRoom.id;
+      this.roomMergingtabNumber = 1;
+      console.log('Room merging ' + this.roomMergingtabNumber)
+    }
+  }
+  public onRoomSpliting():void
+  {
+    if(this.selectedRoom.id != "")
+    {
+      this.currentRoomSplitingRequest.RoomId = this.selectedRoom.id;
+      this.roomSplitingtabNumber = 1;
+      console.log('Room spliting ' + this.roomSplitingtabNumber)
+    }
+  }
 
   public onEquipmentScheduleClick(selectedEquipmentAppointment : EquipmentMovementAppointmentResponse):void
   {
@@ -636,6 +686,31 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
     }))
   }
 
+  public onRoomMergingClick(selectedRoomMerging : RoomMergingResponse):void
+  {
+    console.log("IZABRAN APOINTMENTJ: " + selectedRoomMerging.DateRangeOfMerging?.from);
+
+    this.roomService.createRoomMerging(selectedRoomMerging).subscribe((result => {
+    this.roomMergingtabNumber = 0;
+    this.currentRoomMergingResponses = [];
+    this.currentRoomMergingResponsesTable = new MatTableDataSource(<RoomMergingResponse[][]><unknown>this.currentRoomMergingResponses);
+
+    this.reloadAllInfo();
+    }))
+  }
+
+  public onRoomSplitingClick(selectedRoomSpliting : RoomSplitingResponse):void
+  {
+    console.log("IZABRAN APOINTMENTJ: " + selectedRoomSpliting.DatesForSearch?.from);
+
+    this.roomService.createRoomSpliting(selectedRoomSpliting).subscribe((result => {
+    this.roomSplitingtabNumber = 0;
+    this.currentRoomSplitingResponses = [];
+    this.currentRoomSplitingResponsesTable = new MatTableDataSource(<RoomSplitingResponse[][]><unknown>this.currentRoomSplitingResponses);
+
+    this.reloadAllInfo();
+    }))
+  }
   public nextPageInEquipmentMovement():void
   {
     if(this.tabNumber < 4)
@@ -677,6 +752,88 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
     }
   }
 
+  public nextPageInRoomMerging():void
+  {
+    if(this.roomMergingtabNumber < 3)
+    {
+      //Do validation of current data
+      this.roomMergingtabNumber += 1;
+    }
+    else
+    {
+      this.currentRoomMergingRequest.Room1Id = this.selectedRoom.id;
+      this.currentRoomMergingRequest.Room2Id = this.formSelectedRoomId;
+      this.currentRoomMergingRequest.Duration = this.formDays+":"+this.formHours+":"+this.formMinutes+":00";
+
+      let currentDate = new Date();
+
+
+      let fromDate:Date = new Date(new Date(this.formStartDate!).setHours(7,0,0,0))
+      let endDate:Date  = new Date(new Date(this.formEndDate!).setHours(20,0,0,0))
+
+      this.currentRoomMergingRequest.DateRangeOfMerging = new DateRange({
+        from: fromDate,
+        to: endDate
+      })
+
+      console.log("PROBACEMO DA POSALJEMo");
+      this.roomService.getAvailableByRoomMergingRequest(this.currentRoomMergingRequest).subscribe((result => {
+        if(!Array.isArray(result) || result.length != 0)
+        {
+          this.currentRoomMergingResponses = result;
+          this.currentRoomMergingResponsesTable = new MatTableDataSource(<RoomMergingResponse[][]><unknown>this.currentRoomMergingResponses);
+          console.log(result);
+        }
+        else
+        {
+          console.log(result);
+          alert("BAD REQUEST!");
+        }
+      }))
+      //End of form try to send data
+    }
+  }
+
+  public nextPageInRoomSpliting():void
+  {
+    if(this.roomSplitingtabNumber < 3)
+    {
+      //Do validation of current data
+      this.roomSplitingtabNumber += 1;
+    }
+    else
+    {
+      this.currentRoomSplitingRequest.RoomId = this.selectedRoom.id;
+      this.currentRoomSplitingRequest.Duration = this.formDays+":"+this.formHours+":"+this.formMinutes+":00";
+
+      let currentDate = new Date();
+
+
+      let fromDate:Date = new Date(new Date(this.formStartDate!).setHours(7,0,0,0))
+      let endDate:Date  = new Date(new Date(this.formEndDate!).setHours(20,0,0,0))
+
+      this.currentRoomSplitingRequest.DatesForSearch = new DateRange({
+        from: fromDate,
+        to: endDate
+      })
+
+      console.log("PROBACEMO DA POSALJEMo");
+      this.roomService.getAvailableByRoomSplitingRequest(this.currentRoomSplitingRequest).subscribe((result => {
+        if(!Array.isArray(result) || result.length != 0)
+        {
+          this.currentRoomSplitingResponses = result;
+          this.currentRoomSplitingResponsesTable = new MatTableDataSource(<RoomSplitingResponse[][]><unknown>this.currentRoomSplitingResponses);
+          console.log(result);
+        }
+        else
+        {
+          console.log(result);
+          alert("BAD REQUEST!");
+        }
+      }))
+      //End of form try to send data
+    }
+  }
   public previousPageInEquipmentMovement():void
   {
     if(this.tabNumber > 1)
@@ -689,10 +846,46 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
     }
   }
 
+  public previousPageInRoomMerging():void
+  {
+    if(this.roomMergingtabNumber > 1)
+    {
+      this.roomMergingtabNumber -= 1;
+    }
+    else
+    {
+      this.roomMergingtabNumber = 0;
+    }
+  }
+
+  public previousPageInRoomSpliting():void
+  {
+    if(this.roomSplitingtabNumber > 1)
+    {
+      this.roomSplitingtabNumber -= 1;
+    }
+    else
+    {
+      this.roomSplitingtabNumber = 0;
+    }
+  }
+
   public exitEquipmentMovementForm():void
   {
     this.selectedRoomEquipment = new RoomEquipment();
     this.tabNumber = 0;
+
+  }
+  public exitroomMergingForm():void
+  {
+    this.selectedRoomEquipment = new RoomEquipment();
+    this.roomMergingtabNumber = 0;
+
+  }
+  public exitroomSplitingForm():void
+  {
+    this.selectedRoomEquipment = new RoomEquipment();
+    this.roomSplitingtabNumber = 0;
 
   }
 
@@ -710,6 +903,25 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
         console.log("GRESKA");
       });
   }
+
+
+  public deleteAppointment(movedAppointment : Appointment){
+
+    this.izabran2 = movedAppointment.id;
+    this.equipmentMovementService.deleteAppointment(this.izabran2).subscribe(
+      (resp) =>{
+        console.log(resp);
+        console.log("OBRISAOOOO");
+        this.shownAppointment.data.splice(this.izabran2,1)
+        this.shownAppointment.filter='';
+      }, err=>{
+        console.log(err);
+        console.log("GRESKA");
+      });
+  }
+
+
+
 
 
 }

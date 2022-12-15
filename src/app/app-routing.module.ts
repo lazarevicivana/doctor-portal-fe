@@ -15,11 +15,12 @@ import { EditConfigurationComponent } from "./modules/hospital/edit-configuratio
 import {LoginGuard} from "./guards/login.guard";
 import {ScheduleHolidayComponent} from "./modules/hoiday/schedule-holiday/schedule-holiday.component";
 import {DoctorsHolidaysComponent} from "./modules/hoiday/doctors-holidays/doctors-holidays.component";
-import {ExaminationModule} from "./modules/examination/examination.module";
 import {ExaminationComponent} from "./modules/examination/examination/examination.component";
 import {ForwardAppointmentComponent} from "./modules/schedule/forward-appointment/forward-appointment.component"
 import {ManagerGuard} from "./guards/manager.guard";
 import {MaliciousPatientsComponent} from "./modules/hospital/malicious-patients/malicious-patients.component";
+import { AllTendersComponent } from "./modules/hospital/view-all-tenders/view-all-tenders.component";
+import {ExaminationGuard} from "./guards/examination.guard";
 
 
 
@@ -79,7 +80,11 @@ const routes: Routes = [
     canActivate:[DoctorGuard]
   },
   {path: 'configureSendingReports/edit',component:EditConfigurationComponent},
-  {path:'examination',component:ExaminationComponent},
+  {
+    path:'examination',
+    component:ExaminationComponent,
+    canActivate:[ExaminationGuard]
+  },
   {
     path: 'malicious-patients',
     component:MaliciousPatientsComponent,
