@@ -1,36 +1,28 @@
 import { BloodType } from "src/app/api/api-reference";
 
+export class BloodUnitAmount {
+    bloodType: BloodType | undefined;
+    amount: number | undefined;    
+}
+export enum StatusTender {
+Open=0,
+InProcess=1,
+Close=2
+}
 
 export class Tender {
-    hasDeadline: boolean = false;
+    bloodUnitAmount : BloodUnitAmount []=[];
+    hasDeadline : boolean = false;
     deadlineDate: Date = new Date();
-    status: TenderStatus = TenderStatus.OPEN;
-    bloodUnitAmount : BloodUnitAmount[] = [];
+    status:StatusTender|undefined
+    
 
     public constructor(obj?: any) {
         if (obj) {
-            this.hasDeadline = obj.hasDeadline;
-            this.deadlineDate = obj.deadlineDate;
-            this.status = obj.status;
-            this.bloodUnitAmount = obj.bloodUnitAmount;
+          this.bloodUnitAmount = obj.bloodUnitAmount;
+          this.hasDeadline = obj.hasDeadline;
+          this.deadlineDate = obj.deadlineDate;
+          this.status=obj.status;
         }
-    }
-}
-
-export enum TenderStatus{
-    OPEN,
-    IN_PROCESS,
-    CLOSE
-}
-
-export class BloodUnitAmount{
-    amount: number = 0;
-    bloodType: BloodType = BloodType.ABneg;
-
-    public constructor(obj?: any) {
-        if (obj) {
-            this.amount = obj.amount;
-            this.bloodType = obj.bloodType;
-        }
-    }
+      }
 }
