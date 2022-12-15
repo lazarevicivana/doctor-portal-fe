@@ -15,6 +15,7 @@ import {
 import {NgToastService} from "ng-angular-popup";
 import {Moment} from "moment";
 import {ActivatedRoute, Router} from "@angular/router";
+import * as moment from "moment/moment";
 
 @Component({
   selector: 'app-forward-appointment',
@@ -143,12 +144,31 @@ export class ForwardAppointmentComponent implements OnInit {
           this.ngToast.error({detail: 'Error!',summary:"No free appointments!",duration:5000})
           this.valid =false
           this.notFound = true
+          this.expandRange(dateRange)
           console.log(this.generatedSpans)
         }
 
       })
+  }
+  expandRange(range:DateRange){
+    let endDateExpanded = moment(range.to).add(1, "day");
+    let startDateExpanded = moment(range.from).add(-1, "day");
+    var newDateRange = new DateRange()
+    newDateRange.from = startDateExpanded.toDate()
+    newDateRange.to = endDateExpanded.toDate()
+    console.log(newDateRange)
+    console.log(range)
+    this.client.getFreeTimes(this.selectedDoctorId,newDateRange).subscribe({
+      next: res =>{
+        this.generatedSpans = res
+        console.log(res)
+      },
+      error: message =>{
+        this.ngToast.error({detail: 'Error!',summary:"No free appointments!",duration:5000})
+        this.expandRange(newDateRange)
+      }
 
-
+    })
   }
 
   allSelected() {
@@ -213,5 +233,9 @@ export class ForwardAppointmentComponent implements OnInit {
         this.router1.navigateByUrl('/dashboard');
       }
     })
+  }
+
+  cnacleForward() {
+    this.router1.navigateByUrl('/dashboard');
   }
 }
