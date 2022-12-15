@@ -45,7 +45,7 @@ export class ScheduleHolidayComponent implements OnInit {
     // console.log(this.isUrgent)
 
     let newHoliday = new Holiday()
-
+    console.log(this.endDate)
 
     newHoliday.dateRange = new DateRange(
       {
@@ -58,6 +58,7 @@ export class ScheduleHolidayComponent implements OnInit {
     newHoliday.doctorId = this.tokenStorageService.getUser().id
     newHoliday.description = this.comment
     let valid = true;
+    console.log(newHoliday)
     if(!this.checkTimeSpan(newHoliday)){
       this.alert.error({detail: 'Error!', summary: "Start date must be before ending.", duration: 5000})
       valid = false

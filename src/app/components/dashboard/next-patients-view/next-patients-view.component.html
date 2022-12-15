@@ -8,6 +8,9 @@
         <div class="cell-list">
           {{getHourFormat(app!.duration!.from!)}} - {{getHourFormat(app!.duration!.to!)}}
         </div>
+        <div class="cell-list">
+          {{getDateFormat(app!.duration!.to!)}}
+        </div>
         <mat-divider class="sub-color"></mat-divider>
         <button class="btn-cell"mat-icon-button aria-label="Example icon button with a vertical three dot icon">
           <mat-icon [matMenuTriggerFor]="optionsMenu">more_vert</mat-icon>

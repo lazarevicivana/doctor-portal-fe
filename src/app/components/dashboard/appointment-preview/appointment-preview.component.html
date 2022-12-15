@@ -30,7 +30,7 @@
   </ng-container>
   <ng-container matColumnDef="Report">
     <th mat-header-cell *matHeaderCellDef>Report</th>
-    <td mat-cell *matCellDef="let row"><button mat-mini-fab color="primary"  (click)="CreateAppointmentReport(row.id)"  aria-label="Show appointment report">
+    <td mat-cell *matCellDef="let row"><button mat-mini-fab color="primary" [disabled]="canCreateReport(row.id)"  (click)="CreateAppointmentReport(row.id)"  aria-label="Show appointment report">
       <mat-icon><span class="material-symbols-outlined">
       summarize
       </span></mat-icon>

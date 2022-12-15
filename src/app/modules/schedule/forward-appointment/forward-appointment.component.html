@@ -67,8 +67,8 @@
 
             <div class="low">
               <div class="dugme">
-                <button mat-raised-button class="dugmence" (click)="next()"  matStepperPrevious>Back</button>
-                <button mat-raised-button class="dugmence" (click)="generate()" matStepperNext>Next</button>
+                <button mat-raised-button class="dugmence"   matStepperPrevious>Back</button>
+                <button *ngIf="notFound || valid" mat-raised-button class="dugmence"  matStepperNext>Next</button>
               </div>
             </div>
 
@@ -77,11 +77,11 @@
       </mat-step>
       <mat-step *ngIf="valid" label="Select appointment" style="overflow: auto">
           <div class="formaa">
-            <div class="lista">
+            <div class="lista bluelist">
               <mat-selection-list [multiple]="false" #shoes>
-                <mat-list-option  *ngFor="let span of generatedSpans" [value]="span">
+                <mat-list-option  *ngFor="let span of generatedSpans" [value]="span" (selectedChange)="selectAppointment(span)">
                   <div class="option">
-                    <span matListItemTitle>{{span!.from!.getFullYear()}}:{{span!.from!.getMonth()}}:{{span!.from!.getDate()}} </span>
+                    <span matListItemTitle>{{span!.from!.getFullYear()}}-{{span!.from!.getMonth()+1}}-{{span!.from!.getDate()}} </span>
                     <span matListItemLine> {{span!.from!.getHours()!}}:{{convertminutes(span!.from!.getMinutes()!)}}</span>
                     <span matListItemLine>{{span!.to!.getHours()!}}:{{convertminutes(span!.to!.getMinutes()!)}}</span>
                   </div>
@@ -92,15 +92,44 @@
             <div class="low">
               <div class="dugme">
                 <div><button mat-raised-button class="dugmence" matStepperPrevious>Back</button></div>
-                <div>
-                  <button mat-raised-button class="dugmence " style="margin-right: 15px" color="primary" matStepperNext>Finish</button>
-                  <button mat-raised-button class="dugmence" color="warn" matStepperNext>Cancel</button>
+                <div >
+                  <button mat-raised-button class="dugmence" style="margin-right: 15px" color="warn"   matStepperNext (click)="cnacleForward()">Cancel</button>
+                  <button mat-raised-button class="dugmence "  color="primary" (click)="scheduleAppointment()" matStepperNext>Finish</button>
+
                 </div>
 
               </div>
             </div>
 
           </div>
+      </mat-step>
+
+      <mat-step *ngIf="notFound" label="Select appointment" style="overflow: auto">
+        <div class="message" style="color: #ec0002; border-bottom-color:#ec0002;">
+            There is no free appointment in selected time range for picked doctror.
+            If non of following appointments are acceptable please expend date range or change selected doctor.
+        </div>
+        <div class="lista">
+          <mat-selection-list [multiple]="false" #shoes>
+            <mat-list-option  *ngFor="let span of generatedSpans" [value]="span" (selectedChange)="selectAppointment(span)">
+              <div class="option">
+                <span matListItemTitle>{{span!.from!.getFullYear()}}-{{span!.from!.getMonth()+1}}-{{span!.from!.getDate()}} </span>
+                <span matListItemLine> {{span!.from!.getHours()!}}:{{convertminutes(span!.from!.getMinutes()!)}}</span>
+                <span matListItemLine>{{span!.to!.getHours()!}}:{{convertminutes(span!.to!.getMinutes()!)}}</span>
+              </div>
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+        <div class="low" style="border-top-color:#ec0002;">
+          <div class="dugme" >
+            <div><button  mat-raised-button  matStepperPrevious>Back</button></div>
+            <div>
+              <button mat-raised-button  color="warn" matStepperNext  style="margin-right: 15px" (click)="cnacleForward()">Cancel</button>
+              <button mat-raised-button   color="primary" (click)="scheduleAppointment()" matStepperNext>Finish</button>
+            </div>
+
+          </div>
+        </div>
       </mat-step>
     </mat-stepper>
 

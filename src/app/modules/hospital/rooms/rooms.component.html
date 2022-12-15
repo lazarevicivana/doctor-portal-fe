@@ -43,6 +43,16 @@
   <button mat-icon-button (click)="searchRoom()">
     <mat-icon matTooltip="search">search</mat-icon>
   </button>
+  <div>
+  <button mat-icon-button (click)="onRoomMerging()">
+    MERGE ROOM
+  </button>
+  </div>
+  <div>
+  <button mat-icon-button (click)="onRoomSpliting()">
+   SPLIT ROOM
+  </button>
+</div>
 </div>
 
 <div class="row">
@@ -152,26 +162,31 @@
     <div>
       <h1 class="naslov">Movement Details</h1>
     </div>
-    <table mat-table [dataSource]="MovedEquipment" matSort  >
-
-      <ng-container matColumnDef="equipmentName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Equipment Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.equipmentName}} </td>
-      </ng-container>
+    <table mat-table [dataSource]="MovedEquipment" matSort>
 
       <ng-container matColumnDef="amount">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
         <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+      </ng-container> equipmentName
+
+      <ng-container matColumnDef="equipmentName"> equipmentName
+        <th mat-header-cell *matHeaderCellDef mat-sort-header align="middle"> EquipmentName </th>
+        <td mat-cell *matCellDef="let element"  > {{element.equipmentName}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="duration">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> duration </th>
-        <td mat-cell *matCellDef="let element"> {{element.duration}} </td>       <!-- VAMO MORAM NEKAKO DA GA PREBACIM U VIDLJIVO --->
+      <ng-container matColumnDef="startDate">
+        <th class="hederMT" mat-header-cell  *matHeaderCellDef mat-sort-header> StartDate </th>
+        <td mat-cell *matCellDef="let element" > {{element.duration.from}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="Delete"  >
-        <th mat-header-cell *matHeaderCellDef > Delete </th>
-        <td mat-cell *matCellDef="let element">
+      <ng-container matColumnDef="endDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> EndDate </th>
+        <td mat-cell *matCellDef="let element"> {{element.duration.to}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Delete">
+        <th mat-header-cell *matHeaderCellDef   > Delete </th>
+        <td mat-cell *matCellDef="let element" >
           <button mat-icon-button (click)="deleteMovementEquipment(element)">
             <mat-icon matTooltip="delete">delete</mat-icon>
           </button>
@@ -350,5 +365,200 @@
   </div>
   </div>
 </div>
+
+
+
+<!--- PIKULIN DEO, NE DIRATI NI ZA ZIVU GLAVU!-->
+
+<div style="background-color: rgba(0, 0, 0, 0.5);width: 100%; height: 100%; position: absolute; top:0%;left:0%" name="pozadina" *ngIf="this.roomMergingtabNumber >0">
+  <div class="forma"  name="roomMerging" *ngIf="this.roomMergingtabNumber >0">
+  
+    <button style="float: left; " (click)="exitroomMergingForm()"> Exit </button>
+    <form>
+      <div>
+        <h1 class="naslov">roomMerging form</h1>
+      </div>
+  
+      <div class="formaInputi" name="DestinationRoom" *ngIf="roomMergingtabNumber===1">
+        <div>
+          <h1>Room to merge with:</h1>
+          <mat-form-field appearance="fill">
+            <mat-label>Room</mat-label>
+            <mat-select name="preForPetlja" [(ngModel)]="formSelectedRoomId">
+              <mat-option  ngDefaultControl  name="forPetlja" *ngFor="let room of this.allRooms" [value]="room.id">
+                {{ room.name + ", " + this.getFloorNameByFloorId(room.floorId) + ", " + this.getBuildingNameByBuildingId(room.buildingId)}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+  
+      <div class="formaInputi" name="Datumi" *ngIf="roomMergingtabNumber===2">
+        <div>
+          <h1>Date interval:</h1>
+            <h2>Start date:</h2>
+            <input type="date" name="datumPocetni" [(ngModel)]="formStartDate">
+            <h2>End date:</h2>
+            <input type="date" name="datumKrajnji" [(ngModel)]="formEndDate">
+        </div>
+      </div>
+  
+      <div class="formaInputi" name="Durutacija" *ngIf="roomMergingtabNumber===3">
+        <div >
+          <h1>Days:</h1>
+          <input type="number" name="dani" value="0" min ="0" [(ngModel)]="formDays">
+        </div>
+  
+        <div>
+          <h1>Hours:</h1>
+          <input type="number" name="sati" value="0" min ="0" [(ngModel)]="formHours">
+        </div>
+  
+        <div>
+          <h1>Minutes:</h1>
+          <input type="number" name="minuti" value="0" min ="0" [(ngModel)]="formMinutes">
+        </div>
+      </div>
+  
+      <div >
+        <div>
+          <div>
+            <button style="float: right;" (click)="nextPageInRoomMerging()"> NEXT </button>
+          </div>
+        </div>
+  
+        <div name="Back" *ngIf="roomMergingtabNumber > 1">
+          <div>
+            <button style="float: left; " (click)="previousPageInRoomMerging()"> Back </button>
+          </div>
+        </div>
+      </div>
+  
+    </form>
+    <div *ngIf="currentRoomMergingResponses.length>0">
+      <table class="tabelica" mat-table [dataSource]="currentRoomMergingResponsesTable" matSort  *ngIf="currentRoomMergingResponses!=[]" >
+  
+        <ng-container matColumnDef="from">
+          <th mat-header-cell align="center"  *matHeaderCellDef mat-sort-header> from </th>
+          <td mat-cell  *matCellDef="let element"> {{element.dateRangeOfMerging.from}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="to">
+          <th mat-header-cell align="center"  *matHeaderCellDef mat-sort-header> to </th>
+          <td mat-cell  align="center"  *matCellDef="let element"> {{element.dateRangeOfMerging.to}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="Schedule"  >
+          <th mat-header-cell *matHeaderCellDef > Schedule </th>
+          <td mat-cell *matCellDef="let element">
+            <button (click)="onRoomMergingClick(element)">
+              Schedule
+              </button></td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayRoomRenovation"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayRoomRenovation;"></tr>
+  
+  
+        <span class="nePostojiOprema" *matNoDataRow>Search for  "{{input.value}}" does not exist</span>
+      </table>
+    </div>
+    </div>
+  </div>
+
+
+<!--- PIKULIN DEO, NE DIRATI NI ZA ZIVU GLAVU!-->
+
+<div style="background-color: rgba(0, 0, 0, 0.5);width: 100%; height: 100%; position: absolute; top:0%;left:0%" name="pozadina" *ngIf="this.roomSplitingtabNumber >0">
+  <div class="forma"  name="roomMerging" *ngIf="this.roomSplitingtabNumber >0">
+  
+    <button style="float: left; " (click)="exitroomSplitingForm()"> Exit </button>
+    <form>
+      <div>
+        <h1 class="naslov">Room spliting form</h1>
+      </div>
+  
+      <div class="formaInputi" name="DestinationRoom" *ngIf="roomSplitingtabNumber===1">
+        <div>
+          <h1>Name of new room:</h1>
+            <mat-label>Room name</mat-label>
+              <div>
+                <input  name="amountInput" [(ngModel)]="currentRoomSplitingRequest.NewRoomName" type="text">
+              </div>
+        </div>
+      </div>
+  
+      <div class="formaInputi" name="Datumi" *ngIf="roomSplitingtabNumber===2">
+        <div>
+          <h1>Date interval:</h1>
+            <h2>Start date:</h2>
+            <input type="date" name="datumPocetni" [(ngModel)]="formStartDate">
+            <h2>End date:</h2>
+            <input type="date" name="datumKrajnji" [(ngModel)]="formEndDate">
+        </div>
+      </div>
+  
+      <div class="formaInputi" name="Durutacija" *ngIf="roomSplitingtabNumber===3">
+        <div >
+          <h1>Days:</h1>
+          <input type="number" name="dani" value="0" min ="0" [(ngModel)]="formDays">
+        </div>
+  
+        <div>
+          <h1>Hours:</h1>
+          <input type="number" name="sati" value="0" min ="0" [(ngModel)]="formHours">
+        </div>
+  
+        <div>
+          <h1>Minutes:</h1>
+          <input type="number" name="minuti" value="0" min ="0" [(ngModel)]="formMinutes">
+        </div>
+      </div>
+  
+      <div >
+        <div>
+          <div>
+            <button style="float: right;" (click)="nextPageInRoomSpliting()"> NEXT </button>
+          </div>
+        </div>
+  
+        <div name="Back" *ngIf="roomSplitingtabNumber > 1">
+          <div>
+            <button style="float: left; " (click)="previousPageInRoomSpliting()"> Back </button>
+          </div>
+        </div>
+      </div>
+  
+    </form>
+    <div *ngIf="currentRoomSplitingResponses.length>0">
+      <table class="tabelica" mat-table [dataSource]="currentRoomSplitingResponsesTable" matSort  *ngIf="currentRoomSplitingResponses!=[]" >
+  
+        <ng-container matColumnDef="from">
+          <th mat-header-cell align="center"  *matHeaderCellDef mat-sort-header> from </th>
+          <td mat-cell  *matCellDef="let element"> {{element.datesForSearch.from}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="to">
+          <th mat-header-cell align="center"  *matHeaderCellDef mat-sort-header> to </th>
+          <td mat-cell  align="center"  *matCellDef="let element"> {{element.datesForSearch.to}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="Schedule"  >
+          <th mat-header-cell *matHeaderCellDef > Schedule </th>
+          <td mat-cell *matCellDef="let element">
+            <button (click)="onRoomSplitingClick(element)">
+              Schedule
+              </button></td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayRoomRenovation"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayRoomRenovation;"></tr>
+  
+  
+        <span class="nePostojiOprema" *matNoDataRow>Search for  "{{input.value}}" does not exist</span>
+      </table>
+    </div>
+    </div>
+  </div>
 
 </div>
