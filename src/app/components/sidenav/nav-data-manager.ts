@@ -45,6 +45,11 @@ export const navDataManager= [
     label: 'Register blood bank'
   },
   {
+    routeLink: 'view-all-tenders',
+    icon: 'fal fa-bookmark',
+    label: 'Tenders'
+  },
+  {
     routeLink: 'sign-out',
     icon: 'fal fa-sign-out',
     label: 'Sign out'
