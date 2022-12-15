@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AppointmentClient,AppointmentResponse} from "../../../api/api-reference";
+import {AppointmentClient, AppointmentResponse, Examination, ExaminationClient} from "../../../api/api-reference";
 import {MatDialog} from "@angular/material/dialog";
 import * as moment from "moment";
 import {Router} from "@angular/router";
@@ -20,14 +20,14 @@ export class AppointmentPreviewComponent implements OnInit {
   tomorrow= new Date();
   @Output() onDelete: EventEmitter<AppointmentResponse[]> = new EventEmitter();
 
-  appointmentsForExamination: AppointmentResponse[]=[];
+  examinations: Examination[]=[];
   userToken:UserToken;
   isLoaded:boolean = false;
 
-  constructor(private readonly router:Router, private  client: AppointmentClient,public dialog: MatDialog,private tokenStorageService:TokenStorageService) {
+  constructor(private readonly router:Router, private  client: AppointmentClient,private  examClient: ExaminationClient,public dialog: MatDialog,private tokenStorageService:TokenStorageService) {
     this.tomorrow.setDate(this.tomorrow.getDate() + 1);
     this.userToken = this.tokenStorageService.getUser();
-    this.loadAppointmentsForExamination()
+    this.loadExaminations()
   }
 
   ngOnInit(): void {
@@ -65,11 +65,13 @@ export class AppointmentPreviewComponent implements OnInit {
 
   canCreateReport(id:string)
   {
-    for (var val of this.appointmentsForExamination) {
-      if (val.id == id)
-        return true
+
+    for (let val of this.examinations) {
+      console.log(val)
+      if (val.appointment?.id== id)
+        return false
     }
-    return false
+    return true
   }
 
   CreateAppointmentReport(id: string) {
@@ -85,10 +87,10 @@ export class AppointmentPreviewComponent implements OnInit {
 
   }
 
-  loadAppointmentsForExamination() {
-    this.client.getAppointmentsForExamination(this.userToken.id).subscribe({
+  loadExaminations() {
+    this.examClient.getAllExaminations().subscribe({
       next: value => {
-        this.appointmentsForExamination = value
+        this.examinations = value
         console.log(this.appointments)
         this.isLoaded = true
       }

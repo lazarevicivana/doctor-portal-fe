@@ -50,6 +50,11 @@ export const navDataManager= [
     label: 'Blood subscription'
   },
   {
+    routeLink: 'view-all-tenders',
+    icon: 'fal fa-bookmark',
+    label: 'Tenders'
+  },
+  {
     routeLink: 'sign-out',
     icon: 'fal fa-sign-out',
     label: 'Sign out'
