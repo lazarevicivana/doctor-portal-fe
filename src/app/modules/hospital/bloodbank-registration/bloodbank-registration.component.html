@@ -2,7 +2,7 @@
     <form [formGroup]="registrationForm" (ngSubmit)="createBloodBank()">
         <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
-            <input matInput formControlName="name" type="text" [(ngModel)]="bloodBank.name" id="name">
+            <input matInput formControlName="name" type="text" [(ngModel)]="bloodBank.name" id="bloodBankName">
         </mat-form-field><br>
         <br>
         <mat-form-field appearance="fill">

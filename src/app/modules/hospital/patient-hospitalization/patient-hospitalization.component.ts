@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PatientAdmissionRequestModel } from "../model/patientAdmissionRequest.model";
 import {PatientAdmissionService} from "../services/patient-admission.service";
 import {NgToastService} from "ng-angular-popup";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -14,7 +15,7 @@ export class PatientHospitalizationComponent implements OnInit {
   public patientId: string = '';
   public patientAdmission = new PatientAdmissionRequestModel();
 
-  constructor(private alert: NgToastService, private patientAdmissionService: PatientAdmissionService) { }
+  constructor(private alert: NgToastService, private patientAdmissionService: PatientAdmissionService,private readonly router:Router) { }
 
   ngOnInit(): void {
   }
@@ -29,6 +30,7 @@ export class PatientHospitalizationComponent implements OnInit {
     }
     this.patientAdmissionService.postAdmission(this.patientAdmission).subscribe(res => {
         this.alert.success({detail: 'Patient hospitalized successfully!', summary: "Success!", duration: 5000})
+        this.redirectToHospitalizedPatient()
     },
       error => {
       if(error.status == '403') {
@@ -51,5 +53,9 @@ export class PatientHospitalizationComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  async redirectToHospitalizedPatient(): Promise<void>{
+    await this.router.navigateByUrl('/hospitalizes-patients')
   }
 }

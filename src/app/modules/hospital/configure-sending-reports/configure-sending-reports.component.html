@@ -10,8 +10,8 @@
             <div [formGroup]="groupForm">
             <mat-form-field appearance="fill">
                 <mat-label>Blood bank</mat-label>
-                <mat-select [(ngModel)]="configureGeenerateAndSend.bloodBankName" formControlName="name" required>
-                <mat-option *ngFor="let bloodBank of showBloodBanks" [value]="bloodBank.name" >
+                <mat-select [(ngModel)]="configureGeenerateAndSend.bloodBankName" formControlName="name" id="bloodBankName" required>
+                <mat-option *ngFor="let bloodBank of showBloodBanks" [value]="bloodBank.name" [id]="bloodBank.name" >
                     {{bloodBank.name}}
                 </mat-option>
                 </mat-select>
@@ -23,9 +23,9 @@
                 <h3>Choose period for <strong>generate </strong>report <span style="font-size: 12px;"> (recomended or custom)</span>:</h3> 
                 <mat-form-field appearance="fill" required>
                 <mat-label>Recommended </mat-label>
-                <select matNativeControl  (click)="isCustomSelected()" name="chooseRecomended" (click)="isRecomendedSelected()" [(ngModel)]="configureGeenerateAndSend.generatePeriod" formControlName="generatePeriod" required>
-                    <option value="ONE_MONTH">One month</option>
-                    <option value="TWO_MONTH">Two month</option>
+                <select matNativeControl  (click)="isCustomSelected()" name="chooseRecomended" (click)="isRecomendedSelected()" [(ngModel)]="configureGeenerateAndSend.generatePeriod" formControlName="generatePeriod" id="generatePeriod" required>
+                    <option value="ONE_MONTH" id="1">One month</option>
+                    <option value="TWO_MONTH" id="2">Two month</option>
                     <option value="THREE_MONTH">Three month</option>
                     <option value="SIX_MONTH">Six month</option>
                     <option value="ONE_YEAR">One year</option>
@@ -39,7 +39,7 @@
             <div>
                 <mat-form-field appearance="fill" *ngIf="showCustom" [(ngModel)]="showCustom">
                     <mat-label>Custom period</mat-label>
-                    <input matInput [matDatepicker]="picker" [max]="maxDate"  name="chooseCustomDate" [(ngModel)]="configureGeenerateAndSend.generatePeriod">
+                    <input matInput [matDatepicker]="picker" [max]="maxDate"  name="chooseCustomDate" [(ngModel)]="configureGeenerateAndSend.generatePeriod" id="customGeneratePeriod">
                     <mat-hint>MM/DD/YYYY</mat-hint>
                     <mat-datepicker-toggle matIconSuffix [for]="picker" (click)="isCustomDateSelected()"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
@@ -52,9 +52,9 @@
                 <h3>Choose period for <strong> sending </strong>report <span style="font-size: 12px;">(recomended or custom)</span>:</h3>
                 <mat-form-field appearance="fill" (click)="isRecomendedSendingSelected()"  required>
                 <mat-label>Recommended </mat-label>
-                <select matNativeControl name="chooseRecomendedSending" (click)="isSendCustomSelected()" [(ngModel)]="configureGeenerateAndSend.sendPeriod" formControlName="sendPeriod" required>
-                    <option value="ONE_MONTH">Every  month</option>
-                    <option value="TWO_MONTH">Every two months</option>
+                <select matNativeControl name="chooseRecomendedSending" (click)="isSendCustomSelected()" [(ngModel)]="configureGeenerateAndSend.sendPeriod" formControlName="sendPeriod" id="sendPeriod" required >
+                    <option value="ONE_MONTH" id="3">Every  month</option>
+                    <option value="TWO_MONTH" id="4">Every two months</option>
                     <option value="THREE_MONTH">Every three months</option>
                     <option value="SIX_MONTH">Every six months</option>
                     <option value="ONE_YEAR">Once a year</option>
@@ -67,7 +67,7 @@
             <div>
                 <mat-form-field appearance="fill" *ngIf="showSendCustom" [(ngModel)]="showSendCustom">
                     <mat-label>Custom period</mat-label>
-                    <input matInput [matDatepicker]="sendingPicker" [min]="minDate" name="chooseCustomDateSending" [(ngModel)]="configureGeenerateAndSend.sendPeriod">
+                    <input matInput [matDatepicker]="sendingPicker" [min]="minDate" name="chooseCustomDateSending" [(ngModel)]="configureGeenerateAndSend.sendPeriod" id="customSendPeriod">
                     <mat-hint>MM/DD/YYYY</mat-hint>
                     <mat-datepicker-toggle matIconSuffix [for]="sendingPicker" (click)="isCustomDateSendingSelected()"></mat-datepicker-toggle>
                     <mat-datepicker #sendingPicker></mat-datepicker>
@@ -75,7 +75,7 @@
             </div>
             <br><br>
             <div>
-                <button mat-stroked-button [disabled]="groupForm.invalid">Finish</button>
+                <button mat-stroked-button [disabled]="groupForm.invalid" id="submitButton">Finish</button>
             </div>
         </form>
         
