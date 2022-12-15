@@ -20,6 +20,10 @@ import {ExaminationComponent} from "./modules/examination/examination/examinatio
 import {ForwardAppointmentComponent} from "./modules/schedule/forward-appointment/forward-appointment.component"
 import {ManagerGuard} from "./guards/manager.guard";
 import {MaliciousPatientsComponent} from "./modules/hospital/malicious-patients/malicious-patients.component";
+import {ConsiliumDashboardComponent} from "./modules/consilium-dashboard/consilium-dashboard.component";
+import {
+  ScheduleConsiliumComponent
+} from "./modules/consilium-dashboard/schedule-consilium/schedule-consilium.component";
 
 
 
@@ -85,6 +89,15 @@ const routes: Routes = [
     component:MaliciousPatientsComponent,
     canActivate:[ManagerGuard]
   },
+  {
+    path: 'consiliums',
+    component:ConsiliumDashboardComponent,
+    canActivate:[DoctorGuard]
+  }, {
+    path: 'schedule-consilium',
+    component:ScheduleConsiliumComponent,
+    canActivate:[DoctorGuard]
+  }
 
 ];
 

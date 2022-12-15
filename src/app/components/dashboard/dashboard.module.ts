@@ -25,7 +25,6 @@ import {AppointmentClient} from "../../api/api-reference";
     imports: [
         CommonModule,
         MatGridListModule,
-        MatTabsModule,
         MatTableModule,
         MatSortModule,
         MatButtonModule,
