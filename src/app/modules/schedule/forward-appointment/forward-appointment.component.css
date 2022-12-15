@@ -32,12 +32,19 @@
   height: 40vh;
   overflow: auto;
   margin-bottom: 15px;
+
+}
+.bluelist{
+  border-top-width: 1px;
+  border-top-color: #3b4d79;
+  border-top-style: solid;
 }
 .formaa1{
  margin-left: 5%;
   height: 90%;
   margin-top: 5%;
   align-items: center;
+
 
 }
 .message{
@@ -61,9 +68,11 @@
 }
 
 .dugme{
-  margin-top: 30px;
+  margin-top: 15px;
   display: flex;
   justify-content: space-between;
+  width: 95%;
+  margin-left: 2.5%;
 }
 
 .datumi{
