@@ -6,7 +6,6 @@ import { NgToastService } from 'ng-angular-popup';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { BloodUnitAmount, Tender } from '../model/tender.model';
 import { TenderService } from '../services/tender.services';
-
 @Component({
   selector: 'app-create-tender',
   templateUrl: './create-tender.component.html',
