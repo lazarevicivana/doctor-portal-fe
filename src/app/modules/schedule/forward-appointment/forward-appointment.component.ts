@@ -14,6 +14,7 @@ import {
 } from "../../../api/api-reference";
 import {NgToastService} from "ng-angular-popup";
 import {Moment} from "moment";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-forward-appointment',
@@ -25,11 +26,11 @@ export class ForwardAppointmentComponent implements OnInit {
 
   stepperOrientation: Observable<StepperOrientation> | undefined;
   selectedValue: any;
-  specialisation : string[] =['all','General','Dermatology','Surgeon']
+  specialisation : string[] =['All','General','Dermatology','Surgeon']
   selectedName= "";
   selectedDoctorId = ""
   doctors: DoctorResponse[] = []
-  patientId = "a147ace2-6838-48ec-8a4f-28f4f683ca07"
+  patientId = ""
   isLinear = true;
   generated = false;
   stardDate: Date = new Date();
@@ -38,11 +39,16 @@ export class ForwardAppointmentComponent implements OnInit {
   endDate: any;
   selectedDateRange : DateRange = new DateRange()
   bla: true | undefined;
+  notFound= false;
   constructor(private _formBuilder: FormBuilder,breakpointObserver: BreakpointObserver,private readonly client: DoctorClient,
-              private readonly  ngToast:NgToastService,private scheduleClient: ScheduleClient,) {
+              private readonly  ngToast:NgToastService,private scheduleClient: ScheduleClient,private readonly router1:Router,
+              private readonly router:ActivatedRoute) {
+
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')
       .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
+    this.patientId = this.router1.getCurrentNavigation()?.extras?.state?.['data']!
+    console.log(this.patientId)
   }
 
 
@@ -52,15 +58,32 @@ export class ForwardAppointmentComponent implements OnInit {
         this.doctors = response
       }
     })
+    console.log(this.patientId)
   }
 
   filterSpecialisation(specialisation:String) {
     // @ts-ignore
-    this.client.getBySpecialisation(specialisation).subscribe({
-      next: res=>{
-        this.doctors = res
-      }
-    })
+    console.log(this.patientId)
+    if(specialisation!="All"){
+      // @ts-ignore
+      this.client.getBySpecialisation(specialisation).subscribe({
+        next: res=>{
+          this.doctors = res
+          if(this.doctors.length == 0){
+            this.ngToast.error({detail: 'Error!',summary:"No doctors with this specialisation!",duration:5000})
+          }
+
+        },
+      })
+    }
+    else{
+      this.client.getAllDoctors().subscribe({
+        next: res=>{
+          this.doctors = res
+        }
+      })
+    }
+
   }
   next(){
     console.log(this.stardDate)
@@ -114,11 +137,12 @@ export class ForwardAppointmentComponent implements OnInit {
         next: res =>{
           this.generatedSpans = res
           this.valid=true
-
+          this.notFound = false
         },
         error: message =>{
           this.ngToast.error({detail: 'Error!',summary:"No free appointments!",duration:5000})
           this.valid =false
+          this.notFound = true
           console.log(this.generatedSpans)
         }
 
@@ -150,6 +174,7 @@ export class ForwardAppointmentComponent implements OnInit {
       if(this.stardDate >= this.endDate){
         this.ngToast.error({detail: 'Error!',summary:"Invalid Dates!",duration:5000})
         this.valid = false
+
       }
     }
     else{
@@ -185,6 +210,7 @@ export class ForwardAppointmentComponent implements OnInit {
     this.scheduleClient.scheduleAppointment(app).subscribe({
       next: res=>{
         this.ngToast.success({detail: 'Success!',summary:"Scheduled appointment!",duration:5000})
+        this.router1.navigateByUrl('/dashboard');
       }
     })
   }

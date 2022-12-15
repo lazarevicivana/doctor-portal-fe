@@ -333,6 +333,23 @@ body {
     transition: 0.5s 0.25s cubic-bezier(0.17, 0.67, 0.5, 1.03);
     opacity: 1;
   }
+  .btn-b-forward{
+    align-content: center;
+    margin-top: 10px;
+    left: 0;
+    bottom: 0;
+    padding: 10px 20px;
+    letter-spacing: 1px;
+    color: #fff;
+    font-family: 'Roboto',sans-serif;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 44%;
+    background-color: #3b4d79;
+    transition: 0.5s 0.25s cubic-bezier(0.17, 0.67, 0.5, 1.03);
+    opacity: 1;
+  }
   .btn-b-cols {
     align-content: center;
     margin-top: 10px;

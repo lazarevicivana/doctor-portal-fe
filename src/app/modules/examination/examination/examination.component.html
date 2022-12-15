@@ -137,8 +137,17 @@
               </div>
           </div>
         <div class="align-me mg-prescription">
-          <button class="btn-b" mat-flat-button (click)="createExamination()">Finish</button>
+
+          <div class="row">
+            <div  class="col-6" >
+              <button class="btn-b-forward" mat-flat-button (click)="forwardAppointment()">Forward appointment</button>
+            </div>
+            <div class="col-6">
+              <button class="btn-b" mat-flat-button (click)="createExamination()">Finish</button>
+            </div>
+          </div>
         </div>
+
         </div>
       </mat-step>
     </mat-stepper>
