@@ -7,6 +7,8 @@ import {
   Appointment
 } from 'src/app/api/api-reference';
 import {RoomEquipment} from "../model/roomEquipment";
+import {RoomSplitingResponse} from "../model/RoomSplitingResponse";
+import {RoomMergingResponse} from "../model/RoomMergingResponse";
 
 const httpOptions ={
   headers: new HttpHeaders({
@@ -61,5 +63,13 @@ export class EquipmentMovementService {
     return this.http.delete<Appointment[]>(this.apiHost + 'api/v1/Appointment/' + id , {headers: this.headers});
   }
 
+  getAllSplittingByRoomid(roomId:string) : Observable<RoomSplitingResponse[]>{
+    return this.http.get<RoomSplitingResponse[]>(this.apiHost + 'api/v1/RoomRenovation/GetSplittingByRoomId/' + roomId, {headers: this.headers});
+  }
+
+
+  getAllMergingByRoomid(roomId:string) : Observable<RoomMergingResponse[]>{
+    return this.http.get<RoomMergingResponse[]>(this.apiHost + 'api/v1/RoomRenovation/GetAllMergingByRoomId/' + roomId, {headers: this.headers});
+  }
 
 }

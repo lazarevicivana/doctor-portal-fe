@@ -57,6 +57,19 @@ export class RoomsComponent implements OnInit {
 
 
 
+  ////For  Displaying Room Spltting
+  shownRenovation = new MatTableDataSource<RoomSplitingResponse[]> ;   ///ZAMENI APPOINTMENT
+  displayedColumns5: string[] = [ 'RoomId', 'StartDate', 'EndDate','newRoomName','Delete'];
+  public izabran3 : any ; // for splicing appointment matTable
+
+
+  ////For  Displaying Room Spltting and Merging
+  shownMerging = new MatTableDataSource<RoomMergingResponse[]> ;   ///ZAMENI APPOINTMENT
+  displayedColumns6: string[] = [ 'Room1Id', 'Room2Id', 'DateRangeStart','DateRangeEnd','Delete'];
+  public izabran4 : any ; // for splicing appointment matTable
+
+
+
 
 
   //SELECTED
@@ -522,6 +535,16 @@ export class RoomsComponent implements OnInit {
             console.log(res);
             this.shownAppointment = new MatTableDataSource(<Appointment[][]><unknown>res);
           });
+
+        this.equipmentMovementService.getAllSplittingByRoomid(this.selectedRoom.id).subscribe(res => {
+          console.log(res);
+          this.shownRenovation = new MatTableDataSource(<RoomSplitingResponse[][]><unknown>res);
+        });
+
+        this.equipmentMovementService.getAllMergingByRoomid(this.selectedRoom.id).subscribe(res => {
+          console.log(res);
+          this.shownMerging = new MatTableDataSource(<RoomMergingResponse[][]><unknown>res);
+        });
 
 
         this.equipmentMovementService.getAllMovementAppointmentByRoomId(this.selectedRoom.id).subscribe(res => {
