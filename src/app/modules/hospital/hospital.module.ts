@@ -53,7 +53,7 @@ const routes: Routes = [
   { path: 'rooms/:id/update', component: UpdateRoomComponent,canActivate:[ManagerGuard]},
   { path: 'patient-statistics', component: PatientStatisticsComponent, canActivate:[ManagerGuard] },
   { path: 'feedback', component: FeedbackComponent,canActivate:[ManagerGuard] },
-  { path: 'bloodBank/add', component: BloodbankRegistrationComponent, canActivate:[BloodBankGuard]},
+  { path: 'bloodBank/add', component: BloodbankRegistrationComponent, canActivate:[ManagerGuard]},
   { path: 'view-bloodRequests', component: ViewBloodRequestsComponent , canActivate:[ManagerGuard]},
   { path: 'view-bloodRequests/comment', component: AddCommentComponent, canActivate:[ManagerGuard]},
   { path: 'bloodBank/changePassword', component: BloodBankChangePasswordComponent, canActivate:[BloodBankGuard]},
@@ -64,7 +64,7 @@ const routes: Routes = [
   { path: 'all-hospitalized', component: AllHospitalizedPatientsComponent,canActivate:[DoctorGuard]},
   { path: 'patients/therapy-prescription', component: TherapyPrescriptionComponent,canActivate:[DoctorGuard]},
   { path: 'medicine-for-prescription', component: MedicineForPrescriptionComponent,canActivate:[DoctorGuard]},
-  { path: 'bloodBank/bloodSubscription', component: BloodSubscriptionComponent},
+  { path: 'bloodBank/bloodSubscription', component: BloodSubscriptionComponent, canActivate:[ManagerGuard]},
   { path: 'malicious-patients', component: MaliciousPatientsComponent}
 ];
 
