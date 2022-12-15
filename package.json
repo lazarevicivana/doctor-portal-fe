@@ -46,10 +46,9 @@
     "typescript": "~4.7.2"
   },
   "overrides": {
-  "angular-user-idle": {
-    "@angular/common": "$@angular/common",
-    "@angular/core": "$@angular/core"
+    "angular-user-idle": {
+      "@angular/common": "$@angular/common",
+      "@angular/core": "$@angular/core"
     }
   }
 }
-
