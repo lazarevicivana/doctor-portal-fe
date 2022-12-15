@@ -14,7 +14,12 @@ import { GRoom } from '../model/groom.model';
 import { forkJoin } from 'rxjs';
 import {RoomEquipment} from "../model/roomEquipment";
 import {RoomEquipmentService} from "../services/HospitalMapServices/roomequipment.service";
-import { DateRange, EquipmentMovementAppointmentResponse, EquipmentMovementAppointmentRequest } from 'src/app/api/api-reference';
+import {
+  DateRange,
+  EquipmentMovementAppointmentResponse,
+  EquipmentMovementAppointmentRequest,
+  Appointment
+} from 'src/app/api/api-reference';
 import {EquipmentMovementService} from "../services/equipmentMovement.service";
 //import _default from "chart.js";
 //import numbers = _default.defaults.animations.numbers;
@@ -37,8 +42,17 @@ export class RoomsComponent implements OnInit {
 
   ////For  Displaying Moved Equipment amount
   MovedEquipment = new MatTableDataSource<EquipmentMovementAppointmentResponse[]> ;
-  displayedColumns3: string[] = [ 'amount', 'equipmentName', 'startDate','endDate',  'Delete'];
+  displayedColumns3: string[] = [ 'amount', 'equipmentName', 'startDate','endDate', 'DestinationRoom', 'OriginalRoom','Delete'];
   public izabran : any ; // for splicing MovedEquip matTable
+
+
+  ////For  Displaying Moved Equipment amount
+  shownAppointment = new MatTableDataSource<Appointment[]> ;
+  displayedColumns4: string[] = [ 'emergent', 'startDate', 'endDate','doctorId','Delete'];
+  public izabran2 : any ; // for splicing appointment matTable
+
+
+
 
 
   //SELECTED
@@ -491,6 +505,11 @@ export class RoomsComponent implements OnInit {
           console.log(result);
           this.equipment = new MatTableDataSource(<RoomEquipment[][]><unknown>result);
       }));
+          this.equipmentMovementService.getAllAppointmentByRoomId(this.selectedRoom.id).subscribe(res => {
+            console.log(res);
+            this.shownAppointment = new MatTableDataSource(<Appointment[][]><unknown>res);
+          });
+
 
         this.equipmentMovementService.getAllMovementAppointmentByRoomId(this.selectedRoom.id).subscribe(res => {
           console.log(res);
@@ -710,6 +729,25 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
         console.log("GRESKA");
       });
   }
+
+
+  public deleteAppointment(movedAppointment : Appointment){
+
+    this.izabran2 = movedAppointment.id;
+    this.equipmentMovementService.deleteAppointment(this.izabran2).subscribe(
+      (resp) =>{
+        console.log(resp);
+        console.log("OBRISAOOOO");
+        this.shownAppointment.data.splice(this.izabran2,1)
+        this.shownAppointment.filter='';
+      }, err=>{
+        console.log(err);
+        console.log("GRESKA");
+      });
+  }
+
+
+
 
 
 }
