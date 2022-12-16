@@ -25,6 +25,7 @@ export class ExaminationComponent implements OnInit {
   anamnesis:string = ""
   private isForward = false;
   patientId:string | undefined= "";
+  exeminated= false;
 
   constructor(private examinationClient:ExaminationClient,private toastService:NgToastService,private router:Router,
               private appointmentClient:AppointmentClient) {
@@ -108,7 +109,19 @@ export class ExaminationComponent implements OnInit {
       next: value => {
         console.log(value)
         this.router.navigate(['dashboard']).then(()=>{
-          this.toastService.success({detail: 'Success!', summary: "You are successfully create examination!", duration: 5000})
+
+          this.toastService.success({detail: 'Success!', summary: "You are successfully create examiantion!", duration: 5000})
+          if (this.isForward){
+            this.appointmentClient.getById(this.appointmentId).subscribe({
+              next: value => {
+                this.patientId = value.patientId
+                console.log(value.patientId)
+                this.router.navigate(['/forward-appointment'],{state:{data:value.patientId}})
+              }
+            })
+          }
+
+         
         })},
       error: message => {
         this.toastService.error({detail: 'Error!', summary: message.Error, duration: 5000})
@@ -122,13 +135,7 @@ export class ExaminationComponent implements OnInit {
   }
 
   forwardAppointment() {
-    console.log(this.appointmentId)
-    this.appointmentClient.getById(this.appointmentId).subscribe({
-      next: value => {
-        this.patientId = value.patientId
-        console.log(value.patientId)
-        this.router.navigate(['/forward-appointment'],{state:{data:value.patientId}})
-      }
-    })
+    this.isForward = true
+    this.createExamination()
   }
 }
