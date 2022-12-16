@@ -1,3 +1,4 @@
+import { O } from "chart.js/dist/chunks/helpers.core";
 
 export class BloodDTOModel {
 
@@ -14,8 +15,8 @@ export class BloodDTOModel {
       this.bloodType = obj.bloodType;
       this.amount = obj.amount;
 
-
     }
   }
 
 }
+

@@ -6,7 +6,7 @@
     position: center;
     overflow: hidden;
     max-width: 100%;
-    min-height: 580px;
+    min-height: 400px;
     margin: auto;
     width: 40%;
     padding: 10px;
@@ -24,6 +24,43 @@
     position: center;
   }
 
-  .comboBox{
-    width:100%;
+  .addDiv{
+    text-align: center;
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
   }
+
+  .view-blood-subscription-button-div{
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  ::ng-deep .mat-select-bloodbank{
+    width:435px; 
+}
+
+::ng-deep .mat-select-bloodtype{
+  width:160px; 
+  margin-right: 10px;
+}
+
+::ng-deep .mat-select-amount{
+  width:160px; 
+  margin-right: 10px;
+}
+
+::ng-deep .add{
+  width: 90px;
+  vertical-align: top;
+}
+
+::ng-deep .view-blood-subscription-button{
+  align-self: center;
+  width: 435px;
+}
+
+::ng-deep .submit-button{
+  width: 435px;
+  margin-top: 30px;
+}

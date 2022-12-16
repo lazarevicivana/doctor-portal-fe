@@ -1,0 +1,80 @@
+<div class="container">
+  <div class="container-f">
+    <div>
+      <div class="title-container">
+        <h1 class="title">Schedule consilium</h1>
+      </div>
+      <mat-stepper linear #stepper>
+        <mat-step>
+          <ng-template matStepLabel>Consilisum</ng-template>
+      <form [formGroup]="formGroup" >
+        <div>
+          <mat-form-field class="input-schedule" appearance="fill">
+            <mat-label>Theme</mat-label>
+            <textarea formControlName="theme"  matInput ></textarea>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="fill" class="input-schedule">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="From" >
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="fill" class="input-schedule">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker2" formControlName="To">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="input-schedule" appearance="fill">
+            <mat-label>Duration</mat-label>
+            <input matInput formControlName="Duration" placeholder="Duration" type="number" min="0" >
+          </mat-form-field>
+        </div>
+        <div class="row buttons" style="margin-bottom: 10px">
+          <div class="col">
+            <button mat-flat-button color="primary" class="button" (click)="nextDoctors(stepper)">Select doctors</button>
+          </div>
+          <div class="col">
+            <button  mat-flat-button color="primary" class="button" (click)="nextSpecializations(stepper)">Select specializations</button>
+          </div>
+        </div>
+        <mat-step >
+          <ng-template  *ngIf="selectDoctors" matStepLabel>Doctors</ng-template>
+          <ng-template  *ngIf="selectSpecializations" matStepLabel>Specializations</ng-template>
+        <div *ngIf="selectDoctors">
+        <mat-form-field  appearance="fill" class="input-schedule">
+          <mat-label>Select doctors</mat-label>
+          <mat-select class="input-h" formControlName="doctors" multiple>
+            <mat-option *ngFor="let d of filteredOptions" [value]="d">
+              {{d.name}} {{d.surname}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        </div>
+        <div *ngIf="selectSpecializations">
+        <mat-form-field  appearance="fill" class="input-schedule">
+          <mat-label>Select specializations</mat-label>
+          <mat-select class="input-h" formControlName="specializations" multiple>
+            <mat-option *ngFor="let d of filteredSpecializations" [value]="d">
+              {{d.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        </div>
+          <button mat-flat-button color="primary" style="float: right"(click)="onSubmit()" >Submit</button>
+        </mat-step>
+      </form>
+        </mat-step>
+      </mat-stepper>
+    </div>
+  </div>
+</div>
+
