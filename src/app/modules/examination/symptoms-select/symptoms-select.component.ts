@@ -1,7 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {SymptomClient, SymptomResponse} from "../../../api/api-reference";
 import {FormControl, Validators} from "@angular/forms";
-import {map, Observable, startWith} from "rxjs";
 
 @Component({
   selector: 'app-symptoms-select',

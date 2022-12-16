@@ -26,7 +26,6 @@ import {FormsModule} from "@angular/forms";
     imports: [
         CommonModule,
         MatGridListModule,
-        MatTabsModule,
         MatTableModule,
         MatSortModule,
         MatButtonModule,

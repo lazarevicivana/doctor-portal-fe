@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1 style="margin-bottom:20px ">Consiliums</h1>
+    </div>
+    <div class="col">
+      <button mat-raised-button color="primary" (click)="openScheduleConsilium()">Schedule consilium</button>
+    </div>
+  </div>
+  <mat-tab-group [selectedIndex]="getSelectedIndex()"  (selectedTabChange)="onTabChange($event)"> mat-align-tabs="start">
+    <mat-tab label="Monday">
+      <app-consiliums-preview  [consiliums]="filterConsiliumsByMonday()"></app-consiliums-preview>
+    </mat-tab>
+    <mat-tab label="Tuesday">
+      <app-consiliums-preview  [consiliums]="filterConsiliumsByTuesday()"></app-consiliums-preview>
+    </mat-tab>
+    <mat-tab label="Wednesday">
+      <app-consiliums-preview [consiliums]="filterConsiliumsByWednesday()"></app-consiliums-preview>
+    </mat-tab>
+    <mat-tab label="Thursday">
+      <app-consiliums-preview  [consiliums]="filterConsiliumsByThursday()"></app-consiliums-preview>
+    </mat-tab>
+    <mat-tab label="Friday">
+      <app-consiliums-preview  [consiliums]="filterConsiliumsByFriday()" ></app-consiliums-preview>
+    </mat-tab>
+    <mat-tab label="Saturday">
+      <app-consiliums-preview [consiliums]="filterConsiliumsBySaturday()"></app-consiliums-preview>
+    </mat-tab>
+    <mat-tab label="Sunday">
+      <app-consiliums-preview  [consiliums]="filterConsiliumsBySunday()"></app-consiliums-preview>
+    </mat-tab>
+  </mat-tab-group>
+</div>
