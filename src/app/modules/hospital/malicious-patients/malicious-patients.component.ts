@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {TokenStorageService} from "../../../services/token-storage.service";
-import {Holiday} from "../../../api/api-reference";
 import {MaliciousPatientModel} from "../model/maliciousPatient.model";
 import {MaliciousPatientService} from "../services/malicious-patient.service";
+import {MatTableDataSource} from "@angular/material/table";
+import {Router} from "@angular/router";
+import {FeedbackClient, Patient} from "../../../api/api-reference";
+import {PatientService} from "../services/patient.service";
+import {PatientModel} from "../model/patient.model";
+import {Address} from "../model/address.model";
 
 @Component({
   selector: 'app-malicious-patients',
@@ -10,33 +15,68 @@ import {MaliciousPatientService} from "../services/malicious-patient.service";
   styleUrls: ['./malicious-patients.component.css']
 })
 export class MaliciousPatientsComponent implements OnInit {
-  displayedColumns: string[] = ['Name','Surname','Status','Block','Unblock'];
-  maliciousPatients: MaliciousPatientModel[] =[]
+  public dataSource = new MatTableDataSource<MaliciousPatientModel>();
+  public displayedColumns: string[] = ['Name','Surname', 'Status','Block','Unblock'];
+  public maliciousPatients: MaliciousPatientModel[] =[];
 
-  constructor(private maliciousPatientService: MaliciousPatientService, private tokenStorageService:TokenStorageService) { }
+  constructor(private maliciousPatientService: MaliciousPatientService,  private router: Router, private tokenStorageService:TokenStorageService, private patientService: PatientService) { }
 
   ngOnInit(): void {
-    this.maliciousPatientService.getMaliciousPatients(this.tokenStorageService.getUser().id).subscribe(res => {
+    this.maliciousPatientService.getMaliciousPatients().subscribe(res => {
       this.maliciousPatients = res;
+      this.dataSource.data = this.maliciousPatients;
     })
   }
 
-  getStatus(num:Number) {
-    if(num == 0){
-      return 'Pending'
+  public updateStatus(mp: string, status: boolean, patient: PatientModel) {
+
+    console.log("status");
+    console.log(status);
+    this.disableBlockButton(status);
+    this.disableRejectButton(status);
+    this.patientService.getById(mp).subscribe({
+      next: response => {
+        var data = response;
+        var patient = new PatientModel({
+          id: mp,
+          username: data.username,
+          password: data.password,
+          isBlocked: !status,
+        })
+        console.log("patient");
+        console.log(patient);
+        this.patientService.updatePatient(patient).subscribe({
+
+          next: _ => {
+            this.maliciousPatientService.getMaliciousPatients().subscribe(res => {
+              this.maliciousPatients = res;
+              this.dataSource.data = this.maliciousPatients;
+              console.log(this.dataSource.data);
+              console.log(status);
+            })
+          }
+        });
+      }
+    })
+
+  }
+
+  public disableBlockButton(status: Boolean){
+    if(status){
+      return false;
     }
-    if(num==1){
-      return "Blocked"
+    else{
+      return true;
     }
-    return 'Unblocked'
+  }
+  public disableRejectButton(status: Boolean){
+    if(!status){
+      return false;
+    }
+    else{
+      return true;
+    }
   }
 
-  canCancel(holiday:Holiday) {
 
-    return false
-  }
-
-  cancleHoliday(id:string) {
-
-  }
 }

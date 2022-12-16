@@ -8,6 +8,7 @@ import { ScheduleConsiliumComponent } from './schedule-consilium/schedule-consil
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {ReactiveFormsModule} from "@angular/forms";
+import { OtherDoctorsPreviewComponent } from './other-doctors-preview/other-doctors-preview.component';
 
 
 
@@ -15,7 +16,8 @@ import {ReactiveFormsModule} from "@angular/forms";
   declarations: [
     ConsiliumDashboardComponent,
     ConsiliumsPreviewComponent,
-    ScheduleConsiliumComponent
+    ScheduleConsiliumComponent,
+    OtherDoctorsPreviewComponent
   ],
     imports: [
         CommonModule,
