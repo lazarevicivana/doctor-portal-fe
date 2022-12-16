@@ -8,7 +8,7 @@ import {
   SymptomResponse
 } from "../../../api/api-reference";
 import {NgToastService} from "ng-angular-popup";
-import {ActivatedRoute, Router} from "@angular/router";
+import { Router} from "@angular/router";
 
 @Component({
   selector: 'app-examination',
@@ -17,9 +17,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class ExaminationComponent implements OnInit {
   formControlAnamnesis =  new FormControl<string>('',Validators.required);
-  formControlSymptoms =  new FormControl<SymptomResponse[]>([],Validators.required);
-  formControlMedicine =  new FormControl<string>('',Validators.required);
-  formControl =  new FormControl<string>('',Validators.required);
   appointmentId:string = "58b64600-6ace-471a-84cc-afc59103677d"
   isActivePrescription:boolean = true
   selectedSymptoms:SymptomResponse[] = []
@@ -93,10 +90,8 @@ export class ExaminationComponent implements OnInit {
     if(!this.validateSymptoms()){
       return false
     }
-    if(!this.validateAnamnesis()){
-      return false
-    }
-    return true
+    return this.validateAnamnesis();
+
 
   }
   createExamination() {
@@ -114,6 +109,7 @@ export class ExaminationComponent implements OnInit {
       next: value => {
         console.log(value)
         this.router.navigate(['dashboard']).then(()=>{
+
           this.toastService.success({detail: 'Success!', summary: "You are successfully create examiantion!", duration: 5000})
           if (this.isForward){
             this.appointmentClient.getById(this.appointmentId).subscribe({
@@ -124,6 +120,8 @@ export class ExaminationComponent implements OnInit {
               }
             })
           }
+
+         
         })},
       error: message => {
         this.toastService.error({detail: 'Error!', summary: message.Error, duration: 5000})

@@ -5,17 +5,17 @@
             <h1 class="title">Blood subscription</h1>
           </div>
           <div>
-            <mat-form-field appearance="fill" >
+            <mat-form-field appearance="fill" class="mat-select-bloodbank">
                 <mat-label>Blood bank</mat-label>
-                <mat-select [(ngModel)]="bloodSubscription.bloodBankName" required class="comboBox">
-                <mat-option *ngFor="let bloodBank of bloodBanks" [value]="bloodBank.name" >
+                <mat-select [(ngModel)]="bloodSubscription.bloodBankName" required >
+                <mat-option *ngFor="let bloodBank of bloodBanks" [value]="bloodBank.name">
                     {{bloodBank.name}}
                 </mat-option>
                 </mat-select>
             </mat-form-field> 
           </div>
-          <div>
-            <mat-form-field appearance="fill">
+          <div class="addDiv">
+            <mat-form-field appearance="fill" class="mat-select-bloodtype">
                 <mat-label>Blood type</mat-label>
                 <mat-select [(value)]="currentBloodType"  required>
                 <mat-option [value]=0>A-</mat-option>
@@ -28,16 +28,16 @@
                 <mat-option [value]=7>0-</mat-option>
                 </mat-select>
             </mat-form-field> 
-            <mat-form-field appearance="fill">
+            <mat-form-field appearance="fill" class="mat-select-amount">
                 <mat-label>Amount</mat-label>
                 <input name="Amount" type="number" min="1" [(ngModel)]="currentAmount" matInput>
             </mat-form-field>
-            <button mat-stroked-button (click)="add()">Add</button>
+            <button mat-flat-button color="primary" class="add" (click)="add()">Add</button>
           </div>
-          <div>
-            <button (click)="openDialog()">View subscription</button>
+          <div class="view-blood-subscription-button-div">
+            <button mat-flat-button color="primary" class="view-blood-subscription-button" (click)="openDialog()">View subscription</button>
           </div>
-          <button mat-flat-button color="primary" class="input-schedule" (click)="subscript()" [disabled]="bloodSubscription.bloodBankName.name === '' || bloodSubscription.bloodTypeAmountPair.length === 0">
+          <button mat-flat-button color="primary" class="submit-button" (click)="subscript()" [disabled]="bloodSubscription.bloodBankName.name === '' || bloodSubscription.bloodTypeAmountPair.length === 0">
             Submit
           </button>
       </div>

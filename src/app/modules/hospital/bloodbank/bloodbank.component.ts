@@ -18,7 +18,7 @@ export class BloodBankComponent implements OnInit {
   public responseStatus= "Enter your requirements!";
   public bloodType = "";
   public bloodAmount = 0;
-  states: string[] = ['A','B','AB']
+  states: string[] = ['Apos','Bpos','Aneg','Bneg','ABpos','ABneg','0pos','0neg']
 
   constructor(private bloodbankService: BloodbankService, private router: Router) { }
 
@@ -34,7 +34,7 @@ export class BloodBankComponent implements OnInit {
       return;
     }
     this.bloodbankService.checkBloodSupply(this.bloodType, this.bloodAmount.toString()).subscribe(res => {
-      this.responseStatus = this.generateMessage(res.response);
+      this.responseStatus = this.generateMessage(res.response, res.statusCode);
       ErrorHandlerService.checkConnection(res.statusCode);
     })
   }
@@ -48,11 +48,15 @@ export class BloodBankComponent implements OnInit {
     }
   }
 
-  private generateMessage(status: boolean){
-    if (status == true){
-      return "Required amount of blood is available";
+  private generateMessage(status: boolean, code : number){
+    if (code == 401 || code == 403 || code== 500){
+      return "Connection error!";
     }else{
-      return "Required amount of blood is NOT available";
+      if (status == true){
+        return "Required amount of blood is available";
+      }else{
+        return "Required amount of blood is NOT available";
+      }
     }
   }
 }

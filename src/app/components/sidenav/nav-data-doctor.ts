@@ -10,6 +10,11 @@ export const navbarDataDoctor=[
     label: 'Schedule'
   },
   {
+    routeLink: 'consiliums',
+    icon: 'fal fa-calendar',
+    label: 'Consiliums'
+  },
+  {
     routeLink: 'hospitalizes-patients',
     icon: 'fal fa-users',
     label: 'Hospitalize'

@@ -15,19 +15,13 @@ const httpOptions ={
 })
 export class AppointmentService {
   private aplUrl = 'http://localhost:5000/api/v1/Appointment'
+  private appointmentId:string = ''
 
   constructor(private http:HttpClient) { }
-
-  getAppointmentById(id:string): Observable<any>{
-
-    const url = `${this.aplUrl}/${id}`
-    return this.http.get(url)
-
+  public saveAppointmentId(appId:string){
+    this.appointmentId = appId
   }
-
-  updateAppointment(appointment:AppointmentResponse){
-    console.log(appointment)
-    const url = `${this.aplUrl}`
-    this.http.put<AppointmentResponse>(url,appointment)
+  public getId(){
+    return this.appointmentId
   }
 }

@@ -26,7 +26,7 @@ export class LoginGuard implements CanActivate {
       return false
     }
     if(this.tokenStorageService.isLoggedIn() && this.tokenStorageService.getUser().role === 'BloodBank'){
-      this.router.navigate(['bloodBank']).then(()=>{
+      this.router.navigate(['tender/add']).then(()=>{
         this.toast.error({detail:"Error",summary:"Please sign out!",duration:5000});
       });
       return false

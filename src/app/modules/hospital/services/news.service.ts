@@ -17,6 +17,10 @@ export class NewsService {
     return this.http.get<NewsFromBloodBank[]>(this.apiHost + 'api/news', {headers: this.headers});
   }
 
+  getBloodSubcsriptionNews(): Observable<NewsFromBloodBank[]> {
+    return this.http.get<NewsFromBloodBank[]>(this.apiHost + 'api/news/getAllForBloodSubscription', {headers: this.headers});
+  }
+
   updateNews(news: any): Observable<any> {
     return this.http.put<any>(this.apiHost + 'api/news/' + news.id, news, {headers: this.headers});
   }
