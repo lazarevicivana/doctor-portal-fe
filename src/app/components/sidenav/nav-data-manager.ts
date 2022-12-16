@@ -15,6 +15,11 @@ export const navDataManager= [
     label: 'Patient statistics'
   },
   {
+    routeLink: 'malicious-patients',
+    icon: 'fal fa-solid fa-user-slash',
+    label: 'Malicious patients'
+  },
+  {
     routeLink: 'configureSendingReports',
     icon: 'fal fa-cog',
     label: 'Configure sending reports'
@@ -38,6 +43,16 @@ export const navDataManager= [
     routeLink: 'bloodBank/add',
     icon: 'fal fa-hospital',
     label: 'Register blood bank'
+  },
+  {
+    routeLink: 'bloodBank/bloodSubscription',
+    icon: 'fal fa-sign-out',
+    label: 'Blood subscription'
+  },
+  {
+    routeLink: 'view-all-tenders',
+    icon: 'fal fa-bookmark',
+    label: 'Tenders'
   },
   {
     routeLink: 'sign-out',

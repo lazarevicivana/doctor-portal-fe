@@ -1,0 +1,62 @@
+.item-row{
+  padding-top: 15px;
+}
+.button-new{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  text-align: center;
+  background-color: #92a8d1;
+}
+.button-row{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-right: 10px;
+  text-align: center;
+  background-color: #9CB4CC;
+  width: 10%;
+  border-radius: 10px;
+  color: white;
+  border: none;
+  font-weight: bold;
+}
+mat-grid-tile {
+  border-radius: 20px;
+  border-color: #748DA6;
+  background-color: #748DA6;
+  color: white;
+}
+
+section {
+  display: table;
+}
+
+.example-label {
+  display: table-cell;
+  font-size: 14px;
+  margin-left: 8px;
+  min-width: 120px;
+}
+
+.example-button-row {
+  display: table-cell;
+  max-width: 600px;
+}
+
+.example-button-row .mat-mdc-button-base {
+  margin: 8px 8px 8px 0;
+}
+
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: center;
+  width: 120px;
+}
+button{
+  float: right;
+}

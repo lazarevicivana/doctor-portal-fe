@@ -10,6 +10,11 @@ export const navbarDataDoctor=[
     label: 'Schedule'
   },
   {
+    routeLink: 'consiliums',
+    icon: 'fal fa-calendar',
+    label: 'Consiliums'
+  },
+  {
     routeLink: 'hospitalizes-patients',
     icon: 'fal fa-users',
     label: 'Hospitalize'
@@ -38,6 +43,11 @@ export const navbarDataDoctor=[
     routeLink: 'doctors-holidays',
     icon: 'fal fa-sleigh',
     label: 'Your holidays'
+  },
+  {
+    routeLink: 'forward-appointment',
+    icon: 'fal  fa-vials',
+    label: 'Forward appointment'
   },
   {
     routeLink: 'sign-out',

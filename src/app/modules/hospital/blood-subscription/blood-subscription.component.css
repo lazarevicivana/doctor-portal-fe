@@ -1,0 +1,66 @@
+.container-f {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25),
+    0 10px 10px rgba(0,0,0,0.22);
+    position: center;
+    overflow: hidden;
+    max-width: 100%;
+    min-height: 400px;
+    margin: auto;
+    width: 40%;
+    padding: 10px;
+  }
+  .form-container {
+    position: relative;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+  }
+  .title{
+    margin: 5px 0;
+  }
+  .center-me{
+    position: center;
+  }
+
+  .addDiv{
+    text-align: center;
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
+  }
+
+  .view-blood-subscription-button-div{
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  ::ng-deep .mat-select-bloodbank{
+    width:435px; 
+}
+
+::ng-deep .mat-select-bloodtype{
+  width:160px; 
+  margin-right: 10px;
+}
+
+::ng-deep .mat-select-amount{
+  width:160px; 
+  margin-right: 10px;
+}
+
+::ng-deep .add{
+  width: 90px;
+  vertical-align: top;
+}
+
+::ng-deep .view-blood-subscription-button{
+  align-self: center;
+  width: 435px;
+}
+
+::ng-deep .submit-button{
+  width: 435px;
+  margin-top: 30px;
+}

@@ -1,0 +1,24 @@
+<h1 mat-dialog-title>Create appointment report</h1>
+<div mat-dialog-actions class="row">
+  <div class="space-between-container">
+    <section class="example-section" >
+      <h5>Report content:</h5>
+      <div>
+        <mat-checkbox class="example-margin" [(ngModel)]="pdfOptions.presciptions">Presciptions</mat-checkbox>
+      </div>
+      <div>
+        <mat-checkbox class="example-margin" [(ngModel)]="pdfOptions.symptoms">Symptoms</mat-checkbox>
+      </div>
+    </section>
+
+    <section class="example-section">
+      <h5>Patient settings:</h5>
+      <mat-checkbox class="example-margin" [(ngModel)]="pdfOptions.anonymized">Anonymized</mat-checkbox>
+    </section>
+  </div>
+
+  <div style="margin-top: 20px">
+    <button mat-flat-button color="basic" (click)="createPdf()">Create</button>
+    <button mat-flat-button color="basic" (click)="quit()">Quit</button>
+  </div>
+</div>

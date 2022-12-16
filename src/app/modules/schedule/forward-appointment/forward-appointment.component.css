@@ -1,0 +1,101 @@
+.container-f {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25),
+  0 10px 10px rgba(0,0,0,0.22);
+  position: center;
+  overflow: clip;
+  max-width: 100%;
+  max-height: 20%;
+  min-height: 200px;
+  margin: auto;
+  width: 65%;
+  padding: 10px;
+}
+.low{
+  margin-top: 30px;
+  border-top-width: 1px;
+  border-top-color: #3b4d79;
+  border-top-style: solid;
+  margin-bottom: 15px;
+}
+.formaa{
+  position: center;
+  margin: auto;
+  margin-left: 5%;
+  margin-top: 5%;
+  height: 90%;
+  align-items: center;
+  overflow: auto;
+}
+.lista{
+  height: 40vh;
+  overflow: auto;
+  margin-bottom: 15px;
+
+}
+.bluelist{
+  border-top-width: 1px;
+  border-top-color: #3b4d79;
+  border-top-style: solid;
+}
+.formaa1{
+ margin-left: 5%;
+  height: 90%;
+  margin-top: 5%;
+  align-items: center;
+
+
+}
+.message{
+  margin-top: 7%;
+
+  padding-bottom: 2%;
+  margin-bottom: 5%;
+  text-align: center;
+  font-size: 18px;
+  color: #3b4d79;
+  border-bottom-width: 1px;
+  border-bottom-color: #3b4d79;
+  border-bottom-style: solid;
+}
+
+.ceneter{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-left: 5%;
+}
+
+.dugme{
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  width: 95%;
+  margin-left: 2.5%;
+}
+
+.datumi{
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin-left: 5%;
+}
+.option{
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+}
+.dugmence{
+}
+.finish{
+  background-color: #16d719;
+}
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 5%;
+}

@@ -3,7 +3,6 @@ import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { AppRoutingModule } from "./app-routing.module";
 import { MaterialModule } from "./material/material.module";
-import { PagesModule } from "./modules/pages/pages.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {NgToastModule} from "ng-angular-popup";
 import { AppComponent } from "./app.component";
@@ -16,7 +15,7 @@ import {
   ScheduleClient,
   ApplicationUserClient,
   HolidayClient,
-  BloodUnitClient, BloodConsumptionClient, PatientAdmissionClient
+  BloodUnitClient, BloodConsumptionClient, PatientAdmissionClient, ConsiliumClient, SpecializationsClient
 } from "./api/api-reference";
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
@@ -36,6 +35,11 @@ import {CommonComponentsModule} from "./components/common-components.module";
 import { ScheduleHolidayComponent } from './modules/hoiday/schedule-holiday/schedule-holiday.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { DoctorsHolidaysComponent } from './modules/hoiday/doctors-holidays/doctors-holidays.component';
+import {ExaminationModule} from "./modules/examination/examination.module";
+import { ConsiliumDashboardComponent } from './modules/consilium-dashboard/consilium-dashboard.component';
+import { ConsiliumsPreviewComponent } from './modules/consilium-dashboard/consiliums-preview/consiliums-preview.component';
+import {MatTabsModule} from "@angular/material/tabs";
+import {ConsiliumModule} from "./modules/consilium-dashboard/consilium.module";
 
 @NgModule({
   declarations: [
@@ -47,28 +51,30 @@ import { DoctorsHolidaysComponent } from './modules/hoiday/doctors-holidays/doct
     ScheduleHolidayComponent,
     DoctorsHolidaysComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    MaterialModule,
-    PagesModule,
-    HospitalModule,
-    NgToastModule,
-    HttpClientModule,
-    ScheduleModule,
-    LoginModule,
-    DashboardModule,
-    MatDatepickerModule,
-    NgxMaterialTimepickerModule,
-    MatGridListModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MatDialogModule,
-    CommonComponentsModule,
-    MatCheckboxModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        MaterialModule,
+        HospitalModule,
+        NgToastModule,
+        HttpClientModule,
+        ScheduleModule,
+        LoginModule,
+        DashboardModule,
+        MatDatepickerModule,
+        NgxMaterialTimepickerModule,
+        MatGridListModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MatDialogModule,
+        CommonComponentsModule,
+        MatCheckboxModule,
+        ExaminationModule,
+        MatTabsModule,
+        ConsiliumModule
+    ],
   providers: [
     DoctorClient,
     AppointmentClient,
@@ -80,7 +86,9 @@ import { DoctorsHolidaysComponent } from './modules/hoiday/doctors-holidays/doct
     authInterceptorProviders,
     BloodUnitClient,
     BloodConsumptionClient,
-    PatientAdmissionClient
+    PatientAdmissionClient,
+    ConsiliumClient,
+    SpecializationsClient
   ],
   exports: [
   ],

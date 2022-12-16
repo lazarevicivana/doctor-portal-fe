@@ -1,0 +1,17 @@
+.example-section {
+    margin: 12px 0;
+}
+
+#feedbackArea {
+    width: 346px;
+}
+
+.dialogButton {
+    margin: 4px;
+    background-color: #1B273C ;
+    color: white;
+}
+
+.dialogButtonCancel {
+    margin: 4px;
+}
