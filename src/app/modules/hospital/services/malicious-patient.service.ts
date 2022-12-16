@@ -13,8 +13,8 @@ export class MaliciousPatientService {
 
   constructor(private http: HttpClient) { }
 
-  getMaliciousPatients(id: string): Observable<MaliciousPatientModel[]> {
-    return this.http.get<MaliciousPatientModel[]>(this.apiHost + 'api/v1/malicious-patients', {headers: this.headers});
+  getMaliciousPatients(): Observable<MaliciousPatientModel[]> {
+    return this.http.get<MaliciousPatientModel[]>(this.apiHost + 'api/v1/MaliciousPatient/getAllMaliciousPatients', {headers: this.headers});
   }
 
   /*  getRoom(id: number): Observable<Room> {
