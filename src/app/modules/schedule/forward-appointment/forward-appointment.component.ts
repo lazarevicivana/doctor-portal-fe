@@ -32,6 +32,7 @@ export class ForwardAppointmentComponent implements OnInit {
   selectedDoctorId = ""
   doctors: DoctorResponse[] = []
   patientId = ""
+  expandNUm = 0
   isLinear = true;
   generated = false;
   stardDate: Date = new Date();
@@ -60,6 +61,7 @@ export class ForwardAppointmentComponent implements OnInit {
       }
     })
     console.log(this.patientId)
+    this.expandNUm = 0
   }
 
   filterSpecialisation(specialisation:String) {
@@ -116,12 +118,16 @@ export class ForwardAppointmentComponent implements OnInit {
   }
 
   validate(){
-    if(this.selectedDoctorId != "" && this.stardDate != undefined && this.endDate!= undefined){
-      if(this.checkDates()){
+    if(this.selectedDoctorId != "" && this.stardDate != undefined && this.endDate!= undefined && this.stardDate ){
+      if(this.stardDate < new Date() || this.endDate <= new Date() ){
+        this.ngToast.error({detail: 'Error!',summary:"Select upcoming dates!",duration:5000})
+
+      }
+      else if(this.checkDates()){
         this.generate()
         return true
       }
-
+      return false
     }
     else {
       this.valid = false
@@ -151,6 +157,7 @@ export class ForwardAppointmentComponent implements OnInit {
       })
   }
   expandRange(range:DateRange){
+    this.expandNUm = this.expandNUm +1
     let endDateExpanded = moment(range.to).add(1, "day");
     let startDateExpanded = moment(range.from).add(-1, "day");
     var newDateRange = new DateRange()
@@ -164,8 +171,9 @@ export class ForwardAppointmentComponent implements OnInit {
         console.log(res)
       },
       error: message =>{
-        this.ngToast.error({detail: 'Error!',summary:"No free appointments!",duration:5000})
-        this.expandRange(newDateRange)
+        if(this.expandNUm <= 5){
+          this.expandRange(newDateRange)
+        }
       }
 
     })
@@ -203,7 +211,11 @@ export class ForwardAppointmentComponent implements OnInit {
 
   }
   checkDates(){
-    if(this.stardDate >= this.endDate){
+    var today = new Date()
+    console.log(today)
+    console.log("dsfdasfdasfdasfdasfdsafasdfdas")
+    // @ts-ignore
+    if(this.stardDate >= this.endDate && this.stardDate.getDate()> today){
       this.ngToast.error({detail: 'Error!',summary:"Invalid Dates!",duration:5000})
       this.valid = false
       return false
