@@ -4163,6 +4163,7 @@ export class PatientAdmissionClient implements IPatientAdmissionClient {
 export interface IPatientClient {
   getAllPatients(): Observable<PatientResponse[]>;
   createPatient(patientRequest: PatientRequest): Observable<PatientResponse>;
+  update(patient: Patient): Observable<void>;
   getById(id: string): Observable<PatientResponse>;
   getFemalePatient(): Observable<PatientResponse>;
   getMalePatient(): Observable<PatientResponse>;
@@ -4295,6 +4296,61 @@ export class PatientClient implements IPatientClient {
         let resultData201 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
         result201 = PatientResponse.fromJS(resultData201);
         return _observableOf(result201);
+      }));
+    } else if (status === 404) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result404: any = null;
+        let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result404 = ProblemDetails.fromJS(resultData404);
+        return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+      }));
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
+  }
+
+  update(patient: Patient): Observable<void> {
+    let url_ = this.baseUrl + "/api/v1/Patient";
+    url_ = url_.replace(/[?&]$/, "");
+
+    const content_ = JSON.stringify(patient);
+
+    let options_ : any = {
+      body: content_,
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+      })
+    };
+
+    return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+      return this.processUpdate(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processUpdate(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<void>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<void>;
+    }));
+  }
+
+  protected processUpdate(response: HttpResponseBase): Observable<void> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return _observableOf(null as any);
       }));
     } else if (status === 404) {
       return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
