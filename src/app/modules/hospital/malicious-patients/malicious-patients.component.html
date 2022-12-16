@@ -26,7 +26,7 @@
       <ng-container matColumnDef="Block">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let malitiousPatient">
-          <button style="margin-left: 15px; height: 50%" mat-mini-fab  aria-label="Example icon button with a home icon" [disabled]="disableRejectButton(malitiousPatient.patient.isBlocked)" (click)="updateStatus(malitiousPatient.patient.id,  malitiousPatient.patient.isBlocked, malitiousPatient.patient)">
+          <button id="blockButton" style="margin-left: 15px; height: 50%" mat-mini-fab  aria-label="Example icon button with a home icon" [disabled]="disableRejectButton(malitiousPatient.patient.isBlocked)" (click)="updateStatus(malitiousPatient.patient.id,  malitiousPatient.patient.isBlocked, malitiousPatient.patient)">
             <mat-icon>block</mat-icon>
           </button>
         </td>
@@ -34,7 +34,7 @@
       <ng-container matColumnDef="Unblock">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let malitiousPatient">
-          <button style="margin-left: 15px; height: 50%" mat-mini-fab  aria-label="Example icon button with a home icon" [disabled]="disableBlockButton(malitiousPatient.patient.isBlocked)" (click)="updateStatus(malitiousPatient.patient.id,  malitiousPatient.patient.isBlocked, malitiousPatient.patient)">
+          <button id="unblockButton" style="margin-left: 15px; height: 50%" mat-mini-fab  aria-label="Example icon button with a home icon" [disabled]="disableBlockButton(malitiousPatient.patient.isBlocked)" (click)="updateStatus(malitiousPatient.patient.id,  malitiousPatient.patient.isBlocked, malitiousPatient.patient)">
             <mat-icon>check circle outline icon</mat-icon>
           </button>
         </td>
