@@ -5,6 +5,10 @@ import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {TokenStorageService} from "../../../services/token-storage.service";
 import * as moment from "moment/moment";
+import {
+  AppointmentReportDialogComponent
+} from "../../../components/dashboard/appointment-report-dialog/appointment-report-dialog.component";
+import {OtherDoctorsPreviewComponent} from "../other-doctors-preview/other-doctors-preview.component";
 
 @Component({
   selector: 'app-consiliums-preview',
@@ -29,5 +33,13 @@ export class ConsiliumsPreviewComponent implements OnInit {
   }
   getHourFormat(date: Date) {
     return moment(date).format("h:mma");
+  }
+
+  showDoctors(consilium : ConsiliumResponse) {
+    this.dialog.open(OtherDoctorsPreviewComponent, {
+      width: '500px',
+      height:'300px',
+      data: { consilium: consilium }
+    });
   }
 }

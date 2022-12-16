@@ -17,7 +17,9 @@
     <td mat-cell *matCellDef="let row">{{row.theme}} </td>
   </ng-container>  <ng-container matColumnDef="More details">
     <th mat-header-cell *matHeaderCellDef>More details</th>
-  <td mat-cell *matCellDef="let row"><button>More details</button></td>
+  <td mat-cell *matCellDef="let row">   <button class="btn-cell"mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+    <mat-icon (click)="showDoctors(row)">more_vert</mat-icon>
+  </button></td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
