@@ -1,33 +1,60 @@
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <h1 style="margin-bottom:20px ">Consiliums</h1>
-    </div>
-    <div class="col">
-      <button mat-raised-button color="primary" (click)="openScheduleConsilium()">Schedule consilium</button>
-    </div>
+<ng-template #customTemplate let-event="event" let-view="view">
+<span
+  class="event__title"
+  [innerHTML]="event.title | calendarEventTitle : view : event"
+  [attr.aria-hidden]="{} | calendarA11y : 'hideEventTitle'"
+>
+  </span>
+</ng-template>
+
+<div class="calendar-header">
+  <div class="button-group">
+    <button class="button-group__button" (click)="handlePrevious()">
+     Previous week
+    </button>
+    <button class="button-group__button" (click)="handleCurrent()">
+     Current date
+    </button>
+    <button class="button-group__button" (click)="handleNext()">
+     Next week
+    </button>
+    <button class="button-group__button" (click)="monthShow()">
+      {{viewButton}}
+    </button>
   </div>
-  <mat-tab-group [selectedIndex]="getSelectedIndex()"  (selectedTabChange)="onTabChange($event)"> mat-align-tabs="start">
-    <mat-tab label="Monday">
-      <app-consiliums-preview  [consiliums]="filterConsiliumsByMonday()"></app-consiliums-preview>
-    </mat-tab>
-    <mat-tab label="Tuesday">
-      <app-consiliums-preview  [consiliums]="filterConsiliumsByTuesday()"></app-consiliums-preview>
-    </mat-tab>
-    <mat-tab label="Wednesday">
-      <app-consiliums-preview [consiliums]="filterConsiliumsByWednesday()"></app-consiliums-preview>
-    </mat-tab>
-    <mat-tab label="Thursday">
-      <app-consiliums-preview  [consiliums]="filterConsiliumsByThursday()"></app-consiliums-preview>
-    </mat-tab>
-    <mat-tab label="Friday">
-      <app-consiliums-preview  [consiliums]="filterConsiliumsByFriday()" ></app-consiliums-preview>
-    </mat-tab>
-    <mat-tab label="Saturday">
-      <app-consiliums-preview [consiliums]="filterConsiliumsBySaturday()"></app-consiliums-preview>
-    </mat-tab>
-    <mat-tab label="Sunday">
-      <app-consiliums-preview  [consiliums]="filterConsiliumsBySunday()"></app-consiliums-preview>
-    </mat-tab>
-  </mat-tab-group>
+  <div class="date-range">
+    <span
+    >{{ viewDate | date : "dd.MM.yyyy." }} -
+      {{ viewDateEnd | date : "dd.MM.yyyy." }}</span
+    >
+  </div>
+  <div class="button-group">
+    <button
+      id="schedule"
+      class="button-group__button-app"
+      (click)="openScheduleConsilium()">
+      New consilium
+    </button>
+    <button
+      id="cancel"
+      [disabled]="!canClickMoreDetails"
+      class="button-group__button-app"
+      (click)="showDoctors()">
+      More details
+    </button>
+  </div>
+</div>
+
+<div class="calendar-wrapper" >
+  <mwl-calendar-week-view
+                          [viewDate]="viewDate"
+                          [daysInWeek]="daysInWeek"
+                          [dayStartHour]="dayStartHour"
+                          [dayEndHour]="dayEndHour"
+                          [hourSegmentHeight]="hourSegmentHeight"
+                          [events]="consiliumsTry"
+                          [eventTitleTemplate]="customTemplate"
+                          (eventClicked)="onEventClick($event)"
+  >
+  </mwl-calendar-week-view>
 </div>

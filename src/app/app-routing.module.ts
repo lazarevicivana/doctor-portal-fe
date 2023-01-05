@@ -1,9 +1,9 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import {DashboardComponent} from "./components/dashboard/dashboard.component";
+import {DashboardComponent} from "./modules/dashboard/dashboard.component";
 import { RescheduleAppointmentComponent } from "./modules/schedule/reschedule-appointment/reschedule-appointment.component";
 import {CreateScheduleComponent} from "./modules/schedule/create-schedule/create-schedule.component";
-import {LoginComponent} from "./login/login.component";
+import {LoginComponent} from "./modules/login/login.component";
 import {DoctorGuard} from "./guards/doctor.guard";
 import {SignOutComponent} from "./components/sign-out/sign-out.component";
 import {BloodUnitsComponent} from "./modules/hospital/blood-units/blood-units.component";
@@ -23,7 +23,6 @@ import {ConsiliumDashboardComponent} from "./modules/consilium-dashboard/consili
 import {
   ScheduleConsiliumComponent
 } from "./modules/consilium-dashboard/schedule-consilium/schedule-consilium.component";
-import { AllTendersComponent } from "./modules/hospital/view-all-tenders/view-all-tenders.component";
 import {ExaminationGuard} from "./guards/examination.guard";
 
 
