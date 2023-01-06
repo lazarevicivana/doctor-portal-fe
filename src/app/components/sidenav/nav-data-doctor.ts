@@ -45,9 +45,9 @@ export const navbarDataDoctor=[
     label: 'Your holidays'
   },
   {
-    routeLink: 'forward-appointment',
-    icon: 'fal  fa-vials',
-    label: 'Forward appointment'
+    routeLink: 'examination-search',
+    icon: 'fal  fa-clipboard-user',
+    label: 'Search'
   },
   {
     routeLink: 'sign-out',

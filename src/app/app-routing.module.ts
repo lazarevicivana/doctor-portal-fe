@@ -25,12 +25,18 @@ import {
 } from "./modules/consilium-dashboard/schedule-consilium/schedule-consilium.component";
 import { AllTendersComponent } from "./modules/hospital/view-all-tenders/view-all-tenders.component";
 import {ExaminationGuard} from "./guards/examination.guard";
+import { ExeminationSearchComponent } from './modules/examination/exemination-search/exemination-search.component';
+
 
 
 
 const routes: Routes = [
   { path: 'forward-appointment',
     component: ForwardAppointmentComponent,
+    canActivate:[DoctorGuard]
+  },
+  { path: 'examination-search',
+    component: ExeminationSearchComponent,
     canActivate:[DoctorGuard]
   },
   { path: 'dashboard',

@@ -1,0 +1,23 @@
+.card{
+  padding-bottom: 10px;
+  padding-top: 10px;
+  border: #3a4873;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 10px;
+  padding-left: 2%;
+  background-color: #fff;
+  /*border-top: #3a4873;*/
+  /*border-top-width: 1px;*/
+  /*border-top-style: solid;*/
+  /*border-top-right-radius: 10px;*/
+  /*border-top-left-radius: 10px;*/
+}
+.head{
+  color: #263238;
+  font-size: 20px;
+  padding-bottom: 5px;
+}
+.content{
+  padding-top: 2px;
+}
