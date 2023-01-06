@@ -48,6 +48,7 @@ export class MaliciousPatientsComponent implements OnInit {
         this.patientService.updatePatient(patient).subscribe({
 
           next: _ => {
+            alert("Success")
             this.maliciousPatientService.getMaliciousPatients().subscribe(res => {
               this.maliciousPatients = res;
               this.dataSource.data = this.maliciousPatients;
