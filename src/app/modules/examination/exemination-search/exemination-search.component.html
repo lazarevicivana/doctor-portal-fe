@@ -10,9 +10,12 @@
     <button style="margin-left: 2%" mat-raised-button (click)="search()">
       <mat-icon >search</mat-icon>
     </button>
+    <button style="margin-left: 2%" mat-raised-button (click)="clearSearch()">
+      <mat-icon >autorenew</mat-icon>
+    </button>
   </div>
   <div class="list">
-    <div class="item" *ngFor="let span of exemintions">
+    <div class="item" *ngFor="let span of filteredExemintions">
       <app-search-item [date]="span?.appointment?.duration?.from?.toDateString()"
                        [patient]="span?.appointment?.patientId" [doctor]="span?.appointment?.doctorId"
                        [medicines]="span?.prescriptions" [symptoms]="span?.symptoms"
