@@ -7,14 +7,16 @@
         <mat-icon >close</mat-icon>
       </button>
     </mat-form-field>
-    <button style="margin-left: 2%" mat-raised-button>
+    <button style="margin-left: 2%" mat-raised-button (click)="search()">
       <mat-icon >search</mat-icon>
     </button>
   </div>
   <div class="list">
-    <div class="item" *ngFor="let span of numbers">
-      <app-search-item></app-search-item>
-    </div>
+    <div class="item" *ngFor="let span of exemintions">
+      <app-search-item [date]="span?.appointment?.duration?.from?.toDateString()"
+                       [patient]="span?.appointment?.patientId" [doctor]="span?.appointment?.doctorId"
+                       [medicines]="span?.prescriptions" [symptoms]="span?.symptoms"
+      ></app-search-item></div>
 
   </div>
 

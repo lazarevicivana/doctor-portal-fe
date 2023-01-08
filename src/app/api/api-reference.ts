@@ -1901,7 +1901,8 @@ export interface IDoctorClient {
   getFreeTimes(id: string, span: DateRange): Observable<DateRange[]>;
   getById(id: string): Observable<DoctorResponse>;
   getDoctorSpecialization(id: string): Observable<DoctorResponse>;
-  getFreeTermsByTimePriority(appointmentRangeResponse: AppointmentRangeResponse): Observable<AppointmentSuggestion[]>;
+  getFreeTermsByDoctorPriority(appointmentRangeResponse: AppointmentRangeResponse): Observable<AppointmentSuggestion[]>;
+  getFreeTermsByTimePriority(time: boolean, appointmentRangeResponse: AppointmentRangeResponse): Observable<AppointmentSuggestion[]>;
 }
 
 @Injectable()
@@ -2447,8 +2448,70 @@ export class DoctorClient implements IDoctorClient {
     return _observableOf(null as any);
   }
 
-  getFreeTermsByTimePriority(appointmentRangeResponse: AppointmentRangeResponse): Observable<AppointmentSuggestion[]> {
-    let url_ = this.baseUrl + "/api/v1/Doctor/FreeTermsByTimePriority";
+  getFreeTermsByDoctorPriority(appointmentRangeResponse: AppointmentRangeResponse): Observable<AppointmentSuggestion[]> {
+    let url_ = this.baseUrl + "/api/v1/Doctor/FreeTermsByDoctorPriority";
+    url_ = url_.replace(/[?&]$/, "");
+
+    const content_ = JSON.stringify(appointmentRangeResponse);
+
+    let options_ : any = {
+      body: content_,
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      })
+    };
+
+    return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+      return this.processGetFreeTermsByDoctorPriority(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processGetFreeTermsByDoctorPriority(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<AppointmentSuggestion[]>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<AppointmentSuggestion[]>;
+    }));
+  }
+
+  protected processGetFreeTermsByDoctorPriority(response: HttpResponseBase): Observable<AppointmentSuggestion[]> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        if (Array.isArray(resultData200)) {
+          result200 = [] as any;
+          for (let item of resultData200)
+            result200!.push(AppointmentSuggestion.fromJS(item));
+        }
+        else {
+          result200 = <any>null;
+        }
+        return _observableOf(result200);
+      }));
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
+  }
+
+  getFreeTermsByTimePriority(time: boolean, appointmentRangeResponse: AppointmentRangeResponse): Observable<AppointmentSuggestion[]> {
+    let url_ = this.baseUrl + "/api/v1/Doctor/FreeTermsByTimePriority/{time}";
+    if (time === undefined || time === null)
+      throw new Error("The parameter 'time' must be defined.");
+    url_ = url_.replace("{time}", encodeURIComponent("" + time));
     url_ = url_.replace(/[?&]$/, "");
 
     const content_ = JSON.stringify(appointmentRangeResponse);
@@ -6466,7 +6529,7 @@ export class TreatmentReportClient implements ITreatmentReportClient {
 
 export interface IExaminationClient {
   createExamination(examinationRequest: ExaminationRequest): Observable<Examination>;
-  getAllExaminations(): Observable<Examination[]>;
+  getAllExaminations(): Observable<ExeminationResponse[]>;
 }
 
 @Injectable()
@@ -6539,7 +6602,7 @@ export class ExaminationClient implements IExaminationClient {
     return _observableOf(null as any);
   }
 
-  getAllExaminations(): Observable<Examination[]> {
+  getAllExaminations(): Observable<ExeminationResponse[]> {
     let url_ = this.baseUrl + "/api/v1/Examination";
     url_ = url_.replace(/[?&]$/, "");
 
@@ -6558,14 +6621,14 @@ export class ExaminationClient implements IExaminationClient {
         try {
           return this.processGetAllExaminations(response_ as any);
         } catch (e) {
-          return _observableThrow(e) as any as Observable<Examination[]>;
+          return _observableThrow(e) as any as Observable<ExeminationResponse[]>;
         }
       } else
-        return _observableThrow(response_) as any as Observable<Examination[]>;
+        return _observableThrow(response_) as any as Observable<ExeminationResponse[]>;
     }));
   }
 
-  protected processGetAllExaminations(response: HttpResponseBase): Observable<Examination[]> {
+  protected processGetAllExaminations(response: HttpResponseBase): Observable<ExeminationResponse[]> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse ? response.body :
@@ -6579,7 +6642,7 @@ export class ExaminationClient implements IExaminationClient {
         if (Array.isArray(resultData200)) {
           result200 = [] as any;
           for (let item of resultData200)
-            result200!.push(Examination.fromJS(item));
+            result200!.push(ExeminationResponse.fromJS(item));
         }
         else {
           result200 = <any>null;
@@ -11686,6 +11749,7 @@ export interface IIngredient {
 }
 
 export class ExaminationPrescription implements IExaminationPrescription {
+  _medicines?: Medicine[] | undefined;
   id?: string;
   usage?: string | undefined;
   medicines?: Medicine[] | undefined;
@@ -11701,6 +11765,11 @@ export class ExaminationPrescription implements IExaminationPrescription {
 
   init(_data?: any) {
     if (_data) {
+      if (Array.isArray(_data["_medicines"])) {
+        this._medicines = [] as any;
+        for (let item of _data["_medicines"])
+          this._medicines!.push(Medicine.fromJS(item));
+      }
       this.id = _data["id"];
       this.usage = _data["usage"];
       if (Array.isArray(_data["medicines"])) {
@@ -11720,6 +11789,11 @@ export class ExaminationPrescription implements IExaminationPrescription {
 
   toJSON(data?: any) {
     data = typeof data === 'object' ? data : {};
+    if (Array.isArray(this._medicines)) {
+      data["_medicines"] = [];
+      for (let item of this._medicines)
+        data["_medicines"].push(item.toJSON());
+    }
     data["id"] = this.id;
     data["usage"] = this.usage;
     if (Array.isArray(this.medicines)) {
@@ -11732,6 +11806,7 @@ export class ExaminationPrescription implements IExaminationPrescription {
 }
 
 export interface IExaminationPrescription {
+  _medicines?: Medicine[] | undefined;
   id?: string;
   usage?: string | undefined;
   medicines?: Medicine[] | undefined;
@@ -14291,6 +14366,78 @@ export class ExaminationPrescriptionRequest implements IExaminationPrescriptionR
 export interface IExaminationPrescriptionRequest {
   usage?: string | undefined;
   medicines?: MedicineExaminationResponse[] | undefined;
+}
+
+export class ExeminationResponse implements IExeminationResponse {
+  id?: string;
+  idApp?: string;
+  symptoms?: SymptomResponse[] | undefined;
+  prescriptions?: ExaminationPrescriptionRequest[] | undefined;
+  anamnesis?: string | undefined;
+  appointment?: Appointment | undefined;
+
+  constructor(data?: IExeminationResponse) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.id = _data["id"];
+      this.idApp = _data["idApp"];
+      if (Array.isArray(_data["symptoms"])) {
+        this.symptoms = [] as any;
+        for (let item of _data["symptoms"])
+          this.symptoms!.push(SymptomResponse.fromJS(item));
+      }
+      if (Array.isArray(_data["prescriptions"])) {
+        this.prescriptions = [] as any;
+        for (let item of _data["prescriptions"])
+          this.prescriptions!.push(ExaminationPrescriptionRequest.fromJS(item));
+      }
+      this.anamnesis = _data["anamnesis"];
+      this.appointment = _data["appointment"] ? Appointment.fromJS(_data["appointment"]) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any): ExeminationResponse {
+    data = typeof data === 'object' ? data : {};
+    let result = new ExeminationResponse();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data["id"] = this.id;
+    data["idApp"] = this.idApp;
+    if (Array.isArray(this.symptoms)) {
+      data["symptoms"] = [];
+      for (let item of this.symptoms)
+        data["symptoms"].push(item.toJSON());
+    }
+    if (Array.isArray(this.prescriptions)) {
+      data["prescriptions"] = [];
+      for (let item of this.prescriptions)
+        data["prescriptions"].push(item.toJSON());
+    }
+    data["anamnesis"] = this.anamnesis;
+    data["appointment"] = this.appointment ? this.appointment.toJSON() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IExeminationResponse {
+  id?: string;
+  idApp?: string;
+  symptoms?: SymptomResponse[] | undefined;
+  prescriptions?: ExaminationPrescriptionRequest[] | undefined;
+  anamnesis?: string | undefined;
+  appointment?: Appointment | undefined;
 }
 
 export class HolidayResponse implements IHolidayResponse {
