@@ -37,6 +37,7 @@
   margin-bottom: 10px;
 }
 .head1{
+  margin-top: 10px;
   color: #263238;
   font-size: 18px;
   padding-bottom: 5px;
@@ -44,13 +45,22 @@
   text-align: center;
 }
 .medicine{
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 5px 10%;
   margin-top: 5px;
-  text-align: center;
-  padding: 5px;
   border-radius: 10px;
   background-color: #aba9a9;
-  margin-left: auto;
-
+  display: flex;
+  justify-content: space-between;
+}
+.symptom{
+  padding: 5px 10%;
+  margin-top: 5px;
+  align-items: center;
+  border-radius: 10px;
+  background-color: #aba9a9;
+  text-align: center;
 }
 
 .content{

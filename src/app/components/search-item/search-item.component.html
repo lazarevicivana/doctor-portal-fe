@@ -22,7 +22,12 @@
         usage: &nbsp;&nbsp;&nbsp;&nbsp;{{med.usage}}
       </div>
       <div *ngFor="let m of med.medicines" class="medicine">
-        {{m.name}} &nbsp;&nbsp;&nbsp; amount:  &nbsp;&nbsp;&nbsp; {{m.amount}}
+        <div style="border-right: #1B273C; border-right-style: solid; border-right-width: 1px; width: 50%" >
+          {{m.name}}
+        </div>
+        <div>
+          amount:  &nbsp;&nbsp;&nbsp; {{m.amount}}
+        </div>
       </div>
     </div>
 
@@ -32,7 +37,7 @@
       Symptoms:
     </div>
     <div *ngFor="let sym of symptoms" >
-      <div class="medicine">
+      <div class="symptom">
         {{sym.description}}
       </div>
 
