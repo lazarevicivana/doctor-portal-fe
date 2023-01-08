@@ -30,7 +30,7 @@ export class TenderService {
   }
 
   getClosedTenders(): Observable<any>{
-    return this.http.get<any>(this.apiHost + 'api/Tender/getClosedTenders', {headers: this.headers})
+    return this.http.get<any>('http://localhost:5000/api/v1/BloodUnit/getClosedTenders', {headers: this.headers})
   }
 
 }
