@@ -1,23 +1,63 @@
 .card{
   padding-bottom: 10px;
   padding-top: 10px;
-  border: #3a4873;
-  border-width: 1px;
-  border-style: solid;
+  /*border: #3a4873;*/
+  /*border-width: 1px;*/
+  /*border-style: solid;*/
   border-radius: 10px;
-  padding-left: 2%;
-  background-color: #fff;
-  /*border-top: #3a4873;*/
-  /*border-top-width: 1px;*/
-  /*border-top-style: solid;*/
-  /*border-top-right-radius: 10px;*/
-  /*border-top-left-radius: 10px;*/
+  padding-left: 4%;
+  background-color: #e3e1e1;
+  /*border-bottom: #3a4873;*/
+  /*border-bottom-width: 1px;*/
+  /*border-bottom-style: solid;*/
+  /*border-bottom-right-radius: 10px;*/
+  /*border-bottom-left-radius: 10px;*/
+  display: flex;
+  justify-content: space-between;
+  padding-right: 4%;
+}
+.part{
+  width: 100%;
+  padding: 2%;
+}
+.partS{
+  padding: 2%;
+  width: 50%;
+}
+.partD{
+  width: 70%;
+  padding: 2%;
 }
 .head{
   color: #263238;
   font-size: 20px;
   padding-bottom: 5px;
+  margin-bottom: 10px;
 }
+.head1{
+  color: #263238;
+  font-size: 18px;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.medicine{
+  margin-top: 5px;
+  text-align: center;
+  padding: 5px;
+  border-radius: 10px;
+  background-color: #aba9a9;
+  margin-left: auto;
+
+}
+
 .content{
   padding-top: 2px;
+
+}
+
+.content1{
+  padding: 5px;
+  border-radius: 10px;
+  background-color: #cbc9c9;
 }
