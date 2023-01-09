@@ -1,0 +1,45 @@
+<div class="card">
+  <div class="partD" style="border-right: #1B273C; border-right-style: solid; border-right-width: 1px">
+    <div class="head">
+      {{date}}
+    </div>
+    <div class="head1">
+      Patient:&nbsp;&nbsp;&nbsp;&nbsp;{{patientName}}
+    </div>
+    <div class="head1">
+      Doctor:&nbsp;&nbsp;&nbsp;&nbsp;{{doctorName}}
+    </div>
+  </div>
+  <div class="part" style="border-right: #1B273C; border-right-style: solid; border-right-width: 1px">
+    <div class="head" style="text-align: center;">
+      Prescriptions:
+    </div>
+    <div *ngFor="let med of medicines" class="content1">
+      <div class="head1">
+        usage: &nbsp;&nbsp;&nbsp;&nbsp;{{med.usage}}
+      </div>
+      <div *ngFor="let m of med.medicines" class="medicine">
+        <div style="border-right: #1B273C; border-right-style: solid; border-right-width: 1px; width: 50%; text-align: center" >
+          {{m.name}}
+        </div>
+        <div style="align-items: center">
+          amount:  &nbsp;&nbsp;&nbsp; {{m.amount}}
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="partS">
+    <div class="head" style="text-align: center;">
+      Symptoms:
+    </div>
+    <div *ngFor="let sym of symptoms" >
+      <div class="symptom">
+        {{sym.description}}
+      </div>
+
+    </div>
+  </div>
+
+
+</div>

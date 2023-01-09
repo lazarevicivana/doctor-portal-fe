@@ -37,6 +37,8 @@ import {ExaminationModule} from "./modules/examination/examination.module";
 import {MatTabsModule} from "@angular/material/tabs";
 import {ConsiliumModule} from "./modules/consilium-dashboard/consilium.module";
 import { BrowserModule } from "@angular/platform-browser";
+import {CalendarModule, DateAdapter} from "angular-calendar";
+import {adapterFactory} from "angular-calendar/date-adapters/date-fns";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -72,11 +74,11 @@ import { BrowserModule } from "@angular/platform-browser";
     MatCheckboxModule,
     ExaminationModule,
     MatTabsModule,
-    ConsiliumModule
-   /* CalendarModule.forRoot({
+    ConsiliumModule,
+    CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
-    }),*/
+    }),
   ],
   providers: [
     DoctorClient,

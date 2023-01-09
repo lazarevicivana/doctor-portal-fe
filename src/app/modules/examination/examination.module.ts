@@ -7,24 +7,28 @@ import {ExaminationClient, MedicineClient, SymptomClient} from "../../api/api-re
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { PrescriptionFormComponent } from './prescription-form/prescription-form.component';
+import { ExeminationSearchComponent } from './exemination-search/exemination-search.component';
+import {CommonComponentsModule} from "../../components/common-components.module";
 
 
 @NgModule({
   declarations: [
     ExaminationComponent,
     SymptomsSelectComponent,
-    PrescriptionFormComponent
+    PrescriptionFormComponent,
+    ExeminationSearchComponent
   ],
   imports: [
     CommonModule,
     MaterialModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
-    FormsModule
+    FormsModule,
+    CommonComponentsModule
   ],
   exports: [
     ExaminationComponent,
-    SymptomsSelectComponent
+    SymptomsSelectComponent,
   ],
   providers:[
     SymptomClient,

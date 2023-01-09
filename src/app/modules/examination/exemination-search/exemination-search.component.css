@@ -1,0 +1,72 @@
+.container-f {
+  background-color: #fff;
+
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25),
+  0 10px 10px rgba(0,0,0,0.22);
+  position: center;
+  overflow: hidden;
+  max-width: 100%;
+  min-height: 580px;
+  margin: auto;
+  width: 70%;
+}
+.search{
+  background-color: #263238;
+  display: flex;
+  justify-content: center;
+  padding-top: 2%;
+  padding-bottom: 2%;
+
+}
+.icon{
+
+  /*width: 1rem;*/
+  /*min-width: 1rem;*/
+  /*margin: 0 0.5rem;*/
+  /*text-align: center;*/
+}
+
+.btnn{
+  align-items: center;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 32px;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 20%;
+  background-color: transparent;
+  border: none;
+  margin-left: 2%;
+  color: #fff;
+}
+.btnn:hover{
+  background-color: rgb(255, 255, 255);
+  color: #000;
+}
+.example-form-field {
+  padding-top: 7px;
+  padding-right: 5px;
+  padding-left: 5px;
+  background-color:  #fff;
+  border-radius: 7px;
+  width: 40%;
+}
+.list{
+  width: 95%;
+  margin-left: 2.5%;
+  margin-top: 2%;
+  height: 80vh;
+  overflow: auto;
+  padding-bottom: 2%;
+  padding-right: 2.5%;
+  padding-left: 2.5%;
+}
+.item{
+  margin-bottom: 10px;
+
+}
+
+
