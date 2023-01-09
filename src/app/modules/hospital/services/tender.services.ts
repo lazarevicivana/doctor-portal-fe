@@ -28,4 +28,9 @@ export class TenderService {
   chooseTender(tender: TenderWithId): Observable<any>{
     return this.http.put<any>(this.apiHost + 'api/Tender/choose', tender,{headers: this.headers})
   }
+
+  getClosedTenders(): Observable<any>{
+    return this.http.get<any>('http://localhost:5000/api/v1/BloodUnit/getClosedTenders', {headers: this.headers})
+  }
+
 }
