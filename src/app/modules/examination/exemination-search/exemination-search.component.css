@@ -19,6 +19,33 @@
   padding-bottom: 2%;
 
 }
+.icon{
+
+  /*width: 1rem;*/
+  /*min-width: 1rem;*/
+  /*margin: 0 0.5rem;*/
+  /*text-align: center;*/
+}
+
+.btnn{
+  align-items: center;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 32px;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 20%;
+  background-color: transparent;
+  border: none;
+  margin-left: 2%;
+  color: #fff;
+}
+.btnn:hover{
+  background-color: rgb(255, 255, 255);
+  color: #000;
+}
 .example-form-field {
   padding-top: 7px;
   padding-right: 5px;
