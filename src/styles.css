@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
-@import "../node_modules/angular-calendar/css/angular-calendar.css";
 
 * {
   margin: 0;
@@ -368,13 +367,5 @@ body {
     transition: 0.5s 0.25s cubic-bezier(0.17, 0.67, 0.5, 1.03);
     opacity: 1;
   }
-  .mg-auto{
-    margin: auto;
-  }
-  .steeper-title{
-    margin-top: 15px;
-    text-align: center;
-  }
-
 }
 
