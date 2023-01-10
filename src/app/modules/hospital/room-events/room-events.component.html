@@ -1,45 +1,96 @@
 <div class="container">
     <mat-tab-group (selectedTabChange)="onTabChange($event)" mat-stretch-tabs>
+     
         <mat-tab label="Number of renovations by type ">
             <div id="tab1" style="width: 80%; height:80%" class="type">
                 <br>
                 <h2>Number of renovations by type </h2>
+                <p>Merging: {{typeMerging}}</p>
+                <p>Spliting: {{typeSpliting}}</p>
+                <canvas id="typeChart">{{DrawTypeChart}}</canvas>
             </div>
 
         </mat-tab>
 
         <mat-tab label="Avg time of renovation scheduling">
-            <div id="tab2" style="width: 75%; height:75%" class="averageTime">
+            <div id="tab2" style="width: 75%; height:75%" class="type">
                 <br>
-                <h2>Avg time of renovation scheduling</h2>
+                <h2>Avg time of merging scheduling</h2>
+                <canvas id="avgTimeMergingChart">{{DrawAvgTimeMergingChart}}</canvas>
+            </div>
+            <div id="tab2" style="width: 75%; height:75%" class="type">
+                <br>
+                <h2>Avg time of spliting scheduling</h2>
+                <canvas id="avgTimeSplitingChart">{{DrawAvgTimeSplitingChart}}</canvas>
             </div>
         </mat-tab>
 
         <mat-tab label="Step occurance number by type">
-            <div id="tab2" style="width: 75%; height:75%" class="occurance">
+            <div id="tab3" style="width: 75%; height:75%" class="occurance">
                 <br>
-                <h2>Step occurance number by type</h2>
+                <h2>Step occurance number in merging</h2>
+                <canvas id="stepOccuranceMergingChart">{{DrawstepOccuranceMergingChart}}</canvas>
+            </div>
+            <div id="tab3" style="width: 75%; height:75%" class="occurance">
+                <br>
+                <h2>Step occurance number in spliting</h2>
+                <canvas id="stepOccuranceSplitingChart">{{DrawstepOccuranceSplitingChart}}</canvas>
             </div>
         </mat-tab>
 
         <mat-tab label="Step averageTime">
-            <div id="tab2" style="width: 75%; height:75%" class="stepAverageTime">
+            <div id="tab4" style="width: 75%; height:75%" class="stepAverageTime">
                 <br>
-                <h2>Step average time</h2>
+                <h2>Step average time merging</h2>    
+                <canvas id="stepAvgTimeMergingChart">{{DrawstepAvgTimeMergingChart}}</canvas>
+            </div>
+            <div id="tab4" style="width: 75%; height:75%" class="stepAverageTime">
+                <br>
+                <h2>Step average time spliting</h2>    
+                <canvas id="stepAvgTimeSplitingChart">{{DrawstepAvgTimeSplitingChart}}</canvas>
             </div>
         </mat-tab>
 
         <mat-tab label="Number of successful scheduling">
-            <div id="tab2" style="width: 75%; height:75%" class="successful">
+            <div id="tab5" style="width: 75%; height:75%" class="successful">
                 <br>
-                <h2>Step occurance number by type</h2>
+                <h2>Succesful vs Cancel</h2>
+                <canvas id="succesfulChart">{{DrawSuccessfullChart}}</canvas>
             </div>
         </mat-tab>
 
         <mat-tab label="Table of all events in last 24H">
-            <div id="tab2" style="width: 75%; height:75%" class="successful">
+            <div id="tab6" style="width: 75%; height:75%" class="table">
                 <br>
                 <h2>Table of all events in last 24H</h2>
+                <div >
+                  <table class="tabelica" mat-table [dataSource]="eventsTable" matSort>
+            
+                    <ng-container matColumnDef="Event name">
+                      <th mat-header-cell align="center"  *matHeaderCellDef mat-sort-header> Event name </th>
+                      <td mat-cell  *matCellDef="let element"> {{element.EventName}} </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="Value">
+                      <th mat-header-cell align="center"  *matHeaderCellDef mat-sort-header> Value </th>
+                      <td mat-cell  align="center"  *matCellDef="let element"> {{element.Value}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Timestamp">
+                      <th mat-header-cell align="center"  *matHeaderCellDef mat-sort-header> Timestamp </th>
+                      <td mat-cell  align="center"  *matCellDef="let element"> {{element.TimeStamp}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="User ID">
+                      <th mat-header-cell align="center"  *matHeaderCellDef mat-sort-header> User ID </th>
+                      <td mat-cell  align="center"  *matCellDef="let element"> {{element.UserId}} </td>
+                    </ng-container>
+            
+                    <tr mat-header-row *matHeaderRowDef="tableLabels"></tr>
+                    <tr mat-row *matRowDef="let row; columns: tableLabels;"></tr>
+            
+                  </table>
+                </div>
             </div>
         </mat-tab>
     </mat-tab-group>
