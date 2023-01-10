@@ -1,8 +1,8 @@
 <div class="container">
   <div class="container-f">
     <mat-stepper linear #stepper>
-      <mat-step>
-        <ng-template matStepLabel>Symptoms</ng-template>
+      <mat-step >
+          <ng-template matStepLabel>Symptoms</ng-template>
         <form>
           <div class="steeper-title">
             <h1 class="header-b">Select symptoms</h1>
@@ -11,7 +11,7 @@
           </div>
         </form>
         <div align="center" class="align-me">
-          <button class="btn-b" mat-flat-button matStepperNext>Next</button>
+          <button class="btn-b" mat-flat-button matStepperNext (click)="generateAnamnesisEvent()">Next</button>
         </div>
       </mat-step>
       <mat-step [stepControl]="formControlAnamnesis">
@@ -27,10 +27,10 @@
           </form>
           <div class="row">
           <div  class="col-6">
-            <button class="btn-b-cols" mat-flat-button matStepperPrevious>Back</button>
+            <button class="btn-b-cols" mat-flat-button matStepperPrevious (click)="generateSymptomsViewedEvent()">Back</button>
           </div>
           <div class="col-6">
-            <button class="btn-b-cols" mat-flat-button matStepperNext>Next</button>
+            <button class="btn-b-cols" mat-flat-button matStepperNext (click)="generatePrescriptionsViewedEvent()">Next</button>
           </div>
           </div>
         </div>
@@ -46,7 +46,7 @@
           <app-prescription-form *ngIf="isActivePrescription" (onPrescriptionCreation)="bindPrescription($event)"></app-prescription-form>
         <div class="row">
           <div  class="col-6">
-            <button class="btn-b-cols" mat-flat-button matStepperPrevious>Back</button>
+            <button class="btn-b-cols" mat-flat-button matStepperPrevious (click)="generateAnamnesisEvent()">Back</button>
           </div>
           <div class="col-6">
             <button class="btn-b-cols" mat-flat-button (click)="addPrescription()">Next</button>
@@ -65,7 +65,7 @@
               <button class="btn-b-cols" mat-flat-button (click)="showNextPrescription()">Yes</button>
             </div>
             <div class="col-6">
-              <button class="btn-b-cols" mat-flat-button matStepperNext>No</button>
+              <button class="btn-b-cols" mat-flat-button matStepperNext (click)="generateExaminationInfoEvent()">No</button>
             </div>
           </div>
         </div>
@@ -137,7 +137,6 @@
               </div>
           </div>
         <div class="align-me mg-prescription">
-
           <div class="row">
             <div  class="col-6" >
               <button class="btn-b-forward" mat-flat-button (click)="forwardAppointment()">Forward appointment</button>
@@ -147,7 +146,6 @@
             </div>
           </div>
         </div>
-
         </div>
       </mat-step>
     </mat-stepper>
