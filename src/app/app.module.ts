@@ -40,6 +40,7 @@ import { ConsiliumDashboardComponent } from './modules/consilium-dashboard/consi
 import { ConsiliumsPreviewComponent } from './modules/consilium-dashboard/consiliums-preview/consiliums-preview.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import {ConsiliumModule} from "./modules/consilium-dashboard/consilium.module";
+import { GenerateBloodStatisticComponent } from "./modules/hospital/generate-blood-statistic/generate-blood-statistic.component";
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import {ConsiliumModule} from "./modules/consilium-dashboard/consilium.module";
     DialogSignComponent,
     ScheduleHolidayComponent,
     DoctorsHolidaysComponent,
+    GenerateBloodStatisticComponent,
   ],
     imports: [
         BrowserModule,
