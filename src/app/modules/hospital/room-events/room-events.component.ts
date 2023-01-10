@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Chart, registerables } from 'chart.js';
+import { Room } from '../model/room.model';
 import { RoomEvent } from '../model/roomEvent.model';
 
 @Component({
@@ -12,7 +13,7 @@ import { RoomEvent } from '../model/roomEvent.model';
 export class RoomEventsComponent implements OnInit {
 
   tableLabels: string[] = [ 'Event name', 'Value', 'Timestamp', 'User ID'];
-  eventsTable = new MatTableDataSource<RoomEvent[]>;
+  eventsTable = new MatTableDataSource<RoomEvent>;
 
   public typeMerging: number = 1;
   public typeSpliting: number = 3;
@@ -69,7 +70,92 @@ export class RoomEventsComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit(): void 
+  {
+
+    let re: RoomEvent = new RoomEvent;
+    re.Id="123";
+    let d: Date = new Date(2012,1,2);
+    re.TimeStamp = d;
+    re.UserId = "321";
+    re.Value="saas";
+    re.EventName="EVENT NAME"
+    this.eventsTable.data.push(re);
+
+    //DELETE ABOVE AFTER IMPLEMENTATION 
+/*
+    forkJoin([this.buildingService.getBuildings(), this.floorService.getFloors(), this.roomService.getRooms(), this.groomService.getGRooms()])
+    .subscribe((result => {
+      this.typeMerging = result[0];
+      this.typeSpliting = result[1];
+    }))*/
+
+/*
+    forkJoin([this.buildingService.getBuildings(), this.floorService.getFloors(), this.roomService.getRooms(), this.groomService.getGRooms()])
+    .subscribe((result => {
+      this.time30SMerging = result[0];
+      this.time30S60SMerging = result[1];
+      this.time60SMerging = result[2];
+    }))*/
+
+/*
+    forkJoin([this.buildingService.getBuildings(), this.floorService.getFloors(), this.roomService.getRooms(), this.groomService.getGRooms()])
+    .subscribe((result => {
+      this.time30SSpliting = result[0];
+      this.time30S60SSpliting = result[1];
+      this.time60SSpliting = result[2];
+    }))*/
+
+/*
+    forkJoin([this.buildingService.getBuildings(), this.floorService.getFloors(), this.roomService.getRooms(), this.groomService.getGRooms()])
+    .subscribe((result => {
+      this.step1Merging = result[0];
+      this.step2Merging = result[1];
+      this.step3Merging = result[2];
+      this.step4Merging = result[3];
+    }))*/
+
+/*
+    forkJoin([this.buildingService.getBuildings(), this.floorService.getFloors(), this.roomService.getRooms(), this.groomService.getGRooms()])
+    .subscribe((result => {
+      this.step1Spliting = result[0];
+      this.step2Spliting = result[1];
+      this.step3Spliting = result[2];
+      this.step4Spliting = result[3];
+    }))*/
+
+/*
+    forkJoin([this.buildingService.getBuildings(), this.floorService.getFloors(), this.roomService.getRooms(), this.groomService.getGRooms()])
+    .subscribe((result => {
+      this.step1MergingAvgTime = result[0];
+      this.step2MergingAvgTime = result[1];
+      this.step3MergingAvgTime = result[2];
+      this.step4MergingAvgTime = result[3];
+    }))*/
+
+/*
+    forkJoin([this.buildingService.getBuildings(), this.floorService.getFloors(), this.roomService.getRooms(), this.groomService.getGRooms()])
+    .subscribe((result => {
+      this.step1SplitingAvgTime = result[0];
+      this.step2SplitingAvgTime = result[1];
+      this.step3SplitingAvgTime = result[2];
+      this.step4SplitingAvgTime = result[3];
+    }))*/
+
+/*
+    forkJoin([this.buildingService.getBuildings(), this.floorService.getFloors(), this.roomService.getRooms(), this.groomService.getGRooms()])
+    .subscribe((result => {
+      this.successfullScheduling = result[0];
+      this.cancelScheduling = result[1];
+    }))*/
+
+/*
+    forkJoin([this.buildingService.getBuildings(), this.floorService.getFloors(), this.roomService.getRooms(), this.groomService.getGRooms()])
+    .subscribe((result => {
+      this.eventsTable = result[0];
+    }))*/
+
+
   }
 
 
