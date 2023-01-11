@@ -47,6 +47,12 @@
   margin-bottom: 10px;
   text-align: center;
 }
+.item-left{
+  border-right: #1B273C;
+  border-right-style: solid;
+  border-right-width: 1px;
+  width: 50%; text-align: center
+}
 .medicine{
   margin-left: 10%;
   margin-right: 10%;

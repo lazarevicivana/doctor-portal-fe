@@ -3,11 +3,17 @@
     <div class="head">
       {{date}}
     </div>
-    <div class="head1">
-      Patient:&nbsp;&nbsp;&nbsp;&nbsp;{{patientName}}
+    <div class="head1 medicine">
+      <div class="item-left">Patient</div>
+      <div>{{patientName}}</div>
     </div>
-    <div class="head1">
-      Doctor:&nbsp;&nbsp;&nbsp;&nbsp;{{doctorName}}
+    <div class="head1 medicine">
+      <div class="item-left">
+        Doctor
+      </div>
+      <div>
+        {{doctorName}}
+      </div>
     </div>
   </div>
   <div class="part" style="border-right: #1B273C; border-right-style: solid; border-right-width: 1px">
@@ -19,7 +25,7 @@
         usage: &nbsp;&nbsp;&nbsp;&nbsp;{{med.usage}}
       </div>
       <div *ngFor="let m of med.medicines" class="medicine">
-        <div style="border-right: #1B273C; border-right-style: solid; border-right-width: 1px; width: 50%; text-align: center" >
+        <div class="item-left" >
           {{m.name}}
         </div>
         <div style="align-items: center">
