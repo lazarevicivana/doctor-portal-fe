@@ -39,6 +39,7 @@ import {ConsiliumModule} from "./modules/consilium-dashboard/consilium.module";
 import { BrowserModule } from "@angular/platform-browser";
 import {CalendarModule, DateAdapter} from "angular-calendar";
 import {adapterFactory} from "angular-calendar/date-adapters/date-fns";
+import {PatientHealthModule} from "./modules/patient-health/patient-health.module";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -79,6 +80,7 @@ import {adapterFactory} from "angular-calendar/date-adapters/date-fns";
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+    PatientHealthModule
   ],
   providers: [
     DoctorClient,
