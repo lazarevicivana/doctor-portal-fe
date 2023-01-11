@@ -40,6 +40,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import {CalendarModule, DateAdapter} from "angular-calendar";
 import {adapterFactory} from "angular-calendar/date-adapters/date-fns";
 import { RoomEventsComponent } from './modules/hospital/room-events/room-events.component';
+import {PatientHealthModule} from "./modules/patient-health/patient-health.module";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -81,6 +82,7 @@ import { RoomEventsComponent } from './modules/hospital/room-events/room-events.
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+    PatientHealthModule
   ],
   providers: [
     DoctorClient,

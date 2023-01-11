@@ -26,6 +26,7 @@ import {
 import {ExaminationGuard} from "./guards/examination.guard";
 import { ExeminationSearchComponent } from './modules/examination/exemination-search/exemination-search.component';
 import { RoomEventsComponent } from "./modules/hospital/room-events/room-events.component";
+import {PatientHealthCareComponent} from "./modules/patient-health/patient-health-care/patient-health-care.component";
 
 
 
@@ -113,6 +114,11 @@ const routes: Routes = [
     path: 'room-events',
     component:RoomEventsComponent,
     canActivate:[ManagerGuard]
+  },
+  {
+    path: 'patient-health-care',
+    component:PatientHealthCareComponent,
+    canActivate:[DoctorGuard]
   }
 
 ];
