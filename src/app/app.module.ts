@@ -36,6 +36,7 @@ import { DoctorsHolidaysComponent } from './modules/hoiday/doctors-holidays/doct
 import {ExaminationModule} from "./modules/examination/examination.module";
 import {MatTabsModule} from "@angular/material/tabs";
 import {ConsiliumModule} from "./modules/consilium-dashboard/consilium.module";
+import { GenerateBloodStatisticComponent } from "./modules/hospital/generate-blood-statistic/generate-blood-statistic.component";
 import { BrowserModule } from "@angular/platform-browser";
 import {CalendarModule, DateAdapter} from "angular-calendar";
 import {adapterFactory} from "angular-calendar/date-adapters/date-fns";
@@ -52,6 +53,7 @@ import {PatientHealthModule} from "./modules/patient-health/patient-health.modul
     DialogSignComponent,
     ScheduleHolidayComponent,
     DoctorsHolidaysComponent,
+    GenerateBloodStatisticComponent,
     RoomEventsComponent,
   ],
   exports: [],
