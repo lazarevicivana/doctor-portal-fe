@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule, Routes } from "@angular/router";
-import { MaterialModule } from "src/app/material/material.module";
+import { MaterialModule } from "src/app/modules/material/material.module";
 import { CreateRoomComponent } from "./create-room/create-room.component";
 import { BloodBankComponent} from "./bloodbank/bloodbank.component";
 import { RoomDetailComponent } from "./room-detail/room-detail.component";

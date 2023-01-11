@@ -1,4 +1,3 @@
-import { O } from "chart.js/dist/chunks/helpers.core";
 
 export class BloodDTOModel {
 
