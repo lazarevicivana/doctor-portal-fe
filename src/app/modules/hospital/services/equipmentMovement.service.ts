@@ -1,8 +1,14 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient,HttpHeaders} from '@angular/common/http'
-import { EquipmentMovementAppointmentResponse, EquipmentMovementAppointmentRequest } from 'src/app/api/api-reference';
+import {
+  EquipmentMovementAppointmentResponse,
+  EquipmentMovementAppointmentRequest,
+  Appointment
+} from 'src/app/api/api-reference';
 import {RoomEquipment} from "../model/roomEquipment";
+import {RoomSplitingResponse} from "../model/RoomSplitingResponse";
+import {RoomMergingResponse} from "../model/RoomMergingResponse";
 
 const httpOptions ={
   headers: new HttpHeaders({
@@ -49,5 +55,21 @@ export class EquipmentMovementService {
     return this.http.delete<EquipmentMovementAppointmentResponse[]>(this.apiHost + 'api/v1/EquipmentMovementAppointment/' + id , {headers: this.headers});
   }
 
+  getAllAppointmentByRoomId(roomId:string) : Observable<Appointment[]>{
+    return this.http.get<Appointment[]>(this.apiHost + 'api/v1/Appointment/byRoom/' + roomId, {headers: this.headers});
+  }
+
+  deleteAppointment(id?:string): Observable<Appointment[]> {
+    return this.http.delete<Appointment[]>(this.apiHost + 'api/v1/Appointment/' + id , {headers: this.headers});
+  }
+
+  getAllSplittingByRoomid(roomId:string) : Observable<RoomSplitingResponse[]>{
+    return this.http.get<RoomSplitingResponse[]>(this.apiHost + 'api/v1/RoomRenovation/GetSplittingByRoomId/' + roomId, {headers: this.headers});
+  }
+
+
+  getAllMergingByRoomid(roomId:string) : Observable<RoomMergingResponse[]>{
+    return this.http.get<RoomMergingResponse[]>(this.apiHost + 'api/v1/RoomRenovation/GetAllMergingByRoomId/' + roomId, {headers: this.headers});
+  }
 
 }

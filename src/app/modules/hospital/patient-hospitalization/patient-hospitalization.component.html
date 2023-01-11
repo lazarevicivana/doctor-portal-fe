@@ -3,8 +3,9 @@
     <div>
       <form >
         <div class="title-container">
-          <h1 class="title">Schedule hospitalization</h1>
+          <h1 class="title header-b">Schedule hospitalization</h1>
         </div>
+        <mat-divider></mat-divider>
         <div>
           <app-patients-for-hospitalization (onSelectedPatient)="onSelecting($event)"></app-patients-for-hospitalization>
         </div>
@@ -16,7 +17,7 @@
         </div>
 
 
-        <button mat-flat-button color="primary" (click)="hospitalize()" class="input-schedule">Submit</button>
+        <button mat-flat-button color="primary" (click)="hospitalize()" class="input-schedule button-color">Submit</button>
       </form>
     </div>
   </div>

@@ -1,12 +1,10 @@
 import {HttpClientModule} from "@angular/common/http";
 import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
 import { AppRoutingModule } from "./app-routing.module";
-import { MaterialModule } from "./material/material.module";
+import { MaterialModule } from "./modules/material/material.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {NgToastModule} from "ng-angular-popup";
 import { AppComponent } from "./app.component";
-
 import {
   AppointmentClient,
   DoctorClient,
@@ -15,13 +13,13 @@ import {
   ScheduleClient,
   ApplicationUserClient,
   HolidayClient,
-  BloodUnitClient, BloodConsumptionClient, PatientAdmissionClient
+  BloodUnitClient, BloodConsumptionClient, PatientAdmissionClient, ConsiliumClient, SpecializationsClient
 } from "./api/api-reference";
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import {ScheduleModule} from "./modules/schedule/schedule.module";
-import {LoginModule} from "./login/login/login.module";
-import {DashboardModule} from "./components/dashboard/dashboard.module";
+import {LoginModule} from "./modules/login/login.module";
+import {DashboardModule} from "./modules/dashboard/dashboard.module";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 import {MatGridListModule} from "@angular/material/grid-list";
@@ -36,8 +34,14 @@ import { ScheduleHolidayComponent } from './modules/hoiday/schedule-holiday/sche
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { DoctorsHolidaysComponent } from './modules/hoiday/doctors-holidays/doctors-holidays.component';
 import {ExaminationModule} from "./modules/examination/examination.module";
+import {MatTabsModule} from "@angular/material/tabs";
+import {ConsiliumModule} from "./modules/consilium-dashboard/consilium.module";
+import { BrowserModule } from "@angular/platform-browser";
+import {CalendarModule, DateAdapter} from "angular-calendar";
+import {adapterFactory} from "angular-calendar/date-adapters/date-fns";
 
 @NgModule({
+  bootstrap: [AppComponent],
   declarations: [
     AppComponent,
     BodyComponent,
@@ -47,6 +51,7 @@ import {ExaminationModule} from "./modules/examination/examination.module";
     ScheduleHolidayComponent,
     DoctorsHolidaysComponent,
   ],
+  exports: [],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -67,7 +72,13 @@ import {ExaminationModule} from "./modules/examination/examination.module";
     MatDialogModule,
     CommonComponentsModule,
     MatCheckboxModule,
-    ExaminationModule
+    ExaminationModule,
+    MatTabsModule,
+    ConsiliumModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
   providers: [
     DoctorClient,
@@ -80,10 +91,9 @@ import {ExaminationModule} from "./modules/examination/examination.module";
     authInterceptorProviders,
     BloodUnitClient,
     BloodConsumptionClient,
-    PatientAdmissionClient
-  ],
-  exports: [
-  ],
-  bootstrap: [AppComponent]
+    PatientAdmissionClient,
+    ConsiliumClient,
+    SpecializationsClient
+  ]
 })
 export class AppModule { }

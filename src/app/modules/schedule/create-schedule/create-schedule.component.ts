@@ -30,7 +30,7 @@ export class CreateScheduleComponent implements OnInit {
     console.log(this.tokenStorageService.getUser())
     this.userToken = this.tokenStorageService.getUser();
     this.myForm = this.fb.group({
-      date: new Date(),
+      date: undefined,
       startTime : "",
       finishTime : ""
       }

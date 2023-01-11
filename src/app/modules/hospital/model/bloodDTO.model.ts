@@ -14,8 +14,8 @@ export class BloodDTOModel {
       this.bloodType = obj.bloodType;
       this.amount = obj.amount;
 
-
     }
   }
 
 }
+

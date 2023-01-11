@@ -1,14 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, Validators} from "@angular/forms";
 import {
-  AppointmentClient,
+  AppointmentClient, DomainEventOfEventStoreExaminationType,
+  EventStoreExaminationType,
   ExaminationClient,
   ExaminationPrescriptionRequest,
   ExaminationRequest,
   SymptomResponse
 } from "../../../api/api-reference";
 import {NgToastService} from "ng-angular-popup";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
+import {SymptomsViewedEvent} from "../../../model/DomainEventsModel/SymptomsViewedEvent";
+import {AnamnesisViewedEvent} from "../../../model/DomainEventsModel/AnamnesisViewedEvent";
+import {PrescriptionViewedEvent} from "../../../model/DomainEventsModel/PrescriptionViewedEvent";
+import {ExaminationInfoViewedEvent} from "../../../model/DomainEventsModel/ExaminationInfoViewedEvent";
 
 @Component({
   selector: 'app-examination',
@@ -17,9 +22,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class ExaminationComponent implements OnInit {
   formControlAnamnesis =  new FormControl<string>('',Validators.required);
-  formControlSymptoms =  new FormControl<SymptomResponse[]>([],Validators.required);
-  formControlMedicine =  new FormControl<string>('',Validators.required);
-  formControl =  new FormControl<string>('',Validators.required);
   appointmentId:string = "58b64600-6ace-471a-84cc-afc59103677d"
   isActivePrescription:boolean = true
   selectedSymptoms:SymptomResponse[] = []
@@ -28,6 +30,7 @@ export class ExaminationComponent implements OnInit {
   anamnesis:string = ""
   private isForward = false;
   patientId:string | undefined= "";
+  examinationEvents : DomainEventOfEventStoreExaminationType[] = [];
 
   constructor(private examinationClient:ExaminationClient,private toastService:NgToastService,private router:Router,
               private appointmentClient:AppointmentClient) {
@@ -36,13 +39,18 @@ export class ExaminationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const examinationStartedEvent = new SymptomsViewedEvent({
+      createdAt: new Date(),
+      event: EventStoreExaminationType.SYMPTOMS_VIEWED
+    })
+    this.examinationEvents.push(examinationStartedEvent)
+
   }
   showNextPrescription() {
     this.isActivePrescription = !this.isActivePrescription
     this.selectedPrescription = new ExaminationPrescriptionRequest()
+    this.generatePrescriptionsViewedEvent()
   }
-
-
   bindSymptoms(symptomResponses: SymptomResponse[]) {
     this.selectedSymptoms = symptomResponses
     console.log(this.selectedSymptoms)
@@ -58,7 +66,6 @@ export class ExaminationComponent implements OnInit {
     }
     this.isActivePrescription = !this.isActivePrescription
     this.selectedPrescriptions.push(this.selectedPrescription)
-    console.log(this.selectedPrescriptions)
   }
   private validatePrescription(){
     if(!this.selectedPrescription.usage){
@@ -92,11 +99,7 @@ export class ExaminationComponent implements OnInit {
     if(!this.validateSymptoms()){
       return false
     }
-    if(!this.validateAnamnesis()){
-      return false
-    }
-    return true
-
+    return this.validateAnamnesis();
   }
   createExamination() {
     if(!this.validate()){
@@ -106,20 +109,29 @@ export class ExaminationComponent implements OnInit {
       idApp: this.appointmentId,
       anamnesis: this.anamnesis,
       prescriptions: this.selectedPrescriptions,
-      symptoms:this.selectedSymptoms
+      symptoms:this.selectedSymptoms,
+      changes: this.examinationEvents
     })
     console.log(ex)
     this.examinationClient.createExamination(ex).subscribe({
       next: value => {
         console.log(value)
         this.router.navigate(['dashboard']).then(()=>{
-          this.toastService.success({detail: 'Success!', summary: "You are successfully create examination!", duration: 5000})
+          this.toastService.success({detail: 'Success!', summary: "You are successfully create examiantion!", duration: 5000})
+          if (this.isForward){
+            this.appointmentClient.getById(this.appointmentId).subscribe({
+              next: value => {
+                this.patientId = value.patientId
+                console.log(value.patientId)
+                this.router.navigate(['/forward-appointment'],{state:{data:value.patientId}})
+              }
+            })
+          }
         })},
       error: message => {
         this.toastService.error({detail: 'Error!', summary: message.Error, duration: 5000})
       }
     })
-
   }
 
   submitAnamnesis(value: string) {
@@ -127,13 +139,38 @@ export class ExaminationComponent implements OnInit {
   }
 
   forwardAppointment() {
-    console.log(this.appointmentId)
-    this.appointmentClient.getById(this.appointmentId).subscribe({
-      next: value => {
-        this.patientId = value.patientId
-        console.log(value.patientId)
-        this.router.navigate(['/forward-appointment'],{state:{data:value.patientId}})
-      }
+    this.isForward = true
+    this.createExamination()
+  }
+
+  generateAnamnesisEvent() {
+    const anamnesisViewedEvent = new AnamnesisViewedEvent({
+      createdAt: new Date(),
+      event: EventStoreExaminationType.ANAMNESIS_VIEWED
     })
+    this.examinationEvents.push(anamnesisViewedEvent)
+  }
+
+  generateSymptomsViewedEvent() {
+    console.log('symptom event')
+    const symptomsViewedEvent = new SymptomsViewedEvent({
+      createdAt: new Date(),
+      event: EventStoreExaminationType.SYMPTOMS_VIEWED
+    })
+    this.examinationEvents.push(symptomsViewedEvent)
+  }
+
+  generatePrescriptionsViewedEvent() {
+    const prescriptionViewedEvent = new PrescriptionViewedEvent({
+      createdAt: new Date(),
+      event: EventStoreExaminationType.PRESCRIPTION_VIEWED
+    })
+    this.examinationEvents.push(prescriptionViewedEvent)
+  } generateExaminationInfoEvent() {
+    const examinationInfoViewedEvent = new ExaminationInfoViewedEvent({
+      createdAt: new Date(),
+      event: EventStoreExaminationType.EXAMINATION_INFO_VIEWED
+    })
+    this.examinationEvents.push(examinationInfoViewedEvent)
   }
 }

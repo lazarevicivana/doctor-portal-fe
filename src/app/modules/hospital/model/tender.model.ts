@@ -1,8 +1,8 @@
-import { BloodType } from "src/app/api/api-reference";
+import {BloodType} from "src/app/api/api-reference";
 
 export class BloodUnitAmount {
     bloodType: BloodType | undefined;
-    amount: number | undefined;    
+    amount: number | undefined;
 }
 export enum StatusTender {
 Open=0,
@@ -15,7 +15,7 @@ export class Tender {
     hasDeadline : boolean = false;
     deadlineDate: Date = new Date();
     status:StatusTender|undefined
-    
+
 
     public constructor(obj?: any) {
         if (obj) {
@@ -35,7 +35,7 @@ export class TenderWithId {
   status:StatusTender|undefined;
   winner: TenderOffer | undefined;
   id : any | undefined;
-  
+
 
   public constructor(obj?: any) {
       if (obj) {
@@ -54,7 +54,7 @@ export class TenderOffer {
   bloodBankName : string = "";
   realizationDate: Date = new Date();
   price: number|undefined;
-  
+
 
   public constructor(obj?: any) {
       if (obj) {
@@ -63,4 +63,50 @@ export class TenderOffer {
         this.price = obj.price;
       }
     }
+}
+
+
+export class OrderedTenderBlood implements IOrderedTenderBlood {
+  bloodType?: BloodType;
+  amount?: number;
+  date?: Date;
+
+
+  constructor(data?: IOrderedTenderBlood) {
+    if (data) {
+      for (var property in data) {
+        if (data.hasOwnProperty(property))
+          (<any>this)[property] = (<any>data)[property];
+      }
+    }
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.bloodType = _data["bloodType"];
+      this.amount = _data["amount"];
+      this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>undefined;
+    }
+  }
+
+  static fromJS(data: any): OrderedTenderBlood {
+    data = typeof data === 'object' ? data : {};
+    let result = new OrderedTenderBlood();
+    result.init(data);
+    return result;
+  }
+
+  toJSON(data?: any) {
+    data = typeof data === 'object' ? data : {};
+    data["bloodType"] = this.bloodType;
+    data["amount"] = this.amount;
+    data["date"] = this.date ? this.date.toISOString() : <any>undefined;
+    return data;
+  }
+}
+
+export interface IOrderedTenderBlood {
+  bloodType?: BloodType;
+  amount?: number;
+  date?: Date;
 }
