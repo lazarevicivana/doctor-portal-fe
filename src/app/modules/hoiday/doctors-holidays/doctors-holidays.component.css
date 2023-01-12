@@ -96,3 +96,51 @@ section {
   justify-content: center;
   width: 120px;
 }
+.header-holiday {
+  font-size: 30px;
+  font-weight: 600;
+  background-image: linear-gradient(to left,#3b4d79, #3C779BFF);
+  color: transparent;
+  -webkit-background-clip: text;
+  text-align: center;
+  margin-left: 7rem;
+}
+.flex-c{
+  display: flex;
+}
+.custom-button {
+  padding: 0.2rem 0.2rem;
+  width: 3rem;
+  background-color: #3b4d79;
+  border: 1px solid #3C779BFF;
+  box-shadow: rgba(0, 0, 0, 0.20) 0 1px 4px;
+  border-radius: 0.5rem;
+  color: #FFFFFF;
+  transition: 0.2s;
+}
+.custom-button:hover {
+  transform: scale(1.07);
+  transition: 0.2s;
+  cursor: pointer;
+  background-color: #3b4d79;
+}
+.custom-button .icon-fa{
+  font-size: 25px;
+  width: 4rem;
+  padding-right: 5px;
+  min-width: 4rem;
+  margin-right: 5px;
+  text-align: center;
+}
+.f-right{
+  margin-left: auto;
+}
+.m-bott{
+  margin-bottom: 20px;
+}
+.m-top{
+  margin-top: 15px;
+}
+.butt-back{
+  background: #3b4d79;
+}

@@ -26,6 +26,9 @@ import {
 import {ExaminationGuard} from "./guards/examination.guard";
 import { ExeminationSearchComponent } from './modules/examination/exemination-search/exemination-search.component';
 import {ExaminationAnalysisComponent} from "./modules/hospital/examination-analysis/examination-analysis.component";
+import { RoomEventsComponent } from "./modules/hospital/room-events/room-events.component";
+import {PatientHealthCareComponent} from "./modules/patient-health/patient-health-care/patient-health-care.component";
+import {NextPatientsViewComponent} from "./modules/dashboard/next-patients-view/next-patients-view.component";
 
 
 
@@ -112,7 +115,23 @@ const routes: Routes = [
     path: 'examination-overview',
     component:ExaminationAnalysisComponent,
     canActivate:[ManagerGuard]
+  },
+  {
+    path: 'room-events',
+    component:RoomEventsComponent,
+    canActivate:[ManagerGuard]
+  },
+  {
+    path: 'patient-health-care',
+    component:PatientHealthCareComponent,
+    canActivate:[DoctorGuard]
+  },
+  {
+    path: 'your-patients',
+    component:NextPatientsViewComponent,
+    canActivate:[DoctorGuard]
   }
+
 
 ];
 

@@ -28,7 +28,7 @@
       </a>
     </li>
   </ul>
-  <ul class="sidenav-nav" *ngIf="isLoggedIn  && userToken.role==='Manager'">
+  <ul class="sidenav-nav" *ngIf="isLoggedIn  && userToken.role==='Manager'" style="overflow: scroll; scrollbar-width: none">
     <li class="sidenav-nav-item" *ngFor="let data of navDataManager">
       <a  class="sidenav-nav-link" [routerLink]="[data.routeLink]"
           routerLinkActive="active"

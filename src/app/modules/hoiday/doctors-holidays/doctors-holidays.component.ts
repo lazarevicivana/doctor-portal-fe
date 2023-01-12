@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Holiday, HolidayClient, HolidayResponse} from "../../../api/api-reference";
 import {TokenStorageService} from "../../../services/token-storage.service";
 import * as moment from "moment/moment";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-doctors-holidays',
@@ -12,7 +13,7 @@ export class DoctorsHolidaysComponent implements OnInit {
   displayedColumns: string[] = ['StartDate','EndDate','Description','Status','Cancel'];
   holidays: HolidayResponse[] =[]
 
-  constructor(private readonly client: HolidayClient,private tokenStorageService:TokenStorageService) { }
+  constructor(private readonly client: HolidayClient,private tokenStorageService:TokenStorageService,private router:Router) { }
 
   ngOnInit(): void {
     this.client.getDoctorHolidays(this.tokenStorageService.getUser().id).subscribe(
@@ -53,5 +54,9 @@ export class DoctorsHolidaysComponent implements OnInit {
         })
     }
     })
+  }
+
+  navigateNewHoliday() {
+    this.router.navigate(['schedule-holiday'])
   }
 }

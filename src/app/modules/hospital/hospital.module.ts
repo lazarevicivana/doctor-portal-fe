@@ -52,6 +52,7 @@ import { CreateTenderComponent } from './create-tender/create-tender.component';
 import { AllTendersComponent } from "./view-all-tenders/view-all-tenders.component";
 import { ViewTenderComponent } from "./view-tender/view-tender.component";
 import { ExaminationAnalysisComponent } from './examination-analysis/examination-analysis.component';
+import { GenerateBloodStatisticComponent } from "./generate-blood-statistic/generate-blood-statistic.component";
 
 
 
@@ -84,6 +85,7 @@ const routes: Routes = [
   { path: 'tender/add', component: CreateTenderComponent,canActivate:[BloodBankGuard]},
   { path: 'view-all-tenders', component: AllTendersComponent, canActivate:[ManagerGuard]},
   { path: 'view-tender/:id', component: ViewTenderComponent, canActivate:[ManagerGuard]}
+  { path: 'blood-requirement-statistic', component: GenerateBloodStatisticComponent, canActivate:[ManagerGuard]}
 
 ];
 

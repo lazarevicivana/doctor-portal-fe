@@ -51,3 +51,10 @@ textarea {
   -webkit-background-clip: text;
   text-align: center;
 }
+.button-color:hover {
+  transform: scale(1.04);
+  transition: 0.2s;
+  cursor: pointer;
+  background-color: #4d76db;
+  color: white;
+}
