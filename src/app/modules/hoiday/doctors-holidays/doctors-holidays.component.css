@@ -1,6 +1,22 @@
 .example-container {
   position: relative;
 }
+.container-holiday{
+  background-color: #fff;
+
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25),
+  0 10px 10px rgba(0,0,0,0.22);
+  position: center;
+  overflow: hidden;
+  max-width: 100%;
+  min-height: 570px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  max-height: 98%;
+  width: 70%;
+}
 .title{
   text-align: center;
   margin-top: 25px;
@@ -69,6 +85,12 @@ section {
   display: table;
 }
 
+.holiday-title{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-left: 30%;
+}
 .example-label {
   display: table-cell;
   font-size: 14px;
@@ -97,10 +119,10 @@ section {
   width: 120px;
 }
 .header-holiday {
+  background-color: #263238;
   font-size: 30px;
   font-weight: 600;
-  background-image: linear-gradient(to left,#3b4d79, #3C779BFF);
-  color: transparent;
+  color: #fff;
   -webkit-background-clip: text;
   text-align: center;
   margin-left: 7rem;
@@ -111,8 +133,8 @@ section {
 .custom-button {
   padding: 0.2rem 0.2rem;
   width: 3rem;
-  background-color: #3b4d79;
-  border: 1px solid #3C779BFF;
+  background-color: #304249;
+  border: 1px solid #000000;
   box-shadow: rgba(0, 0, 0, 0.20) 0 1px 4px;
   border-radius: 0.5rem;
   color: #FFFFFF;
@@ -122,7 +144,8 @@ section {
   transform: scale(1.07);
   transition: 0.2s;
   cursor: pointer;
-  background-color: #3b4d79;
+  background-color: #b6b6c9;
+  color: #304249;
 }
 .custom-button .icon-fa{
   font-size: 25px;

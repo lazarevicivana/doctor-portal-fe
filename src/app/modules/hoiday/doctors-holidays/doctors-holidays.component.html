@@ -1,12 +1,13 @@
-<div class="container-f">
+<div class="container-holiday">
     <div class="row flex-c">
-      <div class="col-10">
+      <div class="col-10 holiday-title" style="background-color: #263238;">
          <h1 class="title header-holiday">Your holidays:</h1>
+        <div class="col-2 m-top">
+          <button mat-raised-button matTooltip="Schedule holiday" class="custom-button" (click)="navigateNewHoliday()">
+            <i class="fal fa-briefcase icon-fa"></i>
+          </button>
       </div>
-      <div class="col-2 m-top">
-        <button mat-raised-button matTooltip="Schedule holiday" class="custom-button" (click)="navigateNewHoliday()">
-          <i class="fal fa-briefcase icon-fa"></i>
-        </button>
+
     </div>
   </div>
   <mat-divider></mat-divider>
