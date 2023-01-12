@@ -5299,11 +5299,11 @@ export class PatientHealthStateClient {
     return _observableOf(null as any);
   }
 
-  getAllNotifications(patientId: string): Observable<PatientHealthStateNotification[]> {
-    let url_ = this.baseUrl + "/notifications/{patientId}";
-    if (patientId === undefined || patientId === null)
-      throw new Error("The parameter 'patientId' must be defined.");
-    url_ = url_.replace("{patientId}", encodeURIComponent("" + patientId));
+  getAllNotifications(doctorId: string): Observable<PatientHealthStateNotification[]> {
+    let url_ = this.baseUrl + "/notifications/{doctorId}";
+    if (doctorId === undefined || doctorId === null)
+      throw new Error("The parameter 'doctorId' must be defined.");
+    url_ = url_.replace("{doctorId}", encodeURIComponent("" + doctorId));
     url_ = url_.replace(/[?&]$/, "");
 
     let options_ : any = {

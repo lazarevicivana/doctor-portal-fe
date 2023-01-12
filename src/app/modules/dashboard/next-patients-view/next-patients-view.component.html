@@ -15,7 +15,7 @@
   </div>
 
 <div class=" m-top-20">
-<mat-list class="list">
+<mat-list class="list row">
   <mat-list-item *ngFor="let app of appointmentsForExamination" class="item">
         <img mat-list-avatar src="../../../../assets/pat.png" alt="#"/>
         <div class="cell-list">
@@ -34,7 +34,7 @@
     <mat-menu #optionsMenu="matMenu">
       <button mat-menu-item (click)="Examine(app!.id!)">Examine</button>
       <mat-divider class="sub-color"></mat-divider>
-      <button mat-menu-item (click)="showRecord()">Medical Record</button>
+      <button mat-menu-item (click)="showRecord(app!.patient!.id!)">Medical Record</button>
     </mat-menu>
   </mat-list-item>
 </mat-list>
