@@ -14,8 +14,12 @@ export class GenerateBloodStatisticService {
 
   constructor(private http: HttpClient) { }
 
-   generateStatistic(range: DateRange): Observable<any> {
-    return this.http.put<any>(this.apiHost + 'api/BloodStatistic', range, {headers: this.headers});
+   generateTenderStatistic(range: DateRange): Observable<any> {
+    return this.http.put<any>(this.apiHost + 'api/BloodStatistic/getTenderStatistic', range, {headers: this.headers});
+  }
+
+  generateUrgentStatistic(range: DateRange): Observable<any> {
+    return this.http.put<any>(this.apiHost + 'api/BloodStatistic/getUrgentStatistic', range, {headers: this.headers});
   }
 
 }

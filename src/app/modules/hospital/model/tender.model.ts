@@ -71,6 +71,8 @@ export class OrderedTenderBlood implements IOrderedTenderBlood {
   amount?: number;
   date?: Date;
 
+  price?: number;
+
 
   constructor(data?: IOrderedTenderBlood) {
     if (data) {
@@ -109,4 +111,6 @@ export interface IOrderedTenderBlood {
   bloodType?: BloodType;
   amount?: number;
   date?: Date;
+
+  price?: number;
 }

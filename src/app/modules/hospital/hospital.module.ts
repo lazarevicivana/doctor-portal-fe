@@ -51,8 +51,11 @@ import { ChooseBloodBankComponent } from "./view-blood-requests/choose-bloodbank
 import { CreateTenderComponent } from './create-tender/create-tender.component';
 import { AllTendersComponent } from "./view-all-tenders/view-all-tenders.component";
 import { ViewTenderComponent } from "./view-tender/view-tender.component";
-import { ExaminationAnalysisComponent } from './examination-analysis/examination-analysis.component';
 import { GenerateBloodStatisticComponent } from "./generate-blood-statistic/generate-blood-statistic.component";
+import { ExaminationAnalysisComponent } from './examination-analysis/examination-analysis.component';
+import { PdfreportdetailsComponent } from './pdfreportdetails/pdfreportdetails.component';
+import {MatRadioModule} from "@angular/material/radio";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 
 
@@ -127,7 +130,9 @@ const routes: Routes = [
     CreateTenderComponent,
     AllTendersComponent,
     ViewTenderComponent,
-    ExaminationAnalysisComponent
+    ExaminationAnalysisComponent,
+    PdfreportdetailsComponent
+
   ],
     imports: [
         CommonModule,
@@ -145,7 +150,9 @@ const routes: Routes = [
         MatDatepickerModule,
         BrowserModule,
         MatStepperModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatRadioModule,
+        MatCheckboxModule
     ],
   exports: [ RouterModule]
 })

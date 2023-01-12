@@ -26,14 +26,17 @@ export class ExeminationSearchComponent implements OnInit {
   }
 
   search() {
-    this.examinationClient.finSearchedExaminations(this.value).subscribe({
-      next: res=>{
-        this.filteredExemintions = res;
-      },
-      error: err =>{
-        this.ngToast.error({detail: 'Error!',summary:err,duration:5000})
-      }
-    })
+    if(this.value!=""){
+      this.examinationClient.finSearchedExaminations(this.value).subscribe({
+        next: res=>{
+          this.filteredExemintions = res;
+        },
+        error: err =>{
+          this.ngToast.error({detail: 'Error!',summary:err,duration:5000})
+        }
+      })
+    }
+
   }
 
   clearSearch() {

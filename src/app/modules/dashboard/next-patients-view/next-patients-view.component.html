@@ -1,18 +1,22 @@
-<div class="container">
-  <div class="title-container">
-    <h1 class="title header-p">Your appointments for patients</h1>
+<div class="container-ff">
+  <div class="title-container-next">
+    Your appointments for patients
   </div>
-  <mat-divider></mat-divider>
-  <mat-form-field class="search-bar" appearance="fill">
-    <mat-label>Search</mat-label>
-    <input matInput [(ngModel)]="searchValue" placeholder="Search.." type="text">
-    <i class="fa fa-search i-1" (click)="search()"></i>
-    <div class="divider"></div>
-    <i class="fa fa-times-circle cancel-icon" (click)="clearSearch()"></i>
-  </mat-form-field>
-<div class="container-patients m-top-20">
-<mat-list class="flex-items row">
-  <mat-list-item *ngFor="let app of appointmentsForExamination">
+<!--  <mat-divider></mat-divider>-->
+
+  <div class="search-div">
+    <mat-form-field class="search-bar" appearance="fill">
+      <mat-label style="font-size: 22px;">Search</mat-label>
+      <input style="font-size: 22px;" matInput [(ngModel)]="searchValue" placeholder="Search.." type="text">
+      <i class="fa fa-search i-1" (click)="search()"></i>
+      <div class="divider"></div>
+      <i class="fa fa-times-circle cancel-icon" (click)="clearSearch()"></i>
+    </mat-form-field>
+  </div>
+
+<div class=" m-top-20">
+<mat-list class="list">
+  <mat-list-item *ngFor="let app of appointmentsForExamination" class="item">
         <img mat-list-avatar src="../../../../assets/pat.png" alt="#"/>
         <div class="cell-list">
         {{app!.patient!.name}} {{app!.patient!.surname}}
@@ -23,7 +27,7 @@
         <div class="cell-list">
           {{getDateFormat(app!.duration!.to!)}}
         </div>
-        <mat-divider class="sub-color"></mat-divider>
+<!--        <mat-divider class="sub-color"></mat-divider>-->
         <button class="btn-cell" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
           <mat-icon [matMenuTriggerFor]="optionsMenu">more_vert</mat-icon>
         </button>

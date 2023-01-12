@@ -28,17 +28,24 @@ import {EquipmentMovementService} from "../services/equipmentMovement.service";
 import { RoomEventsService } from '../services/room-events.service';
 import { RoomEvent } from '../model/roomEvent.model';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
+import {Chart} from "chart.js";
+import {TenderService} from "../services/tender.services";
+import {TenderWithId} from "../model/tender.model";
 //import _default from "chart.js";
 //import numbers = _default.defaults.animations.numbers;
+
+
 
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
   styleUrls: ['./rooms.component.css']
+
 })
 export class RoomsComponent implements OnInit {
 
-
+  public Mychart: any;
+  public pokazi=false;
 //Show Equipment
   displayedColumns: string[] = [ 'amount', 'equipmentName',  'Edit'];
     public equipment = new MatTableDataSource<RoomEquipment[]> ;
@@ -108,6 +115,9 @@ export class RoomsComponent implements OnInit {
   shownEquipment =false; //za prikazivanje sobe
 
 
+  public podaciTendera = new MatTableDataSource<TenderWithId[]>;
+  zatvorenTender:string[]=['bloodUnitAmount', 'price', 'bloodType']
+
   //LOADING
   buildingsLoaded:boolean = false;
   floorsLoaded:boolean = false;
@@ -142,15 +152,124 @@ export class RoomsComponent implements OnInit {
   formEndDate: Date = new Date();
   formSelectedRoomId: string = '';
 
-  constructor(private tokenStorageService:TokenStorageService, private roomEventsServices: RoomEventsService, private equipmentMovementService:EquipmentMovementService, private roomService: RoomService, private buildingService: BuildingService, private groomService: GroomService, private floorService: FloorService, private roomEquipmentService :RoomEquipmentService,  private router: Router) { }
+  constructor(private tokenStorageService:TokenStorageService, private roomEventsServices: RoomEventsService, private equipmentMovementService:EquipmentMovementService, private roomService: RoomService, private buildingService: BuildingService, private groomService: GroomService, private floorService: FloorService, private roomEquipmentService :RoomEquipmentService,private tenderService: TenderService,  private router: Router) { }
 
   ngOnInit(): void
   {
     this.setInitialSquares();
     this.reloadAllInfo();
     this.SearchEquipment(); //Poziva fju za dobavljanje soba
+    this.getTendere();
+    this.createChart();
+  }
+
+
+  createChart(){
+
+
+    this.Mychart = new Chart("MyChart", {
+      type: 'bar', //this denotes tha type of chart
+      data: {// values on X-Axis
+        labels: ['2023-01-01', '2023-01-02', '2023-01-03','2023-01-04',
+          '2023-01-05', '2023-01-06', '2023-01-07','2023-01-08', '2023-01-09', '2023-01-10', '2023-01-11','2023-01-12','2023-01-15',
+          '2023-01-22', '2023-02-11', '2022-02-26','2023-02-30'],
+        datasets: [
+          {
+            label: "Price",
+            data: ['0','0', '0', '0', '0',
+              '0','0','0','0', '100', '0'],
+            backgroundColor: 'black'
+          },
+          {
+            label: "A+",
+            data: ['0', '0', '0', '0', '0',
+              '0', '0', '0'],
+            backgroundColor: 'limegreen'
+
+          },
+
+          {
+            label: "A-",
+            data: ['0', '0', '0', '0', '0',
+              '0.00', '0', '0'],
+            backgroundColor: 'red'
+          },
+
+          {
+            label: "B+",
+            data: ['0', '0', '0', '0', '0',
+              '0.00', '0', '0'],
+            backgroundColor:'#87cefa'
+          },
+
+
+          {
+            label: "B-",
+            data: ['0', '0', '0', '0', '0',
+              '0.00', '0', '0'],
+            backgroundColor: 'gray'
+          },
+
+
+          {
+            label: "AB+",
+            data: ['0', '0', '0', '0', '0',
+              '0.00', '0', '0'],
+            backgroundColor: 'green'
+          },
+
+
+
+          {
+            label: "AB-",
+            data: ['0', '0', '0', '0', '0', '0',
+              '0.00','0','0', '7', '0'],
+            backgroundColor: '#ff8c00'
+          },
+
+
+
+          {
+            label: "0+",
+            data: ['0', '0', '0', '0', '0',
+              '0.00', '0','0','0','10', '0'],
+            backgroundColor: 'yellow'
+          },
+
+
+          {
+            label: "0-",
+            data: ['0', '0', '0', '0', '0',
+              '0.00','0','0','0', '1', '0'],
+            backgroundColor: '#00008B'
+          }
+
+
+
+        ]
+      },
+
+
+      options: {
+        aspectRatio:3.0,
+
+
+        scales:{
+
+          y:{
+            beginAtZero:true,
+          }
+        }
+      },
+
+
+    });
+
+  this.pokazi=true;
+
 
   }
+
 
   getFloorNameByFloorId(id:string): string
   {
@@ -337,7 +456,7 @@ export class RoomsComponent implements OnInit {
           fill: 'white',
           width: this.squareSize,
           height: this.squareSize,
-          strokeWidth: 5,
+          strokeWidth: 1,
           stroke: "black",
         });
 
@@ -689,7 +808,7 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
       console.log('Room spliting ' + this.roomSplitingtabNumber)
     }
   }
-  
+
   ngOnDestroy()
   {
     this.roomEventsServices.createEvent("SessionEnded", "PageExit", this.tokenStorageService.getUser().id).subscribe(res =>
@@ -707,6 +826,13 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
 
     this.reloadAllInfo();
     }))
+  }
+
+  public getTendere() :void{ //Dobavlja sve tendere
+
+    this.tenderService.getClosedTenders().subscribe(res => {
+      this.podaciTendera = new MatTableDataSource(<TenderWithId[][]><unknown>res);
+    });
   }
 
   public onRoomMergingClick(selectedRoomMerging : RoomMergingResponse):void
@@ -743,7 +869,7 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
   {
     if(this.tabNumber < 4)
     {
-      
+
       //Do validation of current data
       this.tabNumber += 1;
     }
@@ -961,8 +1087,29 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
       });
   }
 
+public Zatvori(){
+    this.pokazi=false;
+}
+
+  BloodTypeString(bloodType: any) {
+    return ToString[bloodType]
+  }
+
+  formatDate = (date:any) => {
+    let d = new Date(date)
+    return `${d.getMonth().toString().padStart(2,'0')}/${d.getDate().toString().padStart(2,'0')}/${d.getFullYear()}`;
+  }
 
 
 
-
+}
+export enum ToString {
+  "A-"= 0,
+  "A+" = 1,
+  "B-" = 2,
+  "B+" = 3,
+  "AB+" = 4,
+  "AB-" = 5,
+  "O+" = 6,
+  "O-" = 7,
 }
