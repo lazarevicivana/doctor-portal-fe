@@ -1,15 +1,26 @@
 <div class="container">
   <div class="container-f">
     <div>
-      <form >
+      <mat-stepper>
+        <mat-step>
+            <ng-template matStepLabel>Select patient</ng-template>
+      <form>
         <div class="title-container">
-          <h1 class="title">Prescribe therapy</h1>
+          <h1 class="title header-th">Prescribe therapy</h1>
         </div>
+        <mat-divider></mat-divider>
         <div>
           <app-all-hospitalized-patients (onSelectedPatient)="onSelectingPatient($event)"></app-all-hospitalized-patients>
         </div>
-        <div class="med">
-          <mat-form-field appearance="fill" class="blood">
+        <div align="center" class="align-me">
+          <button class="btn-b" mat-flat-button matStepperNext>Next</button>
+        </div>
+        </form>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Select blood units</ng-template>
+        <div>
+          <mat-form-field appearance="fill" class="input-schedule">
             <mat-label>Choose blood type</mat-label>
             <mat-select [(ngModel)]="bloodResponse.bloodType" name="food">
               <mat-option *ngFor="let b of blood" [value]="b.value">
@@ -17,21 +28,36 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <app-medicine-for-prescription (onSelectedMedicine)="onSelectingMedicine($event)"></app-medicine-for-prescription>
-        </div>
-        <div class="med">
-          <mat-form-field class="example-form-field" appearance="fill">
+          <mat-form-field class="input-schedule" appearance="fill">
             <mat-label>Input blood amount</mat-label>
             <input matInput [(ngModel)]="bloodResponse.amount" name="amount" matInput>
           </mat-form-field>
-          <button mat-raised-button class="prescribe"  (click)="medicineSubmit()">Prescribe the medicine</button>
+          <div class="med">
+            <button mat-raised-button class="btn-b" (click)="bloodSubmit()">Prescribe blood</button>
+          </div>
         </div>
+          <div class="row m-top-20 m-left">
+            <div  class="col-6">
+              <button class="btn-b-cols" mat-flat-button matStepperPrevious>Back</button>
+            </div>
+            <div class="col-6">
+              <button class="btn-b-cols" mat-flat-button matStepperNext>Next</button>
+            </div>
+          </div>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Select medicine</ng-template>
+          <div class="input-schedule">
+          <app-medicine-for-prescription (onSelectedMedicine)="onSelectingMedicine($event)"></app-medicine-for-prescription>
+          </div>
         <div class="med">
-          <button mat-raised-button class="prescribe2" (click)="bloodSubmit()">Prescribe blood</button>
-
+          <button mat-raised-button class="btn-b"  (click)="medicineSubmit()">Prescribe the medicine</button>
         </div>
-
-      </form>
+          <div align="center" class="align-me m-top-20">
+            <button class="btn-b" mat-flat-button matStepperPrevious>Back</button>
+          </div>
+        </mat-step>
+      </mat-stepper>
     </div>
   </div>
 

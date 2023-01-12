@@ -17,7 +17,7 @@ import {MatTabChangeEvent} from "@angular/material/tabs";
 })
 export class PatientHealthCareComponent implements OnInit {
   private patientHealthStates:Array<PatientHealthStateDto> = []
-  private patientId:string = "fa13d7f8-78a3-4421-98c8-0a8e48c4eb9c"
+  private patientId:string = "7f5adff0-43c1-4042-bd08-b50083827f30"
   labels:Array<any> = []
   public weightDataSet: Array<any> = []
   public pressureDataSet: Array<any> = []

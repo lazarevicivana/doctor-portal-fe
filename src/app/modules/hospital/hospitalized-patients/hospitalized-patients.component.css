@@ -1,4 +1,40 @@
-h1{
-  margin-left: 32rem;
-  font-size: xx-large;
+.header-blue {
+  font-size: 35px;
+  font-weight: 600;
+  background-image: linear-gradient(to left,#3b4d79, #3C779BFF);
+  color: transparent;
+  -webkit-background-clip: text;
+  text-align: center;
+}
+.custom-button {
+  padding: 0.3rem 0.3rem;
+  width: 5rem;
+  background-color: #263238;
+  border: 1px solid #3b4d79;
+  box-shadow: rgba(0, 0, 0, 0.20) 0 1px 4px;
+  border-radius: 0.5rem;
+  color: #FFFFFF;
+  transition: 0.2s;
+}
+.custom-button:hover {
+  transform: scale(1.07);
+  transition: 0.2s;
+  cursor: pointer;
+  background-color: #3b4d79;
+}
+.custom-button .icon-fa{
+  font-size: 25px;
+  width: 4rem;
+  min-width: 4rem;
+  text-align: center;
+}
+.f-right{
+  float: right;
+  margin-left: auto;
+}
+.m-bott{
+  margin-bottom: 20px;
+}
+.m-top{
+  margin-top: 10px;
 }

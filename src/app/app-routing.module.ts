@@ -26,6 +26,7 @@ import {
 import {ExaminationGuard} from "./guards/examination.guard";
 import { ExeminationSearchComponent } from './modules/examination/exemination-search/exemination-search.component';
 import {PatientHealthCareComponent} from "./modules/patient-health/patient-health-care/patient-health-care.component";
+import {NextPatientsViewComponent} from "./modules/dashboard/next-patients-view/next-patients-view.component";
 
 
 
@@ -112,6 +113,11 @@ const routes: Routes = [
   {
     path: 'patient-health-care',
     component:PatientHealthCareComponent,
+    canActivate:[DoctorGuard]
+  },
+  {
+    path: 'your-patients',
+    component:NextPatientsViewComponent,
     canActivate:[DoctorGuard]
   }
 

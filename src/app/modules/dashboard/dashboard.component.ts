@@ -12,7 +12,6 @@ import {UserToken} from "../../model/UserToken";
 export class DashboardComponent implements OnInit {
   appointments: AppointmentResponse[]=[];
   currentTabIndex = new Date().getDay() - 1;
-  appointmentsForExamination: AppointmentResponse[]=[];
   userToken:UserToken;
   isLoaded:boolean = false;
   constructor(private readonly client: AppointmentClient,private tokenStorageService:TokenStorageService) {
@@ -20,7 +19,6 @@ export class DashboardComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getDoctorAppointments();
-    this.loadAppointmentsForExamination()
   }
   private readonly getDoctorAppointments=()=> {
   this.client.getDoctorAppointments(this.userToken.id!).subscribe(
@@ -60,15 +58,6 @@ export class DashboardComponent implements OnInit {
   }
   onDelete(){
     this.getDoctorAppointments();
-  }
-  loadAppointmentsForExamination() {
-    this.client.getAppointmentsForExamination(this.userToken.id).subscribe({
-      next: value => {
-        this.appointmentsForExamination = value
-        console.log(this.appointments)
-        this.isLoaded = true
-      }
-    })
   }
 
 }
