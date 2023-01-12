@@ -11,12 +11,11 @@ import { GenerateBloodStatisticService } from '../services/generate-blood-statis
 })
 export class GenerateBloodStatisticComponent implements OnInit {
 
-  public statistic : BloodStatistic = new  BloodStatistic();
+  public source: string = '';
   public range : DateRange = new DateRange();
 
   constructor(private service:GenerateBloodStatisticService) { }
 
-  public selected : StatisticSource = StatisticSource.TENDER;
 
   ngOnInit(): void {
   }
@@ -28,10 +27,15 @@ export class GenerateBloodStatisticComponent implements OnInit {
   })
 
   public generate(){
-
-      this.service.generateStatistic(this.range).subscribe(res => {
+    if (this.source === "TENDER"){
+      this.service.generateTenderStatistic(this.range).subscribe(res => {
         console.log(res);
       });
-
+    }
+    if (this.source  == "URGENT"){
+      this.service.generateUrgentStatistic(this.range).subscribe(res => {
+        console.log(res);
+      });
+    }
   }
 }
