@@ -13,7 +13,12 @@ import {
   ScheduleClient,
   ApplicationUserClient,
   HolidayClient,
-  BloodUnitClient, BloodConsumptionClient, PatientAdmissionClient, ConsiliumClient, SpecializationsClient
+  BloodUnitClient,
+  BloodConsumptionClient,
+  PatientAdmissionClient,
+  ConsiliumClient,
+  SpecializationsClient,
+  EventStoreExaminationClient
 } from "./api/api-reference";
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
@@ -99,7 +104,8 @@ import {PatientHealthModule} from "./modules/patient-health/patient-health.modul
     BloodConsumptionClient,
     PatientAdmissionClient,
     ConsiliumClient,
-    SpecializationsClient
+    SpecializationsClient,
+    EventStoreExaminationClient
   ]
 })
 export class AppModule { }

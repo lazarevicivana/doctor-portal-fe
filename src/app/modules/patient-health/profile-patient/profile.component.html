@@ -1,0 +1,77 @@
+<div class="container">
+<mat-card class="name-card mat-card-flat flex-card">
+  <mat-card-title class="class-patient">Patient: {{patient.name}} {{patient.surname}}</mat-card-title>
+  <button  mat-raised-button color="primary" class="mat-raised-button class-butt" (click)="onHealthClick()">Health status</button>
+  <mat-card-content></mat-card-content>
+</mat-card>
+<div>
+  <div class="inf">
+
+    <mat-card class="icon">
+      <mat-card-content>
+        <mat-icon class="photo">account_circle</mat-icon>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="info-card">
+      <mat-card-title class="class-title">USER INFORMATION</mat-card-title>
+      <mat-card-content>
+        <p>Name: {{patient.name}}</p>
+        <mat-divider></mat-divider>
+        <p>Surname: {{patient.surname}}</p>
+        <mat-divider></mat-divider>
+        <p>Username: {{patient.username}}</p>
+        <mat-divider></mat-divider>
+        <p>JMBG: {{patient.jmbg}}</p>
+        <mat-divider></mat-divider>
+        <div class="ifParagraph">Gender: <div *ngIf="patient.gender==0" class="gender"> MALE </div>
+          <div *ngIf="patient.gender==1" class="gender"> FEMALE </div>
+          <div *ngIf="patient.gender==2" class="gender"> OTHER </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="ifParagraph">Blood type: <div *ngIf="patient.bloodType==0" class="gender"> A- </div>
+          <div *ngIf="patient.bloodType==1" class="gender"> A+ </div>
+          <div *ngIf="patient.bloodType==2" class="gender"> B- </div>
+          <div *ngIf="patient.bloodType==3" class="gender"> B+ </div>
+          <div *ngIf="patient.bloodType==4" class="gender"> AB+ </div>
+          <div *ngIf="patient.bloodType==5" class="gender"> AB- </div>
+          <div *ngIf="patient.bloodType==6" class="gender"> 0+ </div>
+          <div *ngIf="patient.bloodType==7" class="gender"> 0- </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="ifParagraph">
+          Allergens: <div *ngFor="let allergen of patient.allergies"> <div>
+          {{allergen.name}},
+        </div> </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="info-card">
+      <mat-card-title class="class-title">CONTACT INFORMATION</mat-card-title>
+      <mat-card-content>
+        <p>Phone: {{patient.phone}}</p>
+        <mat-divider></mat-divider>
+        <p>E-mail: {{patient.email}}</p>
+        <mat-divider></mat-divider>
+        <p>Address: {{patient.address.street}} {{patient.address.streetNumber}}</p>
+                <p class="address"> {{patient.address.city}}, {{patient.address.postcode}}</p>
+                <p class="address"> {{patient.address.country}}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+    <div class="inf2">
+
+      <mat-card class="hospital-card">
+        <mat-card-title class="class-title">HOSPITAL INFORMATION</mat-card-title>
+        <mat-card-content>
+          <p>Chosen doctor: {{patient.doctor.name}} {{patient.doctor.surname}}</p>
+          <p class="doctor"> {{patient.doctor.email}}</p>
+          <p class="doctor"> {{patient.doctor.phone}}</p>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+</div>
+</div>
+
