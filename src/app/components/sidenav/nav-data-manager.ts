@@ -45,6 +45,11 @@ export const navDataManager= [
     label: 'Blood supply'
   },
   {
+    routeLink: 'urgent-blood-supply',
+    icon: 'fal fa-bolt',
+    label: 'Urgent blood supply'
+  },
+  {
     routeLink: 'bloodBank/add',
     icon: 'fal fa-hospital',
     label: 'Register blood bank'

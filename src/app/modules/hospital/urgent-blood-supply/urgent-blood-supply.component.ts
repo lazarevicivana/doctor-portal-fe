@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { BloodBankName } from '../model/bloodBank.model';
-import { UrgentBloodSupplyRequest } from '../model/urgentBloodSupply.model';
+import { BloodDTOModel } from '../model/bloodDTO.model';
 import { BloodBankService } from '../services/blood-bank.service';
 import { UrgentBloodSupplyService } from '../services/urgent-blood-supply.service';
 
@@ -15,20 +15,14 @@ import { UrgentBloodSupplyService } from '../services/urgent-blood-supply.servic
 })
 export class UrgentBloodSupplyComponent implements OnInit {
 
-  constructor(private bloodBankService : BloodBankService,private urgentBloodSupplyService: UrgentBloodSupplyService,private router: Router, private alert: NgToastService) { }
-  public dataSource = new MatTableDataSource<BloodBankName>();
+  constructor(private urgentBloodSupplyService: UrgentBloodSupplyService,private router: Router, private alert: NgToastService) { }
 
-  bloodBanks:BloodBankName[]= [];
-  urgentBloodSupplyRequest: UrgentBloodSupplyRequest= new UrgentBloodSupplyRequest();
+  urgentBloodSupplyRequest: BloodDTOModel= new BloodDTOModel();
   
   ngOnInit(): void {
-    (this.bloodBankService.getBloodBanks()).subscribe(res => {
-      this.bloodBanks = res;
-  });
   }
 
   groupForm= new FormGroup({
-    name:new FormControl('',[Validators.required]),
     bloodType:new FormControl('',[Validators.required]),
     bloodQuantity: new FormControl('',[Validators.required])
   });
@@ -37,7 +31,7 @@ export class UrgentBloodSupplyComponent implements OnInit {
   public sendRequestForUrgentSupply(){
     if(this.groupForm.valid){
       this.urgentBloodSupplyService.sendRequestForUrgentBloodSupply(this.urgentBloodSupplyRequest).subscribe(res => {
-        this.alert.success({detail: 'Success!',summary:"Request for urgent blood supply successfully sent!!",duration:5000})
+        this.alert.success({detail: 'Success!',summary:"Request successfully sent!",duration:5000})
         return console.log("Request for urgent blood is send!");
     });
   }
