@@ -53,6 +53,8 @@ import { AllTendersComponent } from "./view-all-tenders/view-all-tenders.compone
 import { ViewTenderComponent } from "./view-tender/view-tender.component";
 import { GenerateBloodStatisticComponent } from "./generate-blood-statistic/generate-blood-statistic.component";
 import { PdfreportdetailsComponent } from './pdfreportdetails/pdfreportdetails.component';
+import {MatRadioModule} from "@angular/material/radio";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 
 
@@ -130,24 +132,26 @@ const routes: Routes = [
     ViewTenderComponent,
     PdfreportdetailsComponent
   ],
-    imports: [
-        CommonModule,
-        MaterialModule,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterModule.forChild(routes),
-        MatSelectModule,
-        MatDialogModule,
-        NgToastModule,
-        CommonComponentsModule,
-        MatDividerModule,
-        NgxMaterialTimepickerModule,
-        MatTabsModule,
-        MatDatepickerModule,
-        BrowserModule,
-        MatStepperModule,
-        BrowserAnimationsModule
-    ],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule.forChild(routes),
+    MatSelectModule,
+    MatDialogModule,
+    NgToastModule,
+    CommonComponentsModule,
+    MatDividerModule,
+    NgxMaterialTimepickerModule,
+    MatTabsModule,
+    MatDatepickerModule,
+    BrowserModule,
+    MatStepperModule,
+    BrowserAnimationsModule,
+    MatRadioModule,
+    MatCheckboxModule
+  ],
   exports: [ RouterModule]
 })
 export class HospitalModule { }
