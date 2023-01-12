@@ -25,6 +25,7 @@ import {
 } from "./modules/consilium-dashboard/schedule-consilium/schedule-consilium.component";
 import {ExaminationGuard} from "./guards/examination.guard";
 import { ExeminationSearchComponent } from './modules/examination/exemination-search/exemination-search.component';
+import {ExaminationAnalysisComponent} from "./modules/hospital/examination-analysis/examination-analysis.component";
 
 
 
@@ -107,6 +108,10 @@ const routes: Routes = [
     path: 'schedule-consilium',
     component:ScheduleConsiliumComponent,
     canActivate:[DoctorGuard]
+  }, {
+    path: 'examination-overview',
+    component:ExaminationAnalysisComponent,
+    canActivate:[ManagerGuard]
   }
 
 ];

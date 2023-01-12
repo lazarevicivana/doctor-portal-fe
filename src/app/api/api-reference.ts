@@ -6658,6 +6658,179 @@ export class UrgentBloodSupplyClient implements IUrgentBloodSupplyClient {
   }
 }
 
+export interface IEventStoreExaminationClient {
+  getAverageStepCount(): Observable<number>;
+  getAverageTime(): Observable<string>;
+  getAverageCountAllTypes(): Observable<{ [key in keyof typeof EventStoreExaminationType]?: number; }>;
+}
+
+@Injectable()
+export class EventStoreExaminationClient implements IEventStoreExaminationClient {
+  private http: HttpClient;
+  private baseUrl: string;
+  protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+  constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+    this.http = http;
+    this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:5000";
+  }
+
+  getAverageStepCount(): Observable<number> {
+    let url_ = this.baseUrl + "/api/v1/EventStoreExamination";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_ : any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Accept": "application/json"
+      })
+    };
+
+    return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+      return this.processGetAverageStepCount(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processGetAverageStepCount(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<number>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<number>;
+    }));
+  }
+
+  protected processGetAverageStepCount(response: HttpResponseBase): Observable<number> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result200 = resultData200 !== undefined ? resultData200 : <any>null;
+
+        return _observableOf(result200);
+      }));
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
+  }
+
+  getAverageTime(): Observable<string> {
+    let url_ = this.baseUrl + "/api/v1/EventStoreExamination/get-time";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_ : any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Accept": "application/json"
+      })
+    };
+
+    return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+      return this.processGetAverageTime(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processGetAverageTime(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<string>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<string>;
+    }));
+  }
+
+  protected processGetAverageTime(response: HttpResponseBase): Observable<string> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        result200 = resultData200 !== undefined ? resultData200 : <any>null;
+
+        return _observableOf(result200);
+      }));
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
+  }
+
+  getAverageCountAllTypes(): Observable<{ [key in keyof typeof EventStoreExaminationType]?: number; }> {
+    let url_ = this.baseUrl + "/api/v1/EventStoreExamination/get-average-count-type";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_ : any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Accept": "application/json"
+      })
+    };
+
+    return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+      return this.processGetAverageCountAllTypes(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processGetAverageCountAllTypes(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<{ [key in keyof typeof EventStoreExaminationType]?: number; }>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<{ [key in keyof typeof EventStoreExaminationType]?: number; }>;
+    }));
+  }
+
+  protected processGetAverageCountAllTypes(response: HttpResponseBase): Observable<{ [key in keyof typeof EventStoreExaminationType]?: number; }> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        let result200: any = null;
+        let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+        if (resultData200) {
+          result200 = {} as any;
+          for (let key in resultData200) {
+            if (resultData200.hasOwnProperty(key))
+              (<any>result200)![key] = resultData200[key] !== undefined ? resultData200[key] : <any>null;
+          }
+        }
+        else {
+          result200 = <any>null;
+        }
+        return _observableOf(result200);
+      }));
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
+  }
+}
+
 export interface IExaminationClient {
   createExamination(examinationRequest: ExaminationRequest): Observable<Examination>;
   getAllExaminations(): Observable<ExeminationResponse[]>;
@@ -14638,6 +14811,14 @@ export interface ITreatmentReportIdResponse {
   id?: string;
 }
 
+export enum EventStoreExaminationType {
+  SYMPTOMS_VIEWED = 0,
+  ANAMNESIS_VIEWED = 1,
+  PRESCRIPTION_VIEWED = 2,
+  EXAMINATION_INFO_VIEWED = 3,
+  EXAMINATION_FINISHED = 4,
+}
+
 export abstract class EventSourcedAggregateOfEventStoreExaminationType extends EntityOfGuid implements IEventSourcedAggregateOfEventStoreExaminationType {
   changes?: DomainEventOfEventStoreExaminationType[] | undefined;
 
@@ -14836,14 +15017,6 @@ export interface IDomainEventOfEventStoreExaminationType {
   id?: string;
   event?: EventStoreExaminationType;
   createdAt?: Date;
-}
-
-export enum EventStoreExaminationType {
-  SYMPTOMS_VIEWED = 0,
-  ANAMNESIS_VIEWED = 1,
-  PRESCRIPTION_VIEWED = 2,
-  EXAMINATION_INFO_VIEWED = 3,
-  EXAMINATION_FINISHED = 4,
 }
 
 export class ExaminationRequest implements IExaminationRequest {

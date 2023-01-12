@@ -14,6 +14,7 @@ import {SymptomsViewedEvent} from "../../../model/DomainEventsModel/SymptomsView
 import {AnamnesisViewedEvent} from "../../../model/DomainEventsModel/AnamnesisViewedEvent";
 import {PrescriptionViewedEvent} from "../../../model/DomainEventsModel/PrescriptionViewedEvent";
 import {ExaminationInfoViewedEvent} from "../../../model/DomainEventsModel/ExaminationInfoViewedEvent";
+import {ExaminationFinishedEvent} from "../../../model/DomainEventsModel/ExaminationFinishedEvent";
 
 @Component({
   selector: 'app-examination',
@@ -105,6 +106,7 @@ export class ExaminationComponent implements OnInit {
     if(!this.validate()){
       return
     }
+    this.generateExaminationFinishedEvent()
     let ex:ExaminationRequest = new ExaminationRequest({
       idApp: this.appointmentId,
       anamnesis: this.anamnesis,
@@ -166,11 +168,19 @@ export class ExaminationComponent implements OnInit {
       event: EventStoreExaminationType.PRESCRIPTION_VIEWED
     })
     this.examinationEvents.push(prescriptionViewedEvent)
-  } generateExaminationInfoEvent() {
+  }
+   generateExaminationInfoEvent() {
     const examinationInfoViewedEvent = new ExaminationInfoViewedEvent({
       createdAt: new Date(),
       event: EventStoreExaminationType.EXAMINATION_INFO_VIEWED
     })
     this.examinationEvents.push(examinationInfoViewedEvent)
+  }
+  private generateExaminationFinishedEvent() {
+    const examinationFinishedEvent = new ExaminationFinishedEvent({
+      createdAt: new Date(),
+      event: EventStoreExaminationType.EXAMINATION_FINISHED
+    })
+    this.examinationEvents.push(examinationFinishedEvent)
   }
 }

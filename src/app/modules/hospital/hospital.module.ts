@@ -51,6 +51,7 @@ import { ChooseBloodBankComponent } from "./view-blood-requests/choose-bloodbank
 import { CreateTenderComponent } from './create-tender/create-tender.component';
 import { AllTendersComponent } from "./view-all-tenders/view-all-tenders.component";
 import { ViewTenderComponent } from "./view-tender/view-tender.component";
+import { ExaminationAnalysisComponent } from './examination-analysis/examination-analysis.component';
 
 
 
@@ -123,7 +124,8 @@ const routes: Routes = [
     ChooseBloodBankComponent,
     CreateTenderComponent,
     AllTendersComponent,
-    ViewTenderComponent
+    ViewTenderComponent,
+    ExaminationAnalysisComponent
   ],
     imports: [
         CommonModule,

@@ -13,7 +13,12 @@ import {
   ScheduleClient,
   ApplicationUserClient,
   HolidayClient,
-  BloodUnitClient, BloodConsumptionClient, PatientAdmissionClient, ConsiliumClient, SpecializationsClient
+  BloodUnitClient,
+  BloodConsumptionClient,
+  PatientAdmissionClient,
+  ConsiliumClient,
+  SpecializationsClient,
+  EventStoreExaminationClient
 } from "./api/api-reference";
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
@@ -93,7 +98,8 @@ import {adapterFactory} from "angular-calendar/date-adapters/date-fns";
     BloodConsumptionClient,
     PatientAdmissionClient,
     ConsiliumClient,
-    SpecializationsClient
+    SpecializationsClient,
+    EventStoreExaminationClient
   ]
 })
 export class AppModule { }
