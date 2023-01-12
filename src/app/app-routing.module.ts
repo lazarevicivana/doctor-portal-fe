@@ -131,8 +131,6 @@ const routes: Routes = [
     component:NextPatientsViewComponent,
     canActivate:[DoctorGuard]
   }
-
-
 ];
 
 @NgModule({

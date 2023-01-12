@@ -1,8 +1,145 @@
-<h1>Examination overview</h1>
-<div class="canvas-line">
-  <canvas id="stepPerTypeChart"></canvas>
-</div>
-<div class="canvas">
-  <canvas id="ctx"></canvas>
-</div>
+<h1>Examinations overview</h1>
+  <div class="row">
+    <div class="col">
+      <div class="container-f">
+        <button  *ngIf="counter !=2" style="float: right"  matTooltip="Next" matSuffix mat-icon-button aria-label="Clear" (click)="onNext()" >
+          <mat-icon >arrow_forward</mat-icon>
+        </button>
+        <button *ngIf="counter !=0" style="float: left" matTooltip="Back" matSuffix mat-icon-button aria-label="Clear" (click)="onBack()"  >
+          <mat-icon >arrow_back</mat-icon>
+        </button>
+        <div [class.hidden]="counter!=0"  id="tab1" class="plot"  >
+          <br>
+          <canvas  id="stepPerTypeChart" ></canvas>
+          <canvas  id="timePerTypeChart" ></canvas>
+        </div>
+        <div [class.hidden]="counter!=1" id="tab2"  class="plot"  >
+          <br>
+          <canvas  id="ctx"></canvas>
+          <canvas  id="ctxTime" ></canvas>
+        </div>
+        <div [class.hidden]="counter!=2" id="tab3" class="plot"  >
+          <canvas  id="stepsPerMedicalBranchChart" ></canvas>
+          <canvas  id="timePerMedicalBranchChart" ></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col" style="margin-left: 10px">
+      <div class="row">
+        <img src="assets/examination.png"/>
+      </div>
+      <div class="row">
+      <div class="container-f">
+       <div class="row" style="margin-left: 10px; margin-bottom: 10px; margin-top: 10px">
+         <div class="col">
+           <h2>Latest examination statistics:</h2>
+         </div>
+         <div class="row">
+           <div class="col">
+           </div>
+           <div class="col">
+             <label>Number of steps</label>
+           </div>
+           <div class="col">
+             <label>Average time (s)</label>
+           </div>
+         </div>
+         <div class="row">
+           <mat-divider style="padding: 5px" ></mat-divider>
+         </div>
+         <div class="row" style="padding: 5px">
+           <div class="col">
+             <label>Examination</label>
+           </div>
+           <div class="col">
+             <label>{{averageStepsExamination}}</label>
+           </div>
+           <div class="col">
+             <label>{{chartTimeExaminationData}}</label>
+           </div>
+         </div>
+         <div class="row" style="padding: 5px">
+           <mat-divider ></mat-divider>
+         </div>
+         <div class="row" style="padding: 5px">
+           <div class="col">
+             <label>Symptoms</label>
+           </div>
+           <div class="col">
+             <label>{{chartData[0]}}</label>
+           </div>
+           <div class="col">
+             <label>{{chartDataTime[0]}}</label>
+           </div>
+         </div>
+         <div class="row" style="padding: 5px">
+           <mat-divider ></mat-divider>
+         </div>
+         <div class="row" style="padding: 5px">
+           <div class="col">
+             <label>Anamnesis</label>
+           </div>
+           <div class="col">
+             <label>{{chartData[1]}}</label>
+           </div>
+           <div class="col">
+             <label>{{chartDataTime[1]}}</label>
+           </div>
+         </div>
+         <div class="row" style="padding: 5px">
+           <mat-divider ></mat-divider>
+         </div>
+         <div class="row" style="padding: 5px">
+           <div class="col">
+             <label>Prescriptions</label>
+           </div>
+           <div class="col">
+             <label>{{chartData[2]}}</label>
+           </div>
+           <div class="col">
+             <label>{{chartDataTime[2]}}</label>
+           </div>
+         </div>
+         <div class="row" style="padding: 5px">
+           <mat-divider ></mat-divider>
+         </div>
+         <div class="row" style="padding: 5px">
+           <div class="col">
+             <label>Examination info</label>
+           </div>
+           <div class="col">
+             <label>{{chartData[3]}}</label>
+           </div>
+           <div class="col">
+             <label>{{chartDataTime[3]}}</label>
+           </div>
+         </div>
+         <div class="row" style="padding: 5px">
+           <mat-divider ></mat-divider>
+         </div>
+         <div class="row" style="padding: 5px">
+           <div class="col">
+             <label>Finished</label>
+           </div>
+           <div class="col">
+             <label>{{chartData[4]}}</label>
+           </div>
+           <div class="col">
+             <label>{{chartDataTime[4]}}</label>
+           </div>
+         </div>
+       </div>
+      </div>
+      </div>
+    </div>
+    </div>
+
+
+
+
+
+
+
+
+
 
