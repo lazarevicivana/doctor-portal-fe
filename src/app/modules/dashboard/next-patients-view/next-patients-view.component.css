@@ -1,0 +1,95 @@
+.container-patients{
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 10px 10px 10px rgba(0.1,0.1,0.1,0.1),
+  10px 10px 10px rgba(0,0,0,0.22);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin-top: 5px;
+  margin-right: auto;
+}
+.cell-list{
+  margin-left: 20px;
+}
+.btn-cell{
+  float: right;
+  margin-left: auto;
+}
+.dropdown-content {
+  position: relative;
+  margin-top: 60px;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  z-index: 1;
+}
+.header-p {
+  font-size: 35px;
+  font-weight: 600;
+  background-image: linear-gradient(to left,#3b4d79, #3C779BFF);
+  color: transparent;
+  -webkit-background-clip: text;
+  text-align: center;
+}
+.m-top-20{
+  margin-top: 1.5rem;
+}
+.search-bar {
+  margin: 5px;
+  width: 100%;
+  padding: 8px;
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.search-bar input {
+  width: calc(100% - 40px);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  outline: none;
+}
+
+.search-bar .i-1 {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 30px;
+  color: #4d76db;
+  cursor: pointer;
+}
+.search-bar .cancel-icon {
+  position: absolute;
+  font-size: 30px;
+  right: 55px; /* adjust the position of the cancel icon */
+  top: 50%;
+  transform: translateY(-50%);
+  color: #dbb24d;
+  cursor: pointer;
+}
+.search-bar .cancel-icon:hover {
+  color: #dbb24d;
+}
+.search-bar input:not(:placeholder-shown) + .cancel-icon {
+  color: #4d76db;
+}
+.search-bar input:focus + .cancel-icon {
+  color: #4d76db;
+}
+.search-bar .i-1:hover {
+  color: #4d76db;
+}
+.search-bar .divider {
+  position: absolute;
+  right: 45px; /* adjust the position of the divider */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 30px;
+  background-color: #cbc9c9;
+}

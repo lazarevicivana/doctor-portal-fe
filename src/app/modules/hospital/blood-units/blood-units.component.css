@@ -88,3 +88,22 @@ section {
   float: left;
   padding: 20px;
 }
+.butt-back{
+  background: #3b4d79;
+}
+.header-blood {
+  font-size: 30px;
+  font-weight: 600;
+  background-image: linear-gradient(to left,#3b4d79, #3C779BFF);
+  color: transparent;
+  -webkit-background-clip: text;
+  text-align: center;
+}
+.header-s{
+  font-size: 20px;
+  font-weight: 500;
+  background-image: linear-gradient(to left,#3b4d79, #3C779BFF);
+  color: transparent;
+  -webkit-background-clip: text;
+  text-align: center;
+}

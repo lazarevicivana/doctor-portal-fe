@@ -1,62 +1,62 @@
-.item-row{
-  padding-top: 15px;
+.calendar-wrapper {
+  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+  overflow-y: scroll;
+  height: 90%;
 }
-.button-new{
-  margin-top: 15px;
-  margin-bottom: 15px;
-  text-align: center;
-  background-color: #92a8d1;
+.event__title {
+  white-space: pre-wrap;
+  font-size: 1rem;
+  word-wrap: break-word;
 }
-.button-row{
-  margin-top: 15px;
-  margin-bottom: 15px;
-  margin-right: 10px;
-  text-align: center;
-  background-color: #9CB4CC;
-  width: 10%;
-  border-radius: 10px;
-  color: white;
-  border: none;
-  font-weight: bold;
+.event__title:hover {
+  color: #3b4d79;
 }
-mat-grid-tile {
-  border-radius: 20px;
-  border-color: #748DA6;
-  background-color: #748DA6;
-  color: white;
+.date-range {
+  margin-left: 1.5rem;
+  font-size: 2.1rem;
+  color: #3b4d79;
 }
-
-section {
-  display: table;
-}
-
-.example-label {
-  display: table-cell;
-  font-size: 14px;
-  margin-left: 8px;
-  min-width: 120px;
-}
-
-.example-button-row {
-  display: table-cell;
-  max-width: 600px;
-}
-
-.example-button-row .mat-mdc-button-base {
-  margin: 8px 8px 8px 0;
-}
-
-.example-flex-container {
+.calendar-header {
+  margin-left: 20px;
+  margin-right: 20px;
+  color: transparent;
+  margin-bottom: 2rem;
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
 }
-
-.example-button-container {
+.calendar-header .button-group {
   display: flex;
-  justify-content: center;
-  width: 120px;
+  flex-direction: row;
+  align-items: center;
 }
-button{
-  float: right;
+.calendar-header .button-group__button, .calendar-header .button-group__button-app {
+  margin-right: 1rem;
+  padding: 0.7rem 0.7rem;
+  width: 9rem;
+  background-color: #263238;
+  border: 1px solid #3b4d79;
+  font-weight: 600;
+  box-shadow: rgba(0, 0, 0, 0.20) 0 1px 4px;
+  border-radius: 0.5rem;
+  color: #FFFFFF;
+  transition: 0.2s;
+}
+.calendar-header .button-group__button-app {
+  width: 10rem;
+}
+.calendar-header .button-group__button:hover, .calendar-header .button-group__button-app:hover {
+  transform: scale(1.07);
+  transition: 0.2s;
+  cursor: pointer;
+  background-color: #3b4d79;
+  color: white;
+}
+.calendar-header .button-group__button-app:disabled {
+  opacity: 0.3;
+  cursor: default;
+  transform: none;
+  background-color: white;
+  border: 1px solid #3b4d79;
+  color: #3b4d79;
 }

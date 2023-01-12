@@ -4,7 +4,8 @@
       <form>
         <!--        Value : {{myForm.value! | json}}-->
         <div class="title-container">
-          <h1 class="title">Schedule Holiday</h1>
+          <h1 class="title header-holiday">Schedule Holiday</h1>
+          <mat-divider></mat-divider>
         </div>
         <div>
           <mat-form-field appearance="fill" class="input-schedule">
@@ -31,10 +32,10 @@
         <div  class="input-schedule">
           <mat-form-field class="comment">
             <mat-label>Leave a comment</mat-label>
-            <textarea name="comment" [(ngModel)]="comment" matInput placeholder="Insert description"></textarea>
+            <textarea name="comment" class="input-comment" [(ngModel)]="comment" matInput placeholder="Insert description"></textarea>
           </mat-form-field>
         </div>
-        <button mat-flat-button color="primary" class="input-schedule" (click)="scheduleHoliday()">Submit</button>
+        <button mat-flat-button color="primary" class="input-schedule button-color" (click)="scheduleHoliday()">Submit</button>
 
       </form>
     </div>

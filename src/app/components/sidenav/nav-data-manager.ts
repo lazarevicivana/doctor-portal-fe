@@ -15,6 +15,11 @@ export const navDataManager= [
     label: 'Patient statistics'
   },
   {
+    routeLink: 'room-events',
+    icon: 'fal fa-chart-line',
+    label: 'Room statistics'
+  },
+  {
     routeLink: 'malicious-patients',
     icon: 'fal fa-solid fa-user-slash',
     label: 'Malicious patients'

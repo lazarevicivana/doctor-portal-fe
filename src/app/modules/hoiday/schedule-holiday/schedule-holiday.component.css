@@ -6,7 +6,7 @@
   position: center;
   overflow: hidden;
   max-width: 100%;
-  min-height: 580px;
+  min-height: 650px;
   margin: auto;
   width: 70%;
   padding: 10px;
@@ -36,10 +36,25 @@
   margin-right: auto;
   margin-left: auto;
 }
+.input-comment {
+  height: 200px;
+}
 .comment{
   margin-top: 20px;
   width: 100%;
   display: block;
   margin-right: auto;
   margin-left: auto;
+}
+.button-color{
+  background: #3b4d79;
+}
+.header-holiday {
+  font-size: 30px;
+  font-weight: 600;
+  background-image: linear-gradient(to left,#3b4d79, #3C779BFF);
+  color: transparent;
+  -webkit-background-clip: text;
+  text-align: center;
+  margin-bottom: 10px;
 }

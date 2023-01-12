@@ -1,7 +1,19 @@
-<div class="container-patients">
-<mat-list>
+<div class="container">
+  <div class="title-container">
+    <h1 class="title header-p">Your appointments for patients</h1>
+  </div>
+  <mat-divider></mat-divider>
+  <mat-form-field class="search-bar" appearance="fill">
+    <mat-label>Search</mat-label>
+    <input matInput [(ngModel)]="searchValue" placeholder="Search.." type="text">
+    <i class="fa fa-search i-1" (click)="search()"></i>
+    <div class="divider"></div>
+    <i class="fa fa-times-circle cancel-icon" (click)="clearSearch()"></i>
+  </mat-form-field>
+<div class="container-patients m-top-20">
+<mat-list class="flex-items row">
   <mat-list-item *ngFor="let app of appointmentsForExamination">
-        <img mat-list-avatar src="assets/pat.png"/>
+        <img mat-list-avatar src="../../../../assets/pat.png" alt="#"/>
         <div class="cell-list">
         {{app!.patient!.name}} {{app!.patient!.surname}}
         </div>
@@ -12,7 +24,7 @@
           {{getDateFormat(app!.duration!.to!)}}
         </div>
         <mat-divider class="sub-color"></mat-divider>
-        <button class="btn-cell"mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+        <button class="btn-cell" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
           <mat-icon [matMenuTriggerFor]="optionsMenu">more_vert</mat-icon>
         </button>
     <mat-menu #optionsMenu="matMenu">
@@ -22,4 +34,5 @@
     </mat-menu>
   </mat-list-item>
 </mat-list>
+</div>
 </div>

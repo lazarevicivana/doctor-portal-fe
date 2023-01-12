@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {ApplicationUserClient, LoginRequest} from "../api/api-reference";
+import {ApplicationUserClient, LoginRequest} from "../../api/api-reference";
 import {FormGroup, FormControl} from "@angular/forms";
 import {NgToastService} from "ng-angular-popup";
-import {TokenStorageService} from "../services/token-storage.service";
+import {TokenStorageService} from "../../services/token-storage.service";
 import {Router} from "@angular/router";
 
 @Component({
