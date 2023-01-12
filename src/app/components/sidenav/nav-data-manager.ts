@@ -15,6 +15,11 @@ export const navDataManager= [
     label: 'Patient statistics'
   },
   {
+    routeLink: 'room-events',
+    icon: 'fal fa-chart-line',
+    label: 'Room statistics'
+  },
+  {
     routeLink: 'malicious-patients',
     icon: 'fal fa-solid fa-user-slash',
     label: 'Malicious patients'
@@ -46,13 +51,18 @@ export const navDataManager= [
   },
   {
     routeLink: 'bloodBank/bloodSubscription',
-    icon: 'fal fa-sign-out',
+    icon: 'fal fa-handshake',
     label: 'Blood subscription'
   },
   {
     routeLink: 'view-all-tenders',
     icon: 'fal fa-bookmark',
     label: 'Tenders'
+  },
+  {
+    routeLink: 'blood-requirement-statistic',
+    icon: 'fa fa-tint ',
+    label: 'Blood requirement statistic'
   },
   {
     routeLink: 'sign-out',

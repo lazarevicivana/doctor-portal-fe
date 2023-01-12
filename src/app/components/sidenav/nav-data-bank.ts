@@ -35,13 +35,14 @@ export const navbarDataBank=[
     label: 'Edit blood request'
   },
   {
+    routeLink: 'tender/add',
+    icon: 'fal fa-cart-plus',
+    label: 'Create tender'
+  },
+  {
     routeLink: 'sign-out',
     icon: 'fal fa-sign-out',
     label: 'Sign out'
   },
-  {
-    routeLink: 'tender/add',
-    icon: 'fal fa-cart-plus',
-    label: 'Create tender'
-  }
+
 ];
