@@ -11,6 +11,28 @@
   width: 70%;
   padding: 10px;
 }
+.title-container-cons{
+  background-color: #263238;
+}
+.title-container-cons{
+  padding-top: 2%;
+  padding-bottom: 1%;
+  text-align: center;
+  color: #fff;
+}
+
+.container-cons{
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 10px 10px 10px rgba(0.1,0.1,0.1,0.1),
+  10px 10px 10px rgba(0,0,0,0.22);
+  position: relative;
+  overflow: hidden;
+  margin-top: 5px;
+  margin-left: 15%;
+  width: 70%;
+  text-align: center;
+}
 .form-container {
   position: relative;
   top: 0;

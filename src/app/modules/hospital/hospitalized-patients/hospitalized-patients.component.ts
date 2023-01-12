@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HospitalizedPatientResponse, PatientClient} from "../../../api/api-reference";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-hospitalized-patients',
@@ -9,7 +10,7 @@ import {HospitalizedPatientResponse, PatientClient} from "../../../api/api-refer
 export class HospitalizedPatientsComponent implements OnInit {
 
   patients : HospitalizedPatientResponse[] = [];
-  constructor(private client: PatientClient) { }
+  constructor(private client: PatientClient,private router:Router) { }
 
   ngOnInit(): void {
     this.getAllHospitalizedPatients()
@@ -26,4 +27,10 @@ export class HospitalizedPatientsComponent implements OnInit {
   }
 
 
+  navigateNewHospitalization() {
+    this.router.navigate(['patients/hospitalization'])
+  }
+  navigateTherapy(){
+    this.router.navigate(['patients/therapy-prescription'])
+  }
 }

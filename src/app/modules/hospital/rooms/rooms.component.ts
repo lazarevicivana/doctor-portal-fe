@@ -25,6 +25,9 @@ import {
   Appointment
 } from 'src/app/api/api-reference';
 import {EquipmentMovementService} from "../services/equipmentMovement.service";
+import { RoomEventsService } from '../services/room-events.service';
+import { RoomEvent } from '../model/roomEvent.model';
+import { TokenStorageService } from 'src/app/services/token-storage.service';
 //import _default from "chart.js";
 //import numbers = _default.defaults.animations.numbers;
 
@@ -49,28 +52,20 @@ export class RoomsComponent implements OnInit {
   displayedColumns3: string[] = [ 'amount', 'equipmentName', 'startDate','endDate', 'DestinationRoom', 'OriginalRoom','Delete'];
   public izabran : any ; // for splicing MovedEquip matTable
 
-
   ////For  Displaying Moved Equipment amount
   shownAppointment = new MatTableDataSource<Appointment[]> ;
   displayedColumns4: string[] = [ 'emergent', 'startDate', 'endDate','doctorId','Delete'];
   public izabran2 : any ; // for splicing appointment matTable
-
-
 
   ////For  Displaying Room Spltting
   shownRenovation = new MatTableDataSource<RoomSplitingResponse[]> ;   ///ZAMENI APPOINTMENT
   displayedColumns5: string[] = [ 'RoomId', 'StartDate', 'EndDate','newRoomName','Delete'];
   public izabran3 : any ; // for splicing appointment matTable
 
-
   ////For  Displaying Room Spltting and Merging
   shownMerging = new MatTableDataSource<RoomMergingResponse[]> ;   ///ZAMENI APPOINTMENT
   displayedColumns6: string[] = [ 'Room1Id', 'Room2Id', 'DateRangeStart','DateRangeEnd','Delete'];
   public izabran4 : any ; // for splicing appointment matTable
-
-
-
-
 
   //SELECTED
   public selectedBuilding: Building = new Building();
@@ -78,19 +73,13 @@ export class RoomsComponent implements OnInit {
   public selectedRoom: Room = new Room();
   public selectedRoomEquipment : RoomEquipment = new RoomEquipment();
 
-
-
   //ROOM EDIT
   public editBuildingName: string = '';
   public editFloorName: string = '';
   public editRoomName: string = '';
 
-
-
   //ROOM SEARCH
   public findThisRoom: string = '';
-
-
 
   //CONSTS
   floorLenght = 20;
@@ -153,7 +142,7 @@ export class RoomsComponent implements OnInit {
   formEndDate: Date = new Date();
   formSelectedRoomId: string = '';
 
-  constructor(private equipmentMovementService:EquipmentMovementService, private roomService: RoomService, private buildingService: BuildingService, private groomService: GroomService, private floorService: FloorService, private roomEquipmentService :RoomEquipmentService,  private router: Router) { }
+  constructor(private tokenStorageService:TokenStorageService, private roomEventsServices: RoomEventsService, private equipmentMovementService:EquipmentMovementService, private roomService: RoomService, private buildingService: BuildingService, private groomService: GroomService, private floorService: FloorService, private roomEquipmentService :RoomEquipmentService,  private router: Router) { }
 
   ngOnInit(): void
   {
@@ -683,6 +672,9 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
     {
       this.currentRoomMergingRequest.Room1Id = this.selectedRoom.id;
       this.roomMergingtabNumber = 1;
+      this.roomEventsServices.createEvent("SessionStarted", "Merging", this.tokenStorageService.getUser().id).subscribe(res =>
+        {});
+
       console.log('Room merging ' + this.roomMergingtabNumber)
     }
   }
@@ -692,8 +684,16 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
     {
       this.currentRoomSplitingRequest.RoomId = this.selectedRoom.id;
       this.roomSplitingtabNumber = 1;
+      this.roomEventsServices.createEvent("SessionStarted", "Spliting", this.tokenStorageService.getUser().id).subscribe(res =>
+        {});;
       console.log('Room spliting ' + this.roomSplitingtabNumber)
     }
+  }
+  
+  ngOnDestroy()
+  {
+    this.roomEventsServices.createEvent("SessionEnded", "PageExit", this.tokenStorageService.getUser().id).subscribe(res =>
+      {});;
   }
 
   public onEquipmentScheduleClick(selectedEquipmentAppointment : EquipmentMovementAppointmentResponse):void
@@ -718,6 +718,8 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
     this.currentRoomMergingResponses = [];
     this.currentRoomMergingResponsesTable = new MatTableDataSource(<RoomMergingResponse[][]><unknown>this.currentRoomMergingResponses);
 
+    this.roomEventsServices.createEvent("SessionEnded", "MergingSuccesful",  this.tokenStorageService.getUser().id).subscribe(res =>
+      {});;
     this.reloadAllInfo();
     }))
   }
@@ -731,13 +733,17 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
     this.currentRoomSplitingResponses = [];
     this.currentRoomSplitingResponsesTable = new MatTableDataSource(<RoomSplitingResponse[][]><unknown>this.currentRoomSplitingResponses);
 
+    this.roomEventsServices.createEvent("SessionEnded", "SplitingSuccesful",  this.tokenStorageService.getUser().id).subscribe(res =>
+      {});;
     this.reloadAllInfo();
     }))
   }
+
   public nextPageInEquipmentMovement():void
   {
     if(this.tabNumber < 4)
     {
+      
       //Do validation of current data
       this.tabNumber += 1;
     }
@@ -777,6 +783,8 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
 
   public nextPageInRoomMerging():void
   {
+    this.roomEventsServices.createEvent("MergingStep"+this.roomMergingtabNumber, "Next",  this.tokenStorageService.getUser().id).subscribe(res =>
+      {});;
     if(this.roomMergingtabNumber < 3)
     {
       //Do validation of current data
@@ -819,6 +827,8 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
 
   public nextPageInRoomSpliting():void
   {
+    this.roomEventsServices.createEvent("SplitingStep"+this.roomSplitingtabNumber, "Next",  this.tokenStorageService.getUser().id).subscribe(res =>
+      {});;
     if(this.roomSplitingtabNumber < 3)
     {
       //Do validation of current data
@@ -873,6 +883,8 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
   {
     if(this.roomMergingtabNumber > 1)
     {
+      this.roomEventsServices.createEvent("MergingStep"+this.roomMergingtabNumber, "Back",  this.tokenStorageService.getUser().id).subscribe(res =>
+        {});;
       this.roomMergingtabNumber -= 1;
     }
     else
@@ -885,6 +897,8 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
   {
     if(this.roomSplitingtabNumber > 1)
     {
+      this.roomEventsServices.createEvent("SplitingStep"+this.roomSplitingtabNumber, "Back",  this.tokenStorageService.getUser().id).subscribe(res =>
+        {});;
       this.roomSplitingtabNumber -= 1;
     }
     else
@@ -901,12 +915,16 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
   }
   public exitroomMergingForm():void
   {
+    this.roomEventsServices.createEvent("SplitingStep"+this.roomMergingtabNumber, "Exit",  this.tokenStorageService.getUser().id).subscribe(res =>
+      {});;
     this.selectedRoomEquipment = new RoomEquipment();
     this.roomMergingtabNumber = 0;
 
   }
   public exitroomSplitingForm():void
   {
+    this.roomEventsServices.createEvent("SplitingStep"+this.roomSplitingtabNumber, "Exit",  this.tokenStorageService.getUser().id).subscribe((res)=>{
+    });
     this.selectedRoomEquipment = new RoomEquipment();
     this.roomSplitingtabNumber = 0;
 

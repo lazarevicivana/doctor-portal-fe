@@ -17,12 +17,13 @@ const colors: Record<string, EventColor> = {
     secondary: '#FAE3E3',
   },
   blue: {
-    primary: '#0E4C92',
-    secondary: '#cbcbd226',
+    primary: '#ffffff',
+    secondary: '#ffffff',
   },
   green: {
-    primary: '#0b6623',
-    secondary: '#e8fde7',
+    primary: '#ffffff',
+    secondary: '#4d76db',
+    secondaryText:'#ffffffff'
   },
 };
 @Component({
