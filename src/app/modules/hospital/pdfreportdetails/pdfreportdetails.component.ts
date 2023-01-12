@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -15,7 +16,7 @@ export class PdfreportdetailsComponent implements OnInit {
   public dataSourcePdfReportDetails = new MatTableDataSource<PDFReportDetails>();
   public displayedColumnsNews = ['Name', 'From', 'To', 'Type', 'View'];
 
-  constructor(private detailsService: PdfReportDetailsService, private router: Router,  private alert: NgToastService) { }
+  constructor(private http: HttpClient, private detailsService: PdfReportDetailsService, private router: Router,  private alert: NgToastService) { }
 
   ngOnInit(): void {
     this.detailsService.getAll().subscribe(res => {
@@ -23,6 +24,26 @@ export class PdfreportdetailsComponent implements OnInit {
     })
   }
 
-  public viewPdf(pdfName: String){}
+  public viewPdf(pdfName: string){
+    this.generate(pdfName).subscribe(res => {
+      console.log(res)
+      let blob: Blob = res.body as Blob;
+      let url = window.URL.createObjectURL(blob);
+      window.open(url);
+    });
+  }
+
+  generate(pdfName:string)
+  {
+    return this.http.get('http://localhost:5001/api/PDFReportDetails/'+pdfName,{observe:'response',responseType:'blob'})
+  }
+
+  public statusToString(status:number){
+    if (status == 0){
+        return "TENDER";
+    }else{
+        return "SUPPLY";
+    }
+}
 
 }
