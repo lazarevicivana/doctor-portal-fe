@@ -2006,7 +2006,7 @@ export class ConsiliumClient implements IConsiliumClient {
 export interface IDoctorClient {
   getAllDoctors(): Observable<DoctorResponse[]>;
   createDoctor(doctorRequest: DoctorRequest): Observable<DoctorResponse>;
-  deleteById(id: string | undefined): Observable<void>;
+  deleteById(id?: string | undefined): Observable<void>;
   getAllGeneral(): Observable<DoctorResponse[]>;
   getByUsername(username: string | null): Observable<DoctorResponse>;
   getBySpecialisation(specialisation: string | null): Observable<DoctorResponse[]>;
@@ -2142,7 +2142,7 @@ export class DoctorClient implements IDoctorClient {
     return _observableOf(null as any);
   }
 
-  deleteById(id: string | undefined): Observable<void> {
+  deleteById(id?: string | undefined): Observable<void> {
     let url_ = this.baseUrl + "/api/v1/Doctor?";
     if (id === null)
       throw new Error("The parameter 'id' cannot be null.");
@@ -3193,7 +3193,7 @@ export class FeedbackClient implements IFeedbackClient {
   }
 
   getAllPublic(): Observable<FeedbackResponse[]> {
-    let url_ = this.baseUrl + "/api/v1/Feedback-public";
+    let url_ = this.baseUrl + "/api/v1/feedback-public";
     url_ = url_.replace(/[?&]$/, "");
 
     let options_ : any = {
@@ -9470,7 +9470,7 @@ export interface IBloodRequestClient {
   getAllReturned(username: string | null): Observable<FileResponse>;
   getFirst(): Observable<BloodRequest>;
   update(bloodRequest: BloodRequest): Observable<FileResponse>;
-  sendBloodRequest(bloodBankName: string | null, bloodRequest: BloodRequest): Observable<BloodSupplyResponse>;
+  sendBloodRequest(bloodRequest: BloodRequest, bloodBankName: string | null): Observable<BloodSupplyResponse>;
 }
 
 @Injectable()
@@ -9803,7 +9803,7 @@ export class BloodRequestClient implements IBloodRequestClient {
     return _observableOf(null as any);
   }
 
-  sendBloodRequest(bloodBankName: string | null, bloodRequest: BloodRequest): Observable<BloodSupplyResponse> {
+  sendBloodRequest(bloodRequest: BloodRequest, bloodBankName: string | null): Observable<BloodSupplyResponse> {
     let url_ = this.baseUrl + "/api/BloodRequest/sendBloodRequest/{bloodBankName}";
     if (bloodBankName === undefined || bloodBankName === null)
       throw new Error("The parameter 'bloodBankName' must be defined.");
@@ -10284,6 +10284,7 @@ export class ConfigureGenerateAndSendClient implements IConfigureGenerateAndSend
 export interface INewsFromBloodBankClient {
   getFirst(): Observable<NewsFromBloodBank>;
   getAllOnHold(): Observable<FileResponse>;
+  getAllPatientNews(): Observable<FileResponse>;
   getAllForBloodSubscription(): Observable<FileResponse>;
   update(id: string, newsFromBloodBank: NewsFromBloodBank): Observable<FileResponse>;
 }
@@ -10374,6 +10375,58 @@ export class NewsFromBloodBankClient implements INewsFromBloodBankClient {
   }
 
   protected processGetAllOnHold(response: HttpResponseBase): Observable<FileResponse> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse ? response.body :
+        (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+    let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+    if (status === 200 || status === 206) {
+      const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+      let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
+      let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
+      if (fileName) {
+        fileName = decodeURIComponent(fileName);
+      } else {
+        fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+        fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+      }
+      return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      }));
+    }
+    return _observableOf(null as any);
+  }
+
+  getAllPatientNews(): Observable<FileResponse> {
+    let url_ = this.baseUrl + "/api/news/patient";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_ : any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Accept": "application/octet-stream"
+      })
+    };
+
+    return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+      return this.processGetAllPatientNews(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processGetAllPatientNews(response_ as any);
+        } catch (e) {
+          return _observableThrow(e) as any as Observable<FileResponse>;
+        }
+      } else
+        return _observableThrow(response_) as any as Observable<FileResponse>;
+    }));
+  }
+
+  protected processGetAllPatientNews(response: HttpResponseBase): Observable<FileResponse> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse ? response.body :
@@ -10512,7 +10565,7 @@ export class NewsFromBloodBankClient implements INewsFromBloodBankClient {
 }
 
 export interface IPDFReportClient {
-  sendReport(bankName: string | null | undefined, generatePeriod: number | undefined): Observable<FileResponse>;
+  sendReport(bankName?: string | null | undefined, generatePeriod?: number | undefined): Observable<FileResponse>;
 }
 
 @Injectable()
@@ -10526,7 +10579,7 @@ export class PDFReportClient implements IPDFReportClient {
     this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "http://localhost:5000";
   }
 
-  sendReport(bankName: string | null | undefined, generatePeriod: number | undefined): Observable<FileResponse> {
+  sendReport(bankName?: string | null | undefined, generatePeriod?: number | undefined): Observable<FileResponse> {
     let url_ = this.baseUrl + "/api/PDFReport?";
     if (bankName !== undefined && bankName !== null)
       url_ += "bankName=" + encodeURIComponent("" + bankName) + "&";
