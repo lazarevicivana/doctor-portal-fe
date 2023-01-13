@@ -177,7 +177,7 @@ export class RoomsComponent implements OnInit {
           {
             label: "Price",
             data: ['0','0', '0', '0', '0',
-              '0','0','0','0', '100', '0'],
+              '0','0','0','0', '0', '20'],
             backgroundColor: 'black'
           },
           {
@@ -223,7 +223,7 @@ export class RoomsComponent implements OnInit {
           {
             label: "AB-",
             data: ['0', '0', '0', '0', '0', '0',
-              '0.00','0','0', '7', '0'],
+              '0.00','0','0', '0', '7'],
             backgroundColor: '#ff8c00'
           },
 
@@ -232,7 +232,7 @@ export class RoomsComponent implements OnInit {
           {
             label: "0+",
             data: ['0', '0', '0', '0', '0',
-              '0.00', '0','0','0','10', '0'],
+              '0.00', '0','0','0','0', '10'],
             backgroundColor: 'yellow'
           },
 
@@ -240,7 +240,7 @@ export class RoomsComponent implements OnInit {
           {
             label: "0-",
             data: ['0', '0', '0', '0', '0',
-              '0.00','0','0','0', '1', '0'],
+              '0.00','0','0','0', '0', '1'],
             backgroundColor: '#00008B'
           }
 
