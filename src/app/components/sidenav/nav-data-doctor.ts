@@ -40,6 +40,11 @@ export const navbarDataDoctor=[
     label: 'Search'
   },
   {
+    routeLink: 'notifications',
+    icon: 'fal fa-envelope',
+    label: 'Sign out'
+  },
+  {
     routeLink: 'sign-out',
     icon: 'fal fa-sign-out',
     label: 'Sign out'

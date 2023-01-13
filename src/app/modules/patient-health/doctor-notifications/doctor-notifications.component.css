@@ -1,8 +1,12 @@
 .notification {
-  background-color: #f5f5f5;
+  background-color: #1B273C;
+  color: #f5f5f5;
   padding: 1rem;
   margin-bottom: 1rem;
   border-radius: 0.5rem;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .notification h3 {
@@ -18,4 +22,21 @@
 
 .notification li {
   margin-bottom: 0.5rem;
+}
+.beautiful-animation {
+  animation: moveInLeft 1s ease-out both;
+}
+
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-10rem);
+  }
+  80% {
+    transform: translateX(1rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
 }
