@@ -1,0 +1,26 @@
+<div class="container">
+  <h1 style="margin-bottom:20px ">Appointments</h1>
+  <mat-tab-group [selectedIndex]="getSelectedIndex()"  (selectedTabChange)="onTabChange($event)"> mat-align-tabs="start">
+    <mat-tab label="Monday">
+     <app-appointment-preview (onDelete)="onDelete()"   [appointments]="filterAppointmentByMonday()"></app-appointment-preview>
+    </mat-tab>
+    <mat-tab label="Tuesday">
+      <app-appointment-preview (onDelete)="onDelete()" [appointments]="filterAppointmentByTuesday()"></app-appointment-preview>
+    </mat-tab>
+    <mat-tab label="Wednesday">
+      <app-appointment-preview (onDelete)="onDelete()" [appointments]="filterAppointmentByWednesday()"></app-appointment-preview>
+    </mat-tab>
+    <mat-tab label="Thursday">
+      <app-appointment-preview (onDelete)="onDelete()" [appointments]="filterAppointmentByThursday()"></app-appointment-preview>
+    </mat-tab>
+    <mat-tab label="Friday">
+      <app-appointment-preview (onDelete)="onDelete()" [appointments]="filterAppointmentByFriday()"></app-appointment-preview>
+    </mat-tab>
+    <mat-tab label="Saturday">
+      <app-appointment-preview (onDelete)="onDelete()" [appointments]="filterAppointmentBySaturday()"></app-appointment-preview>
+    </mat-tab>
+    <mat-tab label="Sunday">
+      <app-appointment-preview (onDelete)="onDelete()" [appointments]="filterAppointmentBySunday()"></app-appointment-preview>
+    </mat-tab>
+  </mat-tab-group>
+</div>

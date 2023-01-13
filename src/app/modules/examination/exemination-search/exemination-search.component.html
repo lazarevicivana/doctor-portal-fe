@@ -1,0 +1,25 @@
+<div class="container-ff">
+  <div class="search">
+    <mat-form-field class="example-form-field">
+      <mat-label style="font-size: 22px; color: #263238">Search</mat-label>
+      <input id="searchInput" matInput type="text" style="font-size: 22px;" [(ngModel)]="value">
+      <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+        <mat-icon >close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-icon id="searchButton" class="btnn" (click)="search()">search</mat-icon>
+
+<!--    <button class="btn"  mat-raised-button >-->
+      <mat-icon class="btnn" (click)="clearSearch()">autorenew</mat-icon>
+<!--    </button>-->
+  </div>
+  <div class="list">
+    <div class="item" *ngFor="let span of filteredExemintions">
+      <app-search-item [date]="span?.appointment?.duration?.from?.toDateString()"
+                       [patient]="span?.appointment?.patientId" [doctor]="span?.appointment?.doctorId"
+                       [medicines]="span?.prescriptions" [symptoms]="span?.symptoms"
+      ></app-search-item></div>
+
+  </div>
+
+</div>

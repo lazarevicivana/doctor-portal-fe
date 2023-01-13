@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule, Routes } from "@angular/router";
-import { MaterialModule } from "src/app/material/material.module";
+import { MaterialModule } from "src/app/modules/material/material.module";
 import { CreateRoomComponent } from "./create-room/create-room.component";
 import { BloodBankComponent} from "./bloodbank/bloodbank.component";
 import { RoomDetailComponent } from "./room-detail/room-detail.component";
@@ -51,6 +51,11 @@ import { ChooseBloodBankComponent } from "./view-blood-requests/choose-bloodbank
 import { CreateTenderComponent } from './create-tender/create-tender.component';
 import { AllTendersComponent } from "./view-all-tenders/view-all-tenders.component";
 import { ViewTenderComponent } from "./view-tender/view-tender.component";
+import { GenerateBloodStatisticComponent } from "./generate-blood-statistic/generate-blood-statistic.component";
+import { ExaminationAnalysisComponent } from './examination-analysis/examination-analysis.component';
+import { PdfreportdetailsComponent } from './pdfreportdetails/pdfreportdetails.component';
+import {MatRadioModule} from "@angular/material/radio";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 
 
@@ -82,7 +87,8 @@ const routes: Routes = [
   { path: 'malicious-patients', component: MaliciousPatientsComponent},
   { path: 'tender/add', component: CreateTenderComponent,canActivate:[BloodBankGuard]},
   { path: 'view-all-tenders', component: AllTendersComponent, canActivate:[ManagerGuard]},
-  { path: 'view-tender/:id', component: ViewTenderComponent, canActivate:[ManagerGuard]}
+  { path: 'view-tender/:id', component: ViewTenderComponent, canActivate:[ManagerGuard]},
+  { path: 'blood-requirement-statistic', component: GenerateBloodStatisticComponent, canActivate:[ManagerGuard]}
 
 ];
 
@@ -123,7 +129,10 @@ const routes: Routes = [
     ChooseBloodBankComponent,
     CreateTenderComponent,
     AllTendersComponent,
-    ViewTenderComponent
+    ViewTenderComponent,
+    ExaminationAnalysisComponent,
+    PdfreportdetailsComponent
+
   ],
     imports: [
         CommonModule,
@@ -141,7 +150,9 @@ const routes: Routes = [
         MatDatepickerModule,
         BrowserModule,
         MatStepperModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatRadioModule,
+        MatCheckboxModule
     ],
   exports: [ RouterModule]
 })

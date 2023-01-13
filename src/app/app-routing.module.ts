@@ -1,9 +1,9 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import {DashboardComponent} from "./components/dashboard/dashboard.component";
+import {DashboardComponent} from "./modules/dashboard/dashboard.component";
 import { RescheduleAppointmentComponent } from "./modules/schedule/reschedule-appointment/reschedule-appointment.component";
 import {CreateScheduleComponent} from "./modules/schedule/create-schedule/create-schedule.component";
-import {LoginComponent} from "./login/login.component";
+import {LoginComponent} from "./modules/login/login.component";
 import {DoctorGuard} from "./guards/doctor.guard";
 import {SignOutComponent} from "./components/sign-out/sign-out.component";
 import {BloodUnitsComponent} from "./modules/hospital/blood-units/blood-units.component";
@@ -23,14 +23,27 @@ import {ConsiliumDashboardComponent} from "./modules/consilium-dashboard/consili
 import {
   ScheduleConsiliumComponent
 } from "./modules/consilium-dashboard/schedule-consilium/schedule-consilium.component";
-import { AllTendersComponent } from "./modules/hospital/view-all-tenders/view-all-tenders.component";
 import {ExaminationGuard} from "./guards/examination.guard";
+import { ExeminationSearchComponent } from './modules/examination/exemination-search/exemination-search.component';
+import {ExaminationAnalysisComponent} from "./modules/hospital/examination-analysis/examination-analysis.component";
+import { RoomEventsComponent } from "./modules/hospital/room-events/room-events.component";
+import {PatientHealthCareComponent} from "./modules/patient-health/patient-health-care/patient-health-care.component";
+import {NextPatientsViewComponent} from "./modules/dashboard/next-patients-view/next-patients-view.component";
+import {ProfileComponent} from "./modules/patient-health/profile-patient/profile.component";
+import {
+  DoctorNotificationsComponent
+} from "./modules/patient-health/doctor-notifications/doctor-notifications.component";
+
 
 
 
 const routes: Routes = [
   { path: 'forward-appointment',
     component: ForwardAppointmentComponent,
+    canActivate:[DoctorGuard]
+  },
+  { path: 'examination-search',
+    component: ExeminationSearchComponent,
     canActivate:[DoctorGuard]
   },
   { path: 'dashboard',
@@ -102,8 +115,36 @@ const routes: Routes = [
     path: 'schedule-consilium',
     component:ScheduleConsiliumComponent,
     canActivate:[DoctorGuard]
+  }, {
+    path: 'examination-overview',
+    component:ExaminationAnalysisComponent,
+    canActivate:[ManagerGuard]
+  },
+  {
+    path: 'room-events',
+    component:RoomEventsComponent,
+    canActivate:[ManagerGuard]
+  },
+  {
+    path: 'patient-health-care',
+    component:PatientHealthCareComponent,
+    canActivate:[DoctorGuard]
+  },
+  {
+    path: 'your-patients',
+    component:NextPatientsViewComponent,
+    canActivate:[DoctorGuard]
+  },
+  {
+    path: 'patient-profile',
+    component:ProfileComponent,
+    canActivate:[DoctorGuard]
+  },
+  {
+    path: 'notifications',
+    component: DoctorNotificationsComponent,
+    canActivate:[DoctorGuard]
   }
-
 ];
 
 @NgModule({

@@ -25,17 +25,27 @@ import {
   Appointment
 } from 'src/app/api/api-reference';
 import {EquipmentMovementService} from "../services/equipmentMovement.service";
+import { RoomEventsService } from '../services/room-events.service';
+import { RoomEvent } from '../model/roomEvent.model';
+import { TokenStorageService } from 'src/app/services/token-storage.service';
+import {Chart} from "chart.js";
+import {TenderService} from "../services/tender.services";
+import {TenderWithId} from "../model/tender.model";
 //import _default from "chart.js";
 //import numbers = _default.defaults.animations.numbers;
+
+
 
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
   styleUrls: ['./rooms.component.css']
+
 })
 export class RoomsComponent implements OnInit {
 
-
+  public Mychart: any;
+  public pokazi=false;
 //Show Equipment
   displayedColumns: string[] = [ 'amount', 'equipmentName',  'Edit'];
     public equipment = new MatTableDataSource<RoomEquipment[]> ;
@@ -49,28 +59,20 @@ export class RoomsComponent implements OnInit {
   displayedColumns3: string[] = [ 'amount', 'equipmentName', 'startDate','endDate', 'DestinationRoom', 'OriginalRoom','Delete'];
   public izabran : any ; // for splicing MovedEquip matTable
 
-
   ////For  Displaying Moved Equipment amount
   shownAppointment = new MatTableDataSource<Appointment[]> ;
   displayedColumns4: string[] = [ 'emergent', 'startDate', 'endDate','doctorId','Delete'];
   public izabran2 : any ; // for splicing appointment matTable
-
-
 
   ////For  Displaying Room Spltting
   shownRenovation = new MatTableDataSource<RoomSplitingResponse[]> ;   ///ZAMENI APPOINTMENT
   displayedColumns5: string[] = [ 'RoomId', 'StartDate', 'EndDate','newRoomName','Delete'];
   public izabran3 : any ; // for splicing appointment matTable
 
-
   ////For  Displaying Room Spltting and Merging
   shownMerging = new MatTableDataSource<RoomMergingResponse[]> ;   ///ZAMENI APPOINTMENT
   displayedColumns6: string[] = [ 'Room1Id', 'Room2Id', 'DateRangeStart','DateRangeEnd','Delete'];
   public izabran4 : any ; // for splicing appointment matTable
-
-
-
-
 
   //SELECTED
   public selectedBuilding: Building = new Building();
@@ -78,19 +80,13 @@ export class RoomsComponent implements OnInit {
   public selectedRoom: Room = new Room();
   public selectedRoomEquipment : RoomEquipment = new RoomEquipment();
 
-
-
   //ROOM EDIT
   public editBuildingName: string = '';
   public editFloorName: string = '';
   public editRoomName: string = '';
 
-
-
   //ROOM SEARCH
   public findThisRoom: string = '';
-
-
 
   //CONSTS
   floorLenght = 20;
@@ -118,6 +114,9 @@ export class RoomsComponent implements OnInit {
   shownRoom = false;  ///DA PRIKAZE SOBU KAD SE KLIKNE NA OBJEKAT SOBE
   shownEquipment =false; //za prikazivanje sobe
 
+
+  public podaciTendera = new MatTableDataSource<TenderWithId[]>;
+  zatvorenTender:string[]=['bloodUnitAmount', 'price', 'bloodType']
 
   //LOADING
   buildingsLoaded:boolean = false;
@@ -153,15 +152,124 @@ export class RoomsComponent implements OnInit {
   formEndDate: Date = new Date();
   formSelectedRoomId: string = '';
 
-  constructor(private equipmentMovementService:EquipmentMovementService, private roomService: RoomService, private buildingService: BuildingService, private groomService: GroomService, private floorService: FloorService, private roomEquipmentService :RoomEquipmentService,  private router: Router) { }
+  constructor(private tokenStorageService:TokenStorageService, private roomEventsServices: RoomEventsService, private equipmentMovementService:EquipmentMovementService, private roomService: RoomService, private buildingService: BuildingService, private groomService: GroomService, private floorService: FloorService, private roomEquipmentService :RoomEquipmentService,private tenderService: TenderService,  private router: Router) { }
 
   ngOnInit(): void
   {
     this.setInitialSquares();
     this.reloadAllInfo();
     this.SearchEquipment(); //Poziva fju za dobavljanje soba
+    this.getTendere();
+    this.createChart();
+  }
+
+
+  createChart(){
+
+
+    this.Mychart = new Chart("MyChart", {
+      type: 'bar', //this denotes tha type of chart
+      data: {// values on X-Axis
+        labels: ['2023-01-01', '2023-01-02', '2023-01-03','2023-01-04',
+          '2023-01-05', '2023-01-06', '2023-01-07','2023-01-08', '2023-01-09', '2023-01-10', '2023-01-11','2023-01-12','2023-01-15',
+          '2023-01-22', '2023-02-11', '2022-02-26','2023-02-30'],
+        datasets: [
+          {
+            label: "Price",
+            data: ['0','0', '0', '0', '0',
+              '0','0','0','0', '0', '20'],
+            backgroundColor: 'black'
+          },
+          {
+            label: "A+",
+            data: ['0', '0', '0', '0', '0',
+              '0', '0', '0'],
+            backgroundColor: 'limegreen'
+
+          },
+
+          {
+            label: "A-",
+            data: ['0', '0', '0', '0', '0',
+              '0.00', '0', '0'],
+            backgroundColor: 'red'
+          },
+
+          {
+            label: "B+",
+            data: ['0', '0', '0', '0', '0',
+              '0.00', '0', '0'],
+            backgroundColor:'#87cefa'
+          },
+
+
+          {
+            label: "B-",
+            data: ['0', '0', '0', '0', '0',
+              '0.00', '0', '0'],
+            backgroundColor: 'gray'
+          },
+
+
+          {
+            label: "AB+",
+            data: ['0', '0', '0', '0', '0',
+              '0.00', '0', '0'],
+            backgroundColor: 'green'
+          },
+
+
+
+          {
+            label: "AB-",
+            data: ['0', '0', '0', '0', '0', '0',
+              '0.00','0','0', '0', '7'],
+            backgroundColor: '#ff8c00'
+          },
+
+
+
+          {
+            label: "0+",
+            data: ['0', '0', '0', '0', '0',
+              '0.00', '0','0','0','0', '10'],
+            backgroundColor: 'yellow'
+          },
+
+
+          {
+            label: "0-",
+            data: ['0', '0', '0', '0', '0',
+              '0.00','0','0','0', '0', '1'],
+            backgroundColor: '#00008B'
+          }
+
+
+
+        ]
+      },
+
+
+      options: {
+        aspectRatio:3.0,
+
+
+        scales:{
+
+          y:{
+            beginAtZero:true,
+          }
+        }
+      },
+
+
+    });
+
+  this.pokazi=true;
+
 
   }
+
 
   getFloorNameByFloorId(id:string): string
   {
@@ -348,7 +456,7 @@ export class RoomsComponent implements OnInit {
           fill: 'white',
           width: this.squareSize,
           height: this.squareSize,
-          strokeWidth: 5,
+          strokeWidth: 1,
           stroke: "black",
         });
 
@@ -683,6 +791,9 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
     {
       this.currentRoomMergingRequest.Room1Id = this.selectedRoom.id;
       this.roomMergingtabNumber = 1;
+      this.roomEventsServices.createEvent("SessionStarted", "Merging", this.tokenStorageService.getUser().id).subscribe(res =>
+        {});
+
       console.log('Room merging ' + this.roomMergingtabNumber)
     }
   }
@@ -692,8 +803,16 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
     {
       this.currentRoomSplitingRequest.RoomId = this.selectedRoom.id;
       this.roomSplitingtabNumber = 1;
+      this.roomEventsServices.createEvent("SessionStarted", "Spliting", this.tokenStorageService.getUser().id).subscribe(res =>
+        {});;
       console.log('Room spliting ' + this.roomSplitingtabNumber)
     }
+  }
+
+  ngOnDestroy()
+  {
+    this.roomEventsServices.createEvent("SessionEnded", "PageExit", this.tokenStorageService.getUser().id).subscribe(res =>
+      {});;
   }
 
   public onEquipmentScheduleClick(selectedEquipmentAppointment : EquipmentMovementAppointmentResponse):void
@@ -709,6 +828,13 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
     }))
   }
 
+  public getTendere() :void{ //Dobavlja sve tendere
+
+    this.tenderService.getClosedTenders().subscribe(res => {
+      this.podaciTendera = new MatTableDataSource(<TenderWithId[][]><unknown>res);
+    });
+  }
+
   public onRoomMergingClick(selectedRoomMerging : RoomMergingResponse):void
   {
     console.log("IZABRAN APOINTMENTJ: " + selectedRoomMerging.DateRangeOfMerging?.from);
@@ -718,6 +844,8 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
     this.currentRoomMergingResponses = [];
     this.currentRoomMergingResponsesTable = new MatTableDataSource(<RoomMergingResponse[][]><unknown>this.currentRoomMergingResponses);
 
+    this.roomEventsServices.createEvent("SessionEnded", "MergingSuccesful",  this.tokenStorageService.getUser().id).subscribe(res =>
+      {});;
     this.reloadAllInfo();
     }))
   }
@@ -731,13 +859,17 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
     this.currentRoomSplitingResponses = [];
     this.currentRoomSplitingResponsesTable = new MatTableDataSource(<RoomSplitingResponse[][]><unknown>this.currentRoomSplitingResponses);
 
+    this.roomEventsServices.createEvent("SessionEnded", "SplitingSuccesful",  this.tokenStorageService.getUser().id).subscribe(res =>
+      {});;
     this.reloadAllInfo();
     }))
   }
+
   public nextPageInEquipmentMovement():void
   {
     if(this.tabNumber < 4)
     {
+
       //Do validation of current data
       this.tabNumber += 1;
     }
@@ -777,6 +909,8 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
 
   public nextPageInRoomMerging():void
   {
+    this.roomEventsServices.createEvent("MergingStep"+this.roomMergingtabNumber, "Next",  this.tokenStorageService.getUser().id).subscribe(res =>
+      {});;
     if(this.roomMergingtabNumber < 3)
     {
       //Do validation of current data
@@ -819,6 +953,8 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
 
   public nextPageInRoomSpliting():void
   {
+    this.roomEventsServices.createEvent("SplitingStep"+this.roomSplitingtabNumber, "Next",  this.tokenStorageService.getUser().id).subscribe(res =>
+      {});;
     if(this.roomSplitingtabNumber < 3)
     {
       //Do validation of current data
@@ -873,6 +1009,8 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
   {
     if(this.roomMergingtabNumber > 1)
     {
+      this.roomEventsServices.createEvent("MergingStep"+this.roomMergingtabNumber, "Back",  this.tokenStorageService.getUser().id).subscribe(res =>
+        {});;
       this.roomMergingtabNumber -= 1;
     }
     else
@@ -885,6 +1023,8 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
   {
     if(this.roomSplitingtabNumber > 1)
     {
+      this.roomEventsServices.createEvent("SplitingStep"+this.roomSplitingtabNumber, "Back",  this.tokenStorageService.getUser().id).subscribe(res =>
+        {});;
       this.roomSplitingtabNumber -= 1;
     }
     else
@@ -901,12 +1041,16 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
   }
   public exitroomMergingForm():void
   {
+    this.roomEventsServices.createEvent("SplitingStep"+this.roomMergingtabNumber, "Exit",  this.tokenStorageService.getUser().id).subscribe(res =>
+      {});;
     this.selectedRoomEquipment = new RoomEquipment();
     this.roomMergingtabNumber = 0;
 
   }
   public exitroomSplitingForm():void
   {
+    this.roomEventsServices.createEvent("SplitingStep"+this.roomSplitingtabNumber, "Exit",  this.tokenStorageService.getUser().id).subscribe((res)=>{
+    });
     this.selectedRoomEquipment = new RoomEquipment();
     this.roomSplitingtabNumber = 0;
 
@@ -943,8 +1087,29 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
       });
   }
 
+public Zatvori(){
+    this.pokazi=false;
+}
+
+  BloodTypeString(bloodType: any) {
+    return ToString[bloodType]
+  }
+
+  formatDate = (date:any) => {
+    let d = new Date(date)
+    return `${d.getMonth().toString().padStart(2,'0')}/${d.getDate().toString().padStart(2,'0')}/${d.getFullYear()}`;
+  }
 
 
 
-
+}
+export enum ToString {
+  "A-"= 0,
+  "A+" = 1,
+  "B-" = 2,
+  "B+" = 3,
+  "AB+" = 4,
+  "AB-" = 5,
+  "O+" = 6,
+  "O-" = 7,
 }

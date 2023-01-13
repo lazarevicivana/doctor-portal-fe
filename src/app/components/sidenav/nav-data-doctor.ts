@@ -15,9 +15,9 @@ export const navbarDataDoctor=[
     label: 'Consiliums'
   },
   {
-    routeLink: 'hospitalizes-patients',
+    routeLink: 'your-patients',
     icon: 'fal fa-users',
-    label: 'Hospitalize'
+    label: 'Your patient'
   },
   {
     routeLink: 'blood-units',
@@ -25,19 +25,9 @@ export const navbarDataDoctor=[
     label: 'Blood units'
   },
   {
-    routeLink: 'patients/hospitalization',
+    routeLink: 'hospitalizes-patients',
     icon: 'fal fa-solid fa-bed',
     label: 'Hospitalize'
-  },
-  {
-    routeLink: 'patients/therapy-prescription',
-    icon: 'fal fa-file-invoice',
-    label: 'Prescribe therapy'
-  },
-  {
-    routeLink: 'schedule-holiday',
-    icon: 'fal  fa-briefcase',
-    label: 'Schedule holiday'
   },
   {
     routeLink: 'doctors-holidays',
@@ -45,9 +35,14 @@ export const navbarDataDoctor=[
     label: 'Your holidays'
   },
   {
-    routeLink: 'forward-appointment',
-    icon: 'fal  fa-vials',
-    label: 'Forward appointment'
+    routeLink: 'examination-search',
+    icon: 'fal  fa-clipboard-user',
+    label: 'Search'
+  },
+  {
+    routeLink: 'notifications',
+    icon: 'fal fa-envelope',
+    label: 'Sign out'
   },
   {
     routeLink: 'sign-out',

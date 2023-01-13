@@ -11,6 +11,8 @@ import { RoomSplitingResponse } from '../../model/RoomSplitingResponse';
   providedIn: 'root'
 })
 export class RoomService {
+  apiHost: string = 'http://localhost:5000/';
+  headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
   createRoomSpliting(selectedRoomSpliting: RoomSplitingResponse)  
   {
 
@@ -21,8 +23,6 @@ export class RoomService {
     return this.http.post<any>(this.apiHost + 'api/RoomRenovation/createMerging', selectedRoomMerging, {headers: this.headers});
   }
 
-  apiHost: string = 'http://localhost:5000/';
-  headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(private http: HttpClient) { }
 

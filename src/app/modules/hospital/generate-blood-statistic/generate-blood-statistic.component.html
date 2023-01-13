@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+  <div class="container">
+    <div class="container-f">
+
+      <div class="title-container">
+        <h1 class="title">Generate blood requirements statistic</h1>
+      </div>
+
+      <form [formGroup]="statisticForm" (ngSubmit)="generate()" class="input-schedule">
+
+          <div>
+            <mat-form-field appearance="fill" class="input-schedule">
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                  <input matStartDate placeholder="Start date" formControlName="startDate" [(ngModel)]="range.from">
+                  <input matEndDate placeholder="End date" formControlName="endDate" [(ngModel)]="range.to">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matIconSuffix [for]="picker" ></mat-datepicker-toggle>
+                <mat-date-range-picker #picker disabled="false"  ></mat-date-range-picker>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field appearance="fill" class="input-schedule">
+                <mat-label>Select an option</mat-label>
+                <mat-select [(value)]="source" formControlName="selected">
+                  <mat-option>None</mat-option>
+                  <mat-option value="TENDER">Tender</mat-option>
+                  <mat-option value="URGENT">Urgent supply</mat-option>
+                </mat-select>
+            </mat-form-field>
+          </div>
+
+        <button mat-stroked-button [disabled]="statisticForm.invalid" mat-flat-button color="primary" class="input-schedule">Generate</button><br>
+
+      </form>
+    </div>
+  </div>
+</body>
+</html>

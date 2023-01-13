@@ -1,0 +1,94 @@
+.card{
+  padding-bottom: 10px;
+  padding-top: 10px;
+  /*border: #3a4873;*/
+  /*border-width: 1px;*/
+  /*border-style: solid;*/
+  border-radius: 10px;
+  /*padding-left: 4%;*/
+  background-color: #f1f1f6;
+  /*border-bottom: #3a4873;*/
+  /*border-bottom-width: 1px;*/
+  /*border-bottom-style: solid;*/
+  /*border-bottom-right-radius: 10px;*/
+  /*border-bottom-left-radius: 10px;*/
+  display: flex;
+  justify-content: space-between;
+  /*padding-right: 4%;*/
+}
+.part{
+  width: 100%;
+  padding: 2%;
+}
+.partS{
+  padding: 2%;
+  width: 50%;
+  align-items: center;
+}
+.partD{
+  align-items: center;
+  width: 70%;
+  padding: 2%;
+}
+.head{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #263238;
+  font-size: 22px;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+.head1{
+  margin-top: 10px;
+  color: #263238;
+  font-size: 18px;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.item-left{
+  border-right: #1B273C;
+  border-right-style: solid;
+  border-right-width: 1px;
+  width: 50%; text-align: center
+}
+.medicine{
+  margin-left: 10%;
+  margin-right: 10%;
+  padding: 5px 10%;
+  margin-top: 5px;
+  border-radius: 10px;
+  background-color: #b6b6c9;
+  display: flex;
+  justify-content: space-between;
+}
+.symptom{
+  padding: 5px 10%;
+  margin-top: 5px;
+  align-items: center;
+  border-radius: 10px;
+  background-color:  #d4d4de;
+  text-align: center;
+}
+
+.content{
+  padding-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sidenav-nav .sidenav-nav-item .sidenav-nav-link .sidenav-link-icon{
+  font-size: 22px;
+  width: 2rem;
+  min-width: 2rem;
+  margin: 0 0.5rem;
+  text-align: center;
+}
+
+.content1{
+  padding: 5px 5px 15px 5px;
+  border-radius: 10px;
+  background-color: #d4d4de;
+  margin-bottom: 5px;
+}

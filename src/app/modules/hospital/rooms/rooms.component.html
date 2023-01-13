@@ -350,6 +350,15 @@
 
 
 
+
+
+
+
+
+
+
+
+
 <div class="searchEquipment">
 
 
@@ -700,5 +709,34 @@
     </div>
     </div>
   </div>
+
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+<div>
+  <div>
+    <h1 class="naslov">Tender Details
+    <!--<mat-radio-button (click)="createChart()" > </mat-radio-button>
+      -->
+
+     <mat-checkbox (click)="createChart()" *ngIf="pokazi" > </mat-checkbox>
+
+      <mat-checkbox (click)="Zatvori()" *ngIf="pokazi"  class="udalji"> </mat-checkbox>
+
+    </h1>
+  </div>
+
+  <div class="chart-container" *ngIf="pokazi">
+    <canvas  id="MyChart" >{{ Mychart }}</canvas>
+  </div>
+
+
+</div>
+
+
+
+
+
 
 </div>
