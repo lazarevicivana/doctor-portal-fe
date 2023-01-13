@@ -133,8 +133,8 @@ export class ExaminationAnalysisComponent implements OnInit {
           label: 'Time spent on average',
           data: this.chartDataTime,
           borderWidth: 2,
-          backgroundColor: '#788DBA',
-          borderColor: '#5670a9',
+          backgroundColor: '#BA788D',
+          borderColor: '#A95671',
           fill: true,
           tension: 0.1
         }]
@@ -203,8 +203,8 @@ export class ExaminationAnalysisComponent implements OnInit {
           label: 'Average time',
           data: [this.chartTimeExaminationData],
           borderWidth: 2,
-          backgroundColor: '#788DBA',
-          borderColor: '#5670a9',
+          backgroundColor: '#BA788D',
+          borderColor: '#A95671',
         }]
       },
       options: {
@@ -256,8 +256,8 @@ export class ExaminationAnalysisComponent implements OnInit {
           label: 'Time of examination per medical branch',
           data: this.chartDataTimeMedicalBracnh,
           borderWidth: 2,
-          backgroundColor: '#788DBA',
-          borderColor: '#5670a9',
+          backgroundColor: '#BA788D',
+          borderColor: '#A95671',
           fill: true,
           tension: 0.1
         }]
