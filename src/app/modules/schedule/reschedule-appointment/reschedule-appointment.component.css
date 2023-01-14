@@ -1,15 +1,30 @@
-.container-f {
+.container-f-reschedule {
   background-color: #fff;
+  padding-bottom: 2%;
   border-radius: 10px;
   box-shadow: 0 14px 28px rgba(0,0,0,0.25),
   0 10px 10px rgba(0,0,0,0.22);
   position: center;
   overflow: hidden;
   max-width: 100%;
-  min-height: 580px;
-  margin: auto;
-  width: 70%;
-  padding: 10px;
+  min-height: 570px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  max-height: 98%;
+  width: 60%;
+}
+
+.button-color{
+  background: #3b4d79;
+}
+
+.button-color:hover {
+  transform: scale(1.04);
+  transition: 0.2s;
+  cursor: pointer;
+  background-color: #4c7891;
+  color: white;
 }
 .form-container {
   position: relative;
@@ -17,6 +32,16 @@
   height: 100%;
   transition: all 0.6s ease-in-out;
 }
+.title-container-reschedule{
+  background-color: #263238;
+  font-size: 26px;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+
 .title{
   margin: 5px 0;
 }
@@ -29,7 +54,7 @@
 .center-me{
   position: center;
 }
-.input-schedule {
+.input-reschedule {
   margin-top: 20px;
   width: 60%;
   display: block;
