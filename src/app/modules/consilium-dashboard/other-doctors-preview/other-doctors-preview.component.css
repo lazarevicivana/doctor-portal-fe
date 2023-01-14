@@ -73,3 +73,10 @@ section {
   justify-content: center;
   width: 120px;
 }
+h2{
+  font-weight: normal;
+  margin-top: 10px;
+}
+span {
+  font-size: medium;
+}
