@@ -41,6 +41,7 @@ table {
 
 .example-table{
   width: 100%;
+  margin-bottom: 20px;
 }
 
 .example-loading-shade {

@@ -5,7 +5,7 @@ import {Subject} from "rxjs";
   providedIn: 'root'
 })
 export class DataServiceService {
-  private data = new Subject<any>();
+  private data = new Subject<string>();
 
   sendData(data: any) {
     this.data.next(data);

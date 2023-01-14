@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {
   Appointment,
-  AppointmentClient,
+  AppointmentClient, AppointmentResponse,
   ConsiliumResponse,
   DoctorResponse, Examination,
   ExaminationClient
@@ -14,6 +14,7 @@ import {DataServiceService} from "../../../services/data-service.service";
 import {
   AppointmentReportDialogComponent
 } from "../../dashboard/appointment-report-dialog/appointment-report-dialog.component";
+import {AppointmentService} from "../../../services/appointment.service";
 
 @Component({
   selector: 'app-appointment-details-dialog',
@@ -24,12 +25,21 @@ export class AppointmentDetailsDialogComponent implements OnInit {
   appointment  = new Appointment()
   tomorrow= new Date();
   examinations: Examination[]=[];
-
+  docId: string = ""
   displayedColumns: string[] = ['Name','Surname'];
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,public dialog: MatDialog,private dataService: DataServiceService,private dialogRef: MatDialogRef<AppointmentDetailsDialogComponent>,private readonly client: AppointmentClient,private  examClient: ExaminationClient,private readonly token: TokenStorageService,private readonly router:Router) { }
+  private apps:AppointmentResponse[] = []
+  canEx:boolean = false
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,public dialog: MatDialog,private dataService: DataServiceService
+              ,private dialogRef: MatDialogRef<AppointmentDetailsDialogComponent>,private readonly client: AppointmentClient
+              ,private  examClient: ExaminationClient,private readonly token: TokenStorageService
+              ,private readonly router:Router,private appointmentService:AppointmentService) {
+    this.docId = this.token.getUser().id
+    this.appointment = this.data.appointment
+  }
 
   ngOnInit(): void {
-    this.appointment = this.data.appointment
+    this.loadExaminations()
+    this.loadApps()
   }
   formatTime(date : Date):string{
     return  moment(date).format('h:mm:ss a')
@@ -58,9 +68,7 @@ export class AppointmentDetailsDialogComponent implements OnInit {
   }
   canCreateReport(id:string)
   {
-
     for (let val of this.examinations) {
-      console.log(val)
       if (val.appointment?.id== id)
         return false
     }
@@ -71,12 +79,52 @@ export class AppointmentDetailsDialogComponent implements OnInit {
     this.dialogRef.close()
     this.openReportDialog(id);
   }
+  loadExaminations() {
+    this.examClient.getAllExaminations().subscribe({
+      next: value => {
+        this.examinations = value
+      }
+    })
+  }
+  loadApps(){
+    this.client.getAppointmentsForExamination(this.docId).subscribe({
+      next: value => {
+        console.log(this.canExamine(value))
+        this.canEx = this.canExamine(value);
+        console.log(this.canEx)
+      }
+    })
+  }
   openReportDialog(id: string): void {
-    let dialogRef = this.dialog.open(AppointmentReportDialogComponent, {
+    this.dialog.open(AppointmentReportDialogComponent, {
       width: '380px',
       height:'240px',
       data: { appointmetId: id }
     });
 
+  }
+
+  navigateExamine() {
+    this.appointmentService.saveAppointmentId(this.appointment.id!)
+    this.router.navigate(['examination']).then(()=>
+      this.dialog.closeAll()
+    )
+  }
+
+  canExamine(values: AppointmentResponse[]) {
+    console.log(values)
+    console.log(this.appointment.id)
+    let ret = false
+    values.forEach((app)=>{
+      if(app.id === this.appointment.id){
+        ret = true
+      }
+    })
+    return ret
+  }
+  getState(){
+      if(this.appointment.appointmentState ==0) return "Pending"
+      if(this.appointment.appointmentState ==1) return "Examined"
+      return "Cancelled"
   }
 }

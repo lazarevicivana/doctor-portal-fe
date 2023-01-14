@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AppointmentClient, AppointmentResponse, ConsiliumClient, ConsiliumResponse} from "../../api/api-reference";
 import {UserToken} from "../../model/UserToken";
 import {TokenStorageService} from "../../services/token-storage.service";
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import { EventColor } from 'calendar-utils';
 import {addDays, subDays} from 'date-fns';
 import {Router} from "@angular/router";
@@ -13,6 +13,8 @@ import * as moment from "moment/moment";
 import {OtherDoctorsPreviewComponent} from "./other-doctors-preview/other-doctors-preview.component";
 import {AppointmentDetailsDialogComponent} from "./appointment-details-dialog/appointment-details-dialog.component";
 import {DataServiceService} from "../../services/data-service.service";
+import { animation } from '@angular/animations';
+import {slideInOutAnimation} from "./animate/slideInOutAnimation";
 const colors: Record<string, EventColor> = {
   red: {
     primary: '#ad2121',
@@ -33,8 +35,8 @@ const colors: Record<string, EventColor> = {
     secondaryText:'#263238'
   },
   pink : {
-    primary: '#ad2121',
-    secondary: '#F2B8B8',
+    primary: '#1ECBE1',
+    secondary: '#1EE196',
     secondaryText:'#263238'
   },
   selected : {
@@ -50,10 +52,10 @@ const colors: Record<string, EventColor> = {
 })
 export class ConsiliumDashboardComponent implements OnInit {
   viewDate: Date;
-  consiliumsTry: CalendarEvent<{}>[] = [];
-  appointmentTry: CalendarEvent<{}>[] = [];
+  consiliumsCalender: CalendarEvent<{}>[] = [];
+  appointmentCalender: CalendarEvent<{}>[] = [];
   events : CalendarEvent<{}>[]= [];
-  dayStartHour = 8;
+  dayStartHour = 6;
   dayEndHour = 22;
   hourSegmentHeight = 110;
   daysInWeek = 7;
@@ -86,17 +88,16 @@ export class ConsiliumDashboardComponent implements OnInit {
     this.viewDate = new Date();
     this.viewDateEnd = addDays(this.viewDate, 6);
     this.dataService.getData().subscribe(data => {
-      this.events = this.events.filter(e => {
-          // @ts-ignore
-        if(e.meta.id === 2){
-            // @ts-ignore
-          e.meta.appointment.id != data;
-          }
+      let apps = this.appointmentCalender.filter(e => {
+        //@ts-ignore
+         if(e.meta.appointment.id != data){
+           return true
+         }
       });
+      this.events =  [...this.consiliumsCalender, ...apps];
     });
   }
   ngOnInit(): void {
-    console.log(this.events)
     this.getDoctorConsiliums();
   }
   createTitle(consilium: ConsiliumResponse): string {
@@ -131,7 +132,7 @@ export class ConsiliumDashboardComponent implements OnInit {
       .subscribe(
         //@ts-ignore
         (response: CalendarEvent<{ consilium: ConsiliumResponse }>[]) => {
-          this.consiliumsTry = response;
+          this.consiliumsCalender = response;
           // @ts-ignore
           this.getAppointmentsForDoctor();
 
@@ -155,16 +156,7 @@ export class ConsiliumDashboardComponent implements OnInit {
               meta: {
                 appointment,
                 id: 2
-              },
-              actions: [
-                {
-                  label: '<i class="fas fa-fw fa-ellipsis-vertical-alt"></i>',
-                  onClick: ({ event }: { event: CalendarEvent }): void => {
-                    console.log('Edit event', event);
-                    this.router.navigateByUrl('/reschedule-appointment/'+ event.meta.appointment.id);
-                  },
-                },
-              ],
+              }
             };
           });
         })
@@ -173,9 +165,11 @@ export class ConsiliumDashboardComponent implements OnInit {
         //@ts-ignore
         (response: CalendarEvent<{ appointment: AppointmentResponse }>[]) => {
           //@ts-ignore
-          this.appointmentTry = response
+          this.appointmentCalender = response
           this.createEvents();
-          console.log(this.appointmentTry)
+          console.log(this.appointmentCalender)
+          // @ts-ignore
+          console.log(this.appointmentCalender[0].meta.appointment.id)
         }, (error: HttpErrorResponse) => {
           console.log(error.message);
         })
@@ -211,7 +205,17 @@ export class ConsiliumDashboardComponent implements OnInit {
     this.viewDateEnd = addDays(this.viewDate, 6);
     await new Promise(resolve => setTimeout(resolve, 100));
   }
-  showDoctors() {
+  newAppointment() {
+    // this.dialog.open(OtherDoctorsPreviewComponent, {
+    //   width: '600px',
+    //   height:'500px',
+    //   data: { consilium: this.selectedEvent.meta?.consilium }
+    // });
+    this.router.navigate(['create-schedule'])
+  }
+  showDoctors(){
+    // const dialogConfig = new MatDialogConfig();
+    // dialogConfig.autoFocus = true;
     this.dialog.open(OtherDoctorsPreviewComponent, {
       width: '600px',
       height:'500px',
@@ -248,14 +252,14 @@ export class ConsiliumDashboardComponent implements OnInit {
   }
 
   private createEvents() {
-    this.events =  [...this.consiliumsTry, ...this.appointmentTry];
+    this.events =  [...this.consiliumsCalender, ...this.appointmentCalender];
     console.log(this.events);
   }
 
   private showAppointmentDetails() {
     this.dialog.open(AppointmentDetailsDialogComponent, {
       width: '600px',
-      height:'300px',
+      height:'320px',
       data: { appointment: this.selectedEventApp.meta?.appointment }
     });
   }

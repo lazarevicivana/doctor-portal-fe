@@ -37,15 +37,14 @@
     </button>
     <button
       id="cancel"
-      [disabled]="!canClickMoreDetails"
       class="button-group__button-app"
-      (click)="showDoctors()">
-      More details
+      (click)="newAppointment()">
+      New appointment
     </button>
   </div>
 </div>
 
-<div class="calendar-wrapper" >
+<div class="calendar-wrapper" *ngIf="!monthView">
   <mwl-calendar-week-view
                           [viewDate]="viewDate"
                           [daysInWeek]="daysInWeek"
@@ -57,4 +56,12 @@
                           (eventClicked)="onEventClick($event)"
   >
   </mwl-calendar-week-view>
+</div>
+<div class="calendar-wrapper-month" *ngIf="monthView">
+  <mwl-calendar-month-view
+    [viewDate]="viewDate"
+    [events]="events"
+    [eventTitleTemplate]="customTemplate"
+    (eventClicked)="onEventClick($event)"
+  ></mwl-calendar-month-view>
 </div>

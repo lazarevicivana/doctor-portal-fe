@@ -11,8 +11,6 @@ import {CalendarModule, CalendarMonthModule, CalendarWeekModule, DateAdapter} fr
 import {adapterFactory} from "angular-calendar/date-adapters/date-fns";
 import { AppointmentDetailsDialogComponent } from './appointment-details-dialog/appointment-details-dialog.component';
 
-
-
 @NgModule({
   declarations: [
     ConsiliumDashboardComponent,

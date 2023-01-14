@@ -1,14 +1,16 @@
-<h1>Consilium details</h1>
-
+<div class="fade-element">
+  <div class="title-container-l">
+    <h1>Consilium details</h1>
+  </div>
 <span >{{formatDate(consilium.timeRange?.from!)}} - {{formatTime(consilium.timeRange?.to!)}}</span>
 <br>
 <br>
-
 <span>Theme: </span>
 <span>{{consilium.theme}}</span>
-<mat-divider style="margin-top: 10px"></mat-divider>
-
-<h2>Other doctors</h2>
+<mat-divider style="margin-top: 10px;margin-bottom: 10px;"></mat-divider>
+  <div class="title-container-l">
+    <h2>Other doctors</h2>
+  </div>
 <table mat-table [dataSource]="doctors"   class="example-table">
   <!-- Number Column -->
   <ng-container matColumnDef="Name">
@@ -22,3 +24,4 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+</div>

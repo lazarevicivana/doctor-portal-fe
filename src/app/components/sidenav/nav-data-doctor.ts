@@ -5,19 +5,14 @@ export const navbarDataDoctor=[
     label: 'Dashboard'
   },
   {
-    routeLink: 'create-schedule',
-    icon: 'fal fa-calendar-plus',
-    label: 'Schedule'
-  },
-  {
     routeLink: 'consiliums',
     icon: 'fal fa-calendar',
-    label: 'Consiliums'
+    label: 'Calendar'
   },
   {
     routeLink: 'your-patients',
     icon: 'fal fa-users',
-    label: 'Your patient'
+    label: 'Your patients'
   },
   {
     routeLink: 'blood-units',
@@ -42,7 +37,7 @@ export const navbarDataDoctor=[
   {
     routeLink: 'notifications',
     icon: 'fal fa-envelope',
-    label: 'Sign out'
+    label: 'Notifications'
   },
   {
     routeLink: 'sign-out',
