@@ -1,28 +1,40 @@
 .container-f {
   background-color: #fff;
-  border-radius: 5px;
+  border-radius: 10px;
   box-shadow: 0 14px 28px rgba(0,0,0,0.25),
   0 10px 10px rgba(0,0,0,0.22);
-  position: relative;
+  position: center;
   overflow: hidden;
-  min-height: 580px;
-
+  max-width: 100%;
+  min-height: 570px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  max-height: 98%;
+  width: 70%;
 }
 
 .input-create-request {
-  margin-top: 8px;
-  width:40%;
+  margin-top: 20px;
+  width: 60%;
   display: block;
   margin-right: auto;
   margin-left: auto;
-  height: 60px;
 }
 
 .input-reason {
-  margin-top: 12px;
-  width: 40%;
+  margin-top: 20px;
+  width: 60%;
   display: block;
   margin-right: auto;
   margin-left: auto;
   height: 140px;
+}
+.title-container-basic{
+  color: #fff;
+  font-size: 26px;
+  padding-bottom: 2%;
+  text-align: center;
+  background-color: #263238;
+  padding-top:2% ;
 }

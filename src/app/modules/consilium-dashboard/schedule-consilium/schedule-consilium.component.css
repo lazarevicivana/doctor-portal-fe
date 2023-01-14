@@ -29,8 +29,7 @@
   position: relative;
   overflow: hidden;
   margin-top: 5px;
-  margin-left: 15%;
-  width: 70%;
+  width: 90%;
   text-align: center;
 }
 .form-container {
@@ -59,9 +58,38 @@
   margin-left: auto;
 }
 .buttons{
-  margin-left: 120px;
-  margin-right: 10px;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
 }
-.button{
-  width: 60%;
+.btn--basic {
+  align-content: center;
+  margin-top: 10px;
+  padding: 2px 2px;
+  letter-spacing: 1px;
+  color: #fff;
+  font-family: 'Roboto',sans-serif;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  width: 45%;
+  background-color: #3b4d79;
+  transition: 0.5s 0.25s cubic-bezier(0.17, 0.67, 0.5, 1.03);
+  opacity: 1;
+}
+.btn-l{
+  left: 2rem;
+}
+.btn-r{
+  right: 1rem;
+}
+.btn--basic:hover {
+  transform: scale(1.10);
+  transition: 0.2s;
+  cursor: pointer;
+  background-color: #4d76db;
+  color: white;
+}
+.btn-w{
+  width: 25%;
 }

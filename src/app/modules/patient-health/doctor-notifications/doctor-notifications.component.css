@@ -4,11 +4,26 @@
   padding: 1rem;
   margin-bottom: 1rem;
   border-radius: 0.5rem;
-  width: 50%;
-  margin-left: auto;
-  margin-right: auto;
+  margin-right: 1rem;
+  width: 15%;
 }
-
+.btn-ntf {
+  align-content: center;
+  margin-top: 10px;
+  left: 0;
+  bottom: 0;
+  padding: 1px 1px;
+  letter-spacing: 1px;
+  color: #fff;
+  font-family: 'Roboto',sans-serif;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  width: 60%;
+  background-color: #3b4d79;
+  transition: 0.5s 0.25s cubic-bezier(0.17, 0.67, 0.5, 1.03);
+  opacity: 1;
+}
 .notification h3 {
   margin: 0;
   font-size: 1.5rem;

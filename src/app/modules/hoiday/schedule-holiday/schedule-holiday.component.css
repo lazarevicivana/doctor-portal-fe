@@ -25,7 +25,7 @@
   margin-right: auto;
   margin-top: auto;
   max-height: 98%;
-  width: 60%;
+  width: 85%;
 }
 .form-container {
   position: relative;
@@ -35,6 +35,14 @@
 }
 .title{
   margin: 5px 0;
+}
+.title-container-holiday{
+  color: #fff;
+  font-size: 26px;
+  padding-bottom: 2%;
+  text-align: center;
+  background-color: #263238;
+  padding-top:2%;
 }
 .create-schedule-container {
   left: 0;
