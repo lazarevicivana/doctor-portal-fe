@@ -61,6 +61,7 @@ export class AppointmentDetailsDialogComponent implements OnInit {
     this.dialogRef.close();
     this.client.cancelAppointment(id).subscribe({
         next : _ =>{
+          console.log('aaaaa')
             this.dataService.sendData(id);
         }
       }

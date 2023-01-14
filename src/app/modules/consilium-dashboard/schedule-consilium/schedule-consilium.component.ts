@@ -94,7 +94,7 @@ export class ScheduleConsiliumComponent implements OnInit {
        next: value => {
          this.consilium = value;
          this.toast.success({detail: 'Success!', summary: "You have successfully scheduled a consilium!", duration: 5000})
-         this.router.navigate(['consiliums']).then();
+         this.router.navigate(['dashboard']).then();
        },
        error: message => {
          console.log(message)

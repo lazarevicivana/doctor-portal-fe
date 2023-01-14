@@ -121,7 +121,7 @@ export class ExaminationComponent implements OnInit {
       next: value => {
         console.log(value)
         this.router.navigate(['dashboard']).then(()=>{
-          this.toastService.success({detail: 'Success!', summary: "You are successfully create examiantion!", duration: 5000})
+          this.toastService.success({detail: 'Success!', summary: "You have successfully examined a patient !", duration: 5000})
           if (this.isForward){
             this.appointmentClient.getById(this.appointmentId).subscribe({
               next: value => {
