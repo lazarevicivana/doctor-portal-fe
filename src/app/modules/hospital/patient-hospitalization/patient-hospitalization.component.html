@@ -1,12 +1,11 @@
-<div class="container">
-  <div class="container-f">
+<div class="container-schedule">
     <div>
       <form >
-        <div class="title-container">
-          <h1 class="title header-b">Schedule hospitalization</h1>
+        <div class="title-container-schedule">
+        Schedule hospitalization
         </div>
         <mat-divider></mat-divider>
-        <div>
+        <div style="margin-top: 60px">
           <app-patients-for-hospitalization (onSelectedPatient)="onSelecting($event)"></app-patients-for-hospitalization>
         </div>
         <div>
@@ -20,5 +19,4 @@
         <button mat-flat-button color="primary" (click)="hospitalize()" class="input-schedule button-color">Submit</button>
       </form>
     </div>
-  </div>
 </div>
