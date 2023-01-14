@@ -47,7 +47,7 @@ const routes: Routes = [
     canActivate:[DoctorGuard]
   },
   { path: 'dashboard',
-    component: DashboardComponent,
+    component: ConsiliumDashboardComponent,
     canActivate:[DoctorGuard]
   },
   { path: 'doctors-holidays',

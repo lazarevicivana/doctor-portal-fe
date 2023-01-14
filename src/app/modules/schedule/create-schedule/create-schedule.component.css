@@ -22,7 +22,6 @@
 
 .container-schedule{
   background-color: #fff;
-
   border-radius: 10px;
   box-shadow: 0 14px 28px rgba(0,0,0,0.25),
   0 10px 10px rgba(0,0,0,0.22);
@@ -34,7 +33,7 @@
   margin-right: auto;
   margin-top: auto;
   max-height: 98%;
-  width: 60%;
+  width: 90%;
 }
 .form-container {
   position: relative;
@@ -63,6 +62,10 @@
 }
 .button-color{
   background: #263238;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.5s 0.25s cubic-bezier(0.17, 0.67, 0.5, 1.03);
+  letter-spacing: 1px;
 }
 .button-color:hover {
   transform: scale(1.04);

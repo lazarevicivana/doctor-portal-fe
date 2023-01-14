@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Chart,registerables} from "chart.js";
 import {EventStoreExaminationClient} from "../../../api/api-reference";
 
@@ -9,6 +9,8 @@ import {EventStoreExaminationClient} from "../../../api/api-reference";
 })
 export class ExaminationAnalysisComponent implements OnInit {
   chartData :number[]=[];
+  @ViewChild('myCanvas') canvas!: ElementRef;
+
   chartDataTime : number[]=[]
   chartDataStepsMedicalBranch : number[]=[]
   chartDataTimeMedicalBracnh : number[]=[]
@@ -53,7 +55,7 @@ export class ExaminationAnalysisComponent implements OnInit {
         datasets: [{
           label: 'Average number of steps',
           data: [this.averageStepsExamination],
-          borderWidth: 2,
+          borderWidth: 4,
           backgroundColor: '#5670a9',
           borderColor: '#5670a9'
 
@@ -91,8 +93,19 @@ export class ExaminationAnalysisComponent implements OnInit {
         datasets: [{
           label: 'Viewed on average',
           data: this.chartData,
-          borderWidth: 2,
-          backgroundColor: '#788DBA',
+          borderWidth: 4,
+          backgroundColor: [
+            'rgba(86, 112, 169, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+          ],
+          pointStyle: 'circle',
+          pointRadius: 7,
+          pointHoverRadius: 10,
+          pointBackgroundColor:  '#5670a9',
           borderColor: '#5670a9',
           fill: true,
           tension: 0.1
@@ -132,11 +145,20 @@ export class ExaminationAnalysisComponent implements OnInit {
         datasets: [{
           label: 'Time spent on average',
           data: this.chartDataTime,
-          borderWidth: 2,
-          backgroundColor: '#BA788D',
+          borderWidth: 4,
+          backgroundColor: [ 'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'],
           borderColor: '#A95671',
           fill: true,
-          tension: 0.1
+          tension: 0.1,
+          pointStyle: 'circle',
+          pointRadius: 7,
+          pointHoverRadius: 10,
+          pointBackgroundColor: '#A95671'
         }]
       },
       options: {
@@ -202,7 +224,7 @@ export class ExaminationAnalysisComponent implements OnInit {
         datasets: [{
           label: 'Average time',
           data: [this.chartTimeExaminationData],
-          borderWidth: 2,
+          borderWidth: 4,
           backgroundColor: '#BA788D',
           borderColor: '#A95671',
         }]
@@ -248,6 +270,7 @@ export class ExaminationAnalysisComponent implements OnInit {
   private drawTimeForMedicalBranch() {
 
     Chart.register(...registerables);
+
     this.timePerMedicalBranchChart = new Chart('timePerMedicalBranchChart', {
       type: 'line',
       data: {
@@ -255,11 +278,20 @@ export class ExaminationAnalysisComponent implements OnInit {
         datasets: [{
           label: 'Time of examination per medical branch',
           data: this.chartDataTimeMedicalBracnh,
-          borderWidth: 2,
-          backgroundColor: '#BA788D',
+          borderWidth: 4,
+          backgroundColor: [ 'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'],
           borderColor: '#A95671',
           fill: true,
-          tension: 0.1
+          tension: 0.1,
+          pointStyle: 'circle',
+          pointRadius: 7,
+          pointHoverRadius: 10,
+          pointBackgroundColor: '#A95671'
         }]
       },
       options: {
@@ -281,11 +313,22 @@ export class ExaminationAnalysisComponent implements OnInit {
         datasets: [{
           label: 'Steps of examination per medical branch',
           data: this.chartDataStepsMedicalBranch,
-          borderWidth: 2,
-          backgroundColor: '#788DBA',
+          borderWidth: 4,
+          backgroundColor: [
+            'rgba(86, 112, 169, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+          ],
           borderColor: '#5670a9',
           fill: true,
-          tension: 0.1
+          tension: 0.1,
+          pointStyle: 'circle',
+          pointRadius: 7,
+          pointHoverRadius: 10,
+          pointBackgroundColor: '#5670a9'
         }]
       },
       options: {

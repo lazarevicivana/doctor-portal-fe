@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-9 m-top">
-      <h1 class="header-blue">Hospitalized patients</h1>
+      <h1 class="header-blue title-h">Hospitalized patients</h1>
     </div>
     <div class="col-2">
       <button mat-raised-button matTooltip="Hospitalize" class="custom-button f-right" (click)="navigateNewHospitalization()">
@@ -15,7 +15,7 @@
     </div>
   </div>
   <mat-divider style="margin-bottom: 3rem"></mat-divider>
-  <div class="row col col-md">
+  <div class="row col col-md" >
     <div *ngFor="let patient of patients" class="col-4 col-md-4">
       <app-user-card  [patient]="patient"></app-user-card>
     </div>

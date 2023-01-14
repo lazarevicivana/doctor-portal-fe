@@ -7,6 +7,8 @@ import {UserToken} from "../../../model/UserToken";
 import {TokenStorageService} from "../../../services/token-storage.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {NotificationPatient} from "./NotificationPatient";
+import {PatientHealthService} from "../patient-health.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-doctor-notifications',
@@ -25,7 +27,8 @@ export class DoctorNotificationsComponent implements OnInit {
   userToken: UserToken;
   notifications: PatientHealthStateNotification[]= []
   notificationsMap:NotificationPatient[] = []
-  constructor(private patientHealthStateClient:PatientHealthStateClient,private tokenStorageService:TokenStorageService) {
+  constructor(private patientHealthStateClient:PatientHealthStateClient,private router:Router,
+              private tokenStorageService:TokenStorageService,private patientHealthService:PatientHealthService) {
     this.userToken = this.tokenStorageService.getUser();
   }
 
@@ -38,10 +41,14 @@ export class DoctorNotificationsComponent implements OnInit {
         console.log(value)
         this.notifications = value
         this.notificationsMap = this.notifications.map((n)=>{
-          return new NotificationPatient('old',n.patient!.name!,n.patient!.surname!,n.notifications!)
+          return new NotificationPatient('old',n.patient!.name!,n.patient!.surname!,n.notifications!,n.patient?.id)
         })
       }
     })
   }
 
+  patientRecord(patientId:string) {
+    this.patientHealthService.savePatientId(patientId)
+    this.router.navigate(['patient-profile'])
+  }
 }

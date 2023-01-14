@@ -15,6 +15,8 @@ import {AnamnesisViewedEvent} from "../../../model/DomainEventsModel/AnamnesisVi
 import {PrescriptionViewedEvent} from "../../../model/DomainEventsModel/PrescriptionViewedEvent";
 import {ExaminationInfoViewedEvent} from "../../../model/DomainEventsModel/ExaminationInfoViewedEvent";
 import {ExaminationFinishedEvent} from "../../../model/DomainEventsModel/ExaminationFinishedEvent";
+import {ExaminationService} from "../examination.service";
+import {AppointmentService} from "../../../services/appointment.service";
 
 @Component({
   selector: 'app-examination',
@@ -34,8 +36,8 @@ export class ExaminationComponent implements OnInit {
   examinationEvents : DomainEventOfEventStoreExaminationType[] = [];
 
   constructor(private examinationClient:ExaminationClient,private toastService:NgToastService,private router:Router,
-              private appointmentClient:AppointmentClient) {
-    this.appointmentId = this.router.getCurrentNavigation()?.extras?.state?.['data']!
+              private appointmentClient:AppointmentClient,private appointmentService:AppointmentService) {
+    this.appointmentId = appointmentService.getId()
     console.log(this.appointmentId)
   }
 
@@ -119,7 +121,7 @@ export class ExaminationComponent implements OnInit {
       next: value => {
         console.log(value)
         this.router.navigate(['dashboard']).then(()=>{
-          this.toastService.success({detail: 'Success!', summary: "You are successfully create examiantion!", duration: 5000})
+          this.toastService.success({detail: 'Success!', summary: "You have successfully examined a patient !", duration: 5000})
           if (this.isForward){
             this.appointmentClient.getById(this.appointmentId).subscribe({
               next: value => {

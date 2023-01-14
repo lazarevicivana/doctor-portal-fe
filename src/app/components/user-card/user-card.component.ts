@@ -20,6 +20,7 @@ export class UserCardComponent implements OnInit {
   currentAdmission : HospitalizePatientAdmissionResponse = new HospitalizePatientAdmissionResponse();
 
   ngOnInit(): void {
+    console.log(this.patient)
     this.findCurrentAdmission(this.patient.patientAdmissions!);
   }
   public resolveUserRole(){
@@ -28,6 +29,7 @@ export class UserCardComponent implements OnInit {
 
    findCurrentAdmission(admissions : HospitalizePatientAdmissionResponse[]) {
     this.currentAdmission = admissions.find(x => x.dateOfDischarge == undefined)!;
+    console.log(this.currentAdmission)
   }
 
   genderToString(gender: Gender) {

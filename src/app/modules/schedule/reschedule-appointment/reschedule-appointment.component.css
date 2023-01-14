@@ -8,6 +8,7 @@
   overflow: hidden;
   max-width: 100%;
   min-height: 570px;
+
   margin-left: auto;
   margin-right: auto;
   margin-top: auto;
@@ -25,6 +26,7 @@
   cursor: pointer;
   background-color: #4c7891;
   color: white;
+  width: 70%;
 }
 .form-container {
   position: relative;
@@ -60,4 +62,23 @@
   display: block;
   margin-right: auto;
   margin-left: auto;
+}
+.title-container-b-w{
+  color: #fff;
+  font-size: 26px;
+  padding-bottom: 3%;
+  text-align: center;
+  background-color: #263238;
+  padding-top:3% ;
+}
+.button-color{
+  background: #263238;
+  color:#FFFFFF;
+}
+.button-color:hover {
+  transform: scale(1.04);
+  transition: 0.2s;
+  cursor: pointer;
+  background-color: #4c7891;
+  color: #FFFFFF;
 }

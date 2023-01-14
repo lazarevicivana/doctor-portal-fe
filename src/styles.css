@@ -41,6 +41,15 @@ body {
   color: #263238;
   padding-top: 2%;
 }
+.title-container-small {
+  font-size: 22px;
+  text-align: left;
+  color: #FFFFFF;
+  background: #263238;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  border-radius: 10px;
+}
 .steeper-title{
   margin-top: 15px;
   text-align: center;
@@ -383,6 +392,9 @@ body {
     cursor: progress;
     background-color: #4d76db;
     color: white;
+  }
+  .mg-t-10{
+    margin-top: 10px;
   }
 }
 
