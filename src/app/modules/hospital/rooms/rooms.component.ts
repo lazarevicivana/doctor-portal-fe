@@ -968,12 +968,12 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
       let currentDate = new Date();
 
 
-      let fromDate:Date = new Date(new Date(this.formStartDate!).setHours(7,0,0,0))
-      let endDate:Date  = new Date(new Date(this.formEndDate!).setHours(20,0,0,0))
+      let fromDate:Date = new Date(new Date(this.formStartDate!).setHours(7,0,0,0));
+      let endDate:Date  = new Date(new Date(this.formEndDate!).setHours(20,0,0,0));
 
       this.currentRoomSplitingRequest.DatesForSearch = new DateRange({
         from: fromDate,
-        to: endDate
+        to: endDate,
       })
 
       console.log("PROBACEMO DA POSALJEMo");
