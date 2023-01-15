@@ -23,7 +23,7 @@
           routerLinkActive="active"
           [routerLinkActiveOptions]="{exact:true}"
       >
-        <i class="sidenav-link-icon" [class]="data.icon"></i>
+        <i class="sidenav-link-icon" matBadge="{{notificationNum}}" matBadgeColor="warn" [matBadgeHidden]="checkIfNotificationIcon(data.notification)" [class]="data.icon"></i>
         <span class="sidenav-link-text" *ngIf="collapsed">{{data.label}}</span>
       </a>
     </li>

@@ -2,7 +2,7 @@
   <div class="row col col-md">
 <mat-card class="notification beautiful-animation col-6 col-md-6" *ngFor="let notification of notificationsMap" [@notificationState]="notification.state">
   <mat-card-header>
-    <mat-card-title>{{ notification.patientName }} {{ notification.patientSurname}}</mat-card-title>
+    <mat-card-title class="card-title">{{ notification.patientName }} {{ notification.patientSurname}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <ul>
