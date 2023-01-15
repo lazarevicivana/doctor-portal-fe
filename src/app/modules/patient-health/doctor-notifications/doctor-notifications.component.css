@@ -7,9 +7,22 @@
   margin-right: 1rem;
   width: 15%;
 }
-.card-title{
+.card-center{
   text-align: center;
- 
+ display: flex;
+  justify-content: center;
+}
+.bottom{
+  display: flex;
+  align-items: flex-start;
+}
+
+.icon-display {
+  transform: scale(1.25);
+}
+.spread-around{
+  display: flex;
+  justify-content: space-around;
 }
 .btn-ntf {
   align-content: center;
