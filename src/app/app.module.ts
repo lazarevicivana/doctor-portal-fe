@@ -47,6 +47,7 @@ import {CalendarModule, DateAdapter} from "angular-calendar";
 import {adapterFactory} from "angular-calendar/date-adapters/date-fns";
 import { RoomEventsComponent } from './modules/hospital/room-events/room-events.component';
 import {PatientHealthModule} from "./modules/patient-health/patient-health.module";
+import {MatBadgeModule} from "@angular/material/badge";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -62,35 +63,36 @@ import {PatientHealthModule} from "./modules/patient-health/patient-health.modul
     RoomEventsComponent,
   ],
   exports: [],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    MaterialModule,
-    HospitalModule,
-    NgToastModule,
-    HttpClientModule,
-    ScheduleModule,
-    LoginModule,
-    DashboardModule,
-    MatDatepickerModule,
-    NgxMaterialTimepickerModule,
-    MatGridListModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MatDialogModule,
-    CommonComponentsModule,
-    MatCheckboxModule,
-    ExaminationModule,
-    MatTabsModule,
-    ConsiliumModule,
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory,
-    }),
-    PatientHealthModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        MaterialModule,
+        HospitalModule,
+        NgToastModule,
+        HttpClientModule,
+        ScheduleModule,
+        LoginModule,
+        DashboardModule,
+        MatDatepickerModule,
+        NgxMaterialTimepickerModule,
+        MatGridListModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MatDialogModule,
+        CommonComponentsModule,
+        MatCheckboxModule,
+        ExaminationModule,
+        MatTabsModule,
+        ConsiliumModule,
+        CalendarModule.forRoot({
+            provide: DateAdapter,
+            useFactory: adapterFactory,
+        }),
+        PatientHealthModule,
+        MatBadgeModule
+    ],
   providers: [
     DoctorClient,
     AppointmentClient,
