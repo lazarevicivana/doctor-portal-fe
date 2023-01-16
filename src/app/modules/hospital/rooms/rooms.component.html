@@ -1,706 +1,824 @@
-<div style ="z-index: -1; position:relative;">
-<div  class="search">
-  <mat-form-field appearance="legacy">
-    <mat-label>Room search</mat-label>
-    <input matInput type="text" name="findThisRoom"  [(ngModel)]="findThisRoom">
-  </mat-form-field>
-  <button mat-raised-button mat-icon-button (click)="searchRoom()">
-    <mat-icon matTooltip="search">search</mat-icon>
-  </button>
-  <div>
-  <button  mat-raised-button mat-icon-button (click)="onRoomMerging()">
-    MERGE ROOM
-  </button>
-  </div>
-  <div>
-  <button  mat-raised-button mat-icon-button (click)="onRoomSpliting()">
-   SPLIT ROOM
-  </button>
-</div>
-</div>
+<div style="z-index: -1; position:relative;">
 
-<div class="row">
-  <mat-form-field appearance="fill">
-  <mat-label>Building</mat-label>
-  <mat-select [(ngModel)]="this.selectedBuilding" name="selectedBuilding" (selectionChange)="reloadRooms()" (selectionChange)="clearRooms(true)">
-    <mat-option *ngFor="let building of this.allBuildings" [value]="building">
-      {{building.name}}
-    </mat-option>
-  </mat-select>
-  </mat-form-field>
-</div>
+  <div name="SEARCH EQUIPMENT">
+    <div class="search">
+      <mat-form-field appearance="fill" style="margin-right: 10px;">
+        <mat-label>Search Equipment </mat-label>
+        <input style="margin-right: 10px;" matInput placeholder="" search
+          (keydown)="applyFilter($event)" #input>
+      </mat-form-field>
+      <button style="margin-right: 10px;" mat-raised-button mat-icon-button>
+        <mat-icon matTooltip="search">search</mat-icon>
+      </button>
+    </div>
+    <!--    <input type="text" name="search2" [(ngModel)]="searchText" placeholder="Search Equipment" >-->
+    <div>
+      <table class="tabelica" mat-table [dataSource]="Searchedequipment" matSort
+        *ngIf="shownEquipment">
 
-<div class="row">
-  <mat-form-field appearance="fill">
-    <mat-label>Floor</mat-label>
-    <mat-select [(ngModel)]="this.selectedFloor" name="selectedFloor" (selectionChange)="reloadRooms()">
-      <mat-option *ngFor="let floor of this.selectedBuilding.floors" [value]="floor">
-        {{ floor.name }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
+        <ng-container matColumnDef="equipmentName">
+          <th mat-header-cell align="center"*matHeaderCellDef mat-sort-header>
+            Equipment Name </th>
+          <td mat-cell align="center" *matCellDef="let element">
+            {{element.equipmentName}} </td>
+        </ng-container>
 
+        <ng-container matColumnDef="roomId">
+          <th mat-header-cell align="center" *matHeaderCellDef mat-sort-header>
+            RoomID </th>
+          <td mat-cell *matCellDef="let element"> {{element.roomId}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell align="center" *matHeaderCellDef mat-sort-header>
+            Amount </th>
+          <td mat-cell align="center" *matCellDef="let element">
+            {{element.amount}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns2;"
+          (click)="ShowEquipmentOnMap(row)"></tr>
 
 
-
-<div class="wrapepr">
-
-<div class="prikaz" style="float: right;"  *ngIf="shownRoom" >
-
-  <div>
-    <h1 class="naslov">Room Details</h1>
+        <span class="nePostojiOprema" *matNoDataRow>Search for "{{input.value}}"
+          does not exist</span>
+      </table>
+    </div>
   </div>
 
-  <div class="unos">
-    <mat-form-field appearance="legacy" *ngIf="shownRoom">
-      <mat-label>Building Name</mat-label>
-      <input matInput type="text"  [(ngModel)]="editBuildingName">
+  <div name="ROOM MERGING SPLITING BUTTONS">
+    <button style="margin-right: 10px;" mat-raised-button
+      (click)="onRoomMerging()">
+      MERGE ROOM
+    </button>
+    <button style="margin-right: 10px;" mat-raised-button
+      (click)="onRoomSpliting()">
+      SPLIT ROOM
+    </button>
+  </div>
+
+  <div name="BR">
+    <br>
+  </div>
+
+  <div name="SELECT BUILDING" class="row">
+    <mat-form-field appearance="fill">
+      <mat-label>Building</mat-label>
+      <mat-select [(ngModel)]="this.selectedBuilding" name="selectedBuilding"
+        (selectionChange)="reloadRooms()" (selectionChange)="clearRooms(true)">
+        <mat-option *ngFor="let building of this.allBuildings"
+          [value]="building">
+          {{building.name}}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
-    <button mat-icon-button *ngIf="shownRoom">
-      <mat-icon matTooltip="update">edit</mat-icon>
-    </button>
   </div>
 
-  <div div class="unos" >
-    <mat-form-field appearance="legacy" *ngIf="shownRoom">
-      <mat-label>Floor name</mat-label>
-      <input matInput type="text"  [(ngModel)]="editFloorName">
+  <div name="SELECT FLOOR" class="row">
+    <mat-form-field appearance="fill">
+      <mat-label>Floor</mat-label>
+      <mat-select [(ngModel)]="this.selectedFloor" name="selectedFloor"
+        (selectionChange)="reloadRooms()">
+        <mat-option *ngFor="let floor of this.selectedBuilding.floors"
+          [value]="floor">
+          {{ floor.name }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
-    <button mat-icon-button *ngIf="shownRoom">
-      <mat-icon matTooltip="update">edit</mat-icon>
-    </button>
   </div>
 
-  <div  class="unos">
-    <mat-form-field appearance="legacy" *ngIf="shownRoom">
-      <mat-label>Room Name </mat-label>
-      <input matInput type="text"  [(ngModel)]="editRoomName">
-    </mat-form-field>
-    <button mat-icon-button *ngIf="shownRoom">
-      <mat-icon matTooltip="update">edit</mat-icon>
-    </button>
+  <div name="ROOM DETAILS" class="wrapepr">
+    <div class="prikaz" style="float: right;" *ngIf="shownRoom">
+      <div>
+        <h1 class="naslov">Room Details</h1>
+      </div>
+
+      <div class="unos">
+        <mat-form-field appearance="legacy" *ngIf="shownRoom">
+          <mat-label>Building Name</mat-label>
+          <input matInput type="text" [(ngModel)]="editBuildingName">
+        </mat-form-field>
+        <button mat-icon-button *ngIf="shownRoom">
+          <mat-icon matTooltip="update">edit</mat-icon>
+        </button>
+      </div>
+
+      <div class="unos">
+        <mat-form-field appearance="legacy" *ngIf="shownRoom">
+          <mat-label>Floor name</mat-label>
+          <input matInput type="text" [(ngModel)]="editFloorName">
+        </mat-form-field>
+        <button mat-icon-button *ngIf="shownRoom">
+          <mat-icon matTooltip="update">edit</mat-icon>
+        </button>
+      </div>
+
+      <div class="unos">
+        <mat-form-field appearance="legacy" *ngIf="shownRoom">
+          <mat-label>Room Name </mat-label>
+          <input matInput type="text" [(ngModel)]="editRoomName">
+        </mat-form-field>
+        <button mat-icon-button *ngIf="shownRoom">
+          <mat-icon matTooltip="update">edit</mat-icon>
+        </button>
+      </div>
+
+      <div>
+        <button mat-icon-button *ngIf="shownRoom"
+          (click)="checkIfAnythingNeedsUpdate()">
+          <mat-icon matTooltip="save">save</mat-icon>
+        </button>
+      </div>
+
+    </div>
   </div>
-
-  <div>
-    <button mat-icon-button *ngIf="shownRoom" (click)="checkIfAnythingNeedsUpdate()">
-      <mat-icon matTooltip="save">save</mat-icon>
-    </button>
-  </div>
-
-</div>
-
-
-
 
   <div class="mat-elevation-z8" *ngIf="shownRoom">
     <div>
       <h1 class="naslov">Equipment Details</h1>
     </div>
-    <table mat-table [dataSource]="equipment" matSort >
+    <div>
+      <table mat-table [dataSource]="equipment" matSort>
+        <ng-container matColumnDef="equipmentName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Equipment Name
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.equipmentName}}
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="equipmentName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Equipment Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.equipmentName}} </td>
-      </ng-container>
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
+          <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="amount">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
-        <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Edit"  >
-        <th mat-header-cell *matHeaderCellDef > Edit </th>
-        <td mat-cell *matCellDef="let element">
-          <button (click)="onEquipmentMoveClick(element)">
+        <ng-container matColumnDef="Edit">
+          <th mat-header-cell *matHeaderCellDef> Edit </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-raised-button (click)="onEquipmentMoveClick(element)">
               Move
             </button></td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row  *matRowDef="let row; columns: displayedColumns;" ></tr>
-      <!--      (click)="getRecord(row)"-->
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <!--      (click)="getRecord(row)"-->
       </table>
     </div>
+  </div>
 
   <div class="mat-elevation-z8" *ngIf="shownRoom">
     <div>
       <h1 class="naslov">Movement Details</h1>
     </div>
-    <table mat-table [dataSource]="MovedEquipment" matSort>
+    <div>
+      <table mat-table [dataSource]="MovedEquipment" matSort>
 
-      <ng-container matColumnDef="amount">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
-        <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
-      </ng-container>
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
+          <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="equipmentName"> equipmentName
-        <th mat-header-cell *matHeaderCellDef mat-sort-header align="middle"> EquipmentName </th>
-        <td mat-cell *matCellDef="let element"  > {{element.equipmentName}} </td>
-      </ng-container>
+        <ng-container matColumnDef="equipmentName"> equipmentName
+          <th mat-header-cell *matHeaderCellDef mat-sort-header align="middle">
+            EquipmentName </th>
+          <td mat-cell *matCellDef="let element"> {{element.equipmentName}}
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="startDate">
-        <th class="hederMT" mat-header-cell  *matHeaderCellDef mat-sort-header> StartDate </th>
-        <td mat-cell *matCellDef="let element" > {{element.duration.from}} </td>
-      </ng-container>
+        <ng-container matColumnDef="startDate">
+          <th class="hederMT" mat-header-cell *matHeaderCellDef mat-sort-header>
+            StartDate </th>
+          <td mat-cell *matCellDef="let element"> {{element.duration.from}}
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="endDate">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> EndDate </th>
-        <td mat-cell *matCellDef="let element"> {{element.duration.to}} </td>
-      </ng-container>
+        <ng-container matColumnDef="endDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> EndDate </th>
+          <td mat-cell *matCellDef="let element"> {{element.duration.to}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="DestinationRoom">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> DestinationRoom </th>
-        <td mat-cell *matCellDef="let element"> {{element.destinationRoomId}} </td>
-      </ng-container>
+        <ng-container matColumnDef="DestinationRoom">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> DestinationRoom
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.destinationRoomId}}
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="OriginalRoom">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> OriginalRoom </th>
-        <td mat-cell *matCellDef="let element"> {{element.originalRoomId}} </td>
-      </ng-container>
+        <ng-container matColumnDef="OriginalRoom">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> OriginalRoom
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.originalRoomId}}
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="Delete">
-        <th mat-header-cell *matHeaderCellDef   > Delete </th>
-        <td mat-cell *matCellDef="let element" >
-          <button mat-raised-button mat-icon-button (click)="deleteMovementEquipment(element)">
-            <mat-icon matTooltip="delete">delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="Delete">
+          <th mat-header-cell *matHeaderCellDef> Delete </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-raised-button mat-icon-button
+              (click)="deleteMovementEquipment(element)">
+              <mat-icon matTooltip="delete">delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns3"></tr>
-      <tr mat-row  *matRowDef="let row; columns: displayedColumns3;" ></tr>
-
-    </table>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns3"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns3;"></tr>
+      </table>
+    </div>
   </div>
 
   <div class="mat-elevation-z8" *ngIf="shownRoom">
     <div>
       <h1 class="naslov">Splitting Details</h1>
     </div>
-    <table mat-table [dataSource]="shownRenovation" matSort>
+    <div>
+      <table mat-table [dataSource]="shownRenovation" matSort>
+        <ng-container matColumnDef="StartDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header align="middle">
+            StartDate </th>
+          <td mat-cell *matCellDef="let element">
+            {{element.datesForSearch.from}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="RoomId">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> RoomId </th>
-        <td mat-cell *matCellDef="let element"> {{element.RoomId}} </td>
-      </ng-container>
+        <ng-container matColumnDef="EndDate">
+          <th class="hederMT" mat-header-cell *matHeaderCellDef mat-sort-header>
+            EndDate </th>
+          <td mat-cell *matCellDef="let element">
+            {{element.datesForSearch.from}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="StartDate">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header align="middle"> StartDate </th>
-        <td mat-cell *matCellDef="let element"  > {{element.datesForSearch.from}} </td>
-      </ng-container>
+        <ng-container matColumnDef="newRoomName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> newRoomName
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.newRoomName}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="EndDate">
-        <th class="hederMT" mat-header-cell  *matHeaderCellDef mat-sort-header> EndDate </th>
-        <td mat-cell *matCellDef="let element" > {{element.datesForSearch.from}} </td>
-      </ng-container>
+        <ng-container matColumnDef="Delete">
+          <th mat-header-cell *matHeaderCellDef> Delete </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-raised-button mat-icon-button
+              (click)="deleteMovementEquipment(element)">
+              <mat-icon matTooltip="delete">delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="newRoomName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> newRoomName </th>
-        <td mat-cell *matCellDef="let element"> {{element.newRoomName}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Delete">
-        <th mat-header-cell *matHeaderCellDef   > Delete </th>
-        <td mat-cell *matCellDef="let element" >
-          <button mat-raised-button mat-icon-button (click)="deleteMovementEquipment(element)">
-            <mat-icon matTooltip="delete">delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns5"></tr>
-      <tr mat-row  *matRowDef="let row; columns: displayedColumns5;" ></tr>
-
-    </table>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns5"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns5;"></tr>
+      </table>
+    </div>
   </div>
-
 
   <div class="mat-elevation-z8" *ngIf="shownRoom">
     <div>
       <h1 class="naslov">Merging Details</h1>
     </div>
-    <table mat-table [dataSource]="shownMerging" matSort>
+    <div>
+      <table mat-table [dataSource]="shownMerging" matSort>
 
-      <ng-container matColumnDef="Room1Id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Room1Id </th>
-        <td mat-cell *matCellDef="let element"> {{element.room1Id}} </td>
-      </ng-container>
+        <ng-container matColumnDef="Room1Id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Room1Id </th>
+          <td mat-cell *matCellDef="let element"> {{element.room1Id}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="Room2Id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header align="middle"> Room2Id </th>
-        <td mat-cell *matCellDef="let element"  > {{element.room2Id}} </td>
-      </ng-container>
+        <ng-container matColumnDef="Room2Id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header align="middle">
+            Room2Id </th>
+          <td mat-cell *matCellDef="let element"> {{element.room2Id}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="DateRangeStart">
-        <th class="hederMT" mat-header-cell  *matHeaderCellDef mat-sort-header> DateRangeStart </th>
-        <td mat-cell *matCellDef="let element" > {{element.dateRangeOfMerging.from}} </td>
-      </ng-container>
+        <ng-container matColumnDef="DateRangeStart">
+          <th class="hederMT" mat-header-cell *matHeaderCellDef mat-sort-header>
+            DateRangeStart </th>
+          <td mat-cell *matCellDef="let element">
+            {{element.dateRangeOfMerging.from}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="DateRangeEnd">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> DateRangeEnd </th>
-        <td mat-cell *matCellDef="let element"> {{element.dateRangeOfMerging.to}} </td>
-      </ng-container>
+        <ng-container matColumnDef="DateRangeEnd">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> DateRangeEnd
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{element.dateRangeOfMerging.to}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="Delete">
-        <th mat-header-cell *matHeaderCellDef   > Delete </th>
-        <td mat-cell *matCellDef="let element" >
-          <button mat-raised-button mat-icon-button (click)="deleteMovementEquipment(element)">
-            <mat-icon matTooltip="delete">delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="Delete">
+          <th mat-header-cell *matHeaderCellDef> Delete </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-raised-button mat-icon-button
+              (click)="deleteMovementEquipment(element)">
+              <mat-icon matTooltip="delete">delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns6"></tr>
-      <tr mat-row  *matRowDef="let row; columns: displayedColumns6;" ></tr>
-
-    </table>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns6"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns6;"></tr>
+      </table>
+    </div>
   </div>
-
-
 
   <div class="mat-elevation-z8" *ngIf="shownRoom">
     <div>
       <h1 class="naslov">Appointment Details</h1>
     </div>
-    <table mat-table [dataSource]="shownAppointment" matSort>
-
-      <ng-container matColumnDef="emergent">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Emergency </th>
-        <td mat-cell *matCellDef="let element"> {{element.emergent}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="startDate">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header align="middle"> StartDate </th>
-        <td mat-cell *matCellDef="let element"  > {{element.duration.from}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="endDate">
-        <th class="hederMT" mat-header-cell  *matHeaderCellDef mat-sort-header> EndDate </th>
-        <td mat-cell *matCellDef="let element" > {{element.duration.to}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="doctorId">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> DoctorId </th>
-        <td mat-cell *matCellDef="let element"> {{element.doctorId}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Delete">
-        <th mat-header-cell *matHeaderCellDef   > Delete </th>
-        <td mat-cell *matCellDef="let element" >
-          <button mat-raised-button mat-icon-button (click)="deleteAppointment(element)">
-            <mat-icon matTooltip="delete">delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns4"></tr>
-      <tr mat-row  *matRowDef="let row; columns: displayedColumns4;" ></tr>
-
-    </table>
-  </div>
-</div>
-
-<div>
-  <canvas id="c" width="50%"></canvas>
-
-</div>
-
-<div class="searchEquipment">
-  <div>
-    <mat-form-field appearance="fill" class="input-symptom">
-      <mat-label> Search Equipment </mat-label>
-      <input    matInput placeholder="" search (keydown)="applyFilter($event)" #input>
-    </mat-form-field>
-    <button mat-raised-button mat-icon-button>
-      <mat-icon matTooltip="search">search</mat-icon>
-    </button>
-  </div>
-
-  <!--    <input type="text" name="search2" [(ngModel)]="searchText" placeholder="Search Equipment" >-->
-
-  <table class="tabelica" mat-table [dataSource]="Searchedequipment" matSort  *ngIf="shownEquipment" >
-
-    <ng-container matColumnDef="equipmentName">
-      <th mat-header-cell  align="center"*matHeaderCellDef mat-sort-header> Equipment Name </th>
-      <td mat-cell  align="center" *matCellDef="let element"> {{element.equipmentName}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="roomId">
-      <th mat-header-cell align="center"  *matHeaderCellDef mat-sort-header> RoomID </th>
-      <td mat-cell  *matCellDef="let element"> {{element.roomId}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="amount">
-      <th mat-header-cell align="center"  *matHeaderCellDef mat-sort-header> Amount </th>
-      <td mat-cell  align="center"  *matCellDef="let element"> {{element.amount}} </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
-    <tr mat-row  *matRowDef="let row; columns: displayedColumns2;" (click)="ShowEquipmentOnMap(row)"></tr>
-
-
-    <span class="nePostojiOprema" *matNoDataRow>Search for  "{{input.value}}" does not exist</span>
-
-  </table>
-</div>
-
-<!--- PIKULIN DEO, NE DIRATI NI ZA ZIVU GLAVU!-->
-
-<div style="background-color: rgba(0, 0, 0, 0.5);width: 100%; height: 100%; position: absolute; top:0%;left:0%" name="pozadina" *ngIf="this.tabNumber >0">
-<div class="forma"  name="equipmentMovementRequest" *ngIf="this.tabNumber >0">
-
-  <button mat-raised-button style="float: left; " (click)="exitEquipmentMovementForm()"> Exit </button>
-  <mat-form-field appearance="fill" class="input-symptom">
     <div>
-      <h1 class="naslov">Equipment movement form</h1>
+      <table mat-table [dataSource]="shownAppointment" matSort>
+
+        <ng-container matColumnDef="emergent">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Emergency </th>
+          <td mat-cell *matCellDef="let element"> {{element.emergent}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="startDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header align="middle">
+            StartDate </th>
+          <td mat-cell *matCellDef="let element"> {{element.duration.from}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="endDate">
+          <th class="hederMT" mat-header-cell *matHeaderCellDef mat-sort-header>
+            EndDate </th>
+          <td mat-cell *matCellDef="let element"> {{element.duration.to}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="doctorId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> DoctorId </th>
+          <td mat-cell *matCellDef="let element"> {{element.doctorId}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Delete">
+          <th mat-header-cell *matHeaderCellDef> Delete </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-raised-button mat-icon-button
+              (click)="deleteAppointment(element)">
+              <mat-icon matTooltip="delete">delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns4"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns4;"></tr>
+      </table>
     </div>
-
-    <div class="formaInputi" name="Amount" *ngIf="this.tabNumber===1">
-      <div>
-        <h1>Amount:</h1>
-        <input  name="amountInput" [(ngModel)]="currentEquipmentRequest.amount" type="number" value="1" min ="1">
-      </div>
-    </div>
-
-    <div class="formaInputi" name="DestinationRoom" *ngIf="tabNumber===2">
-      <div>
-        <h1>Destination room:</h1>
-        <mat-form-field appearance="fill">
-          <mat-label>Room</mat-label>
-          <mat-select name="preForPetlja" [(ngModel)]="formSelectedRoomId">
-            <mat-option  ngDefaultControl  name="forPetlja" *ngFor="let room of this.allRooms" [value]="room.id">
-              {{ room.name + ", " + this.getFloorNameByFloorId(room.floorId) + ", " + this.getBuildingNameByBuildingId(room.buildingId)}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </div>
-
-    <div class="formaInputi" name="Datumi" *ngIf="tabNumber===3">
-      <div>
-        <h1>Date interval:</h1>
-          <h2>Start date:</h2>
-          <input matInput  type="date" name="datumPocetni" [(ngModel)]="formStartDate">
-          <h2>End date:</h2>
-          <input matInput  type="date" name="datumKrajnji" [(ngModel)]="formEndDate">
-      </div>
-    </div>
-
-    <div class="formaInputi" name="Durutacija" *ngIf="tabNumber===4">
-      <div >
-        <h1>Days:</h1>
-        <input type="number" name="dani" value="0" min ="0" [(ngModel)]="formDays">
-      </div>
-
-      <div>
-        <h1>Hours:</h1>
-        <input type="number" name="sati" value="0" min ="0" [(ngModel)]="formHours">
-      </div>
-
-      <div>
-        <h1>Minutes:</h1>
-        <input type="number" name="minuti" value="0" min ="0" [(ngModel)]="formMinutes">
-      </div>
-    </div>
-
-    <div >
-      <div>
-        <div>
-          <button mat-raised-button style="float: right;" (click)="nextPageInEquipmentMovement()"> NEXT </button>
-        </div>
-      </div>
-
-      <div name="Back" *ngIf="tabNumber > 1">
-        <div>
-          <button mat-raised-button style="float: left; " (click)="previousPageInEquipmentMovement()"> Back </button>
-        </div>
-      </div>
-    </div>
-
-  </mat-form-field>
-  <div *ngIf="currentEquipmentResponses.length>0">
-    <table class="tabelica" mat-table [dataSource]="currentEquipmentResponsesTable" matSort  *ngIf="currentEquipmentResponses!=[]" >
-
-      <ng-container matColumnDef="equipmentName">
-        <th mat-header-cell  align="center"*matHeaderCellDef mat-sort-header> Equipment Name </th>
-        <td mat-cell  align="center" *matCellDef="let element"> {{element.equipmentName}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="from">
-        <th mat-header-cell align="center"  *matHeaderCellDef mat-sort-header> from </th>
-        <td mat-cell  *matCellDef="let element"> {{element.duration.from}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="to">
-        <th mat-header-cell align="center"  *matHeaderCellDef mat-sort-header> to </th>
-        <td mat-cell  align="center"  *matCellDef="let element"> {{element.duration.to}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Schedule"  >
-        <th mat-header-cell *matHeaderCellDef > Schedule </th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-raised-button (click)="onEquipmentScheduleClick(element)">
-            Schedule
-            </button></td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumnsMovement"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumnsMovement;"></tr>
-
-
-      <span class="nePostojiOprema" *matNoDataRow>Search for  "{{input.value}}" does not exist</span>
-    </table>
   </div>
+
+  <div name="CANVAS">
+    <canvas id="c" width="50%"></canvas>
   </div>
-</div>
 
-<!--- PIKULIN DEO, NE DIRATI NI ZA ZIVU GLAVU!-->
-
-<div class="container"  *ngIf="this.roomMergingtabNumber >0">
-  <div class="container-f">
-    <mat-stepper linear #stepper>
-
-      <mat-step>
-        <ng-template matStepLabel>OTHER ROOM</ng-template>
-        <form>
-          <div class="steeper-title">
-            <h1 class="header-b">OTHER ROOM:</h1>
-            <mat-form-field>
-            <mat-divider class="sub-color"></mat-divider>
-            <mat-select name="preForPetlja" [(ngModel)]="formSelectedRoomId">
-              <mat-option  ngDefaultControl  name="forPetlja" *ngFor="let room of this.allRooms" [value]="room.id">
-                {{ room.name + ", " + this.getFloorNameByFloorId(room.floorId) + ", " + this.getBuildingNameByBuildingId(room.buildingId)}}
-              </mat-option>
-            </mat-select>
-            </mat-form-field>
+  <div name="EQUIPMENTPOZADINA" style="background-color: rgba(0, 0, 0, 0.5);width: 100%;
+    height: 100%; position: absolute; top:0%;left:0%" name="pozadina"
+    *ngIf="this.tabNumber>0"> </div>
+  <div name="EQUIPMENT">
+    <div class="container" name="equipmentMovementRequest"
+      *ngIf="this.tabNumber>0">
+      <div align="left">
+        <button mat-raised-button (click)="exitEquipmentMovementForm()"> Exit
+        </button>
+      </div>
+      <div class="container-f">
+        <mat-stepper linear #stepper>
+          <div>
+            <h1 class="naslov">Equipment movement form</h1>
           </div>
-        </form>
-        <div align="center" class="align-me">
-          <button class="btn-b" mat-flat-button matStepperNext (click)="nextPageInRoomMerging()">Next</button>
-        </div>
-      </mat-step>
 
-      <mat-step>
-        <ng-template matStepLabel>DATE INTERVAL</ng-template>
-        <form>
-          <div class="steeper-title">
-            <h1 class="header-b">DATE INTERVAL:</h1>
-            <mat-form-field appearance="fill">
-              <mat-label>Enter a date range</mat-label>
-              <mat-date-range-input [rangePicker]="picker">
-                <input matStartDate name="formStartDate" placeholder="Start date" [(ngModel)]="formStartDate">
-                <input matEndDate placeholder="End date" name="formEndDate" [(ngModel)]="formEndDate">
-              </mat-date-range-input>
-              <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-date-range-picker #picker></mat-date-range-picker>
-            </mat-form-field>
+          <div class="formaInputi" name="Amount" *ngIf="this.tabNumber===1">
+            <div>
+              <h1>Amount:</h1>
+              <input name="amountInput"
+                [(ngModel)]="currentEquipmentRequest.amount" type="number"
+                value="1" min="1">
+            </div>
           </div>
-        </form>
-        <div  class="col-6">
-          <button class="btn-b-cols" mat-flat-button matStepperPrevious (click)="previousPageInRoomMerging()">Back</button>
-        </div>
-        <div align="center" class="align-me">
-          <button class="btn-b" mat-flat-button matStepperNext (click)="nextPageInRoomMerging()">Next</button>
-        </div>
-      </mat-step>
 
-      <mat-step>
-        <ng-template matStepLabel>DURATION</ng-template>
-        <form>
-          <div class="steeper-title">
-            <h1 class="header-b">DURATION:</h1>
-            <mat-form-field appearance="fill">
-                <div >
-                  <h1>Days:</h1>
-                  <mat-form-field>
-                  <input type="number" matInput name="dani" value="0" min ="0" [(ngModel)]="formDays">
-                  </mat-form-field>
-                </div>
-        
-                <div>
-                  <h1>Hours:</h1>
-                  <mat-form-field>
-                  <input type="number" matInput name="sati" value="0" min ="0" [(ngModel)]="formHours">
-                  </mat-form-field>
-                </div>
-        
-                <div>
-                  <h1>Minutes:</h1>
-                  <mat-form-field>
-                  <input type="number" matInput name="minuti" value="0" min ="0" [(ngModel)]="formMinutes">
-                  </mat-form-field>
-                </div>
-            </mat-form-field>
+          <div class="formaInputi" name="DestinationRoom" *ngIf="tabNumber===2">
+            <div>
+              <h1>Destination room:</h1>
+              <mat-form-field appearance="fill">
+                <mat-label>Room</mat-label>
+                <mat-select name="preForPetlja"
+                  [(ngModel)]="formSelectedRoomId">
+                  <mat-option ngDefaultControl name="forPetlja" *ngFor="let room
+                    of this.allRooms" [value]="room.id">
+                    {{ room.name + ", " +
+                    this.getFloorNameByFloorId(room.floorId) + ", " +
+                    this.getBuildingNameByBuildingId(room.buildingId)}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
           </div>
-        </form>
 
-        <div  class="col-6">
-          <button class="btn-b-cols" mat-flat-button matStepperPrevious (click)="previousPageInRoomMerging()">Back</button>
-        </div>
-
-        <div align="center" class="align-me">
-          <button class="btn-b" mat-flat-button matStepperNext (click)="nextPageInRoomMerging()">Next</button>
-        </div>
-
-      </mat-step>
-
-    </mat-stepper>
-  </div>
-</div>
-
-<div *ngIf="currentRoomMergingResponses.length>0">
-  <table class="tabelica" mat-table [dataSource]="currentRoomMergingResponsesTable" matSort  *ngIf="currentRoomMergingResponses!=[]" >
-
-    <ng-container matColumnDef="from">
-      <th mat-header-cell align="center"  *matHeaderCellDef mat-sort-header> from </th>
-      <td mat-cell  *matCellDef="let element"> {{element.dateRangeOfMerging.from}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="to">
-      <th mat-header-cell align="center"  *matHeaderCellDef mat-sort-header> to </th>
-      <td mat-cell  align="center"  *matCellDef="let element"> {{element.dateRangeOfMerging.to}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="Schedule"  >
-      <th mat-header-cell *matHeaderCellDef > Schedule </th>
-      <td mat-cell *matCellDef="let element">
-        <button mat-raised-button (click)="onRoomMergingClick(element)">
-          Schedule
-          </button></td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayRoomRenovation"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayRoomRenovation;"></tr>
-
-
-    <span class="nePostojiOprema" *matNoDataRow>Search for  "{{input.value}}" does not exist</span>
-  </table>
-</div>
-
-<!--- PIKULIN DEO, NE DIRATI NI ZA ZIVU GLAVU!-->
-<div class="container"  *ngIf="this.roomSplitingtabNumber >0">
-  <div class="container-f">
-    <mat-stepper linear #stepper>
-
-      <mat-step>
-        <ng-template matStepLabel>NEW ROOM NAME</ng-template>
-        <form>
-          <div class="steeper-title">
-            <h1 class="header-b">NEW ROOM NAME:</h1>
-            <mat-form-field>
-            <mat-divider class="sub-color"></mat-divider>
-            <input matInput  name="amountInput" [(ngModel)]="currentRoomSplitingRequest.NewRoomName">
-            </mat-form-field>
+          <div class="formaInputi" name="Datumi" *ngIf="tabNumber===3">
+            <div>
+              <h1>Date interval:</h1>
+              <h2>Start date:</h2>
+              <input matInput type="date" name="datumPocetni"
+                [(ngModel)]="formStartDate">
+              <h2>End date:</h2>
+              <input matInput type="date" name="datumKrajnji"
+                [(ngModel)]="formEndDate">
+            </div>
           </div>
-        </form>
-        <div align="center" class="align-me">
-          <button class="btn-b" mat-flat-button matStepperNext (click)="nextPageInRoomSpliting()">Next</button>
-        </div>
-      </mat-step>
 
-      <mat-step>
-        <ng-template matStepLabel>DATE INTERVAL</ng-template>
-        <form>
-          <div class="steeper-title">
-            <h1 class="header-b">DATE INTERVAL:</h1>
-            <mat-form-field appearance="fill">
-              <mat-label>Enter a date range</mat-label>
-              <mat-date-range-input [rangePicker]="picker">
-                <input matStartDate name="formStartDate" placeholder="Start date" [(ngModel)]="formStartDate">
-                <input matEndDate placeholder="End date" name="formEndDate" [(ngModel)]="formEndDate">
-              </mat-date-range-input>
-              <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-date-range-picker #picker></mat-date-range-picker>
-            </mat-form-field>
+          <div class="formaInputi" name="Durutacija" *ngIf="tabNumber===4">
+            <div>
+              <h1>Days:</h1>
+              <input type="number" name="dani" value="0" min="0"
+                [(ngModel)]="formDays">
+            </div>
+
+            <div>
+              <h1>Hours:</h1>
+              <input type="number" name="sati" value="0" min="0"
+                [(ngModel)]="formHours">
+            </div>
+
+            <div>
+              <h1>Minutes:</h1>
+              <input type="number" name="minuti" value="0" min="0"
+                [(ngModel)]="formMinutes">
+            </div>
           </div>
-        </form>
-        <div  class="col-6">
-          <button class="btn-b-cols" mat-flat-button matStepperPrevious (click)="previousPageInRoomSpliting()">Back</button>
-        </div>
-        <div align="center" class="align-me">
-          <button class="btn-b" mat-flat-button matStepperNext (click)="nextPageInRoomSpliting()">Next</button>
-        </div>
-      </mat-step>
 
-      <mat-step>
-        <ng-template matStepLabel>DURATION</ng-template>
-        <form>
-          <div class="steeper-title">
-            <h1 class="header-b">DURATION:</h1>
-            <mat-form-field appearance="fill">
-                <div >
-                  <h1>Days:</h1>
-                  <mat-form-field>
-                  <input type="number" matInput name="dani" value="0" min ="0" [(ngModel)]="formDays">
-                  </mat-form-field>
-                </div>
-        
-                <div>
-                  <h1>Hours:</h1>
-                  <mat-form-field>
-                  <input type="number" matInput name="sati" value="0" min ="0" [(ngModel)]="formHours">
-                  </mat-form-field>
-                </div>
-        
-                <div>
-                  <h1>Minutes:</h1>
-                  <mat-form-field>
-                  <input type="number" matInput name="minuti" value="0" min ="0" [(ngModel)]="formMinutes">
-                  </mat-form-field>
-                </div>
-            </mat-form-field>
+          <div name="NextBack">
+            <div>
+              <button mat-raised-button style="float: right;"
+                (click)="nextPageInEquipmentMovement()"> NEXT </button>
+              <button mat-raised-button style="float: left; "
+                (click)="previousPageInEquipmentMovement()"> Back </button>
+            </div>
           </div>
-        </form>
+        </mat-stepper>
+      </div>
+    </div>
 
-        <div  class="col-6">
-          <button class="btn-b-cols" mat-flat-button matStepperPrevious (click)="previousPageInRoomSpliting()">Back</button>
-        </div>
+    <div name="tabelaEquipment" *ngIf="currentEquipmentResponses.length>0">
+      <table class="tabelica" mat-table
+        [dataSource]="currentEquipmentResponsesTable" matSort
+        *ngIf="currentEquipmentResponses!=[]">
 
-        <div align="center" class="align-me">
-          <button class="btn-b" mat-flat-button matStepperNext (click)="nextPageInRoomSpliting()">Next</button>
-        </div>
-
-      </mat-step>
-
-    </mat-stepper>
-  </div>
-</div>
-
-    <div *ngIf="currentRoomSplitingResponses.length>0">
-      <table class="tabelica" mat-table [dataSource]="currentRoomSplitingResponsesTable" matSort  *ngIf="currentRoomSplitingResponses!=[]" >
+        <ng-container matColumnDef="equipmentName">
+          <th mat-header-cell align="center"*matHeaderCellDef mat-sort-header>
+            Equipment Name </th>
+          <td mat-cell align="center" *matCellDef="let element">
+            {{element.equipmentName}} </td>
+        </ng-container>
 
         <ng-container matColumnDef="from">
-          <th mat-header-cell align="center"  *matHeaderCellDef mat-sort-header> from </th>
-          <td mat-cell  *matCellDef="let element"> {{element.datesForSearch.from}} </td>
+          <th mat-header-cell align="center" *matHeaderCellDef mat-sort-header>
+            from </th>
+          <td mat-cell *matCellDef="let element"> {{element.duration.from}}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="to">
-          <th mat-header-cell align="center"  *matHeaderCellDef mat-sort-header> to </th>
-          <td mat-cell  align="center"  *matCellDef="let element"> {{element.datesForSearch.to}} </td>
+          <th mat-header-cell align="center" *matHeaderCellDef mat-sort-header>
+            to </th>
+          <td mat-cell align="center" *matCellDef="let element">
+            {{element.duration.to}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="Schedule"  >
-          <th mat-header-cell *matHeaderCellDef > Schedule </th>
+        <ng-container matColumnDef="Schedule">
+          <th mat-header-cell *matHeaderCellDef> Schedule </th>
           <td mat-cell *matCellDef="let element">
-            <button mat-raised-button (click)="onRoomSplitingClick(element)">
+            <button mat-raised-button
+              (click)="onEquipmentScheduleClick(element)">
               Schedule
-              </button></td>
+            </button></td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsMovement"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsMovement;"></tr>
+        <span class="nePostojiOprema" *matNoDataRow>Search for "{{input.value}}"
+          does not exist</span>
+      </table>
+    </div>
+  </div>
+
+  <div name="MERGING POZADINA" style="background-color: rgba(0, 0, 0, 0.5);width: 100%;
+    height: 100%; position: absolute; top:0%;left:0%" name="pozadina"
+    *ngIf="this.roomMergingtabNumber>0"> </div>
+  <div name="MERGING">
+    <div class="container" *ngIf="this.roomMergingtabNumber>0">
+      <div align="left">
+        <button mat-raised-button (click)="exitroomMergingForm()"> Exit
+        </button>
+      </div>
+      <div class="container-f">
+        <mat-stepper linear #stepper>
+
+          <mat-step name="OTHER ROOM">
+            <ng-template matStepLabel>OTHER ROOM</ng-template>
+            <form>
+              <div class="steeper-title">
+                <h1 class="header-b">OTHER ROOM:</h1>
+                <mat-form-field>
+                  <mat-divider class="sub-color"></mat-divider>
+                  <mat-select name="preForPetlja"
+                    [(ngModel)]="formSelectedRoomId">
+                    <mat-option ngDefaultControl name="forPetlja" *ngFor="let
+                      room
+                      of this.allRooms" [value]="room.id">
+                      {{ room.name + ", " +
+                      this.getFloorNameByFloorId(room.floorId) + ", " +
+                      this.getBuildingNameByBuildingId(room.buildingId)}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </form>
+            <div align="center" class="align-me">
+              <button class="btn-b" mat-flat-button matStepperNext
+                (click)="nextPageInRoomMerging()">Next</button>
+            </div>
+          </mat-step>
+
+          <mat-step name="DATES">
+            <ng-template matStepLabel>DATE INTERVAL</ng-template>
+            <form>
+              <div class="steeper-title">
+                <h1 class="header-b">DATE INTERVAL:</h1>
+                <mat-form-field appearance="fill">
+                  <mat-label>Enter a date range</mat-label>
+                  <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate name="formStartDate" placeholder="Start
+                      date" [(ngModel)]="formStartDate">
+                    <input matEndDate placeholder="End date" name="formEndDate"
+                      [(ngModel)]="formEndDate">
+                  </mat-date-range-input>
+                  <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+              </div>
+            </form>
+            <div>
+              <button class="btn-b" mat-flat-button matStepperPrevious
+                (click)="previousPageInRoomMerging()">Back</button>
+            </div>
+            <div>
+              <button class="btn-b" mat-flat-button matStepperNext
+                (click)="nextPageInRoomMerging()">Next</button>
+            </div>
+          </mat-step>
+
+          <mat-step name="DURATION">
+            <ng-template matStepLabel>DURATION</ng-template>
+            <form>
+              <div class="steeper-title">
+                <h1 class="header-b">DURATION:</h1>
+                <mat-form-field appearance="fill">
+                  <div>
+                    <h1>Days:</h1>
+                    <mat-form-field>
+                      <input type="number" matInput name="dani" value="0"
+                        min="0"
+                        [(ngModel)]="formDays">
+                    </mat-form-field>
+                  </div>
+
+                  <div>
+                    <h1>Hours:</h1>
+                    <mat-form-field>
+                      <input type="number" matInput name="sati" value="0"
+                        min="0"
+                        [(ngModel)]="formHours">
+                    </mat-form-field>
+                  </div>
+
+                  <div>
+                    <h1>Minutes:</h1>
+                    <mat-form-field>
+                      <input type="number" matInput name="minuti" value="0"
+                        min="0"
+                        [(ngModel)]="formMinutes">
+                    </mat-form-field>
+                  </div>
+                </mat-form-field>
+              </div>
+            </form>
+            <div>
+              <button class="btn-b" mat-flat-button matStepperPrevious
+                (click)="previousPageInRoomMerging()">Back</button>
+            </div>
+            <div>
+              <button class="btn-b" mat-flat-button matStepperNext
+                (click)="nextPageInRoomMerging()">Next</button>
+            </div>
+          </mat-step>
+
+        </mat-stepper>
+      </div>
+    </div>
+
+    <div name="tabelaMerging" *ngIf="currentRoomMergingResponses.length>0">
+      <table class="tabelica" mat-table
+        [dataSource]="currentRoomMergingResponsesTable" matSort
+        *ngIf="currentRoomMergingResponses!=[]">
+
+        <ng-container matColumnDef="from">
+          <th mat-header-cell align="center" *matHeaderCellDef mat-sort-header>
+            from </th>
+          <td mat-cell *matCellDef="let element">
+            {{element.dateRangeOfMerging.from}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="to">
+          <th mat-header-cell align="center" *matHeaderCellDef mat-sort-header>
+            to
+          </th>
+          <td mat-cell align="center" *matCellDef="let element">
+            {{element.dateRangeOfMerging.to}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Schedule">
+          <th mat-header-cell *matHeaderCellDef> Schedule </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-raised-button (click)="onRoomMergingClick(element)">
+              Schedule
+            </button></td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayRoomRenovation"></tr>
         <tr mat-row *matRowDef="let row; columns: displayRoomRenovation;"></tr>
-
-
-        <span class="nePostojiOprema" *matNoDataRow>Search for  "{{input.value}}" does not exist</span>
+        <span class="nePostojiOprema" *matNoDataRow>Search for "{{input.value}}"
+          does not exist</span>
       </table>
-      </div>
-      </div>  
+    </div>
+  </div>
 
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-  
+  <div name="SPLITING POZADINA" style="background-color: rgba(0, 0, 0, 0.5);width: 100%;
+    height: 100%; position: absolute; top:0%;left:0%" name="pozadina"
+    *ngIf="this.roomSplitingtabNumber>0"></div>
+  <div name="SPLITING">
+    <div class="container" *ngIf="this.roomSplitingtabNumber>0">
+      <div class="container-f">
+        <div align="left">
+          <button mat-raised-button (click)="exitroomSplitingForm()"> Exit
+          </button>
+        </div>
+        <div>
+          <mat-stepper linear #stepper>
+            <mat-step>
+              <ng-template matStepLabel>NEW ROOM NAME</ng-template>
+              <form>
+                <div class="steeper-title">
+                  <h1 class="header-b">NEW ROOM NAME:</h1>
+                  <mat-form-field>
+                    <mat-divider class="sub-color"></mat-divider>
+                    <input matInput name="amountInput"
+                      [(ngModel)]="currentRoomSplitingRequest.NewRoomName">
+                  </mat-form-field>
+                </div>
+              </form>
+              <div align="right" class="align-me">
+                <button class="btn-b" mat-flat-button matStepperNext
+                  (click)="nextPageInRoomSpliting()">Next</button>
+              </div>
+            </mat-step>
+
+            <mat-step>
+              <ng-template matStepLabel>DATE INTERVAL</ng-template>
+
+              <form>
+                <div class="steeper-title">
+                  <h1 class="header-b">DATE INTERVAL:</h1>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Enter a date range</mat-label>
+                    <mat-date-range-input [rangePicker]="picker">
+                      <input matStartDate name="formStartDate"
+                        placeholder="Start
+                        date" [(ngModel)]="formStartDate">
+                      <input matEndDate placeholder="End date"
+                        name="formEndDate"
+                        [(ngModel)]="formEndDate">
+                    </mat-date-range-input>
+                    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                  </mat-form-field>
+                </div>
+              </form>
+
+              <div align="left">
+                <button class="btn-b" mat-flat-button matStepperPrevious
+                  (click)="previousPageInRoomSpliting()">Back</button>
+              </div>
+              <div align="right">
+                <button class="btn-b" mat-flat-button matStepperNext
+                  (click)="nextPageInRoomSpliting()">Next</button>
+              </div>
+            </mat-step>
+
+            <mat-step>
+              <ng-template matStepLabel>DURATION</ng-template>
+              <form>
+                <div class="steeper-title">
+                  <h1 class="header-b">DURATION:</h1>
+                  <mat-form-field appearance="fill">
+                    <div>
+                      <h1>Days:</h1>
+                      <mat-form-field>
+                        <input type="number" matInput name="dani" value="0"
+                          min="0"
+                          [(ngModel)]="formDays">
+                      </mat-form-field>
+                    </div>
+
+                    <div>
+                      <h1>Hours:</h1>
+                      <mat-form-field>
+                        <input type="number" matInput name="sati" value="0"
+                          min="0"
+                          [(ngModel)]="formHours">
+                      </mat-form-field>
+                    </div>
+
+                    <div>
+                      <h1>Minutes:</h1>
+                      <mat-form-field>
+                        <input type="number" matInput name="minuti" value="0"
+                          min="0"
+                          [(ngModel)]="formMinutes">
+                      </mat-form-field>
+                    </div>
+                  </mat-form-field>
+                </div>
+              </form>
+
+              <div align="left">
+                <button class="btn-b" mat-flat-button matStepperPrevious
+                  (click)="previousPageInRoomSpliting()">Back</button>
+              </div>
+              <div align="right">
+                <button class="btn-b" mat-flat-button matStepperNext
+                  (click)="nextPageInRoomSpliting()">Next</button>
+              </div>
+
+            </mat-step>
+
+          </mat-stepper>
+        </div>
+      </div>
+    </div>
+
+    <div name="tabelaSpliting" *ngIf="currentRoomSplitingResponses.length>0">
+      <div>
+        <table class="tabelica" mat-table
+          [dataSource]="currentRoomSplitingResponsesTable" matSort
+          *ngIf="currentRoomSplitingResponses!=[]">
+
+          <ng-container matColumnDef="from">
+            <th mat-header-cell align="center" *matHeaderCellDef
+              mat-sort-header>
+              from </th>
+            <td mat-cell *matCellDef="let element">
+              {{element.datesForSearch.from}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="to">
+            <th mat-header-cell align="center" *matHeaderCellDef
+              mat-sort-header> to
+            </th>
+            <td mat-cell align="center" *matCellDef="let element">
+              {{element.datesForSearch.to}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Schedule">
+            <th mat-header-cell *matHeaderCellDef> Schedule </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-raised-button (click)="onRoomSplitingClick(element)">
+                Schedule
+              </button></td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayRoomRenovation"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayRoomRenovation;"></tr>
+          <span class="nePostojiOprema" *matNoDataRow>Search for
+            "{{input.value}}"
+            does not exist</span>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!--div  class="search">
+  <mat-form-field appearance="legacy">
+    <mat-label>Room search</mat-label>
+    <input matInput type="text" name="findThisRoom"  [(ngModel)]="findThisRoom">
+  </mat-form-field>
+
+  <button mat-raised-button mat-icon-button (click)="searchRoom()">
+    <mat-icon matTooltip="search">search</mat-icon>
+  </button>
+</div>
+  -->
+<!--<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>-->
 <!--
   <div>
     <div>
@@ -718,4 +836,3 @@
       <canvas  id="MyChart" >{{ Mychart }}</canvas>
     </div>
   </div> -->
-
