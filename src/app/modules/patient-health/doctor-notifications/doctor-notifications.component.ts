@@ -34,15 +34,21 @@ export class DoctorNotificationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadNotification()
+    setInterval(() => {
+      this.loadNotification()
+    }, 5000)
   }
   loadNotification(){
     this.patientHealthStateClient.getAllNotifications(this.userToken.id).subscribe({
       next: value => {
         console.log(value)
-        this.notifications = value
-        this.notificationsMap = this.notifications.map((n)=>{
-          return new NotificationPatient('old',n.patient!.name!,n.patient!.surname!,n.notifications!,n.patient?.id)
-        })
+        if(this.notifications != value){
+          this.notifications = value
+          this.notificationsMap = this.notifications.map((n)=>{
+            return new NotificationPatient('old',n.patient!.name!,n.patient!.surname!,n.notifications!,n.patient?.id)
+          })
+        }
+
       }
     })
   }
