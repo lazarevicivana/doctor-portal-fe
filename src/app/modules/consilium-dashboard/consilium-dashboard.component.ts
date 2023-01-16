@@ -26,17 +26,17 @@ const colors: Record<string, EventColor> = {
   },
   green: {
     primary: "#e3bc08",
-    secondary: "#FDF1BA",
+    secondary: "rgba(205,227,8,0.71)",
     secondaryText:'#263238'
   },
   orange : {
     primary: '#ffffff',
-    secondary: '#FDD0BA',
+    secondary: "rgba(205,227,8,0.71)",
     secondaryText:'#263238'
   },
   pink : {
     primary: '#1ECBE1',
-    secondary: '#1EE196',
+    secondary: 'rgba(42,155,203,0.62)',
     secondaryText:'#263238'
   },
   selected : {
