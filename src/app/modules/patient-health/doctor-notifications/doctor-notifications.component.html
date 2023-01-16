@@ -1,6 +1,6 @@
 <div>
   <div class="row col col-md">
-<mat-card class="notification beautiful-animation col-6 col-md-6" *ngFor="let notification of notificationsMap" [@notificationState]="notification.state">
+<mat-card  class="notification beautiful-animation col-6 col-md-6" *ngFor="let notification of notificationsMap" [@notificationState]="notification.state">
   <mat-card-header class="card-center">
     <mat-card-title >{{ notification.patientName }} {{ notification.patientSurname}}</mat-card-title>
   </mat-card-header>
