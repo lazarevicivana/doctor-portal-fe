@@ -46,6 +46,9 @@ export class SidenavComponent implements OnInit {
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
     this.loadNotification()
+    setInterval(() => {
+      this.loadNotification()
+    }, 5000)
   }
 
   loadNotification(){
