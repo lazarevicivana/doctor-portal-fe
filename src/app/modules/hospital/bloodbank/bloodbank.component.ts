@@ -59,4 +59,8 @@ export class BloodBankComponent implements OnInit {
       }
     }
   }
+
+  public BloodRequest(){
+    this.router.navigate(['/view-bloodRequests']);
+  }
 }
