@@ -39,31 +39,31 @@ export const navDataManager= [
     icon: 'fal fa-newspaper',
     label: 'Publish or reject news'
   },
-  {
-    routeLink: 'view-bloodRequests',
-    icon: 'fal fa-solid fa-syringe',
-    label: 'Blood requests'
-  },
+  // {
+  //   routeLink: 'view-bloodRequests',
+  //   icon: 'fal fa-solid fa-syringe',
+  //   label: 'Blood requests'
+  // },
   {
     routeLink: 'bloodBank',
     icon: 'fal fa-ambulance',
     label: 'Blood supply'
   },
-  {
-    routeLink: 'urgent-blood-supply',
-    icon: 'fal fa-bolt',
-    label: 'Urgent blood supply'
-  },
+  // {
+  //   routeLink: 'urgent-blood-supply',
+  //   icon: 'fal fa-bolt',
+  //   label: 'Urgent blood supply'
+  // },
   {
     routeLink: 'bloodBank/add',
     icon: 'fal fa-hospital',
     label: 'Register blood bank'
   },
-  {
-    routeLink: 'bloodBank/bloodSubscription',
-    icon: 'fal fa-handshake',
-    label: 'Blood subscription'
-  },
+  // {
+  //   routeLink: 'bloodBank/bloodSubscription',
+  //   icon: 'fal fa-handshake',
+  //   label: 'Blood subscription'
+  // },
   {
     routeLink: 'view-all-tenders',
     icon: 'fal fa-bookmark',
