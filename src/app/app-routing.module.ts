@@ -28,6 +28,7 @@ import { ExeminationSearchComponent } from './modules/examination/exemination-se
 import { RoomEventsComponent } from "./modules/hospital/room-events/room-events.component";
 import {PatientHealthCareComponent} from "./modules/patient-health/patient-health-care/patient-health-care.component";
 import {NextPatientsViewComponent} from "./modules/dashboard/next-patients-view/next-patients-view.component";
+import { PdfreportdetailsComponent } from "./modules/hospital/pdfreportdetails/pdfreportdetails.component";
 
 
 
@@ -126,7 +127,7 @@ const routes: Routes = [
     component:NextPatientsViewComponent,
     canActivate:[DoctorGuard]
   }
-
+  
 ];
 
 @NgModule({

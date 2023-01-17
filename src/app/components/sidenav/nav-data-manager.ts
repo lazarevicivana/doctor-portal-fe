@@ -70,6 +70,12 @@ export const navDataManager= [
     label: 'Blood requirement statistic'
   },
   {
+    routeLink: 'pdfReports',
+    icon: 'fa fa-file ',
+    label: 'Pdf reports'
+  },
+
+  {
     routeLink: 'sign-out',
     icon: 'fal fa-sign-out',
     label: 'Sign out'
