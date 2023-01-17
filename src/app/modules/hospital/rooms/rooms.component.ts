@@ -31,6 +31,7 @@ import { TokenStorageService } from 'src/app/services/token-storage.service';
 import {Chart} from "chart.js";
 import {TenderService} from "../services/tender.services";
 import {TenderWithId} from "../model/tender.model";
+import {NgToastService} from "ng-angular-popup";
 //import _default from "chart.js";
 //import numbers = _default.defaults.animations.numbers;
 
@@ -152,7 +153,7 @@ export class RoomsComponent implements OnInit {
   formEndDate: Date = new Date();
   formSelectedRoomId: string = '';
 
-  constructor(private tokenStorageService:TokenStorageService, private roomEventsServices: RoomEventsService, private equipmentMovementService:EquipmentMovementService, private roomService: RoomService, private buildingService: BuildingService, private groomService: GroomService, private floorService: FloorService, private roomEquipmentService :RoomEquipmentService,private tenderService: TenderService,  private router: Router) { }
+  constructor(private tokenStorageService:TokenStorageService, private roomEventsServices: RoomEventsService, private equipmentMovementService:EquipmentMovementService, private roomService: RoomService, private buildingService: BuildingService, private groomService: GroomService, private floorService: FloorService, private roomEquipmentService :RoomEquipmentService,private tenderService: TenderService,  private router: Router, private alert: NgToastService) { }
 
   ngOnInit(): void
   {
@@ -800,6 +801,8 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
     this.currentEquipmentResponsesTable = new MatTableDataSource(<EquipmentMovementAppointmentResponse[][]><unknown>this.currentEquipmentResponses);
 
     this.reloadAllInfo();
+      this.alert.success({detail: 'Success!',summary:"Equipment Moved!",duration:5000})
+      return console.log("EquipmentMoved!");
     }))
   }
 
@@ -821,6 +824,8 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
     this.roomEventsServices.createEvent("SessionEnded", "MergingSuccesful",  this.tokenStorageService.getUser().id).subscribe(res =>
       {});;
     this.reloadAllInfo();
+       this.alert.success({detail: 'Success!',summary:"Rooms Merged!",duration:5000})
+       return console.log("MergingSuccesful!");
     }))
   }
 
@@ -832,10 +837,12 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
     this.currentRoomSplitingResponses = [];
     this.currentRoomSplitingResponsesTable = new MatTableDataSource(<RoomSplitingResponse[][]><unknown>this.currentRoomSplitingResponses);
 
-    this.roomEventsServices.createEvent("SessionEnded", "SplitingSuccesful",  this.tokenStorageService.getUser().id).subscribe(res =>
+    this.roomEventsServices.createEvent("SessionEnded", "SplittingSuccesful",  this.tokenStorageService.getUser().id).subscribe(res =>
       {});;
     this.roomSplitingtabNumber = 0;
     this.reloadAllInfo();
+      this.alert.success({detail: 'Success!',summary:"Room Split!",duration:5000})
+      return console.log("Splitting Succesful!");
     }))
   }
 
@@ -911,6 +918,7 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
           this.currentRoomMergingResponses = result;
           this.currentRoomMergingResponsesTable = new MatTableDataSource(<RoomMergingResponse[][]><unknown>this.currentRoomMergingResponses);
           this.roomMergingtabNumber = 0;
+
         }
         else
         {
@@ -1031,8 +1039,12 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
       (resp) =>{
         this.MovedEquipment.data.splice(this.izabran,1)
         this.MovedEquipment.filter='';
+        this.alert.success({detail: 'Success!',summary:"Moved Equipment deleted!",duration:5000})
+        return console.log("Deleted!");
       }, err=>{
-        console.log(err);
+        this.alert.error({detail: 'Warning!',summary:"Cancellation Time Expired!",duration:5000})
+        return console.log("DateTime Expired!");
+       // console.log(err);
       });
   }
 
@@ -1043,8 +1055,12 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
       (resp) =>{
         this.shownRenovation.data.splice(this.izabran3,1)
         this.shownRenovation.filter='';
+        this.alert.success({detail: 'Success!',summary:"Room Splitting deleted!",duration:5000})
+        return console.log("Deleted!");
       }, err=>{
-        console.log(err);
+        this.alert.error({detail: 'Warning!',summary:"Cancellation Time Expired!",duration:5000})
+        return console.log("DateTime Expired!");
+       // console.log(err);
       });
   }
 
@@ -1055,8 +1071,12 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
       (resp) =>{
         this.shownMerging.data.splice(this.izabran4,1)
         this.shownMerging.filter='';
+        this.alert.success({detail: 'Success!',summary:"Room Merging deleted!",duration:5000})
+        return console.log("Deleted!");
       }, err=>{
-        console.log(err);
+        this.alert.error({detail: 'Warning!',summary:"Cancellation Time Expired!",duration:5000})
+        return console.log("DateTime Expired!");
+       // console.log(err);
       });
   }
 
@@ -1067,7 +1087,11 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
       (resp) =>{
         this.shownAppointment.data.splice(this.izabran2,1)
         this.shownAppointment.filter='';
+        this.alert.success({detail: 'Success!',summary:"Appointment deleted!",duration:5000})
+        return console.log("Deleted!");
       }, err=>{
+        this.alert.error({detail: 'Warning!',summary:"Cancellation Time Expired!",duration:5000})
+        return console.log("DateTime Expired!");
         console.log(err);
       });
   }

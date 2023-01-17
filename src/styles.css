@@ -78,6 +78,7 @@ body {
   flex: 1 0 0%;
 }
 
+
 .row {
   --bs-gutter-x: 1.5rem;
   --bs-gutter-y: 0;
@@ -89,7 +90,7 @@ body {
 }
 .row > * {
   flex-shrink: 0;
-  width: 100%;
+  width: 41.21%;
   max-width: 100%;
   padding-right: calc(var(--bs-gutter-x) * 0.5);
   padding-left: calc(var(--bs-gutter-x) * 0.5);

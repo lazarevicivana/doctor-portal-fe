@@ -108,15 +108,18 @@ p {
   clear: right;
   margin-left:auto;
   text-align: center;
+  table-layout: fixed ;
 }
 
 td, th {
   text-align: center !important;
   vertical-align: middle !important;
+
 }
 
 .mat-sort-header-container {
   justify-content: center !important;
+
 }
 
 .wrapepr{
@@ -137,22 +140,32 @@ td, th {
 
 }
 .mat-header-cell{
-  background-color:royalblue;
+  background-color: #301934;
   color: #FFFFFF;
   text-align: left;
 }
 .mat-cell{
-  border-bottom: 1px solid royalblue;
+  border-bottom: 1px solid #1C2951;
   padding: 15px;
 }
 
  .mat-row:nth-child(even):hover{
   background-color: #ffff99;
-  color: black;
+  color: #6f0000;
+   font-weight: bold;
+
 }
+
+.nesto:hover {
+  background-color:#9f4576;
+  transition: 1.25s;
+}
+
 .mat-row:nth-child(odd):hover{
   background-color: #ffff99;
-  color: black;
+  color: #6f0000;
+  font-weight: bold;
+
 }
 
 .nePostojiOprema{
