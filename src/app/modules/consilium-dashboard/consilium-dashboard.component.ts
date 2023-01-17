@@ -55,7 +55,7 @@ export class ConsiliumDashboardComponent implements OnInit {
   consiliumsCalender: CalendarEvent<{}>[] = [];
   appointmentCalender: CalendarEvent<{}>[] = [];
   events : CalendarEvent<{}>[]= [];
-  dayStartHour = 6;
+  dayStartHour = 8;
   dayEndHour = 22;
   hourSegmentHeight = 110;
   daysInWeek = 7;

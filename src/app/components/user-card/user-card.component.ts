@@ -33,7 +33,8 @@ export class UserCardComponent implements OnInit {
   }
 
   genderToString(gender: Gender) {
-    return gender === 0 ? 'Male' : 'Female';
+    // @ts-ignore
+    return gender == "MALE" ? 'Male' : 'Female';
   }
 
   convertDateToMoment() {

@@ -1,14 +1,8 @@
 export const navbarDataDoctor=[
   {
     routeLink: 'dashboard',
-    icon: 'fal fa-home',
-    label: 'Dashboard',
-    notification: false
-  },
-  {
-    routeLink: 'consiliums',
     icon: 'fal fa-calendar',
-    label: 'Calendar',
+    label: 'Dashboard',
     notification: false
   },
   {
