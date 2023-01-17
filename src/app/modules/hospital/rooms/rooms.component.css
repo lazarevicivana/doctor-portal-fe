@@ -14,6 +14,25 @@
   padding: 10px;
 }
 
+
+.mojred{
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: calc(-1 * var(--bs-gutter-y));
+  margin-right: calc(-0.5 * var(--bs-gutter-x));
+  margin-left: calc(-0.5 * var(--bs-gutter-x));
+}
+
+.mojred > * {
+  flex-shrink: 0;
+  width:21.3%;
+  max-width: 100%;
+  padding-right: calc(var(--bs-gutter-x) * 0.5);
+  padding-left: calc(var(--bs-gutter-x) * 0.5);
+  margin-top: var(--bs-gutter-y);
+}
 .container
 {
   top: 15%;
@@ -100,6 +119,10 @@ p {
     width: 120%;
   }
 
+.labelaSearcha{
+  width:20.1%;
+}
+
 .mat-elevation-z8{
 
   width: 40%;
@@ -108,15 +131,18 @@ p {
   clear: right;
   margin-left:auto;
   text-align: center;
+  table-layout: fixed ;
 }
 
 td, th {
   text-align: center !important;
   vertical-align: middle !important;
+
 }
 
 .mat-sort-header-container {
   justify-content: center !important;
+
 }
 
 .wrapepr{
@@ -127,32 +153,56 @@ td, th {
 
 .tabelica{
   border-collapse: collapse;
-  margin: 30px auto;
+ /* margin: 30px auto;*/
+  margin-left: 10px;
   font-size: 12px;
   width: 500px;
-  border-radius: 30px 0px 30px 0px;
+  /*border-radius: 30px 0px 30px 0px;*/
   overflow: hidden;
   box-shadow:  0px 0px 40px #000000;
   font-family: "Trebuchet MS",sans-serif;
-
+  text-align: center;
 }
+
+tabelica#tableId th{
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
 .mat-header-cell{
-  background-color:royalblue;
+  background-color: #301934;
   color: #FFFFFF;
   text-align: left;
 }
 .mat-cell{
-  border-bottom: 1px solid royalblue;
+  border-bottom: 1px solid #1C2951;
   padding: 15px;
 }
 
  .mat-row:nth-child(even):hover{
   background-color: #ffff99;
-  color: black;
+  color: #6f0000;
+   font-weight: bold;
+
 }
+
+.nesto:hover {
+  background-color:#9f4576;
+  transition: 1.25s;
+}
+
+
+
+
+.odvoji{
+  margin : 0 auto;
+}
+
 .mat-row:nth-child(odd):hover{
   background-color: #ffff99;
-  color: black;
+  color: #6f0000;
+  font-weight: bold;
+
 }
 
 .nePostojiOprema{
