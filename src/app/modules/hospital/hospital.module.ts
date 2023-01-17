@@ -52,6 +52,7 @@ import { CreateTenderComponent } from './create-tender/create-tender.component';
 import { AllTendersComponent } from "./view-all-tenders/view-all-tenders.component";
 import { ViewTenderComponent } from "./view-tender/view-tender.component";
 import { GenerateBloodStatisticComponent } from "./generate-blood-statistic/generate-blood-statistic.component";
+import { ExaminationAnalysisComponent } from './examination-analysis/examination-analysis.component';
 import { PdfreportdetailsComponent } from './pdfreportdetails/pdfreportdetails.component';
 import {MatRadioModule} from "@angular/material/radio";
 import {MatCheckboxModule} from "@angular/material/checkbox";
@@ -87,8 +88,7 @@ const routes: Routes = [
   { path: 'tender/add', component: CreateTenderComponent,canActivate:[BloodBankGuard]},
   { path: 'view-all-tenders', component: AllTendersComponent, canActivate:[ManagerGuard]},
   { path: 'view-tender/:id', component: ViewTenderComponent, canActivate:[ManagerGuard]},
-  { path: 'blood-requirement-statistic', component: GenerateBloodStatisticComponent, canActivate:[ManagerGuard]},
-  { path: 'pdfReports', component: PdfreportdetailsComponent}
+  { path: 'blood-requirement-statistic', component: GenerateBloodStatisticComponent, canActivate:[ManagerGuard]}
 
 ];
 
@@ -130,28 +130,30 @@ const routes: Routes = [
     CreateTenderComponent,
     AllTendersComponent,
     ViewTenderComponent,
+    ExaminationAnalysisComponent,
     PdfreportdetailsComponent
+
   ],
-  imports: [
-    CommonModule,
-    MaterialModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule.forChild(routes),
-    MatSelectModule,
-    MatDialogModule,
-    NgToastModule,
-    CommonComponentsModule,
-    MatDividerModule,
-    NgxMaterialTimepickerModule,
-    MatTabsModule,
-    MatDatepickerModule,
-    BrowserModule,
-    MatStepperModule,
-    BrowserAnimationsModule,
-    MatRadioModule,
-    MatCheckboxModule
-  ],
+    imports: [
+        CommonModule,
+        MaterialModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule.forChild(routes),
+        MatSelectModule,
+        MatDialogModule,
+        NgToastModule,
+        CommonComponentsModule,
+        MatDividerModule,
+        NgxMaterialTimepickerModule,
+        MatTabsModule,
+        MatDatepickerModule,
+        BrowserModule,
+        MatStepperModule,
+        BrowserAnimationsModule,
+        MatRadioModule,
+        MatCheckboxModule
+    ],
   exports: [ RouterModule]
 })
 export class HospitalModule { }
