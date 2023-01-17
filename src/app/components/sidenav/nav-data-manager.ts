@@ -10,6 +10,11 @@ export const navDataManager= [
     label: 'Feedback'
   },
   {
+    routeLink: 'examination-overview',
+    icon: 'fal fa-chart-bar',
+    label: 'Examination overview'
+  },
+  {
     routeLink: 'patient-statistics',
     icon: 'fal fa-chart-line',
     label: 'Patient statistics'
@@ -43,6 +48,11 @@ export const navDataManager= [
     routeLink: 'bloodBank',
     icon: 'fal fa-ambulance',
     label: 'Blood supply'
+  },
+  {
+    routeLink: 'urgent-blood-supply',
+    icon: 'fal fa-bolt',
+    label: 'Urgent blood supply'
   },
   {
     routeLink: 'bloodBank/add',

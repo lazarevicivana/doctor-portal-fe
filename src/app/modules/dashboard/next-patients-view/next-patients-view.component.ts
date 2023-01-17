@@ -1,10 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AppointmentClient, AppointmentResponse} from "../../../api/api-reference";
+import {AppointmentClient, AppointmentResponse, PatientHealthStateClient} from "../../../api/api-reference";
 import {TokenStorageService} from "../../../services/token-storage.service";
 import {Router} from "@angular/router";
 import {UserToken} from "../../../model/UserToken";
 import * as moment from "moment";
 import {AppointmentService} from "../../../services/appointment.service";
+import {PatientHealthService} from "../../patient-health/patient-health.service";
 
 @Component({
   selector: 'app-next-patients-view',
@@ -17,7 +18,8 @@ export class NextPatientsViewComponent implements OnInit {
   searchValue: string = "";
   immutableAppointments: AppointmentResponse[]=[];
   constructor(private readonly appointmentClient:AppointmentClient,private tokenStorageService:TokenStorageService,
-              private router:Router,private appointmentService:AppointmentService) {
+              private router:Router,private appointmentService:AppointmentService,
+              private patientHealthService:PatientHealthService) {
     this.userToken = this.tokenStorageService.getUser();
   }
 
@@ -39,8 +41,9 @@ export class NextPatientsViewComponent implements OnInit {
     return moment(date).format("MMMM Do, YYYY");
   }
 
-  showRecord() {
-
+  showRecord(id: string) {
+    this.patientHealthService.savePatientId(id)
+    this.router.navigate(['patient-profile'])
   }
 
   Examine(appointmentId:string) {

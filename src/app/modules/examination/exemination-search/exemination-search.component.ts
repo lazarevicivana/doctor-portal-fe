@@ -32,7 +32,7 @@ export class ExeminationSearchComponent implements OnInit {
           this.filteredExemintions = res;
         },
         error: err =>{
-          this.ngToast.error({detail: 'Error!',summary:err,duration:5000})
+          this.ngToast.error({detail: 'Error!',summary:err.Error,duration:5000})
         }
       })
     }

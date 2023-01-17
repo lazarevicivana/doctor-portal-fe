@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 import { Tender, TenderWithId } from '../model/tender.model';
 import { TenderService } from '../services/tender.services';
 
@@ -28,15 +29,19 @@ export class AllTendersComponent implements OnInit {
     this.router.navigate(['/view-tender', id]);
   }
 
+  getDateFormat(date: Date) {
+    return moment(date).format("MMMM Do, YYYY");
+  }
+
   public statusToString(status:number){
     if (status == 0){
-        return "OPEN";
+        return "Open";
     }else if (status == 1){
-        return "IN PROCESS";
+        return "In process";
     }else if (status == 2){
-        return "CLOSED";
+        return "Closed";
     }else{
-        return "UNKNOWN";
+        return "Unkown";
     }
 }
 
