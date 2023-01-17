@@ -1,14 +1,93 @@
-.input-create-request {
-    margin-top: 8px;
-    width:40%;
-    display: block;
-    margin-right: auto;
-    margin-left: auto;
-    height: 60px;
-  }
+.container-f {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25),
+  0 10px 10px rgba(0,0,0,0.22);
+  position: center;
+  overflow: hidden;
+  max-width: 100%;
+  min-height: 650px;
+  margin: auto;
+  width: 70%;
+  padding: 10px;
+}
+.container-holidays{
+  background-color: #fff;
+  padding-bottom: 2%;
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25),
+  0 10px 10px rgba(0,0,0,0.22);
+  position: center;
+  overflow: hidden;
+  max-width: 100%;
+  min-height: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  max-height: 98%;
+  width: 60%;
+  margin-bottom: auto;
+}
+.form-container {
+  position: relative;
+  top: 0;
+  height: 100%;
+  transition: all 0.6s ease-in-out;
+}
+.title{
+  margin: 5px 0;
+}
+.create-schedule-container {
+  left: 0;
+  width: 50%;
+  opacity: 0;
+  z-index: 1;
+}
+.center-me{
+  position: center;
+}
+.input-schedule {
+  margin-top: 20px;
+  width: 60%;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+.input-comment {
+  height: 200px;
+}
+.comment{
+  margin-top: 20px;
+  width: 100%;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+.button-color{
+  background: #3b4d79;
+}
+.button-color {
+  background: #263238;
+}
 
-  .container-f {
-    position: relative;
-    width:60%;
-    overflow: auto;
-  }
+.button-color:hover {
+  transform: scale(1.04);
+  transition: 0.2s;
+  cursor: pointer;
+  background-color: #4c7891;
+  color: white;
+}
+.header-holiday {
+  font-size: 26px;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 10px;
+  padding-bottom: 2%;
+  background: #263238;
+}
+
+.header-amount{
+  margin-left: 160px;
+  margin-top: 20px;
+}

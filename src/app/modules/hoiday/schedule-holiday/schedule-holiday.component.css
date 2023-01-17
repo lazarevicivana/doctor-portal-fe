@@ -85,3 +85,15 @@
   padding-bottom: 2%;
   background: #263238;
 }
+
+.amount-header{
+  margin-top: 20px;
+  width: 60%;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.input-amount{
+  float:left; display:inline; width: 49%;
+}

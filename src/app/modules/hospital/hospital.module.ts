@@ -84,7 +84,9 @@ const routes: Routes = [
   { path: 'tender/verification', component: TenderVerificationComponent},
   { path: 'malicious-patients', component: MaliciousPatientsComponent},
   { path: 'malicious-patients', component: MaliciousPatientsComponent},
-  { path: 'tender/add', component: CreateTenderComponent,canActivate:[BloodBankGuard]},
+  { path: 'tender/add', component: CreateTenderComponent
+  //,canActivate:[BloodBankGuard]
+  },
   { path: 'view-all-tenders', component: AllTendersComponent, canActivate:[ManagerGuard]},
   { path: 'view-tender/:id', component: ViewTenderComponent, canActivate:[ManagerGuard]},
   { path: 'blood-requirement-statistic', component: GenerateBloodStatisticComponent, canActivate:[ManagerGuard]},
