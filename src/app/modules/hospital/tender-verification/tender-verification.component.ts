@@ -19,6 +19,7 @@ export class TenderVerificationComponent implements OnInit {
   public tender = new Tender();
   public errorMessage = "";
   public isLinear = false;
+  public disabled = false;
   firstFormGroup = this._formBuilder.group({
     firstCtrl: ['', Validators.required],
   });
@@ -52,6 +53,8 @@ export class TenderVerificationComponent implements OnInit {
   }
 
   public confirmTender(){
+    this.disabled = true;
+    this.isLinear = true;
     this.tenderVerificationService.confirmTender(this.tender)
     .subscribe(res => {
           this.alert.success({detail: 'Success!', summary: "Tender is confirmed!", duration: 5000})

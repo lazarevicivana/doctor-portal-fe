@@ -12,7 +12,7 @@
         </ng-container>
         <ng-container matColumnDef="realizationDate">
             <th mat-header-cell *matHeaderCellDef class="cell-center"> Deadline date </th>
-            <td mat-cell *matCellDef="let tenderOffer" class="cell-center">{{tenderOffer.realizationDate| date:"MM/dd/yyyy 'at' h:mma"}}</td>
+            <td mat-cell *matCellDef="let tenderOffer" class="cell-center">{{getDateFormat(tenderOffer.realizationDate)}}</td>
         </ng-container>
         <ng-container matColumnDef="price">
             <th mat-header-cell *matHeaderCellDef class="cell-center"> Price (euros) </th>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import * as moment from 'moment';
 import { NgToastService } from 'ng-angular-popup';
 import { Tender, TenderOffer, TenderWithId } from '../model/tender.model';
 import { TenderService } from '../services/tender.services';
@@ -39,5 +40,9 @@ export class ViewTenderComponent implements OnInit {
         })
         
         this.rout.navigate(['/view-all-tenders']);
+    }
+
+    getDateFormat(date: Date) {
+      return moment(date).format("MMMM Do, YYYY");
     }
 }
