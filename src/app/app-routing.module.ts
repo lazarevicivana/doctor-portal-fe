@@ -29,10 +29,12 @@ import {ExaminationAnalysisComponent} from "./modules/hospital/examination-analy
 import { RoomEventsComponent } from "./modules/hospital/room-events/room-events.component";
 import {PatientHealthCareComponent} from "./modules/patient-health/patient-health-care/patient-health-care.component";
 import {NextPatientsViewComponent} from "./modules/dashboard/next-patients-view/next-patients-view.component";
+import { PdfreportdetailsComponent } from "./modules/hospital/pdfreportdetails/pdfreportdetails.component";
 import {ProfileComponent} from "./modules/patient-health/profile-patient/profile.component";
 import {
   DoctorNotificationsComponent
 } from "./modules/patient-health/doctor-notifications/doctor-notifications.component";
+
 
 
 

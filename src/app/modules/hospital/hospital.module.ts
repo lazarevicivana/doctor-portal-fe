@@ -88,7 +88,9 @@ const routes: Routes = [
   { path: 'tender/add', component: CreateTenderComponent,canActivate:[BloodBankGuard]},
   { path: 'view-all-tenders', component: AllTendersComponent, canActivate:[ManagerGuard]},
   { path: 'view-tender/:id', component: ViewTenderComponent, canActivate:[ManagerGuard]},
-  { path: 'blood-requirement-statistic', component: GenerateBloodStatisticComponent, canActivate:[ManagerGuard]}
+  { path: 'blood-requirement-statistic', component: GenerateBloodStatisticComponent, canActivate:[ManagerGuard]},
+  { path: 'pdfReports', component: PdfreportdetailsComponent, canActivate:[ManagerGuard]}
+
 
 ];
 
