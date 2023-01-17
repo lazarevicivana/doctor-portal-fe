@@ -66,7 +66,7 @@ export class RoomsComponent implements OnInit {
 
   ////For  Displaying Room Spltting
   shownRenovation = new MatTableDataSource<RoomSplitingResponse[]> ;   ///ZAMENI APPOINTMENT
-  displayedColumns5: string[] = [ 'RoomId', 'StartDate', 'EndDate','newRoomName','Delete'];
+  displayedColumns5: string[] = ['StartDate', 'EndDate','newRoomName','Delete'];
   public izabran3 : any ; // for splicing appointment matTable
 
   ////For  Displaying Room Spltting and Merging
@@ -828,12 +828,12 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
   {
 
     this.roomService.createRoomSpliting(selectedRoomSpliting).subscribe((result => {
-    this.roomSplitingtabNumber = 0;
     this.currentRoomSplitingResponses = [];
     this.currentRoomSplitingResponsesTable = new MatTableDataSource(<RoomSplitingResponse[][]><unknown>this.currentRoomSplitingResponses);
 
     this.roomEventsServices.createEvent("SessionEnded", "SplitingSuccesful",  this.tokenStorageService.getUser().id).subscribe(res =>
       {});;
+    this.roomSplitingtabNumber = 0;
     this.reloadAllInfo();
     }))
   }
@@ -867,6 +867,7 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
         {
           this.currentEquipmentResponses = result;
           this.currentEquipmentResponsesTable = new MatTableDataSource(<EquipmentMovementAppointmentResponse[][]><unknown>this.currentEquipmentResponses);
+          this.tabNumber = 0;
         }
         else
         {
@@ -908,6 +909,7 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
         {
           this.currentRoomMergingResponses = result;
           this.currentRoomMergingResponsesTable = new MatTableDataSource(<RoomMergingResponse[][]><unknown>this.currentRoomMergingResponses);
+          this.roomMergingtabNumber = 0;
         }
         else
         {
@@ -948,6 +950,7 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
         {
           this.currentRoomSplitingResponses = result;
           this.currentRoomSplitingResponsesTable = new MatTableDataSource(<RoomSplitingResponse[][]><unknown>this.currentRoomSplitingResponses);
+          this.roomSplitingtabNumber = 0;
         }
         else
         {

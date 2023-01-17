@@ -134,7 +134,7 @@
     </div>
   </div>
 
-  <div class="mat-elevation-z8" *ngIf="shownRoom">
+  <div class="mat-elevation-z8" *ngIf="shownRoom && equipment.data.length>0">
     <div>
       <h1 class="naslov">Equipment Details</h1>
     </div>
@@ -166,7 +166,7 @@
     </div>
   </div>
 
-  <div class="mat-elevation-z8" *ngIf="shownRoom">
+  <div class="mat-elevation-z8" *ngIf="shownRoom &&  MovedEquipment.data.length>0">
     <div>
       <h1 class="naslov">Movement Details</h1>
     </div>
@@ -227,7 +227,7 @@
     </div>
   </div>
 
-  <div class="mat-elevation-z8" *ngIf="shownRoom">
+  <div class="mat-elevation-z8" *ngIf="shownRoom &&  shownRenovation.data.length>0">
     <div>
       <h1 class="naslov">Splitting Details</h1>
     </div>
@@ -269,7 +269,7 @@
     </div>
   </div>
 
-  <div class="mat-elevation-z8" *ngIf="shownRoom">
+  <div class="mat-elevation-z8" *ngIf="shownRoom &&  shownMerging.data.length>0">
     <div>
       <h1 class="naslov">Merging Details</h1>
     </div>
@@ -317,7 +317,7 @@
     </div>
   </div>
 
-  <div class="mat-elevation-z8" *ngIf="shownRoom">
+  <div class="mat-elevation-z8" *ngIf="shownRoom &&  shownAppointment.data.length>0">
     <div>
       <h1 class="naslov">Appointment Details</h1>
     </div>
@@ -368,93 +368,383 @@
   </div>
 
   <div name="EQUIPMENTPOZADINA" style="background-color: rgba(0, 0, 0, 0.5);width: 100%;
-    height: 100%; position: absolute; top:0%;left:0%" name="pozadina"
-    *ngIf="this.tabNumber>0"> </div>
+    height: 100%; position: absolute; top:0%;left:0%" *ngIf="this.tabNumber>0"> </div>
   <div name="EQUIPMENT">
-    <div class="container" name="equipmentMovementRequest"
-      *ngIf="this.tabNumber>0">
+    <div class="container" *ngIf="this.tabNumber>0">
       <div align="left">
         <button mat-raised-button (click)="exitEquipmentMovementForm()"> Exit
         </button>
       </div>
+
       <div class="container-f">
         <mat-stepper linear #stepper>
-          <div>
-            <h1 class="naslov">Equipment movement form</h1>
-          </div>
 
-          <div class="formaInputi" name="Amount" *ngIf="this.tabNumber===1">
+          <mat-step name="AMOUNT">
+            <ng-template matStepLabel>AMOUNT</ng-template>
+            <form>
+              <div class="steeper-title">
+                <h1 class="header-b">AMOUNT:</h1>
+                <mat-form-field>
+                    <input name="amountOpreme" matInput [(ngModel)]="currentEquipmentRequest.amount" type="number"
+                          value="1" min="1">
+                </mat-form-field>
+              </div>
+            </form>
+            <br>
             <div>
-              <h1>Amount:</h1>
-              <input name="amountInput"
-                [(ngModel)]="currentEquipmentRequest.amount" type="number"
-                value="1" min="1">
+              <button  style="float:right" class="btn-b" mat-flat-button matStepperNext
+                (click)="nextPageInEquipmentMovement()">Next</button>
             </div>
-          </div>
+          </mat-step>
 
-          <div class="formaInputi" name="DestinationRoom" *ngIf="tabNumber===2">
+          <mat-step name="DESTINATION ROOM">
+            <ng-template matStepLabel>DESTINATION ROOM</ng-template>
+            <form>
+              <div class="steeper-title">
+                  <h1>Destination room:</h1>
+                  <mat-form-field appearance="fill">
+                    <mat-divider class="sub-color"></mat-divider>
+                    <mat-label>Room</mat-label>
+                    <mat-select name="preForPetlja"
+                      [(ngModel)]="formSelectedRoomId">
+                      <mat-option ngDefaultControl name="forPetlja" *ngFor="let room
+                        of this.allRooms" [value]="room.id">
+                        {{ room.name + ", " +
+                        this.getFloorNameByFloorId(room.floorId) + ", " +
+                        this.getBuildingNameByBuildingId(room.buildingId)}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+              </div>
+            </form>
+            <br>
             <div>
-              <h1>Destination room:</h1>
-              <mat-form-field appearance="fill">
-                <mat-label>Room</mat-label>
-                <mat-select name="preForPetlja"
-                  [(ngModel)]="formSelectedRoomId">
-                  <mat-option ngDefaultControl name="forPetlja" *ngFor="let room
-                    of this.allRooms" [value]="room.id">
-                    {{ room.name + ", " +
-                    this.getFloorNameByFloorId(room.floorId) + ", " +
-                    this.getBuildingNameByBuildingId(room.buildingId)}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+              <button  style="float:left" class="btn-b" mat-flat-button matStepperPrevious
+                (click)="previousPageInEquipmentMovement()">Back</button>
+              <button  style="float:right" class="btn-b" mat-flat-button matStepperNext
+                (click)="nextPageInEquipmentMovement()">Next</button>
             </div>
-          </div>
+          </mat-step>
 
-          <div class="formaInputi" name="Datumi" *ngIf="tabNumber===3">
+          <mat-step name="DATES">
+            <ng-template matStepLabel>DATE INTERVAL</ng-template>
+            <form>
+              <div class="steeper-title">
+                <h1 class="header-b">DATE INTERVAL:</h1>
+              
+                <mat-form-field appearance="fill">
+                  <mat-label>Enter a date range</mat-label>
+                  <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate name="formStartDate" placeholder="Start
+                      date" [(ngModel)]="formStartDate">
+                    <input matEndDate placeholder="End date" name="formEndDate"
+                      [(ngModel)]="formEndDate">
+                  </mat-date-range-input>
+                  <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+              </div>
+            </form>
+            <br>
             <div>
-              <h1>Date interval:</h1>
-              <h2>Start date:</h2>
-              <input matInput type="date" name="datumPocetni"
-                [(ngModel)]="formStartDate">
-              <h2>End date:</h2>
-              <input matInput type="date" name="datumKrajnji"
-                [(ngModel)]="formEndDate">
+              <button  style="float:left" class="btn-b" mat-flat-button matStepperPrevious
+                (click)="previousPageInEquipmentMovement()">Back</button>
+              <button  style="float:right" class="btn-b" mat-flat-button matStepperNext
+                (click)="nextPageInEquipmentMovement()">Next</button>
             </div>
-          </div>
+          </mat-step>
 
-          <div class="formaInputi" name="Durutacija" *ngIf="tabNumber===4">
-            <div>
-              <h1>Days:</h1>
-              <input type="number" name="dani" value="0" min="0"
-                [(ngModel)]="formDays">
-            </div>
+          <mat-step name="INTERVAL"><ng-template matStepLabel>DURATION</ng-template>
+            <form>
+              <div class="steeper-title">
+                <h1 class="header-b">DURATION:</h1>
+                <mat-form-field appearance="fill">
+                  <div>
+                    <h1>Days:</h1>
+                    <mat-form-field>
+                      <input type="number" matInput name="dani" value="0"
+                        min="0"
+                        [(ngModel)]="formDays">
+                    </mat-form-field>
+                  </div>
 
-            <div>
-              <h1>Hours:</h1>
-              <input type="number" name="sati" value="0" min="0"
-                [(ngModel)]="formHours">
-            </div>
+                  <div>
+                    <h1>Hours:</h1>
+                    <mat-form-field>
+                      <input type="number" matInput name="sati" value="0"
+                        min="0"
+                        [(ngModel)]="formHours">
+                    </mat-form-field>
+                  </div>
 
-            <div>
-              <h1>Minutes:</h1>
-              <input type="number" name="minuti" value="0" min="0"
-                [(ngModel)]="formMinutes">
-            </div>
-          </div>
-
-          <div name="NextBack">
-            <div>
-              <button mat-raised-button style="float: right;"
-                (click)="nextPageInEquipmentMovement()"> NEXT </button>
-              <button mat-raised-button style="float: left; "
-                (click)="previousPageInEquipmentMovement()"> Back </button>
-            </div>
-          </div>
+                  <div>
+                    <h1>Minutes:</h1>
+                    <mat-form-field>
+                      <input type="number" matInput name="minuti" value="0"
+                        min="0"
+                        [(ngModel)]="formMinutes">
+                    </mat-form-field>
+                  </div>
+                </mat-form-field>
+              </div>
+            </form>
+              <br>
+              <div>
+                <button  style="float:left" class="btn-b" mat-flat-button matStepperPrevious
+                  (click)="previousPageInEquipmentMovement()">Back</button>
+                <button  style="float:right" class="btn-b" mat-flat-button matStepperNext
+                  (click)="nextPageInEquipmentMovement()">Next</button>
+              </div>
+          </mat-step>
         </mat-stepper>
       </div>
     </div>
 
-    <div name="tabelaEquipment" *ngIf="currentEquipmentResponses.length>0">
+  </div>
+
+  <div name="MERGING POZADINA" style="background-color: rgba(0, 0, 0, 0.5);width: 100%;
+    height: 100%; position: absolute; top:0%;left:0%" *ngIf="this.roomMergingtabNumber>0"> </div>
+  <div name="MERGING">
+    <div class="container" *ngIf="this.roomMergingtabNumber>0">
+      <div align="left">
+        <button mat-raised-button (click)="exitroomMergingForm()"> Exit
+        </button>
+      </div>
+
+      <div class="container-f">
+        <mat-stepper linear #stepper>
+
+          <mat-step name="OTHER ROOM">
+            <ng-template matStepLabel>OTHER ROOM</ng-template>
+            <form>
+              <div class="steeper-title">
+                <h1 class="header-b">OTHER ROOM:</h1>
+                <mat-form-field>
+                  <mat-divider class="sub-color"></mat-divider>
+                  <mat-select name="preForPetlja"
+                    [(ngModel)]="formSelectedRoomId">
+                    <mat-option ngDefaultControl name="forPetlja" *ngFor="let
+                      room
+                      of this.allRooms" [value]="room.id">
+                      {{ room.name + ", " +
+                      this.getFloorNameByFloorId(room.floorId) + ", " +
+                      this.getBuildingNameByBuildingId(room.buildingId)}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </form>
+            
+            <br>
+            <div>
+              <button  style="float:right" class="btn-b" mat-flat-button matStepperNext
+                (click)="nextPageInRoomMerging()">Next</button>
+            </div>
+          </mat-step>
+
+          <mat-step name="DATES">
+            <ng-template matStepLabel>DATE INTERVAL</ng-template>
+            <form>
+              <div class="steeper-title">
+                <h1 class="header-b">DATE INTERVAL:</h1>
+                <mat-form-field appearance="fill">
+                  <mat-label>Enter a date range</mat-label>
+                  <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate name="formStartDate" placeholder="Start
+                      date" [(ngModel)]="formStartDate">
+                    <input matEndDate placeholder="End date" name="formEndDate"
+                      [(ngModel)]="formEndDate">
+                  </mat-date-range-input>
+                  <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+              </div>
+            </form>
+            <br>
+            <div>
+              <button  style="float:left" class="btn-b" mat-flat-button matStepperPrevious
+                (click)="previousPageInRoomMerging()">Back</button>
+              <button  style="float:right" class="btn-b" mat-flat-button matStepperNext
+                (click)="nextPageInRoomMerging()">Next</button>
+            </div>
+          </mat-step>
+
+          <mat-step name="DURATION">
+            <ng-template matStepLabel>DURATION</ng-template>
+            <form>
+              <div class="steeper-title">
+                <h1 class="header-b">DURATION:</h1>
+                <mat-form-field appearance="fill">
+                  <div>
+                    <h1>Days:</h1>
+                    <mat-form-field>
+                      <input type="number" matInput name="dani" value="0"
+                        min="0"
+                        [(ngModel)]="formDays">
+                    </mat-form-field>
+                  </div>
+
+                  <div>
+                    <h1>Hours:</h1>
+                    <mat-form-field>
+                      <input type="number" matInput name="sati" value="0"
+                        min="0"
+                        [(ngModel)]="formHours">
+                    </mat-form-field>
+                  </div>
+
+                  <div>
+                    <h1>Minutes:</h1>
+                    <mat-form-field>
+                      <input type="number" matInput name="minuti" value="0"
+                        min="0"
+                        [(ngModel)]="formMinutes">
+                    </mat-form-field>
+                  </div>
+                </mat-form-field>
+              </div>
+            </form>
+            <br>
+            <div>
+              <button  style="float:left" class="btn-b" mat-flat-button matStepperPrevious
+                (click)="previousPageInRoomMerging()">Back</button>
+              <button  style="float:right" class="btn-b" mat-flat-button matStepperNext
+                (click)="nextPageInRoomMerging()">Next</button>
+            </div>
+          </mat-step>
+
+        </mat-stepper>
+      </div>
+    </div>
+  </div>
+
+  <div name="SPLITING POZADINA" style="background-color: rgba(0, 0, 0, 0.5);width: 100%;
+    height: 100%; position: absolute; top:0%;left:0%" *ngIf="this.roomSplitingtabNumber>0"> </div>
+  <div name="SPLITING">
+    <div class="container" *ngIf="this.roomSplitingtabNumber>0">
+      <div align="left">
+        <button mat-raised-button (click)="exitroomSplitingForm()"> Exit
+        </button>
+      </div>
+      <div class="container-f">
+        <div>
+          <mat-stepper linear #stepper>
+            <mat-step>
+                <ng-template matStepLabel>NEW ROOM NAME</ng-template>
+                <form>
+                  <div class="steeper-title">
+                    <h1 class="header-b">NEW ROOM NAME:</h1>
+                    <mat-form-field>
+                      <mat-divider class="sub-color"></mat-divider>
+                      <input matInput name="amountInput"
+                        [(ngModel)]="currentRoomSplitingRequest.NewRoomName">
+                    </mat-form-field>
+                  </div>
+                </form>
+      
+                <br>
+                <div class="align-me">
+                  <button style="float:right" class="btn-b" mat-flat-button matStepperNext
+                    (click)="nextPageInRoomSpliting()">Next</button>
+                </div>
+            </mat-step>
+
+            <mat-step>
+                <ng-template matStepLabel>DATE INTERVAL</ng-template>
+
+                <form>
+                  <div class="steeper-title">
+                    <h1 class="header-b">DATE INTERVAL:</h1>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Enter a date range</mat-label>
+                      <mat-date-range-input [rangePicker]="picker">
+                        <input matStartDate name="formStartDate"
+                          placeholder="Start
+                          date" [(ngModel)]="formStartDate">
+                        <input matEndDate placeholder="End date"
+                          name="formEndDate"
+                          [(ngModel)]="formEndDate">
+                      </mat-date-range-input>
+                      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-date-range-picker #picker></mat-date-range-picker>
+                    </mat-form-field>
+                  </div>
+                </form>
+                <br>
+                <div>
+                  <button   style="float:left" class="btn-b" mat-flat-button matStepperPrevious
+                    (click)="previousPageInRoomSpliting()">Back</button>
+
+                  <button  style="float:right" class="btn-b" mat-flat-button matStepperNext
+                    (click)="nextPageInRoomSpliting()">Next</button>
+                </div>
+            </mat-step>
+
+            <mat-step>
+                <ng-template matStepLabel>DURATION</ng-template>
+                <form>
+                  <div class="steeper-title">
+                    <h1 class="header-b">DURATION:</h1>
+                    <mat-form-field appearance="fill">
+                      <div>
+                        <h1>Days:</h1>
+                        <mat-form-field>
+                          <input type="number" matInput name="dani" value="0"
+                            min="0"
+                            [(ngModel)]="formDays">
+                        </mat-form-field>
+                      </div>
+
+                      <div>
+                        <h1>Hours:</h1>
+                        <mat-form-field>
+                          <input type="number" matInput name="sati" value="0"
+                            min="0"
+                            [(ngModel)]="formHours">
+                        </mat-form-field>
+                      </div>
+
+                      <div>
+                        <h1>Minutes:</h1>
+                        <mat-form-field>
+                          <input type="number" matInput name="minuti" value="0"
+                            min="0"
+                            [(ngModel)]="formMinutes">
+                        </mat-form-field>
+                      </div>
+                    </mat-form-field>
+                  </div>
+                </form>
+                <br>
+                <div >
+                  <button  style="float:left" class="btn-b" mat-flat-button matStepperPrevious
+                    (click)="previousPageInRoomSpliting()">Back</button>
+                  <button  style="float:right" class="btn-b" mat-flat-button matStepperNext
+                    (click)="nextPageInRoomSpliting()">Next</button>
+                </div>
+
+            </mat-step>
+
+          </mat-stepper>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+
+  <div name="EQUIPMENT POZADINA TABELE" style="background-color: rgba(0, 0, 0, 0.5);width: 100%;
+    height: 100%; position: absolute; top:0%;left:0%"
+    *ngIf="currentEquipmentResponses.length>0"> </div>
+  <div class="container" name="tabelaEquipment" *ngIf="currentEquipmentResponses.length>0">
+    <div>
+      <div align="left">
+        <button mat-raised-button (click)="currentEquipmentResponses.length = 0"> Exit
+        </button>
+      </div>
       <table class="tabelica" mat-table
         [dataSource]="currentEquipmentResponsesTable" matSort
         *ngIf="currentEquipmentResponses!=[]">
@@ -497,123 +787,14 @@
     </div>
   </div>
 
-  <div name="MERGING POZADINA" style="background-color: rgba(0, 0, 0, 0.5);width: 100%;
-    height: 100%; position: absolute; top:0%;left:0%" name="pozadina"
-    *ngIf="this.roomMergingtabNumber>0"> </div>
-  <div name="MERGING">
-    <div class="container" *ngIf="this.roomMergingtabNumber>0">
+  <div name="MERGING POZADINA TABELE" style="background-color: rgba(0, 0, 0, 0.5);width: 100%;
+    height: 100%; position: absolute; top:0%;left:0%" *ngIf="this.currentRoomMergingResponses.length>0"> </div>
+  <div class="container" name="tabelaMerging" *ngIf="currentRoomMergingResponses.length>0">      <div>
+    <div>  
       <div align="left">
-        <button mat-raised-button (click)="exitroomMergingForm()"> Exit
+        <button mat-raised-button (click)="currentRoomMergingResponses.length = 0"> Exit
         </button>
       </div>
-      <div class="container-f">
-        <mat-stepper linear #stepper>
-
-          <mat-step name="OTHER ROOM">
-            <ng-template matStepLabel>OTHER ROOM</ng-template>
-            <form>
-              <div class="steeper-title">
-                <h1 class="header-b">OTHER ROOM:</h1>
-                <mat-form-field>
-                  <mat-divider class="sub-color"></mat-divider>
-                  <mat-select name="preForPetlja"
-                    [(ngModel)]="formSelectedRoomId">
-                    <mat-option ngDefaultControl name="forPetlja" *ngFor="let
-                      room
-                      of this.allRooms" [value]="room.id">
-                      {{ room.name + ", " +
-                      this.getFloorNameByFloorId(room.floorId) + ", " +
-                      this.getBuildingNameByBuildingId(room.buildingId)}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </form>
-            <div align="center" class="align-me">
-              <button class="btn-b" mat-flat-button matStepperNext
-                (click)="nextPageInRoomMerging()">Next</button>
-            </div>
-          </mat-step>
-
-          <mat-step name="DATES">
-            <ng-template matStepLabel>DATE INTERVAL</ng-template>
-            <form>
-              <div class="steeper-title">
-                <h1 class="header-b">DATE INTERVAL:</h1>
-                <mat-form-field appearance="fill">
-                  <mat-label>Enter a date range</mat-label>
-                  <mat-date-range-input [rangePicker]="picker">
-                    <input matStartDate name="formStartDate" placeholder="Start
-                      date" [(ngModel)]="formStartDate">
-                    <input matEndDate placeholder="End date" name="formEndDate"
-                      [(ngModel)]="formEndDate">
-                  </mat-date-range-input>
-                  <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                  <mat-date-range-picker #picker></mat-date-range-picker>
-                </mat-form-field>
-              </div>
-            </form>
-            <div>
-              <button class="btn-b" mat-flat-button matStepperPrevious
-                (click)="previousPageInRoomMerging()">Back</button>
-            </div>
-            <div>
-              <button class="btn-b" mat-flat-button matStepperNext
-                (click)="nextPageInRoomMerging()">Next</button>
-            </div>
-          </mat-step>
-
-          <mat-step name="DURATION">
-            <ng-template matStepLabel>DURATION</ng-template>
-            <form>
-              <div class="steeper-title">
-                <h1 class="header-b">DURATION:</h1>
-                <mat-form-field appearance="fill">
-                  <div>
-                    <h1>Days:</h1>
-                    <mat-form-field>
-                      <input type="number" matInput name="dani" value="0"
-                        min="0"
-                        [(ngModel)]="formDays">
-                    </mat-form-field>
-                  </div>
-
-                  <div>
-                    <h1>Hours:</h1>
-                    <mat-form-field>
-                      <input type="number" matInput name="sati" value="0"
-                        min="0"
-                        [(ngModel)]="formHours">
-                    </mat-form-field>
-                  </div>
-
-                  <div>
-                    <h1>Minutes:</h1>
-                    <mat-form-field>
-                      <input type="number" matInput name="minuti" value="0"
-                        min="0"
-                        [(ngModel)]="formMinutes">
-                    </mat-form-field>
-                  </div>
-                </mat-form-field>
-              </div>
-            </form>
-            <div>
-              <button class="btn-b" mat-flat-button matStepperPrevious
-                (click)="previousPageInRoomMerging()">Back</button>
-            </div>
-            <div>
-              <button class="btn-b" mat-flat-button matStepperNext
-                (click)="nextPageInRoomMerging()">Next</button>
-            </div>
-          </mat-step>
-
-        </mat-stepper>
-      </div>
-    </div>
-
-    <div name="tabelaMerging" *ngIf="currentRoomMergingResponses.length>0">
       <table class="tabelica" mat-table
         [dataSource]="currentRoomMergingResponsesTable" matSort
         *ngIf="currentRoomMergingResponses!=[]">
@@ -649,123 +830,14 @@
     </div>
   </div>
 
-  <div name="SPLITING POZADINA" style="background-color: rgba(0, 0, 0, 0.5);width: 100%;
-    height: 100%; position: absolute; top:0%;left:0%" name="pozadina"
-    *ngIf="this.roomSplitingtabNumber>0"></div>
-  <div name="SPLITING">
-    <div class="container" *ngIf="this.roomSplitingtabNumber>0">
-      <div class="container-f">
+  <div name="SPLITING POZADINA TABELE" style="background-color: rgba(0, 0, 0, 0.5);width: 100%;
+    height: 100%; position: absolute; top:0%;left:0%" *ngIf="this.currentRoomSplitingResponses.length>0"></div>
+  <div class="container" name="tabelaSpliting" *ngIf="currentRoomSplitingResponses.length>0">
+      <div>
         <div align="left">
-          <button mat-raised-button (click)="exitroomSplitingForm()"> Exit
+          <button mat-raised-button (click)="currentRoomSplitingResponses.length = 0"> Exit
           </button>
         </div>
-        <div>
-          <mat-stepper linear #stepper>
-            <mat-step>
-              <ng-template matStepLabel>NEW ROOM NAME</ng-template>
-              <form>
-                <div class="steeper-title">
-                  <h1 class="header-b">NEW ROOM NAME:</h1>
-                  <mat-form-field>
-                    <mat-divider class="sub-color"></mat-divider>
-                    <input matInput name="amountInput"
-                      [(ngModel)]="currentRoomSplitingRequest.NewRoomName">
-                  </mat-form-field>
-                </div>
-              </form>
-              <div align="right" class="align-me">
-                <button class="btn-b" mat-flat-button matStepperNext
-                  (click)="nextPageInRoomSpliting()">Next</button>
-              </div>
-            </mat-step>
-
-            <mat-step>
-              <ng-template matStepLabel>DATE INTERVAL</ng-template>
-
-              <form>
-                <div class="steeper-title">
-                  <h1 class="header-b">DATE INTERVAL:</h1>
-                  <mat-form-field appearance="fill">
-                    <mat-label>Enter a date range</mat-label>
-                    <mat-date-range-input [rangePicker]="picker">
-                      <input matStartDate name="formStartDate"
-                        placeholder="Start
-                        date" [(ngModel)]="formStartDate">
-                      <input matEndDate placeholder="End date"
-                        name="formEndDate"
-                        [(ngModel)]="formEndDate">
-                    </mat-date-range-input>
-                    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-date-range-picker #picker></mat-date-range-picker>
-                  </mat-form-field>
-                </div>
-              </form>
-
-              <div align="left">
-                <button class="btn-b" mat-flat-button matStepperPrevious
-                  (click)="previousPageInRoomSpliting()">Back</button>
-              </div>
-              <div align="right">
-                <button class="btn-b" mat-flat-button matStepperNext
-                  (click)="nextPageInRoomSpliting()">Next</button>
-              </div>
-            </mat-step>
-
-            <mat-step>
-              <ng-template matStepLabel>DURATION</ng-template>
-              <form>
-                <div class="steeper-title">
-                  <h1 class="header-b">DURATION:</h1>
-                  <mat-form-field appearance="fill">
-                    <div>
-                      <h1>Days:</h1>
-                      <mat-form-field>
-                        <input type="number" matInput name="dani" value="0"
-                          min="0"
-                          [(ngModel)]="formDays">
-                      </mat-form-field>
-                    </div>
-
-                    <div>
-                      <h1>Hours:</h1>
-                      <mat-form-field>
-                        <input type="number" matInput name="sati" value="0"
-                          min="0"
-                          [(ngModel)]="formHours">
-                      </mat-form-field>
-                    </div>
-
-                    <div>
-                      <h1>Minutes:</h1>
-                      <mat-form-field>
-                        <input type="number" matInput name="minuti" value="0"
-                          min="0"
-                          [(ngModel)]="formMinutes">
-                      </mat-form-field>
-                    </div>
-                  </mat-form-field>
-                </div>
-              </form>
-
-              <div align="left">
-                <button class="btn-b" mat-flat-button matStepperPrevious
-                  (click)="previousPageInRoomSpliting()">Back</button>
-              </div>
-              <div align="right">
-                <button class="btn-b" mat-flat-button matStepperNext
-                  (click)="nextPageInRoomSpliting()">Next</button>
-              </div>
-
-            </mat-step>
-
-          </mat-stepper>
-        </div>
-      </div>
-    </div>
-
-    <div name="tabelaSpliting" *ngIf="currentRoomSplitingResponses.length>0">
-      <div>
         <table class="tabelica" mat-table
           [dataSource]="currentRoomSplitingResponsesTable" matSort
           *ngIf="currentRoomSplitingResponses!=[]">
@@ -802,7 +874,6 @@
             does not exist</span>
         </table>
       </div>
-    </div>
   </div>
 
 </div>
