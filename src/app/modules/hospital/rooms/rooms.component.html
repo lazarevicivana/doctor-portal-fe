@@ -257,7 +257,7 @@
           <th mat-header-cell *matHeaderCellDef> Delete </th>
           <td mat-cell *matCellDef="let element">
             <button mat-raised-button mat-icon-button
-              (click)="deleteMovementEquipment(element)">
+              (click)="deleteSpliting(element)">
               <mat-icon matTooltip="delete">delete</mat-icon>
             </button>
           </td>
@@ -305,7 +305,7 @@
           <th mat-header-cell *matHeaderCellDef> Delete </th>
           <td mat-cell *matCellDef="let element">
             <button mat-raised-button mat-icon-button
-              (click)="deleteMovementEquipment(element)">
+              (click)="deleteMerging(element)">
               <mat-icon matTooltip="delete">delete</mat-icon>
             </button>
           </td>
@@ -875,6 +875,10 @@
         </table>
       </div>
   </div>
+
+
+
+
 <!--div  class="search">
   <mat-form-field appearance="legacy">
     <mat-label>Room search</mat-label>

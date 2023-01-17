@@ -72,4 +72,13 @@ export class EquipmentMovementService {
     return this.http.get<RoomMergingResponse[]>(this.apiHost + 'api/RoomRenovation/GetAllMergingByRoomId/' + roomId, {headers: this.headers});
   }
 
+  deleteMerging(id?:string): Observable<Appointment[]> {
+    return this.http.delete<any[]>(this.apiHost + 'api/RoomRenovation/DeleteMerging/' + id , {headers: this.headers});
+  }
+
+  deleteSpliting(id?:string): Observable<Appointment[]> {
+    return this.http.delete<any[]>(this.apiHost + 'api/RoomRenovation/DeleteSplitting/' + id , {headers: this.headers});
+  }
+
+
 }

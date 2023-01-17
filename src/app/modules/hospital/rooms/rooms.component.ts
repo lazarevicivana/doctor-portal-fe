@@ -1035,6 +1035,29 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
       });
   }
 
+  public deleteSpliting(spliting : any){
+
+    this.izabran3 = spliting.id;
+    this.equipmentMovementService.deleteSpliting(this.izabran3).subscribe(
+      (resp) =>{
+        this.shownRenovation.data.splice(this.izabran3,1)
+        this.shownRenovation.filter='';
+      }, err=>{
+        console.log(err);
+      });
+  }
+
+  public deleteMerging(merging:any){
+
+    this.izabran4 = merging.id;
+    this.equipmentMovementService.deleteMerging(this.izabran4).subscribe(
+      (resp) =>{
+        this.shownMerging.data.splice(this.izabran4,1)
+        this.shownMerging.filter='';
+      }, err=>{
+        console.log(err);
+      });
+  }
 
   public deleteAppointment(movedAppointment : Appointment){
 
