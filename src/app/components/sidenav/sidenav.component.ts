@@ -45,10 +45,13 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
-    this.loadNotification()
-    setInterval(() => {
+    if(this.userToken.role === 'Doctor'){
       this.loadNotification()
-    }, 5000)
+      setInterval(() => {
+        this.loadNotification()
+      }, 5000)
+    }
+
   }
 
   loadNotification(){
