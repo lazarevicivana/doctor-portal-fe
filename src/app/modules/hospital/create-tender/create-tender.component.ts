@@ -86,7 +86,7 @@ export class CreateTenderComponent implements OnInit {
 
       this.service.create(this.tender).subscribe(res => {
         this.alert.success({detail: 'Success!',summary:"Tender created!",duration:5000})
-          
+        this.router.navigate(['/view-all-tenders']);
       })
     }
 

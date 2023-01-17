@@ -45,4 +45,8 @@ export class AllTendersComponent implements OnInit {
     }
 }
 
+public navigateToCreateTender() {
+  this.router.navigate(['/tender/add']);
+}  
+
 }
