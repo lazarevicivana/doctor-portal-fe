@@ -1,8 +1,14 @@
-.marg{
-  margin-bottom: 20px;
-  margin-top: 20px;
-}
+/*.marg{*/
+/*  margin-bottom: 20px;*/
+/*  margin-top: 20px;*/
+/*}*/
 
+.report-title{
+  background-color: #1B273C;
+  color: #fff;
+  padding:0;
+  margin-top: 0;
+}
 .space-between-container {
   display: flex;
   justify-content: space-between;

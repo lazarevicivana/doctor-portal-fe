@@ -9,6 +9,8 @@ import * as moment from "moment";
 import { Chart } from 'chart.js';
 import { registerables } from 'chart.js';
 import {MatTabChangeEvent} from "@angular/material/tabs";
+import {PatientHealthService} from "../patient-health.service";
+import {NgToastService} from "ng-angular-popup";
 
 @Component({
   selector: 'app-patient-health-care',
@@ -17,7 +19,7 @@ import {MatTabChangeEvent} from "@angular/material/tabs";
 })
 export class PatientHealthCareComponent implements OnInit {
   private patientHealthStates:Array<PatientHealthStateDto> = []
-  private patientId:string = "7f5adff0-43c1-4042-bd08-b50083827f30"
+  private patientId:string;
   labels:Array<any> = []
   public weightDataSet: Array<any> = []
   public pressureDataSet: Array<any> = []
@@ -39,7 +41,11 @@ export class PatientHealthCareComponent implements OnInit {
   public chartHovered(e: any): void {
     //console.log(e);
   }
-  constructor(private readonly patientHealthStateClient:PatientHealthStateClient,private readonly patientClient:PatientClient) { }
+  constructor(private readonly patientHealthStateClient:PatientHealthStateClient
+              ,private readonly patientClient:PatientClient, private patientHealthService:PatientHealthService
+              ,private alert:NgToastService) {
+    this.patientId = patientHealthService.getPatientId()
+  }
 
   ngOnInit(): void {
     this.patientHealthStateClient.getByPatientId(this.patientId).subscribe({
@@ -96,8 +102,14 @@ export class PatientHealthCareComponent implements OnInit {
         this.DrawWeightChart()
         this.getPatient()
 
-      }
-    })
+      },
+      error: message => {
+      this.alert.warning({detail: 'Warning!', summary: "Health status record for this patient not found", duration: 5000})
+    }
+    }
+
+    )
+
   }
   private getPatient(){
     this.patientClient.getById(this.patientId).subscribe({

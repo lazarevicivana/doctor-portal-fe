@@ -1,10 +1,8 @@
 <div class="container">
   <div class="container-f">
-
-    <div class="title-container">
-      <h1 class="title">Create Blood Request</h1>
+    <div class="title-container-basic">
+      Create Blood Request
     </div>
-
     <mat-form-field appearance="fill" class="input-create-request">
       <mat-label>Select blood type:</mat-label>
       <mat-select [(value)]="request.type" [disabled]="true">
@@ -26,19 +24,19 @@
 
     <mat-form-field appearance="fill" class="input-create-request">
       <mat-label>Date</mat-label>
-      <input matInput [(ngModel)]="date" [matDatepicker]="picker" [min]="todayDate" required>
+      <input matInput [(ngModel)]="date" [min]="todayDate" required>
       <mat-hint>MM/DD/YYYY</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
-    <mat-form-field class="example-full-width" appearance="fill" class="input-reason">
+    <mat-form-field appearance="fill" class="input-reason">
       <mat-label>Reason:</mat-label>
       <textarea matInput [(ngModel)]="request.reason" required></textarea>
     </mat-form-field>
 
     <div align="center">
-      <button mat-flat-button color="primary" (click)="createRequest()">Create</button>
+      <button mat-flat-button class="btn-b" (click)="createRequest()">Create</button>
     </div>
 
   </div>

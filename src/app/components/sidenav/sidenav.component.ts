@@ -5,6 +5,8 @@ import {navbarData} from "./nav-data";
 import {navDataManager} from "./nav-data-manager";
 import {UserToken} from "../../model/UserToken";
 import {navbarDataBank} from "./nav-data-bank";
+import {NotificationPatient} from "../../modules/patient-health/doctor-notifications/NotificationPatient";
+import {PatientHealthStateClient, PatientHealthStateNotification} from "../../api/api-reference";
 
 interface SideNavToggle{
   screenWidth: number;
@@ -19,13 +21,16 @@ export class SidenavComponent implements OnInit {
   @Output() onToggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter();
   screenWidth = 0;
   collapsed = false;
+  notificationsMap:NotificationPatient[] = [];
+  notifications: PatientHealthStateNotification[]= [];
+  notificationNum = 0;
   navDataDoctor = navbarDataDoctor;
   navDataManager= navDataManager;
   navDataBank= navbarDataBank;
   navData = navbarData;
   userToken:UserToken;
   isLoggedIn:boolean = false;
-  constructor(private tokenStorageService:TokenStorageService) {
+  constructor(private tokenStorageService:TokenStorageService, private patientHealthStateClient:PatientHealthStateClient) {
     this.userToken = this.tokenStorageService.getUser()
     this.isLoggedIn = this.tokenStorageService.isLoggedIn()
   }
@@ -40,6 +45,19 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
+    this.loadNotification()
+    setInterval(() => {
+      this.loadNotification()
+    }, 5000)
+  }
+
+  loadNotification(){
+    this.patientHealthStateClient.getAllNotifications(this.userToken.id).subscribe({
+      next: value => {
+        this.notificationNum = value.length
+
+      }
+    })
   }
   closeSidenav():void{
     this.collapsed = false;
@@ -58,4 +76,10 @@ export class SidenavComponent implements OnInit {
   }
 
 
+  checkIfNotificationIcon(notification: boolean) {
+    if(notification && this.notificationNum>0){
+      return false;
+    }
+    return true;
+  }
 }

@@ -49,9 +49,7 @@ export class AppointmentPreviewComponent implements OnInit {
     console.log("Cancel",id)
     this.client.cancelAppointment(id).subscribe({
       next : _ =>{
-        console.log(this.appointments)
        this.appointments = this.appointments.filter((a) => a.id != id);
-       console.log(this.appointments)
         this.onDelete.emit()
       }
     }
@@ -91,7 +89,6 @@ export class AppointmentPreviewComponent implements OnInit {
     this.examClient.getAllExaminations().subscribe({
       next: value => {
         this.examinations = value
-        console.log(this.appointments)
         this.isLoaded = true
       }
     })

@@ -25,10 +25,16 @@ import {
 } from "./modules/consilium-dashboard/schedule-consilium/schedule-consilium.component";
 import {ExaminationGuard} from "./guards/examination.guard";
 import { ExeminationSearchComponent } from './modules/examination/exemination-search/exemination-search.component';
+import {ExaminationAnalysisComponent} from "./modules/hospital/examination-analysis/examination-analysis.component";
 import { RoomEventsComponent } from "./modules/hospital/room-events/room-events.component";
 import {PatientHealthCareComponent} from "./modules/patient-health/patient-health-care/patient-health-care.component";
 import {NextPatientsViewComponent} from "./modules/dashboard/next-patients-view/next-patients-view.component";
 import { PdfreportdetailsComponent } from "./modules/hospital/pdfreportdetails/pdfreportdetails.component";
+import {ProfileComponent} from "./modules/patient-health/profile-patient/profile.component";
+import {
+  DoctorNotificationsComponent
+} from "./modules/patient-health/doctor-notifications/doctor-notifications.component";
+
 
 
 
@@ -43,7 +49,7 @@ const routes: Routes = [
     canActivate:[DoctorGuard]
   },
   { path: 'dashboard',
-    component: DashboardComponent,
+    component: ConsiliumDashboardComponent,
     canActivate:[DoctorGuard]
   },
   { path: 'doctors-holidays',
@@ -111,6 +117,10 @@ const routes: Routes = [
     path: 'schedule-consilium',
     component:ScheduleConsiliumComponent,
     canActivate:[DoctorGuard]
+  }, {
+    path: 'examination-overview',
+    component:ExaminationAnalysisComponent,
+    canActivate:[ManagerGuard]
   },
   {
     path: 'room-events',
@@ -126,8 +136,17 @@ const routes: Routes = [
     path: 'your-patients',
     component:NextPatientsViewComponent,
     canActivate:[DoctorGuard]
+  },
+  {
+    path: 'patient-profile',
+    component:ProfileComponent,
+    canActivate:[DoctorGuard]
+  },
+  {
+    path: 'notifications',
+    component: DoctorNotificationsComponent,
+    canActivate:[DoctorGuard]
   }
-  
 ];
 
 @NgModule({

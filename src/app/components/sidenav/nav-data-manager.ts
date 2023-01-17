@@ -10,6 +10,11 @@ export const navDataManager= [
     label: 'Feedback'
   },
   {
+    routeLink: 'examination-overview',
+    icon: 'fal fa-chart-bar',
+    label: 'Examination overview'
+  },
+  {
     routeLink: 'patient-statistics',
     icon: 'fal fa-chart-line',
     label: 'Patient statistics'

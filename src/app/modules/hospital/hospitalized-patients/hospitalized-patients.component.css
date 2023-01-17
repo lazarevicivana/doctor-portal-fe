@@ -38,3 +38,15 @@
 .m-top{
   margin-top: 10px;
 }
+.title-container-schedule{
+  color: #fff;
+  font-size: 26px;
+  padding-bottom: 2%;
+  text-align: center;
+  background-color: #263238;
+  padding-top:2% ;
+}
+.title-h{
+  color: #263238;
+  margin-left: 120px;
+}
