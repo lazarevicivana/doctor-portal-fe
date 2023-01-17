@@ -824,6 +824,7 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
     }))
   }
 
+
   public onRoomSplitingClick(selectedRoomSpliting : RoomSplitingResponse):void
   {
 
