@@ -20,13 +20,12 @@
   position: center;
   overflow: hidden;
   max-width: 100%;
-  min-height: 1100px;
+  min-height: 570px;
   margin-left: auto;
   margin-right: auto;
   margin-top: auto;
   max-height: 98%;
-  width: 60%;
-  margin-bottom: auto;
+  width: 65%;
 }
 .form-container {
   position: relative;
@@ -36,6 +35,14 @@
 }
 .title{
   margin: 5px 0;
+}
+.title-container-holiday{
+  color: #fff;
+  font-size: 26px;
+  padding-bottom: 2%;
+  text-align: center;
+  background-color: #263238;
+  padding-top:2%;
 }
 .create-schedule-container {
   left: 0;
@@ -70,6 +77,15 @@
   background: #263238;
 }
 
+.title-container-holiday{
+  background-color: #263238;
+  font-size: 26px;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
 .button-color:hover {
   transform: scale(1.04);
   transition: 0.2s;
@@ -87,7 +103,19 @@
   background: #263238;
 }
 
+.amount-header{
+  margin-top: 20px;
+  width: 60%;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.input-amount{
+  float:left; display:inline; width: 49%;
+}
+
 .header-amount{
-  margin-left: 160px;
+  margin-left: 146px;
   margin-top: 20px;
 }

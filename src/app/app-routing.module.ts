@@ -55,8 +55,8 @@ const routes: Routes = [
     canActivate:[DoctorGuard]
   },
   { path: 'schedule-holiday',
-    component: ScheduleHolidayComponent
-    //canActivate:[DoctorGuard]
+    component: ScheduleHolidayComponent,
+    canActivate:[DoctorGuard]
   },
   { path: 'reschedule-appointment/:id',
     component: RescheduleAppointmentComponent,

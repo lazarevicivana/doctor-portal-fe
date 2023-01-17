@@ -1,67 +1,69 @@
-<div class="container-holidays">
-  <div >
-    <div>
-      
-      <form>
+<div class="container">
+  <div class="container-holidays">
         <!--        Value : {{myForm.value! | json}}-->
-        <div class="title-container">
-          <h1 class="title header-holiday">Create tender</h1>
-          <mat-divider></mat-divider>
-        </div>
+      <div class="title-container-holiday">
+        Create tender
+      </div>
   
       <div>
         <h3 class="header-amount">Enter the amount of blood units:</h3> 
       </div>
-        <div class="input-schedule">
-          <mat-form-field name="forma" class="comment">
-            <mat-label>Amount A+:</mat-label>
-            <input matInput [(ngModel)]="amountApos.amount" placeholder="Amount A+" type="number" min="0" >
-          </mat-form-field>
-        </div>
-        <div class="input-schedule">
-          <mat-form-field name="forma" class="comment">
-            <mat-label>Amount A-:</mat-label>
-            <input matInput [(ngModel)]="amountAneg.amount" placeholder="Amount" type="number" min="0" >
-          </mat-form-field>
-        </div>
-      <div>
-        <div class="input-schedule">
-          <mat-form-field name="forma" class="comment">
-            <mat-label>Amount B+:</mat-label>
-            <input matInput [(ngModel)]="amountBpos.amount" placeholder="Amount" type="number" min="0" >
-          </mat-form-field>
-        </div>
-        <div class="input-schedule">
-          <mat-form-field name="forma" class="comment">
-            <mat-label>Amount B-:</mat-label>
-            <input matInput [(ngModel)]="amountBneg.amount" placeholder="Amount" type="number" min="0" >
-          </mat-form-field>
-        </div>
-    </div>
+
+      <div class="input-schedule">
+        <mat-form-field name="forma" class="comment">
+          <mat-label>Amount A+:</mat-label>
+          <input matInput [(ngModel)]="amountApos.amount" placeholder="Amount A+" type="number" min="0" >
+        </mat-form-field>
+      </div>
+
+      <div class="input-schedule">
+        <mat-form-field name="forma" class="comment">
+          <mat-label>Amount A-:</mat-label>
+          <input matInput [(ngModel)]="amountAneg.amount" placeholder="Amount" type="number" min="0" >
+         </mat-form-field>
+      </div>
+        
+      <div class="input-schedule">
+        <mat-form-field name="forma" class="comment">
+          <mat-label>Amount B+:</mat-label>
+           <input matInput [(ngModel)]="amountBpos.amount" placeholder="Amount" type="number" min="0" >
+        </mat-form-field>
+      </div>
+
+     <div class="input-schedule">
+        <mat-form-field name="forma" class="comment">
+          <mat-label>Amount B-:</mat-label>
+          <input matInput [(ngModel)]="amountBneg.amount" placeholder="Amount" type="number" min="0" >
+        </mat-form-field>
+      </div>
+    
       <div class="input-schedule"> 
-      <mat-form-field name="forma" class="comment">
-        <mat-label>Amount AB+:</mat-label>
-        <input matInput [(ngModel)]="amountABpos.amount" placeholder="Amount" type="number" min="0" >
+        <mat-form-field name="forma" class="comment">
+          <mat-label>Amount AB+:</mat-label>
+          <input matInput [(ngModel)]="amountABpos.amount" placeholder="Amount" type="number" min="0" >
       </mat-form-field>
-    </div>
-    <div>
-      <mat-form-field name="forma" class="input-schedule">
-        <mat-label>Amount AB-:</mat-label>
-        <input matInput [(ngModel)]="amountABneg.amount" placeholder="Amount" type="number" min="0" >
-      </mat-form-field>
-    </div>
-    <div>
-      <mat-form-field name="forma" class="input-schedule">
-        <mat-label>Amount O+:</mat-label>
-        <input matInput [(ngModel)]="amountOpos.amount" placeholder="Amount" type="number" min="0" >
-      </mat-form-field>
-    </div>
-    <div >
-      <mat-form-field name="forma" class="input-schedule">
-        <mat-label>Amount O-:</mat-label>
-        <input matInput [(ngModel)]="amountOneg.amount" placeholder="Amount" type="number" min="0" >
-      </mat-form-field>
-    </div>
+      </div>
+
+      <div>
+        <mat-form-field name="forma" class="input-schedule">
+          <mat-label>Amount AB-:</mat-label>
+          <input matInput [(ngModel)]="amountABneg.amount" placeholder="Amount" type="number" min="0" >
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field name="forma" class="input-schedule">
+          <mat-label>Amount O+:</mat-label>
+          <input matInput [(ngModel)]="amountOpos.amount" placeholder="Amount" type="number" min="0" >
+        </mat-form-field>
+      </div>
+
+      <div >
+        <mat-form-field name="forma" class="input-schedule">
+          <mat-label>Amount O-:</mat-label>
+          <input matInput [(ngModel)]="amountOneg.amount" placeholder="Amount" type="number" min="0" >
+        </mat-form-field>
+      </div>
     
       <div >
         <h3 class="header-amount">Choose deadline for tender application:</h3> 
@@ -75,21 +77,20 @@
     </div>
 
 
-  <div>
-      <mat-form-field name="forma" class="input-schedule">
-        <mat-label>Date</mat-label>
-        <input matInput [(ngModel)]="date" [matDatepicker]="picker" [min]="todayDate" >
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-  </div>
+    <div>
+        <mat-form-field name="forma" class="input-schedule">
+          <mat-label>Date</mat-label>
+          <input matInput [(ngModel)]="date" [matDatepicker]="picker" [min]="todayDate" >
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </div>
   
       <div align="center" class="input-create-request">
         <button class="input-schedule button-color" mat-flat-button color="primary" (click)="createTender()">Create Tender</button>
-    </div>
-</form>
-    </div>
+      </div>
+      
   </div>
 </div>
   
