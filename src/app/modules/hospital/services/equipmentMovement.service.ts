@@ -64,12 +64,12 @@ export class EquipmentMovementService {
   }
 
   getAllSplittingByRoomid(roomId:string) : Observable<RoomSplitingResponse[]>{
-    return this.http.get<RoomSplitingResponse[]>(this.apiHost + 'api/v1/RoomRenovation/GetSplittingByRoomId/' + roomId, {headers: this.headers});
+    return this.http.get<RoomSplitingResponse[]>(this.apiHost + 'api/RoomRenovation/GetAllSplittingByRoomId/' + roomId, {headers: this.headers});
   }
 
 
   getAllMergingByRoomid(roomId:string) : Observable<RoomMergingResponse[]>{
-    return this.http.get<RoomMergingResponse[]>(this.apiHost + 'api/v1/RoomRenovation/GetAllMergingByRoomId/' + roomId, {headers: this.headers});
+    return this.http.get<RoomMergingResponse[]>(this.apiHost + 'api/RoomRenovation/GetAllMergingByRoomId/' + roomId, {headers: this.headers});
   }
 
 }
