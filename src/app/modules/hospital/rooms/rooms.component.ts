@@ -31,6 +31,7 @@ import { TokenStorageService } from 'src/app/services/token-storage.service';
 import {Chart} from "chart.js";
 import {TenderService} from "../services/tender.services";
 import {TenderWithId} from "../model/tender.model";
+import {NgToastService} from "ng-angular-popup";
 //import _default from "chart.js";
 //import numbers = _default.defaults.animations.numbers;
 
@@ -66,7 +67,7 @@ export class RoomsComponent implements OnInit {
 
   ////For  Displaying Room Spltting
   shownRenovation = new MatTableDataSource<RoomSplitingResponse[]> ;   ///ZAMENI APPOINTMENT
-  displayedColumns5: string[] = [ 'RoomId', 'StartDate', 'EndDate','newRoomName','Delete'];
+  displayedColumns5: string[] = ['StartDate', 'EndDate','newRoomName','Delete'];
   public izabran3 : any ; // for splicing appointment matTable
 
   ////For  Displaying Room Spltting and Merging
@@ -152,15 +153,15 @@ export class RoomsComponent implements OnInit {
   formEndDate: Date = new Date();
   formSelectedRoomId: string = '';
 
-  constructor(private tokenStorageService:TokenStorageService, private roomEventsServices: RoomEventsService, private equipmentMovementService:EquipmentMovementService, private roomService: RoomService, private buildingService: BuildingService, private groomService: GroomService, private floorService: FloorService, private roomEquipmentService :RoomEquipmentService,private tenderService: TenderService,  private router: Router) { }
+  constructor(private tokenStorageService:TokenStorageService, private roomEventsServices: RoomEventsService, private equipmentMovementService:EquipmentMovementService, private roomService: RoomService, private buildingService: BuildingService, private groomService: GroomService, private floorService: FloorService, private roomEquipmentService :RoomEquipmentService,private tenderService: TenderService,  private router: Router, private alert: NgToastService) { }
 
   ngOnInit(): void
   {
     this.setInitialSquares();
     this.reloadAllInfo();
     this.SearchEquipment(); //Poziva fju za dobavljanje soba
-    this.getTendere();
-    this.createChart();
+    //this.getTendere();
+    //this.createChart();
   }
 
 
@@ -471,10 +472,6 @@ export class RoomsComponent implements OnInit {
         square.toObject.prototype.posY = l;
 
         this.allSquares.push(square);
-        square.on('mousedblclick',function()
-        {
-          console.log("Clicked on: X: " + l + " Y: " + w);
-        });
         this.canvas.add(square);
 
       }
@@ -525,7 +522,6 @@ export class RoomsComponent implements OnInit {
         {
           if(!building.floors.includes(floor))
           {
-            console.log("UBACUJEM: " + floor.name + " u zgradu: " +building.name );
             building.floors.push(floor);
           }
         }
@@ -551,10 +547,6 @@ export class RoomsComponent implements OnInit {
 
   public clearRooms(resetFloor=false):void
   {
-    console.log("rooms: " + this.selectedRoom.name + " buildings: " + this.selectedBuilding.name + " floor: " + this.selectedFloor.name + " EquipmentName: " +
-    this.selectedRoomEquipment.equipmentName + " EquipmentAmount :" + this.selectedRoomEquipment.amount);
-
-
     if(resetFloor)
     {
       this.shownRoom = false;
@@ -591,8 +583,6 @@ export class RoomsComponent implements OnInit {
     //Load newRooms
     this.selectedFloor.Rooms.forEach(room =>
     {
-
-      console.log("RELOADUJEM");
 
       //SQUARE
       let square = new fabric.Rect(
@@ -636,34 +626,28 @@ export class RoomsComponent implements OnInit {
 
           this.currentEquipmentRequest.originalRoomId = this.selectedRoom.id;
           this.roomEquipmentService.getAllEquipmentByRoomId(this.selectedRoom.id).subscribe((result => {
-          console.log(result);
           this.equipment = new MatTableDataSource(<RoomEquipment[][]><unknown>result);
       }));
           this.equipmentMovementService.getAllAppointmentByRoomId(this.selectedRoom.id).subscribe(res => {
-            console.log(res);
             this.shownAppointment = new MatTableDataSource(<Appointment[][]><unknown>res);
           });
 
         this.equipmentMovementService.getAllSplittingByRoomid(this.selectedRoom.id).subscribe(res => {
-          console.log(res);
           this.shownRenovation = new MatTableDataSource(<RoomSplitingResponse[][]><unknown>res);
         });
 
         this.equipmentMovementService.getAllMergingByRoomid(this.selectedRoom.id).subscribe(res => {
-          console.log(res);
           this.shownMerging = new MatTableDataSource(<RoomMergingResponse[][]><unknown>res);
         });
 
 
         this.equipmentMovementService.getAllMovementAppointmentByRoomId(this.selectedRoom.id).subscribe(res => {
-          console.log(res);
           this.MovedEquipment = new MatTableDataSource(<EquipmentMovementAppointmentResponse[][]><unknown>res);
         });
 
           this.shownRoom = true; //PRIKAZE SPECIFIKACIJE SOBE
 
           this.selectRoom(room);
-          console.log("Clicked on room: " + room.name);
       });
 
       this.canvas.add(group);
@@ -711,7 +695,6 @@ export class RoomsComponent implements OnInit {
 
       this.allRooms.forEach(room=>{
         if(room.name == this.findThisRoom){
-          console.log("Room>>> "+room.buildingId+" "+room.floorId+" "+room.name);
           // NAdji sprat trazene sobe
           this.allFloors.forEach(floor=>{
             if (floor.id==room.floorId){
@@ -738,7 +721,6 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
 
    this.allRooms.forEach(room=>{
      if(room.id == bilosta.roomId){
-        console.log("IDEMO BREEEEEEEEEEE");
        // NAdji sprat trazene sobe
        this.allFloors.forEach(floor=>{
          if (floor.id==room.floorId){
@@ -782,8 +764,6 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
     this.currentEquipmentRequest.equipmentId = this.selectedRoomEquipment.roomEquipmentId;
     this.currentEquipmentRequest.equipmentName = this.selectedRoomEquipment.equipmentName;
     this.tabNumber = 1;
-    console.log(equipmentToMove.equipmentName + " amount: " + equipmentToMove.amount)
-    console.log(this.tabNumber)
   }
   public onRoomMerging():void
   {
@@ -794,7 +774,6 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
       this.roomEventsServices.createEvent("SessionStarted", "Merging", this.tokenStorageService.getUser().id).subscribe(res =>
         {});
 
-      console.log('Room merging ' + this.roomMergingtabNumber)
     }
   }
   public onRoomSpliting():void
@@ -804,8 +783,7 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
       this.currentRoomSplitingRequest.RoomId = this.selectedRoom.id;
       this.roomSplitingtabNumber = 1;
       this.roomEventsServices.createEvent("SessionStarted", "Spliting", this.tokenStorageService.getUser().id).subscribe(res =>
-        {});;
-      console.log('Room spliting ' + this.roomSplitingtabNumber)
+        {});
     }
   }
 
@@ -817,14 +795,14 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
 
   public onEquipmentScheduleClick(selectedEquipmentAppointment : EquipmentMovementAppointmentResponse):void
   {
-    console.log("IZABRAN APOINTMENTJ: " + selectedEquipmentAppointment.duration?.from);
-
     this.equipmentMovementService.create(selectedEquipmentAppointment).subscribe((result => {
     this.tabNumber = 0;
     this.currentEquipmentResponses = [];
     this.currentEquipmentResponsesTable = new MatTableDataSource(<EquipmentMovementAppointmentResponse[][]><unknown>this.currentEquipmentResponses);
 
     this.reloadAllInfo();
+      this.alert.success({detail: 'Success!',summary:"Equipment Moved!",duration:5000})
+      return console.log("EquipmentMoved!");
     }))
   }
 
@@ -837,7 +815,6 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
 
   public onRoomMergingClick(selectedRoomMerging : RoomMergingResponse):void
   {
-    console.log("IZABRAN APOINTMENTJ: " + selectedRoomMerging.DateRangeOfMerging?.from);
 
     this.roomService.createRoomMerging(selectedRoomMerging).subscribe((result => {
     this.roomMergingtabNumber = 0;
@@ -847,21 +824,25 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
     this.roomEventsServices.createEvent("SessionEnded", "MergingSuccesful",  this.tokenStorageService.getUser().id).subscribe(res =>
       {});;
     this.reloadAllInfo();
+       this.alert.success({detail: 'Success!',summary:"Rooms Merged!",duration:5000})
+       return console.log("MergingSuccesful!");
     }))
   }
 
+
   public onRoomSplitingClick(selectedRoomSpliting : RoomSplitingResponse):void
   {
-    console.log("IZABRAN APOINTMENTJ: " + selectedRoomSpliting.DatesForSearch?.from);
 
     this.roomService.createRoomSpliting(selectedRoomSpliting).subscribe((result => {
-    this.roomSplitingtabNumber = 0;
     this.currentRoomSplitingResponses = [];
     this.currentRoomSplitingResponsesTable = new MatTableDataSource(<RoomSplitingResponse[][]><unknown>this.currentRoomSplitingResponses);
 
-    this.roomEventsServices.createEvent("SessionEnded", "SplitingSuccesful",  this.tokenStorageService.getUser().id).subscribe(res =>
+    this.roomEventsServices.createEvent("SessionEnded", "SplittingSuccesful",  this.tokenStorageService.getUser().id).subscribe(res =>
       {});;
+    this.roomSplitingtabNumber = 0;
     this.reloadAllInfo();
+      this.alert.success({detail: 'Success!',summary:"Room Split!",duration:5000})
+      return console.log("Splitting Succesful!");
     }))
   }
 
@@ -889,17 +870,15 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
         to: endDate
       })
 
-      console.log("PROBACEMO DA POSALJEMo");
       this.equipmentMovementService.getAvailableByRequest(this.currentEquipmentRequest).subscribe((result => {
         if(!Array.isArray(result) || result.length != 0)
         {
           this.currentEquipmentResponses = result;
           this.currentEquipmentResponsesTable = new MatTableDataSource(<EquipmentMovementAppointmentResponse[][]><unknown>this.currentEquipmentResponses);
-          console.log(result);
+          this.tabNumber = 0;
         }
         else
         {
-          console.log(result);
           alert("BAD REQUEST!");
         }
       }))
@@ -933,17 +912,16 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
         to: endDate
       })
 
-      console.log("PROBACEMO DA POSALJEMo");
       this.roomService.getAvailableByRoomMergingRequest(this.currentRoomMergingRequest).subscribe((result => {
         if(!Array.isArray(result) || result.length != 0)
         {
           this.currentRoomMergingResponses = result;
           this.currentRoomMergingResponsesTable = new MatTableDataSource(<RoomMergingResponse[][]><unknown>this.currentRoomMergingResponses);
-          console.log(result);
+          this.roomMergingtabNumber = 0;
+
         }
         else
         {
-          console.log(result);
           alert("BAD REQUEST!");
         }
       }))
@@ -968,25 +946,23 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
       let currentDate = new Date();
 
 
-      let fromDate:Date = new Date(new Date(this.formStartDate!).setHours(7,0,0,0))
-      let endDate:Date  = new Date(new Date(this.formEndDate!).setHours(20,0,0,0))
+      let fromDate:Date = new Date(new Date(this.formStartDate!).setHours(7,0,0,0));
+      let endDate:Date  = new Date(new Date(this.formEndDate!).setHours(20,0,0,0));
 
       this.currentRoomSplitingRequest.DatesForSearch = new DateRange({
         from: fromDate,
-        to: endDate
+        to: endDate,
       })
 
-      console.log("PROBACEMO DA POSALJEMo");
       this.roomService.getAvailableByRoomSplitingRequest(this.currentRoomSplitingRequest).subscribe((result => {
         if(!Array.isArray(result) || result.length != 0)
         {
           this.currentRoomSplitingResponses = result;
           this.currentRoomSplitingResponsesTable = new MatTableDataSource(<RoomSplitingResponse[][]><unknown>this.currentRoomSplitingResponses);
-          console.log(result);
+          this.roomSplitingtabNumber = 0;
         }
         else
         {
-          console.log(result);
           alert("BAD REQUEST!");
         }
       }))
@@ -1061,29 +1037,62 @@ public ShowEquipmentOnMap(bilosta : RoomEquipment):void{ //Prikazuje sobu na map
     this.izabran = movedEquipment.id;
     this.equipmentMovementService.deleteMoveAppointment(this.izabran).subscribe(
       (resp) =>{
-        console.log(resp);
-        console.log("OBRISAOOOO");
         this.MovedEquipment.data.splice(this.izabran,1)
         this.MovedEquipment.filter='';
+        this.alert.success({detail: 'Success!',summary:"Moved Equipment deleted!",duration:5000})
+        return console.log("Deleted!");
       }, err=>{
-        console.log(err);
-        console.log("GRESKA");
+        this.alert.error({detail: 'Warning!',summary:"Cancellation Time Expired!",duration:5000})
+        return console.log("DateTime Expired!");
+       // console.log(err);
       });
   }
 
+  public deleteSpliting(spliting : any){
+
+    this.izabran3 = spliting.id;
+    this.equipmentMovementService.deleteSpliting(this.izabran3).subscribe(
+      (resp) =>{
+        this.shownRenovation.data.splice(this.izabran3,1)
+        this.shownRenovation.filter='';
+        this.alert.success({detail: 'Success!',summary:"Room Splitting deleted!",duration:5000})
+        return console.log("Deleted!");
+      }, err=>{
+        this.alert.error({detail: 'Warning!',summary:"Cancellation Time Expired!",duration:5000})
+        return console.log("DateTime Expired!");
+       // console.log(err);
+      });
+  }
+
+  public deleteMerging(merging:any){
+
+    this.izabran4 = merging.id;
+    this.equipmentMovementService.deleteMerging(this.izabran4).subscribe(
+      (resp) =>{
+        this.shownMerging.data.splice(this.izabran4,1)
+        this.shownMerging.filter='';
+        this.alert.success({detail: 'Success!',summary:"Room Merging deleted!",duration:5000})
+        return console.log("Deleted!");
+      }, err=>{
+        this.alert.error({detail: 'Warning!',summary:"Cancellation Time Expired!",duration:5000})
+        return console.log("DateTime Expired!");
+       // console.log(err);
+      });
+  }
 
   public deleteAppointment(movedAppointment : Appointment){
 
     this.izabran2 = movedAppointment.id;
     this.equipmentMovementService.deleteAppointment(this.izabran2).subscribe(
       (resp) =>{
-        console.log(resp);
-        console.log("OBRISAOOOO");
         this.shownAppointment.data.splice(this.izabran2,1)
         this.shownAppointment.filter='';
+        this.alert.success({detail: 'Success!',summary:"Appointment deleted!",duration:5000})
+        return console.log("Deleted!");
       }, err=>{
+        this.alert.error({detail: 'Warning!',summary:"Cancellation Time Expired!",duration:5000})
+        return console.log("DateTime Expired!");
         console.log(err);
-        console.log("GRESKA");
       });
   }
 

@@ -11,6 +11,41 @@
   width: 70%;
   padding: 10px;
 }
+.container-schedule{
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25),
+  0 10px 10px rgba(0,0,0,0.22);
+  position: center;
+  overflow: hidden;
+  max-width: 100%;
+  min-height: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  max-height: 98%;
+  width: 70%;
+}
+.button-color{
+  background: #263238;
+  color: #FFFFFF;
+  margin-bottom: 30px;
+}
+.button-color:hover {
+  transform: scale(1.04);
+  transition: 0.2s;
+  cursor: pointer;
+  background-color: #4c7891;
+  color: white;
+}
+.title-container-schedule{
+  color: #fff;
+  font-size: 26px;
+  padding-bottom: 2%;
+  text-align: center;
+  background-color: #263238;
+  padding-top:2% ;
+}
 .form-container {
   position: relative;
   top: 0;

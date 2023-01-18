@@ -3,17 +3,22 @@
   overflow-y: scroll;
   height: 90%;
 }
+.calendar-wrapper-month{
+  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+  overflow-y: scroll;
+  height: 73%;
+}
 .event__title {
   white-space: pre-wrap;
   font-size: 1rem;
   word-wrap: break-word;
 }
 .event__title:hover {
-  color: #3b4d79;
+  color: #4d76db;
 }
 .date-range {
   margin-left: 1.5rem;
-  font-size: 2.1rem;
+  font-size: 2.0rem;
   color: #3b4d79;
 }
 .calendar-header {

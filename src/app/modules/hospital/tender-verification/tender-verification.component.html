@@ -6,24 +6,27 @@
     <title></title>
 </head>
 <body>
-  <div class="container">
-    <div class="container-f">
+  <div class="container-holiday">
 
-      <div class="title-container">
-        <h1 class="title">Tender verification</h1>
+      <div class="row flex-c">
+        <div class="col-10 holiday-title" style="background-color: #263238;">
+           <h1 class="title header-holiday">Tenders</h1>
+        </div>
       </div>
 
-          <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+      <div style="margin-left: 10%; margin-top: 10px;">
+
+          <mat-stepper orientation="vertical" [linear]="isLinear" #stepper >
 
             <mat-step [stepControl]="firstFormGroup">
               <form [formGroup]="idForm">
                 <ng-template matStepLabel>Enter tender ID from verification e-mail:</ng-template>
-                <mat-form-field appearance="fill">
-                  <mat-label>ID</mat-label>
-                  <input matInput placeholder="ID" formControlName="tenderId" [(ngModel)]="tenderId" required>
+                <mat-form-field appearance="fill" style="width: 300px;">
+                  <mat-label style="width: 300px;">ID</mat-label>
+                  <input matInput style="width: 300px;" placeholder="ID" formControlName="tenderId" [(ngModel)]="tenderId" required>
                 </mat-form-field>
                 <div>
-                  <button mat-button  (click)="confirmId()">Check ID</button>
+                  <button mat-flat-button class="btn--basic btn-l"  (click)="confirmId()">Check ID</button>
                 </div>
               </form>
             </mat-step>
@@ -46,20 +49,16 @@
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
 
-                <div>
-                  <button mat-button matStepperPrevious>Back</button>
-                  <button mat-button matStepperNext>Next</button>
-                </div>
+
               </form>
             </mat-step>
 
             <mat-step>
               <ng-template matStepLabel>Done</ng-template>
-              <p>Click confirm if everything is okey! 
+              <p>Click confirm if informations are correct! 
               </p>
               <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button (click)="confirmTender()" mat-flat-button color="primary" >Confirm</button>
+                <button class="btn--basic btn-l" (click)="confirmTender()" mat-flat-button color="primary" [disabled]="this.disabled">Confirm</button>
               </div>
             </mat-step>
 

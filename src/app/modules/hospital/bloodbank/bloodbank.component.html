@@ -6,13 +6,21 @@
     <title></title>
 </head>
 <body>
+  <div class="button-div">
+    <a routerLink="/view-bloodRequests"><button class="btn btn-success" class="btn--basic" > Blood request </button></a>
+    &nbsp; &nbsp; &nbsp;
+    <a routerLink="/urgent-blood-supply"><button class="btn btn-success" class="btn--basic"> Urgent supply </button></a>
+    &nbsp; &nbsp; &nbsp;
+    <a routerLink="/bloodBank/bloodSubscription"><button class="btn btn-success" class="btn--basic"> Blood subscription </button></a>
+    
+  </div>
   <div class="container">
     <div class="container-f">
 
       <div class="title-container">
         <h1 class="title">Check blood supply</h1>
       </div>
-
+      
       <form [formGroup]="bloodSupplyForm" (ngSubmit)="checkBloodSupply()" class="input-schedule">
 
         <div>

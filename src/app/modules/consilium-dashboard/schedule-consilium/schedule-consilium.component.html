@@ -1,3 +1,4 @@
+<div class="container">
 <div class="container-cons">
   <div >
     <div>
@@ -38,12 +39,12 @@
             <input matInput id="duration" formControlName="Duration" placeholder="Duration" type="number" min="0" >
           </mat-form-field>
         </div>
-        <div class="row buttons" style="margin-bottom: 10px">
-          <div class="col">
-            <button id="nextDoctors" mat-flat-button color="primary" class="button" (click)="nextDoctors(stepper)">Select doctors</button>
+        <div class="row buttons">
+          <div class="col-6">
+            <button id="nextDoctors" mat-flat-button class="btn--basic btn-l"  (click)="nextDoctors(stepper)">Select doctors</button>
           </div>
-          <div class="col">
-            <button id="nextSpecializations" mat-flat-button color="primary" class="button" (click)="nextSpecializations(stepper)">Select specializations</button>
+          <div class="col-6">
+            <button id="nextSpecializations" mat-flat-button class="btn--basic btn-r" (click)="nextSpecializations(stepper)">Select specializations</button>
           </div>
         </div>
         <mat-step >
@@ -69,7 +70,7 @@
           </mat-select>
         </mat-form-field>
         </div>
-          <button id="submitConsilium" mat-flat-button color="primary" style="float: right"(click)="onSubmit()" >Submit</button>
+          <button id="submitConsilium" mat-flat-button class="btn--basic btn-w" (click)="onSubmit()" >Submit</button>
         </mat-step>
       </form>
         </mat-step>
@@ -77,4 +78,4 @@
     </div>
   </div>
 </div>
-
+</div>

@@ -66,7 +66,8 @@ export class CreateTenderComponent implements OnInit {
  else
     this.tender.hasDeadline=false;
     if (this.tender.hasDeadline)
-      this.tender.deadlineDate=new Date (new Date(this.date).getFullYear(),new Date(this.date).getMonth(),new Date(this.date).getDay());
+      //this.tender.deadlineDate=new Date (new Date(this.date).getFullYear(),new Date(this.date).getMonth(),new Date(this.date).getDay());
+      this.tender.deadlineDate=this.date;
     else 
     this.tender.deadlineDate=this.todayDate;
       if(this.validateFields())
@@ -85,7 +86,7 @@ export class CreateTenderComponent implements OnInit {
 
       this.service.create(this.tender).subscribe(res => {
         this.alert.success({detail: 'Success!',summary:"Tender created!",duration:5000})
-          
+        this.router.navigate(['/view-all-tenders']);
       })
     }
 

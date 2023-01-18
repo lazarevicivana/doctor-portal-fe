@@ -1,13 +1,16 @@
 <div class="container-ff">
-  <div class="title-container-next">
-    Your appointments for patients
-  </div>
+
+<!--  <div class="title-container-next">-->
+<!--    Your appointments for patients-->
+<!--  </div>-->
+
 <!--  <mat-divider></mat-divider>-->
 
   <div class="search-div">
+    <div class="naslov">Your appointments for patients </div>
     <mat-form-field class="search-bar" appearance="fill">
-      <mat-label style="font-size: 22px;">Search</mat-label>
-      <input style="font-size: 22px;" matInput [(ngModel)]="searchValue" placeholder="Search.." type="text">
+      <mat-label style="font-size: 22px; color: #263238;">Search</mat-label>
+      <input style="font-size: 22px; color: #263238;" matInput [(ngModel)]="searchValue" placeholder="Search.." type="text">
       <i class="fa fa-search i-1" (click)="search()"></i>
       <div class="divider"></div>
       <i class="fa fa-times-circle cancel-icon" (click)="clearSearch()"></i>
