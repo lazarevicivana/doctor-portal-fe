@@ -1,4 +1,4 @@
-# Hospital System
+# Hospital System (FRONTEND)
 A web application for managing hospital operations, including patient examination and hospital renovation.
 ## Key Features
 - Patient Examination: Doctors can examine patients, keep track of their health, and schedule appointments.
